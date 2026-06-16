@@ -1,0 +1,16 @@
+# Python virtual environments & variables
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# IDEs
+.vscode/
+
+# Frontend dependencies and production builds
+node_modules/
+dist/
+
+# Databases
+*.db
