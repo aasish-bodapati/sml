@@ -9,10 +9,11 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
-import { logMeal, getLogs, getSummary, deleteLog, getProfile, saveProfile } from './api';
+import { logMeal, getLogs, getSummary, deleteLog, getProfile, saveProfile, getRecipes, saveRecipe, deleteRecipe, logRecipe } from './api';
 import OnboardingScreen, { MacroTargets, UserProfilePayload } from './OnboardingScreen';
 import { calculationService } from './calculation-service';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Ionicons } from '@expo/vector-icons';
 
 // ─── Colours ─────────────────────────────────────────────────────────────────
 const C = {
@@ -80,19 +81,26 @@ function LoginScreen() {
 // ─── Bottom Tab Bar ───────────────────────────────────────────────────────────
 function BottomTabBar({ active, onSelect }: { active: string, onSelect: (t: string) => void }) {
   const tabs = [
-    { key: 'home',    label: 'Home',    icon: '🏠' },
-    { key: 'history', label: 'History', icon: '📋' },
-    { key: 'profile', label: 'Profile', icon: '👤' },
+    { key: 'home', label: 'Dashboard', icon: 'grid-outline', iconActive: 'grid' },
+    { key: 'history', label: 'Logs', icon: 'bar-chart-outline', iconActive: 'bar-chart' },
+    { key: 'profile', label: 'Profile', icon: 'person-outline', iconActive: 'person' },
   ];
   return (
     <View style={s.tabBar}>
-      {tabs.map(t => (
-        <TouchableOpacity key={t.key} onPress={() => onSelect(t.key)} style={s.tabItem}>
-          <Text style={[s.tabIcon, active !== t.key && { opacity: 0.5 }]}>{t.icon}</Text>
-          <Text style={[s.tabLabel, active === t.key && { color: C.accent }]}>{t.label}</Text>
-          {active === t.key && <View style={s.activeDot} />}
-        </TouchableOpacity>
-      ))}
+      {tabs.map(t => {
+        const isActive = active === t.key;
+        return (
+          <TouchableOpacity key={t.key} onPress={() => onSelect(t.key)} style={s.tabItem}>
+            <Ionicons
+              name={(isActive ? t.iconActive : t.icon) as any}
+              size={24}
+              color={isActive ? C.accent : C.textMuted}
+            />
+            <Text style={[s.tabLabel, isActive && { color: C.accent }]}>{t.label}</Text>
+            {isActive && <View style={s.activeDot} />}
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }
@@ -107,7 +115,7 @@ function HomeTab({ summary, macros, userInput, setUserInput, handleLogMeal, isLo
           const target = m.target || 1;
           const current = m.value || 0;
           const progress = Math.min(Math.max(current / target, 0), 1);
-          
+
           return (
             <View key={m.label} style={{ marginBottom: idx === macros.length - 1 ? 0 : 16 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -144,7 +152,7 @@ function HomeTab({ summary, macros, userInput, setUserInput, handleLogMeal, isLo
 }
 
 // ─── History Tab ──────────────────────────────────────────────────────────────
-function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog }: any) {
+function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRecipe, setShowRecipesScreen }: any) {
   const [showPicker, setShowPicker] = useState(false);
 
   return (
@@ -159,7 +167,7 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog }: any) {
             <TouchableOpacity onPress={() => { const d = new Date(viewDate); d.setDate(d.getDate() - 1); setViewDate(d); }} style={{ padding: 8 }}>
               <Text style={{ color: C.accent, fontWeight: 'bold', fontSize: 16 }}>{'<'} Prev</Text>
             </TouchableOpacity>
-            
+
             {Platform.OS === 'ios' ? (
               <DateTimePicker
                 value={viewDate}
@@ -198,7 +206,12 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog }: any) {
           )}
 
           {/* History label */}
-          <Text style={[s.sectionTitle, { marginBottom: 8 }]}>Meal History</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <Text style={[s.sectionTitle, { marginBottom: 0 }]}>Meal History</Text>
+            <TouchableOpacity onPress={() => setShowRecipesScreen(true)} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: C.border }}>
+              <Text style={{ color: C.accent, fontSize: 13, fontWeight: 'bold' }}>⭐ Saved Recipes</Text>
+            </TouchableOpacity>
+          </View>
           {logs.length === 0 && <Text style={{ color: C.textMuted, fontStyle: 'italic', textAlign: 'center', marginTop: 16 }}>Nothing logged.</Text>}
         </>
       }
@@ -214,22 +227,42 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog }: any) {
             </View>
           </View>
           <View style={{ alignItems: 'flex-end', justifyContent: 'space-between', paddingVertical: 2 }}>
-            <TouchableOpacity 
-              onPress={() => {
-                Alert.alert(
-                  "Delete Meal",
-                  "Are you sure you want to delete this meal log?",
-                  [
-                    { text: "Cancel", style: "cancel" },
-                    { text: "Delete", style: "destructive", onPress: () => handleDeleteLog(item.id) }
-                  ]
-                );
-              }} 
-              style={{ padding: 12, paddingRight: 0 }}
-              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-            >
-              <Text style={{ color: C.error, fontSize: 13, fontWeight: 'bold' }}>Delete</Text>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', gap: 16 }}>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.prompt(
+                    "Save as Recipe",
+                    "Enter a name for this recipe to quickly log it later.",
+                    [
+                      { text: "Cancel", style: "cancel" },
+                      { text: "Save", onPress: (name) => { if(name?.trim()) handleSaveRecipe(name.trim(), item); } }
+                    ],
+                    "plain-text",
+                    item.name
+                  );
+                }}
+                style={{ padding: 12, paddingRight: 0 }}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <Text style={{ color: C.accent, fontSize: 13, fontWeight: 'bold' }}>⭐ Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  Alert.alert(
+                    "Delete Meal",
+                    "Are you sure you want to delete this meal log?",
+                    [
+                      { text: "Cancel", style: "cancel" },
+                      { text: "Delete", style: "destructive", onPress: () => handleDeleteLog(item.id) }
+                    ]
+                  );
+                }}
+                style={{ padding: 12, paddingRight: 0 }}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              >
+                <Text style={{ color: C.error, fontSize: 13, fontWeight: 'bold' }}>Delete</Text>
+              </TouchableOpacity>
+            </View>
             <Text style={{ color: C.textMuted, fontSize: 12, marginLeft: 12 }}>
               {new Date(item.created_at + 'Z').toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </Text>
@@ -269,8 +302,8 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile }: any)
     const h = parseFloat(height);
     const a = parseInt(age, 10);
     if (!w || !h || !a || !gender || !goal || !activity) {
-        Alert.alert("Missing Details", "Please fill out all personal details first.");
-        return;
+      Alert.alert("Missing Details", "Please fill out all personal details first.");
+      return;
     }
     const newTargets = calculationService.calculateDailyTargets(w, h, a, gender, goal, activity);
     setTargetCals(newTargets.calories.toString());
@@ -283,14 +316,14 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile }: any)
     const w = parseFloat(weight);
     const h = parseFloat(height);
     const a = parseInt(age, 10);
-    
+
     const targets = {
       calories: parseInt(targetCals, 10) || 0,
       protein: parseInt(targetProtein, 10) || 0,
       carbs: parseInt(targetCarbs, 10) || 0,
       fat: parseInt(targetFat, 10) || 0,
     };
-    
+
     const profile = { goal: goal!, gender: gender!, age: a, height_cm: h, weight_kg: w, activity: activity! };
     onUpdateProfile(targets, profile);
     setIsEditing(false);
@@ -303,7 +336,7 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile }: any)
     setHeight(rawProfile?.height_cm?.toString() || '');
     setWeight(rawProfile?.weight_kg?.toString() || '');
     setActivity(rawProfile?.activity || null);
-    
+
     setTargetCals(targetMacros?.calories?.toString() || '');
     setTargetProtein(targetMacros?.protein?.toString() || '');
     setTargetCarbs(targetMacros?.carbs?.toString() || '');
@@ -459,7 +492,51 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile }: any)
           )}
         </View>
       </View>
+
+      <TouchableOpacity style={[s.logBtn, { backgroundColor: C.surface, marginTop: 24 }]} onPress={() => supabase.auth.signOut()}>
+        <Text style={[s.btnText, { color: C.error }]}>Sign Out</Text>
+      </TouchableOpacity>
     </ScrollView>
+  );
+}
+
+// ─── Recipes Screen ───────────────────────────────────────────────────────────
+function RecipesScreen({ recipes, handleLogRecipe, handleDeleteRecipe, onBack }: any) {
+  return (
+    <View style={{ flex: 1, backgroundColor: C.bg }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)' }}>
+        <TouchableOpacity onPress={onBack} style={{ padding: 8, marginRight: 8 }}>
+          <Text style={{ color: C.accent, fontSize: 16, fontWeight: 'bold' }}>{'<'} Back</Text>
+        </TouchableOpacity>
+        <Text style={{ color: C.textPrimary, fontSize: 18, fontWeight: 'bold' }}>Saved Recipes</Text>
+      </View>
+
+      <FlatList
+        data={recipes}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ padding: 16 }}
+        ListEmptyComponent={<Text style={{ color: C.textMuted, textAlign: 'center', marginTop: 32, fontStyle: 'italic' }}>No saved recipes yet. Log a meal and tap '⭐ Save' in the Logs tab to add one!</Text>}
+        renderItem={({ item }) => (
+          <View style={{ backgroundColor: C.surface, padding: 16, borderRadius: 12, marginBottom: 12 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <Text style={{ color: C.textPrimary, fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
+              <TouchableOpacity onPress={() => handleDeleteRecipe(item.id)} hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
+                <Text style={{ color: C.error, fontSize: 20 }}>×</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+              <Text style={s.chip}>🔥 {item.calories} kcal</Text>
+              <Text style={s.chip}>💪 {item.protein}g</Text>
+              <Text style={s.chip}>🌾 {item.carbohydrates}g</Text>
+              <Text style={s.chip}>🧈 {item.fat}g</Text>
+            </View>
+            <TouchableOpacity onPress={() => { handleLogRecipe(item.id); onBack(); }} style={{ backgroundColor: C.accent, paddingVertical: 10, borderRadius: 8, alignItems: 'center' }}>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 14 }}>+ Log this Meal</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
+    </View>
   );
 }
 
@@ -471,13 +548,15 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
   const [userInput, setUserInput] = useState('');
   const [logs, setLogs] = useState<any[]>([]);
   const [summary, setSummary] = useState(DEFAULT_SUMMARY);
+  const [recipes, setRecipes] = useState<any[]>([]);
+  const [showRecipesScreen, setShowRecipesScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [viewDate, setViewDate] = useState<Date>(new Date());
 
-  useEffect(() => { 
+  useEffect(() => {
     setLogs([]); // Clear old logs instantly when date switches
-    fetchData(); 
+    fetchData();
   }, [viewDate]);
 
   useEffect(() => {
@@ -495,9 +574,10 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
       const token = session.access_token;
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const dateStr = viewDate.getFullYear() + '-' + String(viewDate.getMonth() + 1).padStart(2, '0') + '-' + String(viewDate.getDate()).padStart(2, '0');
-      const [rawLogs, rawSummary] = await Promise.all([getLogs(token, tz, dateStr), getSummary(token, tz)]);
+      const [rawLogs, rawSummary, rawRecipes] = await Promise.all([getLogs(token, tz, dateStr), getSummary(token, tz), getRecipes(token)]);
       setLogs([...rawLogs].reverse());
       setSummary(rawSummary);
+      setRecipes(rawRecipes);
       setError(null);
     } catch (e: any) { setError('Could not reach the backend. Make sure it is running.'); }
     finally { setIsLoading(false); }
@@ -518,67 +598,111 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
     // Optimistic UI update: instantly remove log from list
     const previousLogs = [...logs];
     setLogs(logs.filter(log => log.id !== id));
-    
+
     try {
       await deleteLog(session.access_token, id);
       await fetchData();
-    } catch (e: any) { 
+    } catch (e: any) {
       setLogs(previousLogs); // Rollback on failure
-      setError(e.message || 'Failed to delete log.'); 
+      setError(e.message || 'Failed to delete log.');
+    }
+  };
+
+  const handleSaveRecipe = async (name: string, item: any) => {
+    setIsLoading(true); setError(null);
+    try {
+      await saveRecipe(session.access_token, {
+        name,
+        calories: item.calories,
+        protein: item.protein,
+        carbohydrates: item.carbohydrates,
+        fat: item.fat
+      });
+      await fetchData();
+    } catch (e: any) { setError(e.message || 'Failed to save recipe.'); }
+    finally { setIsLoading(false); }
+  };
+
+  const handleLogRecipe = async (id: number) => {
+    setIsLoading(true); setError(null);
+    try {
+      await logRecipe(session.access_token, id);
+      await fetchData();
+    } catch (e: any) { setError(e.message || 'Failed to log recipe.'); }
+    finally { setIsLoading(false); }
+  };
+
+  const handleDeleteRecipe = async (id: number) => {
+    const previous = [...recipes];
+    setRecipes(recipes.filter(r => r.id !== id));
+    try {
+      await deleteRecipe(session.access_token, id);
+    } catch (e: any) {
+      setRecipes(previous);
+      setError(e.message || 'Failed to delete recipe.');
     }
   };
 
   const macros = [
     { label: 'Calories', value: summary.calories, target: targetMacros?.calories, unit: 'kcal', color: C.cal },
-    { label: 'Protein',  value: summary.protein,  target: targetMacros?.protein,  unit: 'g', color: C.protein },
-    { label: 'Carbs',    value: summary.carbohydrates, target: targetMacros?.carbs, unit: 'g', color: C.carbs },
-    { label: 'Fat',      value: summary.fat,      target: targetMacros?.fat,      unit: 'g', color: C.fat },
+    { label: 'Protein', value: summary.protein, target: targetMacros?.protein, unit: 'g', color: C.protein },
+    { label: 'Carbs', value: summary.carbohydrates, target: targetMacros?.carbs, unit: 'g', color: C.carbs },
+    { label: 'Fat', value: summary.fat, target: targetMacros?.fat, unit: 'g', color: C.fat },
   ];
 
   return (
     <SafeAreaView style={s.safe}>
       <StatusBar barStyle="light-content" />
 
-      {/* Header */}
-      <View style={s.header}>
-        <View style={{ flex: 1 }}>
-          <Text style={s.headerTitle}>🥗 MacTrack</Text>
-          <Text style={{ color: C.textSecondary, fontSize: 13 }}>{session.user?.email}</Text>
-        </View>
-        <TouchableOpacity style={s.signOutBtn} onPress={() => supabase.auth.signOut()}>
-          <Text style={{ color: C.textPrimary, fontSize: 12 }}>Sign Out</Text>
-        </TouchableOpacity>
-      </View>
+      {showRecipesScreen ? (
+        <RecipesScreen 
+          recipes={recipes} 
+          handleLogRecipe={handleLogRecipe} 
+          handleDeleteRecipe={handleDeleteRecipe} 
+          onBack={() => setShowRecipesScreen(false)} 
+        />
+      ) : (
+        <>
+          {/* Header */}
+          <View style={s.header}>
+            <View style={{ flex: 1 }}>
+              <Text style={s.headerTitle}>🥗 MacTrack</Text>
+              <Text style={{ color: C.textSecondary, fontSize: 13 }}>{session.user?.email}</Text>
+            </View>
+          </View>
 
-      {error ? (
-        <View style={s.errorBanner}><Text style={{ color: '#fca5a5' }}>⚠️ {error}</Text></View>
-      ) : null}
+          {error ? (
+            <View style={s.errorBanner}><Text style={{ color: '#fca5a5' }}>⚠️ {error}</Text></View>
+          ) : null}
 
-      <View style={{ flex: 1 }}>
-        {activeTab === 'home' && (
-          <HomeTab 
-            summary={summary} macros={macros} 
-            userInput={userInput} setUserInput={setUserInput} 
-            handleLogMeal={handleLogMeal} isLoading={isLoading} 
-          />
-        )}
-        {activeTab === 'history' && (
-          <HistoryTab 
-            logs={logs} viewDate={viewDate} setViewDate={setViewDate} 
-            handleDeleteLog={handleDeleteLog} 
-          />
-        )}
-        {activeTab === 'profile' && (
-          <ProfileTab 
-            session={session}
-            targetMacros={targetMacros}
-            rawProfile={rawProfile} 
-            onUpdateProfile={onUpdateProfile} 
-          />
-        )}
-      </View>
+          <View style={{ flex: 1 }}>
+            {activeTab === 'home' && (
+              <HomeTab
+                summary={summary} macros={macros}
+                userInput={userInput} setUserInput={setUserInput}
+                handleLogMeal={handleLogMeal} isLoading={isLoading}
+              />
+            )}
+            {activeTab === 'history' && (
+              <HistoryTab
+                logs={logs} viewDate={viewDate} setViewDate={setViewDate}
+                handleDeleteLog={handleDeleteLog} handleSaveRecipe={handleSaveRecipe}
+                setShowRecipesScreen={setShowRecipesScreen}
+              />
+            )}
+            {activeTab === 'profile' && (
+              <ProfileTab
+                session={session}
+                targetMacros={targetMacros}
+                rawProfile={rawProfile}
+                onUpdateProfile={onUpdateProfile}
+              />
+            )}
+          </View>
 
-      <BottomTabBar active={activeTab} onSelect={setActiveTab} />
+          <BottomTabBar active={activeTab} onSelect={setActiveTab} />
+        </>
+      )}
     </SafeAreaView>
   );
 }
@@ -606,13 +730,13 @@ export default function App() {
 
     AsyncStorage.getItem('onboarding_profile').then(res => {
       if (res) setRawProfile(JSON.parse(res));
-    }).catch(e => {});
+    }).catch(e => { });
 
     supabase.auth.getSession().then(({ data: { session: s } }) => {
       setSession(s);
       syncProfile(s);
     });
-    
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
       setSession(s);
       syncProfile(s);

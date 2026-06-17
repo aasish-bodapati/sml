@@ -70,3 +70,38 @@ export async function updateProfile(token: string, profileData: any) {
   if (!response.ok) throw new Error(`Failed to update profile: ${await response.text()}`);
   return response.json();
 }
+
+export async function getRecipes(token: string) {
+  const response = await fetch(`${API_BASE_URL}/recipes`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to fetch recipes: ${await response.text()}`);
+  return response.json();
+}
+
+export async function saveRecipe(token: string, recipeData: any) {
+  const response = await fetch(`${API_BASE_URL}/recipes`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(recipeData),
+  });
+  if (!response.ok) throw new Error(`Failed to save recipe: ${await response.text()}`);
+  return response.json();
+}
+
+export async function deleteRecipe(token: string, recipeId: number) {
+  const response = await fetch(`${API_BASE_URL}/recipes/${recipeId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to delete recipe: ${await response.text()}`);
+}
+
+export async function logRecipe(token: string, recipeId: number) {
+  const response = await fetch(`${API_BASE_URL}/recipes/${recipeId}/log`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to log recipe: ${await response.text()}`);
+  return response.json();
+}
