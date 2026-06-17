@@ -73,6 +73,7 @@ class MacroRequest(BaseModel):
 
 
 class NutritionResponse(BaseModel):
+    is_food: bool
     name: str
     calories: int
     protein: int
@@ -143,7 +144,7 @@ def calculate_macros(request: MacroRequest, user_id: str = Depends(get_current_u
         response_format= NutritionResponse,
         messages= [{
             "role": "system",
-            "content": "You are a nutrition tracker who takes in user input in NLP and reutns the macros of the meal"
+            "content": "You are a strict nutrition tracker. First, determine if the user input describes a recognizable food item. If it is gibberish, a non-food object (like 'table', 'car'), or completely unrelated, set is_food to False and all macros to 0. If it is a food, set is_food to True and calculate the macros."
         }, 
         {
             "role": "user",
@@ -153,6 +154,11 @@ def calculate_macros(request: MacroRequest, user_id: str = Depends(get_current_u
     
     parsed_macros = response.choices[0].message.parsed
 
+    if not parsed_macros.is_food:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="We couldn't recognize that as food. Please describe a meal!"
+        )
 
     db_log = FoodLog(
         name = parsed_macros.name,
@@ -161,7 +167,6 @@ def calculate_macros(request: MacroRequest, user_id: str = Depends(get_current_u
         protein = parsed_macros.protein,
         carbohydrates = parsed_macros.carbohydrates,
         fat = parsed_macros.fat
-
     )
     with Session(engine) as session:
         session.add(db_log)

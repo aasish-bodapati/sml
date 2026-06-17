@@ -14,8 +14,19 @@ export async function logMeal(token, userInput) {
   });
 
   if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`Failed to log meal: ${errText}`);
+    let errMsg = `Server returned status ${response.status}`;
+    try {
+      const errJson = await response.json();
+      if (errJson && errJson.detail) {
+        errMsg = errJson.detail;
+      }
+    } catch (_) {
+      try {
+        const txt = await response.text();
+        if (txt) errMsg = txt;
+      } catch (_) {}
+    }
+    throw new Error(errMsg);
   }
 
   return await response.json();

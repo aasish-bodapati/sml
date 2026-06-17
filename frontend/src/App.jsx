@@ -69,7 +69,7 @@ function App() {
       await fetchData();
     } catch (err) {
       console.error('Error logging meal:', err);
-      setError('Failed to log meal. Please try again.');
+      setError(err.message || 'Failed to log meal. Please try again.');
     } finally {
       setIsLoading(false);
     }
