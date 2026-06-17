@@ -1,8 +1,10 @@
-from fastapi import FastAPI, Header
+from fastapi import FastAPI, Header, Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel, Field, Session, create_engine, select, text
 from dotenv import load_dotenv
 import os
+import jwt
 from openai import OpenAI
 from pydantic import BaseModel
 from datetime import datetime, timezone
@@ -16,11 +18,30 @@ from contextlib import asynccontextmanager
 
 load_dotenv()
 
+JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET")
+JWT_ALGORITHM = "HS256"
+
+
 engine= create_engine(os.getenv("DATABASE_URL"))
 
 llm_client = OpenAI()
 
+security = HTTPBearer()
 
+
+
+def get_current_user(credentials: HTTPAuthorizationCredentials= Depends(security)) -> str:
+    token = credentials.credentials
+
+    
+    payload = jwt.decode(
+        token,
+        JWT_SECRET,
+        algorithms= [JWT_ALGORITHM],
+        options= {"verify_aud": False}
+    )
+
+    return payload.get("sub")
 
 
 
@@ -94,7 +115,7 @@ def get_health():
 
 
 @app.post("/calculate-macros")
-def calculate_macros(request: MacroRequest, x_user_id: str = Header(...)) -> NutritionResponse:
+def calculate_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> NutritionResponse:
     response = llm_client.beta.chat.completions.parse(
         model= "gpt-4o-mini",
         response_format= NutritionResponse,
@@ -113,7 +134,7 @@ def calculate_macros(request: MacroRequest, x_user_id: str = Header(...)) -> Nut
 
     db_log = FoodLog(
         name = parsed_macros.name,
-        user_id = x_user_id,
+        user_id = user_id,
         calories = parsed_macros.calories,
         protein = parsed_macros.protein,
         carbohydrates = parsed_macros.carbohydrates,
@@ -130,21 +151,21 @@ def calculate_macros(request: MacroRequest, x_user_id: str = Header(...)) -> Nut
 
 
 @app.get("/get-logs")
-def get_logs(x_user_id: str= Header(...)):
+def get_logs(user_id: str= Depends(get_current_user)):
     with Session(engine) as session:
-        statement= select(FoodLog).where(FoodLog.user_id == x_user_id)
+        statement= select(FoodLog).where(FoodLog.user_id == user_id)
         logs = session.exec(statement).all()
 
     return logs
 
 
 @app.get("/logs-summary")
-def logs_summary(x_user_id: str =Header(...)):
+def logs_summary(user_id: str = Depends(get_current_user)):
     start_of_today = datetime.now(timezone.utc).replace(hour= 0, minute= 0, second= 0, microsecond= 0)
 
 
     statement= select(FoodLog).where(
-        x_user_id == FoodLog.user_id
+        user_id == FoodLog.user_id
         ).where(
             FoodLog.created_at >= start_of_today
         )
