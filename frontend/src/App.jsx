@@ -43,9 +43,10 @@ function App() {
     if (!session) return;
     try {
       const token = session.access_token;
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const [fetchedLogs, fetchedSummary] = await Promise.all([
         getLogs(token),
-        getSummary(token),
+        getSummary(token, tz),
       ]);
       setLogs(fetchedLogs);
       setSummary(fetchedSummary);

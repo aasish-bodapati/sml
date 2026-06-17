@@ -43,8 +43,8 @@ export async function getLogs(token) {
 /**
  * Get the daily macro summary for a user.
  */
-export async function getSummary(token) {
-  const response = await fetch(`${API_BASE_URL}/logs-summary`, {
+export async function getSummary(token, tz) {
+  const response = await fetch(`${API_BASE_URL}/logs-summary?tz=${encodeURIComponent(tz)}`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`, // Send token to backend bouncer

@@ -8,8 +8,10 @@ import jwt
 from jwt import PyJWKClient
 from openai import OpenAI
 from pydantic import BaseModel
-from datetime import datetime, timezone
+from datetime import datetime, timezone, time
+from zoneinfo import ZoneInfo
 from contextlib import asynccontextmanager
+
 
 
 
@@ -180,15 +182,25 @@ def get_logs(user_id: str= Depends(get_current_user)):
 
 
 @app.get("/logs-summary")
-def logs_summary(user_id: str = Depends(get_current_user)):
-    start_of_today = datetime.now(timezone.utc).replace(hour= 0, minute= 0, second= 0, microsecond= 0)
+def logs_summary(tz: str = "UTC", user_id: str = Depends(get_current_user)):
+    try:
+        user_tz = ZoneInfo(tz)
+    except Exception:
+        user_tz = ZoneInfo("UTC")
 
+    # Get current time in user's timezone, find midnight, and convert to UTC
+    now_in_tz = datetime.now(user_tz)
+    midnight_in_tz = datetime.combine(now_in_tz.date(), time.min, tzinfo=user_tz)
+    midnight_utc = midnight_in_tz.astimezone(timezone.utc)
+    
+    # Strip timezone info so it matches PostgreSQL naive timestamp comparison
+    start_of_today = midnight_utc.replace(tzinfo=None)
 
-    statement= select(FoodLog).where(
+    statement = select(FoodLog).where(
         user_id == FoodLog.user_id
-        ).where(
-            FoodLog.created_at >= start_of_today
-        )
+    ).where(
+        FoodLog.created_at >= start_of_today
+    )
 
     with Session(engine) as session:
         logs = session.exec(statement).all()
@@ -197,12 +209,10 @@ def logs_summary(user_id: str = Depends(get_current_user)):
     total_protein = sum(log.protein for log in logs)
     total_carbohydrates = sum(log.carbohydrates for log in logs)
     total_fat = sum(log.fat for log in logs)
+    
     return {
         "calories": total_calories,
         "protein": total_protein,
         "carbohydrates": total_carbohydrates,
         "fat": total_fat
     }
-
-
-        
