@@ -116,7 +116,7 @@ app = FastAPI(lifespan= lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -178,12 +178,45 @@ def calculate_macros(request: MacroRequest, user_id: str = Depends(get_current_u
 
 
 @app.get("/get-logs")
-def get_logs(user_id: str= Depends(get_current_user)):
+def get_logs(
+    tz: str = "UTC",
+    date: str | None = None,
+    user_id: str = Depends(get_current_user)
+):
+    try:
+        user_tz = ZoneInfo(tz)
+    except Exception:
+        user_tz = ZoneInfo("UTC")
+
+    if date:
+        target_date = datetime.strptime(date, "%Y-%m-%d").date()
+    else:
+        target_date = datetime.now(user_tz).date()
+
+    day_start_utc = datetime.combine(target_date, time.min, tzinfo=user_tz).astimezone(timezone.utc).replace(tzinfo=None)
+    day_end_utc = datetime.combine(target_date, time.max, tzinfo=user_tz).astimezone(timezone.utc).replace(tzinfo=None)
+
     with Session(engine) as session:
-        statement= select(FoodLog).where(FoodLog.user_id == user_id)
+        statement = select(FoodLog).where(
+            FoodLog.user_id == user_id,
+            FoodLog.created_at >= day_start_utc,
+            FoodLog.created_at <= day_end_utc,
+        )
         logs = session.exec(statement).all()
 
     return logs
+
+
+@app.delete("/logs/{log_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_log(log_id: int, user_id: str = Depends(get_current_user)):
+    with Session(engine) as session:
+        log = session.get(FoodLog, log_id)
+        if not log:
+            raise HTTPException(status_code=404, detail="Log not found")
+        if log.user_id != user_id:
+            raise HTTPException(status_code=403, detail="Not your log")
+        session.delete(log)
+        session.commit()
 
 
 @app.get("/logs-summary")
