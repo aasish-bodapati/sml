@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { logMeal, getLogs, getSummary } from './api';
+import { supabase } from './supabaseClient';
+import Auth from './Auth';
 import './App.css';
 
 const DEFAULT_SUMMARY = {
@@ -10,23 +12,40 @@ const DEFAULT_SUMMARY = {
 };
 
 function App() {
-  const [userId, setUserId] = useState('demo_user');
+  const [session, setSession] = useState(null);
   const [userInput, setUserInput] = useState('');
   const [logs, setLogs] = useState([]);
   const [summary, setSummary] = useState(DEFAULT_SUMMARY);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Monitor Supabase auth session
   useEffect(() => {
-    fetchData();
-  }, [userId]);
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Fetch logs and summary when session changes (e.g. login)
+  useEffect(() => {
+    if (session) {
+      fetchData();
+    }
+  }, [session]);
 
   const fetchData = async () => {
-    if (!userId.trim()) return;
+    if (!session) return;
     try {
+      const token = session.access_token;
       const [fetchedLogs, fetchedSummary] = await Promise.all([
-        getLogs(userId),
-        getSummary(userId),
+        getLogs(token),
+        getSummary(token),
       ]);
       setLogs(fetchedLogs);
       setSummary(fetchedSummary);
@@ -39,11 +58,12 @@ function App() {
 
   const handleLogMeal = async (e) => {
     e.preventDefault();
-    if (!userInput.trim() || !userId.trim()) return;
+    if (!userInput.trim() || !session) return;
     setIsLoading(true);
     setError(null);
     try {
-      await logMeal(userId, userInput);
+      const token = session.access_token;
+      await logMeal(token, userInput);
       setUserInput('');
       await fetchData();
     } catch (err) {
@@ -54,11 +74,20 @@ function App() {
     }
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
+  // If not logged in, redirect to login screen
+  if (!session) {
+    return <Auth />;
+  }
+
   const macros = [
-    { key: 'cal',  label: 'Calories', value: summary.total_calories,      unit: 'kcal' },
-    { key: 'pro',  label: 'Protein',  value: summary.total_protein,        unit: 'g'    },
-    { key: 'carb', label: 'Carbs',    value: summary.total_carbohydrates,  unit: 'g'    },
-    { key: 'fat',  label: 'Fat',      value: summary.total_fat,            unit: 'g'    },
+    { key: 'cal',  label: 'Calories', value: summary.calories,      unit: 'kcal' },
+    { key: 'pro',  label: 'Protein',  value: summary.protein,       unit: 'g'    },
+    { key: 'carb', label: 'Carbs',    value: summary.carbohydrates, unit: 'g'    },
+    { key: 'fat',  label: 'Fat',      value: summary.fat,           unit: 'g'    },
   ];
 
   return (
@@ -70,15 +99,22 @@ function App() {
           <h1>Macro Tracker</h1>
         </div>
         <p className="header-sub">Log meals in plain English. See your numbers.</p>
-        <div className="user-pill">
-          <label htmlFor="userId">User</label>
-          <input
-            id="userId"
-            type="text"
-            value={userId}
-            onChange={(e) => setUserId(e.target.value)}
-            placeholder="user_id"
-          />
+        <div className="user-pill" style={{ gap: '12px' }}>
+          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+            {session.user.email}
+          </span>
+          <button 
+            onClick={handleSignOut} 
+            className="log-btn" 
+            style={{ 
+              padding: '6px 12px', 
+              fontSize: '0.75rem', 
+              boxShadow: 'none',
+              background: 'rgba(255, 255, 255, 0.08)'
+            }}
+          >
+            Sign Out
+          </button>
         </div>
       </header>
 
@@ -97,7 +133,7 @@ function App() {
             {macros.map(({ key, label, value, unit }) => (
               <div key={key} className={`macro-card ${key}`}>
                 <span className="macro-label">{label}</span>
-                <span className="macro-value">{value}</span>
+                <span className="macro-value">{value || 0}</span>
                 <span className="macro-unit">{unit}</span>
               </div>
             ))}

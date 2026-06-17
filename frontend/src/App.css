@@ -182,6 +182,7 @@ body {
   border-radius: var(--radius);
   opacity: 0;
   transition: opacity 0.2s;
+  pointer-events: none;
 }
 
 .macro-card:hover::before { opacity: 1; }
