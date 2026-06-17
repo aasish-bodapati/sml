@@ -26,7 +26,7 @@ JWT_ALGORITHM = "HS256"
 
 # Supabase JWKS configuration for ES256 verification
 JWKS_URL = "https://xpyzowlshriupianmuit.supabase.co/auth/v1/.well-known/jwks.json"
-jwk_client = PyJWKClient(JWKS_URL)
+jwk_client = PyJWKClient(JWKS_URL, cache_keys=True)
 
 
 engine= create_engine(os.getenv("DATABASE_URL"))
@@ -37,19 +37,30 @@ security = HTTPBearer()
 
 
 
+import time as time_lib
+cached_signing_key = None
+
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> str:
+    global cached_signing_key
     token = credentials.credentials
     try:
+        t0 = time_lib.time()
         # Fetch the public key from the JWKS endpoint
-        signing_key = jwk_client.get_signing_key_from_jwt(token)
+        if not cached_signing_key:
+            cached_signing_key = jwk_client.get_signing_key_from_jwt(token).key
+        
+        t1 = time_lib.time()
+        print(f"JWK Fetch took {t1 - t0:.3f} seconds")
         
         # Verify the signature using the public key and ES256 algorithm
         payload = jwt.decode(
             token,
-            signing_key.key,
+            cached_signing_key,
             algorithms=["ES256"],
             options={"verify_aud": False}
         )
+        t2 = time_lib.time()
+        print(f"JWT Decode took {t2 - t1:.3f} seconds")
         
         user_id = payload.get("sub")
         if not user_id:
@@ -93,6 +104,40 @@ class FoodLog(SQLModel, table = True):
     created_at: datetime = Field(
         sa_column_kwargs = {"server_default": text("TIMEZONE('utc', now())")}
     )
+
+class UserProfileRequest(BaseModel):
+    goal: str
+    gender: str
+    age: int
+    height_cm: float
+    weight_kg: float
+    activity: str
+    target_calories: int
+    target_protein: int
+    target_carbs: int
+    target_fat: int
+
+class UserProfileResponse(UserProfileRequest):
+    updated_at: datetime
+
+class UserProfile(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    user_id: str = Field(index=True, unique=True)
+    goal: str
+    gender: str
+    age: int
+    height_cm: float
+    weight_kg: float
+    activity: str
+    target_calories: int
+    target_protein: int
+    target_carbs: int
+    target_fat: int
+    updated_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        sa_column_kwargs={"server_default": text("TIMEZONE('utc', now())"), "onupdate": text("TIMEZONE('utc', now())")}
+    )
+
 
 
 
@@ -183,6 +228,7 @@ def get_logs(
     date: str | None = None,
     user_id: str = Depends(get_current_user)
 ):
+    t0 = time_lib.time()
     try:
         user_tz = ZoneInfo(tz)
     except Exception:
@@ -204,6 +250,7 @@ def get_logs(
         )
         logs = session.exec(statement).all()
 
+    print(f"get_logs took {time_lib.time() - t0:.3f} seconds")
     return logs
 
 
@@ -221,6 +268,7 @@ def delete_log(log_id: int, user_id: str = Depends(get_current_user)):
 
 @app.get("/logs-summary")
 def logs_summary(tz: str = "UTC", user_id: str = Depends(get_current_user)):
+    t0 = time_lib.time()
     try:
         user_tz = ZoneInfo(tz)
     except Exception:
@@ -248,9 +296,54 @@ def logs_summary(tz: str = "UTC", user_id: str = Depends(get_current_user)):
     total_carbohydrates = sum(log.carbohydrates for log in logs)
     total_fat = sum(log.fat for log in logs)
     
+    print(f"logs_summary took {time_lib.time() - t0:.3f} seconds")
     return {
         "calories": total_calories,
         "protein": total_protein,
         "carbohydrates": total_carbohydrates,
         "fat": total_fat
     }
+
+@app.get("/profile", response_model=UserProfileResponse | None)
+def get_profile(user_id: str = Depends(get_current_user)):
+    with Session(engine) as session:
+        statement = select(UserProfile).where(UserProfile.user_id == user_id)
+        profile = session.exec(statement).first()
+        return profile
+
+@app.post("/profile", response_model=UserProfileResponse)
+def create_profile(request: UserProfileRequest, user_id: str = Depends(get_current_user)):
+    with Session(engine) as session:
+        statement = select(UserProfile).where(UserProfile.user_id == user_id)
+        existing = session.exec(statement).first()
+        if existing:
+            raise HTTPException(status_code=400, detail="Profile already exists. Use PUT to update.")
+        
+        db_profile = UserProfile(
+            user_id=user_id,
+            **request.model_dump()
+        )
+        session.add(db_profile)
+        session.commit()
+        session.refresh(db_profile)
+        return db_profile
+
+@app.put("/profile", response_model=UserProfileResponse)
+def update_profile(request: UserProfileRequest, user_id: str = Depends(get_current_user)):
+    with Session(engine) as session:
+        statement = select(UserProfile).where(UserProfile.user_id == user_id)
+        profile = session.exec(statement).first()
+        if not profile:
+            raise HTTPException(status_code=404, detail="Profile not found.")
+        
+        profile_data = request.model_dump()
+        for key, value in profile_data.items():
+            setattr(profile, key, value)
+            
+        profile.updated_at = datetime.now(timezone.utc)
+        
+        session.add(profile)
+        session.commit()
+        session.refresh(profile)
+        return profile
+

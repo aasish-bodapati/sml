@@ -3,12 +3,16 @@ import { useState, useEffect } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
   FlatList, ActivityIndicator, KeyboardAvoidingView,
-  Platform, StatusBar,
+  Platform, StatusBar, ScrollView, Alert,
 } from 'react-native';
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
-import { logMeal, getLogs, getSummary, deleteLog } from './api';
+import { logMeal, getLogs, getSummary, deleteLog, getProfile, saveProfile } from './api';
+import OnboardingScreen, { MacroTargets, UserProfilePayload } from './OnboardingScreen';
+import { calculationService } from './calculation-service';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 // ─── Colours ─────────────────────────────────────────────────────────────────
 const C = {
@@ -78,6 +82,7 @@ function BottomTabBar({ active, onSelect }: { active: string, onSelect: (t: stri
   const tabs = [
     { key: 'home',    label: 'Home',    icon: '🏠' },
     { key: 'history', label: 'History', icon: '📋' },
+    { key: 'profile', label: 'Profile', icon: '👤' },
   ];
   return (
     <View style={s.tabBar}>
@@ -95,16 +100,28 @@ function BottomTabBar({ active, onSelect }: { active: string, onSelect: (t: stri
 // ─── Home Tab ─────────────────────────────────────────────────────────────────
 function HomeTab({ summary, macros, userInput, setUserInput, handleLogMeal, isLoading }: any) {
   return (
-    <View style={{ padding: 16 }}>
+    <ScrollView contentContainerStyle={{ padding: 16 }} keyboardShouldPersistTaps="handled">
       <Text style={s.sectionTitle}>Summary</Text>
-      <View style={s.macroGrid}>
-        {macros.map((m: any) => (
-          <View key={m.label} style={[s.macroCard, { borderTopColor: m.color }]}>
-            <Text style={[s.macroLabel, { color: m.color }]}>{m.label}</Text>
-            <Text style={s.macroValue}>{m.value || 0}</Text>
-            <Text style={s.macroUnit}>{m.unit}</Text>
-          </View>
-        ))}
+      <View style={{ backgroundColor: C.surface, padding: 16, borderRadius: 14 }}>
+        {macros.map((m: any, idx: number) => {
+          const target = m.target || 1;
+          const current = m.value || 0;
+          const progress = Math.min(Math.max(current / target, 0), 1);
+          
+          return (
+            <View key={m.label} style={{ marginBottom: idx === macros.length - 1 ? 0 : 16 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+                <Text style={{ color: C.textPrimary, fontWeight: '600' }}>{m.label}</Text>
+                <Text style={{ color: C.textSecondary, fontSize: 13 }}>
+                  <Text style={{ color: C.textPrimary, fontWeight: '500' }}>{current}</Text>{m.unit} {m.target ? `/ ${m.target}${m.unit}` : ''}
+                </Text>
+              </View>
+              <View style={{ height: 12, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 6, overflow: 'hidden' }}>
+                <View style={{ height: '100%', width: `${progress * 100}%`, backgroundColor: m.color, borderRadius: 6 }} />
+              </View>
+            </View>
+          );
+        })}
       </View>
 
       <Text style={[s.sectionTitle, { marginTop: 28 }]}>Log a Meal</Text>
@@ -122,12 +139,14 @@ function HomeTab({ summary, macros, userInput, setUserInput, handleLogMeal, isLo
           {isLoading ? <ActivityIndicator color={C.bg} size="small" /> : <Text style={s.btnText}>+ Log</Text>}
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 // ─── History Tab ──────────────────────────────────────────────────────────────
 function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog }: any) {
+  const [showPicker, setShowPicker] = useState(false);
+
   return (
     <FlatList
       data={logs}
@@ -140,13 +159,43 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog }: any) {
             <TouchableOpacity onPress={() => { const d = new Date(viewDate); d.setDate(d.getDate() - 1); setViewDate(d); }} style={{ padding: 8 }}>
               <Text style={{ color: C.accent, fontWeight: 'bold', fontSize: 16 }}>{'<'} Prev</Text>
             </TouchableOpacity>
-            <Text style={{ color: C.textPrimary, fontSize: 16, fontWeight: '600' }}>
-              {viewDate.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
-            </Text>
+            
+            {Platform.OS === 'ios' ? (
+              <DateTimePicker
+                value={viewDate}
+                mode="date"
+                display="compact"
+                themeVariant="dark"
+                onChange={(event, selectedDate) => {
+                  if (selectedDate) setViewDate(selectedDate);
+                }}
+              />
+            ) : (
+              <TouchableOpacity onPress={() => setShowPicker(true)}>
+                <Text style={{ color: C.textPrimary, fontSize: 16, fontWeight: '600' }}>
+                  {viewDate.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
+                </Text>
+              </TouchableOpacity>
+            )}
+
             <TouchableOpacity onPress={() => { const d = new Date(viewDate); d.setDate(d.getDate() + 1); setViewDate(d); }} style={{ padding: 8 }}>
               <Text style={{ color: C.accent, fontWeight: 'bold', fontSize: 16 }}>Next {'>'}</Text>
             </TouchableOpacity>
           </View>
+          {Platform.OS !== 'ios' && showPicker && (
+            <DateTimePicker
+              value={viewDate}
+              mode="date"
+              display="default"
+              themeVariant="dark"
+              onChange={(event, selectedDate) => {
+                setShowPicker(false);
+                if (selectedDate) {
+                  setViewDate(selectedDate);
+                }
+              }}
+            />
+          )}
 
           {/* History label */}
           <Text style={[s.sectionTitle, { marginBottom: 8 }]}>Meal History</Text>
@@ -165,7 +214,20 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog }: any) {
             </View>
           </View>
           <View style={{ alignItems: 'flex-end', justifyContent: 'space-between', paddingVertical: 2 }}>
-            <TouchableOpacity onPress={() => handleDeleteLog(item.id)} style={{ padding: 4 }}>
+            <TouchableOpacity 
+              onPress={() => {
+                Alert.alert(
+                  "Delete Meal",
+                  "Are you sure you want to delete this meal log?",
+                  [
+                    { text: "Cancel", style: "cancel" },
+                    { text: "Delete", style: "destructive", onPress: () => handleDeleteLog(item.id) }
+                  ]
+                );
+              }} 
+              style={{ padding: 12, paddingRight: 0 }}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
               <Text style={{ color: C.error, fontSize: 13, fontWeight: 'bold' }}>Delete</Text>
             </TouchableOpacity>
             <Text style={{ color: C.textMuted, fontSize: 12, marginLeft: 12 }}>
@@ -178,10 +240,233 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog }: any) {
   );
 }
 
+// ─── Profile Tab ──────────────────────────────────────────────────────────────
+function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile }: any) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [goal, setGoal] = useState<'lose' | 'maintain' | 'gain' | null>(rawProfile?.goal || null);
+  const [gender, setGender] = useState<'M' | 'F' | null>(rawProfile?.gender || null);
+  const [age, setAge] = useState(rawProfile?.age?.toString() || '');
+  const [height, setHeight] = useState(rawProfile?.height_cm?.toString() || '');
+  const [weight, setWeight] = useState(rawProfile?.weight_kg?.toString() || '');
+  const [activity, setActivity] = useState<'sedentary' | 'light' | 'moderate' | 'active' | null>(rawProfile?.activity || null);
+
+  const [targetCals, setTargetCals] = useState(targetMacros?.calories?.toString() || '');
+  const [targetProtein, setTargetProtein] = useState(targetMacros?.protein?.toString() || '');
+  const [targetCarbs, setTargetCarbs] = useState(targetMacros?.carbs?.toString() || '');
+  const [targetFat, setTargetFat] = useState(targetMacros?.fat?.toString() || '');
+
+  useEffect(() => {
+    if (!isEditing) {
+      setTargetCals(targetMacros?.calories?.toString() || '');
+      setTargetProtein(targetMacros?.protein?.toString() || '');
+      setTargetCarbs(targetMacros?.carbs?.toString() || '');
+      setTargetFat(targetMacros?.fat?.toString() || '');
+    }
+  }, [targetMacros, isEditing]);
+
+  const handleAutoCalculate = () => {
+    const w = parseFloat(weight);
+    const h = parseFloat(height);
+    const a = parseInt(age, 10);
+    if (!w || !h || !a || !gender || !goal || !activity) {
+        Alert.alert("Missing Details", "Please fill out all personal details first.");
+        return;
+    }
+    const newTargets = calculationService.calculateDailyTargets(w, h, a, gender, goal, activity);
+    setTargetCals(newTargets.calories.toString());
+    setTargetProtein(newTargets.protein.toString());
+    setTargetCarbs(newTargets.carbs.toString());
+    setTargetFat(newTargets.fat.toString());
+  };
+
+  const handleSave = () => {
+    const w = parseFloat(weight);
+    const h = parseFloat(height);
+    const a = parseInt(age, 10);
+    
+    const targets = {
+      calories: parseInt(targetCals, 10) || 0,
+      protein: parseInt(targetProtein, 10) || 0,
+      carbs: parseInt(targetCarbs, 10) || 0,
+      fat: parseInt(targetFat, 10) || 0,
+    };
+    
+    const profile = { goal: goal!, gender: gender!, age: a, height_cm: h, weight_kg: w, activity: activity! };
+    onUpdateProfile(targets, profile);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setGoal(rawProfile?.goal || null);
+    setGender(rawProfile?.gender || null);
+    setAge(rawProfile?.age?.toString() || '');
+    setHeight(rawProfile?.height_cm?.toString() || '');
+    setWeight(rawProfile?.weight_kg?.toString() || '');
+    setActivity(rawProfile?.activity || null);
+    
+    setTargetCals(targetMacros?.calories?.toString() || '');
+    setTargetProtein(targetMacros?.protein?.toString() || '');
+    setTargetCarbs(targetMacros?.carbs?.toString() || '');
+    setTargetFat(targetMacros?.fat?.toString() || '');
+
+    setIsEditing(false);
+  };
+
+  const OptionBtn = ({ label, selected, onPress }: any) => (
+    <TouchableOpacity style={[s.optionBtn, selected && s.optionBtnSelected, { paddingVertical: 6, paddingHorizontal: 10, marginBottom: 0 }]} onPress={onPress}>
+      <Text style={[s.optionText, selected && s.optionTextSelected, { fontSize: 13 }]}>{label}</Text>
+    </TouchableOpacity>
+  );
+
+  return (
+    <ScrollView contentContainerStyle={{ padding: 16 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, marginTop: 12 }}>
+        <View style={{ alignItems: 'flex-start' }}>
+          <View style={s.avatarPlaceholder}>
+            <Text style={s.avatarText}>👤</Text>
+          </View>
+          <Text style={{ color: C.textPrimary, fontSize: 18, fontWeight: 'bold', marginBottom: 4 }}>{session?.user?.email}</Text>
+        </View>
+        <View style={{ alignItems: 'flex-end' }}>
+          {isEditing ? (
+            <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+              <TouchableOpacity onPress={handleCancel} style={{ paddingVertical: 8 }}>
+                <Text style={{ color: C.textSecondary, fontWeight: 'bold' }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleSave} style={{ backgroundColor: C.accent, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 }}>
+                <Text style={{ color: C.bg, fontWeight: 'bold' }}>Save</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity onPress={() => setIsEditing(true)} style={{ backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 20, paddingVertical: 8, borderRadius: 20 }}>
+              <Text style={{ color: C.textPrimary, fontWeight: '600' }}>Edit</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <Text style={[s.sectionTitle, { marginBottom: 0 }]}>Daily Targets</Text>
+        {isEditing && (
+          <TouchableOpacity onPress={handleAutoCalculate} style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 12 }}>
+            <Text style={{ color: C.accent, fontSize: 12, fontWeight: 'bold' }}>Auto-Calculate</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      <View style={[s.cardContainer, { paddingHorizontal: 24, marginBottom: 24 }]}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ alignItems: 'center' }}>
+            {isEditing ? (
+              <TextInput style={[s.input, { width: 72, paddingVertical: 2, paddingHorizontal: 2, marginBottom: 0, textAlign: 'center', color: C.cal, fontSize: 18, fontWeight: 'bold' }]} value={targetCals} onChangeText={setTargetCals} keyboardType="numeric" selectTextOnFocus={true} />
+            ) : (
+              <Text style={{ color: C.cal, fontSize: 20, fontWeight: 'bold' }}>{targetMacros?.calories || 0}</Text>
+            )}
+            <Text style={{ color: C.textSecondary, fontSize: 12, marginTop: 4 }}>kcal</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            {isEditing ? (
+              <TextInput style={[s.input, { width: 60, paddingVertical: 2, paddingHorizontal: 2, marginBottom: 0, textAlign: 'center', color: C.protein, fontSize: 18, fontWeight: 'bold' }]} value={targetProtein} onChangeText={setTargetProtein} keyboardType="numeric" selectTextOnFocus={true} />
+            ) : (
+              <Text style={{ color: C.protein, fontSize: 20, fontWeight: 'bold' }}>{targetMacros?.protein || 0}g</Text>
+            )}
+            <Text style={{ color: C.textSecondary, fontSize: 12, marginTop: 4 }}>Protein</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            {isEditing ? (
+              <TextInput style={[s.input, { width: 60, paddingVertical: 2, paddingHorizontal: 2, marginBottom: 0, textAlign: 'center', color: C.carbs, fontSize: 18, fontWeight: 'bold' }]} value={targetCarbs} onChangeText={setTargetCarbs} keyboardType="numeric" selectTextOnFocus={true} />
+            ) : (
+              <Text style={{ color: C.carbs, fontSize: 20, fontWeight: 'bold' }}>{targetMacros?.carbs || 0}g</Text>
+            )}
+            <Text style={{ color: C.textSecondary, fontSize: 12, marginTop: 4 }}>Carbs</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            {isEditing ? (
+              <TextInput style={[s.input, { width: 60, paddingVertical: 2, paddingHorizontal: 2, marginBottom: 0, textAlign: 'center', color: C.fat, fontSize: 18, fontWeight: 'bold' }]} value={targetFat} onChangeText={setTargetFat} keyboardType="numeric" selectTextOnFocus={true} />
+            ) : (
+              <Text style={{ color: C.fat, fontSize: 20, fontWeight: 'bold' }}>{targetMacros?.fat || 0}g</Text>
+            )}
+            <Text style={{ color: C.textSecondary, fontSize: 12, marginTop: 4 }}>Fat</Text>
+          </View>
+        </View>
+      </View>
+
+      <Text style={s.sectionTitle}>Personal Details</Text>
+      <View style={s.cardContainer}>
+        {/* Goal */}
+        <View style={s.detailRow}>
+          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Goal</Text>
+          {isEditing ? (
+            <View style={{ flexDirection: 'row', gap: 4 }}>
+              <OptionBtn label="Lose" selected={goal === 'lose'} onPress={() => setGoal('lose')} />
+              <OptionBtn label="Maintain" selected={goal === 'maintain'} onPress={() => setGoal('maintain')} />
+              <OptionBtn label="Gain" selected={goal === 'gain'} onPress={() => setGoal('gain')} />
+            </View>
+          ) : (
+            <Text style={s.detailValue}>{goal}</Text>
+          )}
+        </View>
+        {/* Activity Level */}
+        <View style={[s.detailRow, isEditing && { flexDirection: 'column', alignItems: 'flex-start', gap: 8 }]}>
+          <Text style={[s.detailLabel]}>Activity Level</Text>
+          {isEditing ? (
+            <View style={{ flexDirection: 'row', gap: 4, flexWrap: 'wrap' }}>
+              <OptionBtn label="Sedentary" selected={activity === 'sedentary'} onPress={() => setActivity('sedentary')} />
+              <OptionBtn label="Light" selected={activity === 'light'} onPress={() => setActivity('light')} />
+              <OptionBtn label="Moderate" selected={activity === 'moderate'} onPress={() => setActivity('moderate')} />
+              <OptionBtn label="Active" selected={activity === 'active'} onPress={() => setActivity('active')} />
+            </View>
+          ) : (
+            <Text style={s.detailValue}>{activity}</Text>
+          )}
+        </View>
+        {/* Gender */}
+        <View style={s.detailRow}>
+          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Gender</Text>
+          {isEditing ? (
+            <View style={{ flexDirection: 'row', gap: 4 }}>
+              <OptionBtn label="Male" selected={gender === 'M'} onPress={() => setGender('M')} />
+              <OptionBtn label="Female" selected={gender === 'F'} onPress={() => setGender('F')} />
+            </View>
+          ) : (
+            <Text style={s.detailValue}>{gender === 'M' ? 'Male' : 'Female'}</Text>
+          )}
+        </View>
+        {/* Age */}
+        <View style={s.detailRow}>
+          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Age</Text>
+          {isEditing ? (
+            <TextInput style={[s.input, { marginBottom: 0, padding: 8, width: 80, textAlign: 'right' }]} keyboardType="numeric" value={age} onChangeText={setAge} />
+          ) : (
+            <Text style={s.detailValue}>{age} years</Text>
+          )}
+        </View>
+        {/* Height */}
+        <View style={s.detailRow}>
+          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Height</Text>
+          {isEditing ? (
+            <TextInput style={[s.input, { marginBottom: 0, padding: 8, width: 80, textAlign: 'right' }]} keyboardType="numeric" value={height} onChangeText={setHeight} />
+          ) : (
+            <Text style={s.detailValue}>{height} cm</Text>
+          )}
+        </View>
+        {/* Weight */}
+        <View style={[s.detailRow, { borderBottomWidth: 0 }]}>
+          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Weight</Text>
+          {isEditing ? (
+            <TextInput style={[s.input, { marginBottom: 0, padding: 8, width: 80, textAlign: 'right' }]} keyboardType="numeric" value={weight} onChangeText={setWeight} />
+          ) : (
+            <Text style={s.detailValue}>{weight} kg</Text>
+          )}
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
+
 // ─── Dashboard Screen ─────────────────────────────────────────────────────────
 const DEFAULT_SUMMARY = { calories: 0, protein: 0, carbohydrates: 0, fat: 0 };
 
-function DashboardScreen({ session }: { session: Session }) {
+function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }: { session: Session, targetMacros: MacroTargets | null, rawProfile: UserProfilePayload | null, onUpdateProfile: (t: MacroTargets, p: UserProfilePayload) => void }) {
   const [activeTab, setActiveTab] = useState('home');
   const [userInput, setUserInput] = useState('');
   const [logs, setLogs] = useState<any[]>([]);
@@ -190,9 +475,22 @@ function DashboardScreen({ session }: { session: Session }) {
   const [error, setError] = useState<string | null>(null);
   const [viewDate, setViewDate] = useState<Date>(new Date());
 
-  useEffect(() => { fetchData(); }, [viewDate]);
+  useEffect(() => { 
+    setLogs([]); // Clear old logs instantly when date switches
+    fetchData(); 
+  }, [viewDate]);
+
+  useEffect(() => {
+    if (activeTab === 'history' || activeTab === 'home') {
+      const today = new Date();
+      if (viewDate.toDateString() !== today.toDateString()) {
+        setViewDate(today);
+      }
+    }
+  }, [activeTab]);
 
   const fetchData = async () => {
+    setIsLoading(true);
     try {
       const token = session.access_token;
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -202,6 +500,7 @@ function DashboardScreen({ session }: { session: Session }) {
       setSummary(rawSummary);
       setError(null);
     } catch (e: any) { setError('Could not reach the backend. Make sure it is running.'); }
+    finally { setIsLoading(false); }
   };
 
   const handleLogMeal = async () => {
@@ -216,17 +515,24 @@ function DashboardScreen({ session }: { session: Session }) {
   };
 
   const handleDeleteLog = async (id: number) => {
+    // Optimistic UI update: instantly remove log from list
+    const previousLogs = [...logs];
+    setLogs(logs.filter(log => log.id !== id));
+    
     try {
       await deleteLog(session.access_token, id);
       await fetchData();
-    } catch (e: any) { setError(e.message || 'Failed to delete log.'); }
+    } catch (e: any) { 
+      setLogs(previousLogs); // Rollback on failure
+      setError(e.message || 'Failed to delete log.'); 
+    }
   };
 
   const macros = [
-    { label: 'Calories', value: summary.calories, unit: 'kcal', color: C.cal },
-    { label: 'Protein',  value: summary.protein,       unit: 'g', color: C.protein },
-    { label: 'Carbs',    value: summary.carbohydrates, unit: 'g', color: C.carbs },
-    { label: 'Fat',      value: summary.fat,           unit: 'g', color: C.fat },
+    { label: 'Calories', value: summary.calories, target: targetMacros?.calories, unit: 'kcal', color: C.cal },
+    { label: 'Protein',  value: summary.protein,  target: targetMacros?.protein,  unit: 'g', color: C.protein },
+    { label: 'Carbs',    value: summary.carbohydrates, target: targetMacros?.carbs, unit: 'g', color: C.carbs },
+    { label: 'Fat',      value: summary.fat,      target: targetMacros?.fat,      unit: 'g', color: C.fat },
   ];
 
   return (
@@ -236,7 +542,7 @@ function DashboardScreen({ session }: { session: Session }) {
       {/* Header */}
       <View style={s.header}>
         <View style={{ flex: 1 }}>
-          <Text style={s.headerTitle}>🥗 Macro Tracker</Text>
+          <Text style={s.headerTitle}>🥗 MacTrack</Text>
           <Text style={{ color: C.textSecondary, fontSize: 13 }}>{session.user?.email}</Text>
         </View>
         <TouchableOpacity style={s.signOutBtn} onPress={() => supabase.auth.signOut()}>
@@ -262,6 +568,14 @@ function DashboardScreen({ session }: { session: Session }) {
             handleDeleteLog={handleDeleteLog} 
           />
         )}
+        {activeTab === 'profile' && (
+          <ProfileTab 
+            session={session}
+            targetMacros={targetMacros}
+            rawProfile={rawProfile} 
+            onUpdateProfile={onUpdateProfile} 
+          />
+        )}
       </View>
 
       <BottomTabBar active={activeTab} onSelect={setActiveTab} />
@@ -273,14 +587,115 @@ function DashboardScreen({ session }: { session: Session }) {
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [onboardingCompleted, setOnboardingCompleted] = useState(false);
+  const [targetMacros, setTargetMacros] = useState<MacroTargets | null>(null);
+  const [rawProfile, setRawProfile] = useState<UserProfilePayload | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session); setLoading(false);
+    // First, load local cache quickly to avoid flashes
+    AsyncStorage.getItem('onboarding_targets').then(res => {
+      if (res) {
+        setTargetMacros(JSON.parse(res));
+        setOnboardingCompleted(true);
+      }
+    }).catch(e => {
+      console.log('Failed to load local cache', e);
+    }).finally(() => {
+      setLoading(false);
     });
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+
+    AsyncStorage.getItem('onboarding_profile').then(res => {
+      if (res) setRawProfile(JSON.parse(res));
+    }).catch(e => {});
+
+    supabase.auth.getSession().then(({ data: { session: s } }) => {
+      setSession(s);
+      syncProfile(s);
+    });
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
+      setSession(s);
+      syncProfile(s);
+    });
+
     return () => subscription.unsubscribe();
   }, []);
+
+  const syncProfile = async (s: Session | null) => {
+    if (!s) return;
+    try {
+      const profile = await getProfile(s.access_token);
+      if (profile) {
+        const targets = {
+          calories: profile.target_calories,
+          protein: profile.target_protein,
+          carbs: profile.target_carbs,
+          fat: profile.target_fat,
+        };
+        const p: UserProfilePayload = {
+          goal: profile.goal, gender: profile.gender, age: profile.age,
+          height_cm: profile.height_cm, weight_kg: profile.weight_kg, activity: profile.activity
+        };
+        setTargetMacros(targets);
+        setRawProfile(p);
+        setOnboardingCompleted(true);
+        await AsyncStorage.setItem('onboarding_targets', JSON.stringify(targets));
+        await AsyncStorage.setItem('onboarding_profile', JSON.stringify(p));
+      } else {
+        // Force existing users to re-onboard to ensure server sync
+        setOnboardingCompleted(false);
+        setTargetMacros(null);
+        setRawProfile(null);
+        await AsyncStorage.removeItem('onboarding_targets');
+        await AsyncStorage.removeItem('onboarding_profile');
+      }
+    } catch (e) {
+      console.log('Failed to sync profile', e);
+    }
+  };
+
+  const handleOnboardingComplete = async (targets: MacroTargets, profile: UserProfilePayload) => {
+    await AsyncStorage.setItem('onboarding_targets', JSON.stringify(targets));
+    await AsyncStorage.setItem('onboarding_profile', JSON.stringify(profile));
+    setTargetMacros(targets);
+    setRawProfile(profile);
+    setOnboardingCompleted(true);
+
+    if (session) {
+      try {
+        await saveProfile(session.access_token, {
+          ...profile,
+          target_calories: targets.calories,
+          target_protein: targets.protein,
+          target_carbs: targets.carbs,
+          target_fat: targets.fat
+        });
+      } catch (e) {
+        console.log('Failed to save profile to server', e);
+      }
+    }
+  };
+
+  const handleUpdateProfile = async (targets: MacroTargets, profile: UserProfilePayload) => {
+    await AsyncStorage.setItem('onboarding_targets', JSON.stringify(targets));
+    await AsyncStorage.setItem('onboarding_profile', JSON.stringify(profile));
+    setTargetMacros(targets);
+    setRawProfile(profile);
+
+    if (session) {
+      try {
+        await updateProfile(session.access_token, {
+          ...profile,
+          target_calories: targets.calories,
+          target_protein: targets.protein,
+          target_carbs: targets.carbs,
+          target_fat: targets.fat
+        });
+      } catch (e) {
+        console.log('Failed to update profile to server', e);
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -292,9 +707,17 @@ export default function App() {
     );
   }
 
+  if (session && !onboardingCompleted) {
+    return (
+      <SafeAreaProvider>
+        <OnboardingScreen onComplete={handleOnboardingComplete} />
+      </SafeAreaProvider>
+    );
+  }
+
   return session ? (
     <SafeAreaProvider>
-      <DashboardScreen session={session} />
+      <DashboardScreen session={session} targetMacros={targetMacros} rawProfile={rawProfile} onUpdateProfile={handleUpdateProfile} />
     </SafeAreaProvider>
   ) : (
     <SafeAreaProvider>
@@ -302,6 +725,7 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
+
 
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
@@ -334,4 +758,14 @@ const s = StyleSheet.create({
   tabIcon: { fontSize: 24, marginBottom: 4 },
   tabLabel: { fontSize: 12, color: C.textSecondary, fontWeight: '500' },
   activeDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: C.accent, marginTop: 4 },
+  optionBtn: { backgroundColor: C.surface, borderWidth: 1, borderColor: 'transparent', borderRadius: 8, alignItems: 'center' },
+  optionBtnSelected: { borderColor: C.accent, backgroundColor: 'rgba(56,189,248,0.15)' },
+  optionText: { color: C.textSecondary, fontSize: 14, fontWeight: '500' },
+  optionTextSelected: { color: C.accent, fontWeight: 'bold' },
+  avatarPlaceholder: { width: 80, height: 80, borderRadius: 40, backgroundColor: 'rgba(56,189,248,0.2)', justifyContent: 'center', alignItems: 'center', marginBottom: 12 },
+  avatarText: { fontSize: 32 },
+  cardContainer: { backgroundColor: C.surface, borderRadius: 14, padding: 16, marginBottom: 16 },
+  detailRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)' },
+  detailLabel: { color: C.textSecondary, fontSize: 15 },
+  detailValue: { color: C.textPrimary, fontSize: 15, fontWeight: '500', textTransform: 'capitalize' },
 });

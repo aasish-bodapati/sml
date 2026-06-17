@@ -39,3 +39,34 @@ export async function getSummary(token: string, tz: string) {
   if (!response.ok) throw new Error(`Failed to fetch summary: ${await response.text()}`);
   return response.json();
 }
+
+export async function getProfile(token: string) {
+  const response = await fetch(`${API_BASE_URL}/profile`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) {
+    if (response.status === 404) return null;
+    throw new Error(`Failed to fetch profile: ${await response.text()}`);
+  }
+  return response.json();
+}
+
+export async function saveProfile(token: string, profileData: any) {
+  const response = await fetch(`${API_BASE_URL}/profile`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(profileData),
+  });
+  if (!response.ok) throw new Error(`Failed to save profile: ${await response.text()}`);
+  return response.json();
+}
+
+export async function updateProfile(token: string, profileData: any) {
+  const response = await fetch(`${API_BASE_URL}/profile`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(profileData),
+  });
+  if (!response.ok) throw new Error(`Failed to update profile: ${await response.text()}`);
+  return response.json();
+}
