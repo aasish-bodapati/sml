@@ -8,7 +8,7 @@ import jwt
 from jwt import PyJWKClient
 from openai import OpenAI
 from pydantic import BaseModel
-from datetime import datetime, timezone, time
+from datetime import datetime, timezone, time, timedelta
 from zoneinfo import ZoneInfo
 from contextlib import asynccontextmanager
 
@@ -90,6 +90,16 @@ class NutritionResponse(BaseModel):
     protein: int
     carbohydrates: int
     fat: int
+    meal_type: str | None = Field(default=None)
+
+
+class LogMealRequest(BaseModel):
+    name: str
+    calories: int
+    protein: int
+    carbohydrates: int
+    fat: int
+    meal_type: str | None = None
 
 
 class FoodLog(SQLModel, table = True):
@@ -100,6 +110,7 @@ class FoodLog(SQLModel, table = True):
     protein: int
     carbohydrates: int
     fat: int
+    meal_type: str | None = Field(default=None)
     notes: str | None= Field(default= None)
     created_at: datetime = Field(
         sa_column_kwargs = {"server_default": text("TIMEZONE('utc', now())")}
@@ -162,6 +173,19 @@ class UserProfile(SQLModel, table=True):
     )
 
 
+class WeightLogRequest(BaseModel):
+    weight_kg: float
+
+class WeightLog(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    user_id: str = Field(index=True)
+    weight_kg: float
+    logged_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        sa_column_kwargs={"server_default": text("TIMEZONE('utc', now())")}
+    )
+
+
 
 
 
@@ -205,14 +229,14 @@ def get_health():
 
 
 
-@app.post("/calculate-macros")
-def calculate_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> NutritionResponse:
+@app.post("/parse-macros")
+def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> NutritionResponse:
     response = llm_client.beta.chat.completions.parse(
         model= "gpt-4o-mini",
         response_format= NutritionResponse,
         messages= [{
             "role": "system",
-            "content": "You are a strict nutrition tracker. First, determine if the user input describes a recognizable food item. If it is gibberish, a non-food object (like 'table', 'car'), or completely unrelated, set is_food to False and all macros to 0. If it is a food, set is_food to True and calculate the macros."
+            "content": "You are a strict nutrition tracker. First, determine if the user input describes a recognizable food item. If it is gibberish, a non-food object (like 'table', 'car'), or completely unrelated, set is_food to False and all macros to 0. If it is a food, set is_food to True and calculate the macros. Also infer the meal_type from context clues (e.g., 'breakfast', 'lunch', 'dinner', 'snack') if possible, otherwise leave it null."
         }, 
         {
             "role": "user",
@@ -228,20 +252,25 @@ def calculate_macros(request: MacroRequest, user_id: str = Depends(get_current_u
             detail="We couldn't recognize that as food. Please describe a meal!"
         )
 
+    return parsed_macros
+
+@app.post("/log-meal")
+def log_meal(request: LogMealRequest, user_id: str = Depends(get_current_user)):
     db_log = FoodLog(
-        name = parsed_macros.name,
-        user_id = user_id,
-        calories = parsed_macros.calories,
-        protein = parsed_macros.protein,
-        carbohydrates = parsed_macros.carbohydrates,
-        fat = parsed_macros.fat
+        name=request.name,
+        user_id=user_id,
+        calories=request.calories,
+        protein=request.protein,
+        carbohydrates=request.carbohydrates,
+        fat=request.fat,
+        meal_type=request.meal_type
     )
     with Session(engine) as session:
         session.add(db_log)
         session.commit()
         session.refresh(db_log)
 
-    return parsed_macros
+    return db_log
 
 
 
@@ -326,6 +355,49 @@ def logs_summary(tz: str = "UTC", user_id: str = Depends(get_current_user)):
         "carbohydrates": total_carbohydrates,
         "fat": total_fat
     }
+
+@app.get("/analytics/weekly")
+def analytics_weekly(tz: str = "UTC", user_id: str = Depends(get_current_user)):
+    try:
+        user_tz = ZoneInfo(tz)
+    except Exception:
+        user_tz = ZoneInfo("UTC")
+
+    now_in_tz = datetime.now(user_tz)
+    midnight_in_tz = datetime.combine(now_in_tz.date(), time.min, tzinfo=user_tz)
+    
+    start_date = (midnight_in_tz - timedelta(days=6)).astimezone(timezone.utc).replace(tzinfo=None)
+    
+    statement = select(FoodLog).where(
+        FoodLog.user_id == user_id,
+        FoodLog.created_at >= start_date
+    )
+    
+    with Session(engine) as session:
+        logs = session.exec(statement).all()
+
+    daily_stats = {}
+    for i in range(7):
+        d = (now_in_tz.date() - timedelta(days=6-i))
+        daily_stats[d.isoformat()] = {"calories": 0, "protein": 0, "carbohydrates": 0, "fat": 0}
+
+    for log in logs:
+        log_utc = log.created_at.replace(tzinfo=timezone.utc)
+        log_local_date = log_utc.astimezone(user_tz).date().isoformat()
+        if log_local_date in daily_stats:
+            daily_stats[log_local_date]["calories"] += log.calories
+            daily_stats[log_local_date]["protein"] += log.protein
+            daily_stats[log_local_date]["carbohydrates"] += log.carbohydrates
+            daily_stats[log_local_date]["fat"] += log.fat
+
+    result = []
+    for date_str, stats in daily_stats.items():
+        result.append({
+            "date": date_str,
+            **stats
+        })
+
+    return result
 
 @app.get("/profile", response_model=UserProfileResponse | None)
 def get_profile(user_id: str = Depends(get_current_user)):
@@ -421,3 +493,27 @@ def log_recipe(recipe_id: int, user_id: str = Depends(get_current_user)):
         session.commit()
         session.refresh(db_log)
         return db_log
+
+@app.post("/weight")
+def log_weight(request: WeightLogRequest, user_id: str = Depends(get_current_user)):
+    db_weight = WeightLog(user_id=user_id, weight_kg=request.weight_kg)
+    with Session(engine) as session:
+        session.add(db_weight)
+        session.commit()
+        session.refresh(db_weight)
+        
+        statement = select(UserProfile).where(UserProfile.user_id == user_id)
+        profile = session.exec(statement).first()
+        if profile:
+            profile.weight_kg = request.weight_kg
+            session.add(profile)
+            session.commit()
+            
+    return db_weight
+
+@app.get("/weight")
+def get_weight_history(days: int = 30, user_id: str = Depends(get_current_user)):
+    with Session(engine) as session:
+        statement = select(WeightLog).where(WeightLog.user_id == user_id).order_by(WeightLog.logged_at.desc()).limit(days)
+        logs = session.exec(statement).all()
+        return logs

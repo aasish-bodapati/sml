@@ -1,7 +1,13 @@
 const API_BASE_URL = 'http://192.168.1.3:8000';
+import { supabase } from './supabaseClient';
 
-export async function logMeal(token: string, userInput: string) {
-  const response = await fetch(`${API_BASE_URL}/calculate-macros`, {
+async function getToken() {
+  const { data } = await supabase.auth.getSession();
+  return data.session?.access_token;
+}
+export async function parseMeal(userInput: string) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/parse-macros`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
     body: JSON.stringify({ user_input: userInput }),
@@ -14,7 +20,23 @@ export async function logMeal(token: string, userInput: string) {
   return response.json();
 }
 
-export async function getLogs(token: string, tz: string, date?: string) {
+export async function confirmLogMeal(data: any) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/log-meal`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    let errMsg = `Server error ${response.status}`;
+    try { const j = await response.json(); if (j?.detail) errMsg = j.detail; } catch (_) {}
+    throw new Error(errMsg);
+  }
+  return response.json();
+}
+
+export async function getLogs(tz: string, date?: string) {
+  const token = await getToken();
   const params = new URLSearchParams({ tz });
   if (date) params.set('date', date);
   const response = await fetch(`${API_BASE_URL}/get-logs?${params}`, {
@@ -24,7 +46,8 @@ export async function getLogs(token: string, tz: string, date?: string) {
   return response.json();
 }
 
-export async function deleteLog(token: string, logId: number) {
+export async function deleteLog(logId: number) {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/logs/${logId}`, {
     method: 'DELETE',
     headers: { 'Authorization': `Bearer ${token}` },
@@ -32,7 +55,8 @@ export async function deleteLog(token: string, logId: number) {
   if (!response.ok) throw new Error(`Failed to delete log: ${await response.text()}`);
 }
 
-export async function getSummary(token: string, tz: string) {
+export async function getSummary(tz: string) {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/logs-summary?tz=${encodeURIComponent(tz)}`, {
     headers: { 'Authorization': `Bearer ${token}` },
   });
@@ -40,7 +64,17 @@ export async function getSummary(token: string, tz: string) {
   return response.json();
 }
 
-export async function getProfile(token: string) {
+export async function getWeeklyAnalytics(tz: string) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/analytics/weekly?tz=${encodeURIComponent(tz)}`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to fetch weekly analytics: ${await response.text()}`);
+  return response.json();
+}
+
+export async function getProfile() {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/profile`, {
     headers: { 'Authorization': `Bearer ${token}` },
   });
@@ -51,7 +85,8 @@ export async function getProfile(token: string) {
   return response.json();
 }
 
-export async function saveProfile(token: string, profileData: any) {
+export async function saveProfile(profileData: any) {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/profile`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -61,7 +96,8 @@ export async function saveProfile(token: string, profileData: any) {
   return response.json();
 }
 
-export async function updateProfile(token: string, profileData: any) {
+export async function updateProfile(profileData: any) {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/profile`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -71,7 +107,8 @@ export async function updateProfile(token: string, profileData: any) {
   return response.json();
 }
 
-export async function getRecipes(token: string) {
+export async function getRecipes() {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/recipes`, {
     headers: { 'Authorization': `Bearer ${token}` },
   });
@@ -79,7 +116,8 @@ export async function getRecipes(token: string) {
   return response.json();
 }
 
-export async function saveRecipe(token: string, recipeData: any) {
+export async function saveRecipe(recipeData: any) {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/recipes`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
@@ -89,7 +127,8 @@ export async function saveRecipe(token: string, recipeData: any) {
   return response.json();
 }
 
-export async function deleteRecipe(token: string, recipeId: number) {
+export async function deleteRecipe(recipeId: number) {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/recipes/${recipeId}`, {
     method: 'DELETE',
     headers: { 'Authorization': `Bearer ${token}` },
@@ -97,11 +136,32 @@ export async function deleteRecipe(token: string, recipeId: number) {
   if (!response.ok) throw new Error(`Failed to delete recipe: ${await response.text()}`);
 }
 
-export async function logRecipe(token: string, recipeId: number) {
+export async function logRecipe(recipeId: number) {
+  const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/recipes/${recipeId}/log`, {
     method: 'POST',
     headers: { 'Authorization': `Bearer ${token}` },
   });
   if (!response.ok) throw new Error(`Failed to log recipe: ${await response.text()}`);
+  return response.json();
+}
+
+export async function logWeight(weight: number) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/weight`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ weight_kg: weight }),
+  });
+  if (!response.ok) throw new Error(`Failed to log weight: ${await response.text()}`);
+  return response.json();
+}
+
+export async function getWeightHistory(days: number = 30) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/weight?days=${days}`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to fetch weight history: ${await response.text()}`);
   return response.json();
 }

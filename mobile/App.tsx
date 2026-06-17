@@ -9,7 +9,7 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
-import { logMeal, getLogs, getSummary, deleteLog, getProfile, saveProfile, getRecipes, saveRecipe, deleteRecipe, logRecipe } from './api';
+import { parseMeal, confirmLogMeal, getLogs, getSummary, getWeeklyAnalytics, logWeight, getWeightHistory, deleteLog, getProfile, saveProfile, getRecipes, saveRecipe, deleteRecipe, logRecipe } from './api';
 import OnboardingScreen, { MacroTargets, UserProfilePayload } from './OnboardingScreen';
 import { calculationService } from './calculation-service';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -106,7 +106,33 @@ function BottomTabBar({ active, onSelect }: { active: string, onSelect: (t: stri
 }
 
 // ─── Home Tab ─────────────────────────────────────────────────────────────────
-function HomeTab({ summary, macros, userInput, setUserInput, handleLogMeal, isLoading }: any) {
+function HomeTab({ summary, macros, weeklyData, targetMacros, userInput, setUserInput, isLoading, setIsLoading, setError, fetchData, setViewDate, setActiveTab }: any) {
+  const [pendingMeal, setPendingMeal] = useState<any>(null);
+  const [editedMeal, setEditedMeal] = useState<any>(null);
+
+  const handleParse = async () => {
+    if (!userInput.trim()) return;
+    setIsLoading(true); setError(null);
+    try {
+      const result = await parseMeal(userInput);
+      setPendingMeal(result);
+      setEditedMeal({ ...result, meal_type: result.meal_type || 'snack' });
+    } catch (e: any) { setError(e.message || 'Failed to parse meal.'); }
+    finally { setIsLoading(false); }
+  };
+
+  const handleConfirm = async () => {
+    setIsLoading(true); setError(null);
+    try {
+      await confirmLogMeal(editedMeal);
+      setPendingMeal(null);
+      setEditedMeal(null);
+      setUserInput('');
+      await fetchData();
+    } catch (e: any) { setError(e.message || 'Failed to log meal.'); }
+    finally { setIsLoading(false); }
+  };
+
   return (
     <ScrollView contentContainerStyle={{ padding: 16 }} keyboardShouldPersistTaps="handled">
       <Text style={s.sectionTitle}>Summary</Text>
@@ -132,21 +158,97 @@ function HomeTab({ summary, macros, userInput, setUserInput, handleLogMeal, isLo
         })}
       </View>
 
-      <Text style={[s.sectionTitle, { marginTop: 28 }]}>Log a Meal</Text>
-      <View style={s.logForm}>
-        <TextInput
-          style={[s.input, { flex: 1 }]}
-          placeholder='e.g. "2 boiled eggs"'
-          placeholderTextColor={C.textSecondary}
-          value={userInput}
-          onChangeText={setUserInput}
-          onSubmitEditing={handleLogMeal}
-          returnKeyType="send"
-        />
-        <TouchableOpacity style={s.logBtn} onPress={handleLogMeal} disabled={isLoading || !userInput.trim()}>
-          {isLoading ? <ActivityIndicator color={C.bg} size="small" /> : <Text style={s.btnText}>+ Log</Text>}
-        </TouchableOpacity>
+      <Text style={[s.sectionTitle, { marginTop: 28 }]}>Weekly Progress</Text>
+      <View style={{ backgroundColor: C.surface, padding: 16, borderRadius: 14, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', height: 160 }}>
+        {weeklyData.map((day: any) => {
+          const maxCal = Math.max(...weeklyData.map((d: any) => d.calories || 1), targetMacros?.calories || 2000);
+          const heightPct = Math.min((day.calories / maxCal) * 100, 100);
+          const isToday = new Date().toISOString().split('T')[0] === day.date;
+          const dayName = new Date(day.date).toLocaleDateString(undefined, { weekday: 'narrow' });
+          return (
+            <TouchableOpacity 
+              key={day.date} 
+              style={{ alignItems: 'center', flex: 1 }}
+              onPress={() => {
+                setViewDate(new Date(day.date));
+                setActiveTab('history');
+              }}
+            >
+              <View style={{ width: '60%', height: '100%', justifyContent: 'flex-end', marginBottom: 8 }}>
+                <View style={{ width: '100%', height: `${heightPct}%`, backgroundColor: isToday ? C.accent : C.cal, borderRadius: 4, minHeight: 4 }} />
+              </View>
+              <Text style={{ color: isToday ? C.accent : C.textSecondary, fontSize: 12, fontWeight: isToday ? 'bold' : 'normal' }}>{dayName}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
+
+      <Text style={[s.sectionTitle, { marginTop: 28 }]}>Log a Meal</Text>
+      {!pendingMeal ? (
+        <View style={s.logForm}>
+          <TextInput
+            style={[s.input, { flex: 1 }]}
+            placeholder='e.g. "2 boiled eggs"'
+            placeholderTextColor={C.textSecondary}
+            value={userInput}
+            onChangeText={setUserInput}
+            onSubmitEditing={handleParse}
+            returnKeyType="send"
+          />
+          <TouchableOpacity style={s.logBtn} onPress={handleParse} disabled={isLoading || !userInput.trim()}>
+            {isLoading ? <ActivityIndicator color={C.bg} size="small" /> : <Text style={s.btnText}>+ Log</Text>}
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={s.confirmationCard}>
+          <Text style={{ color: C.textPrimary, fontSize: 16, fontWeight: 'bold', marginBottom: 12 }}>Confirm Meal Details</Text>
+          
+          <View style={s.editRow}>
+            <Text style={s.editLabel}>Name</Text>
+            <TextInput style={s.editInput} value={editedMeal.name} onChangeText={t => setEditedMeal({...editedMeal, name: t})} />
+          </View>
+          
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={[s.editRow, { flex: 1 }]}>
+              <Text style={s.editLabel}>Kcal</Text>
+              <TextInput style={s.editInput} keyboardType="numeric" value={editedMeal.calories.toString()} onChangeText={t => setEditedMeal({...editedMeal, calories: parseInt(t) || 0})} />
+            </View>
+            <View style={[s.editRow, { flex: 1 }]}>
+              <Text style={s.editLabel}>Protein</Text>
+              <TextInput style={s.editInput} keyboardType="numeric" value={editedMeal.protein.toString()} onChangeText={t => setEditedMeal({...editedMeal, protein: parseInt(t) || 0})} />
+            </View>
+          </View>
+          
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <View style={[s.editRow, { flex: 1 }]}>
+              <Text style={s.editLabel}>Carbs</Text>
+              <TextInput style={s.editInput} keyboardType="numeric" value={editedMeal.carbohydrates.toString()} onChangeText={t => setEditedMeal({...editedMeal, carbohydrates: parseInt(t) || 0})} />
+            </View>
+            <View style={[s.editRow, { flex: 1 }]}>
+              <Text style={s.editLabel}>Fat</Text>
+              <TextInput style={s.editInput} keyboardType="numeric" value={editedMeal.fat.toString()} onChangeText={t => setEditedMeal({...editedMeal, fat: parseInt(t) || 0})} />
+            </View>
+          </View>
+          
+          <Text style={[s.editLabel, { marginTop: 8 }]}>Meal Type</Text>
+          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+            {['breakfast', 'lunch', 'dinner', 'snack'].map(type => (
+              <TouchableOpacity key={type} onPress={() => setEditedMeal({...editedMeal, meal_type: type})} style={[s.mealTypePill, editedMeal.meal_type === type && s.mealTypePillActive]}>
+                <Text style={[s.mealTypeText, editedMeal.meal_type === type && s.mealTypeTextActive]}>{type.charAt(0).toUpperCase() + type.slice(1)}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <View style={{ flexDirection: 'row', gap: 12 }}>
+            <TouchableOpacity style={[s.btn, { flex: 1, backgroundColor: 'transparent', borderWidth: 1, borderColor: C.border }]} onPress={() => { setPendingMeal(null); setEditedMeal(null); }}>
+              <Text style={[s.btnText, { color: C.textPrimary }]}>✕ Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[s.btn, { flex: 1, marginBottom: 0 }]} onPress={handleConfirm} disabled={isLoading}>
+              {isLoading ? <ActivityIndicator color={C.bg} /> : <Text style={s.btnText}>✓ Confirm & Log</Text>}
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -215,11 +317,26 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
           {logs.length === 0 && <Text style={{ color: C.textMuted, fontStyle: 'italic', textAlign: 'center', marginTop: 16 }}>Nothing logged.</Text>}
         </>
       }
-      renderItem={({ item }) => (
-        <View style={s.logItem}>
-          <View style={{ flex: 1 }}>
-            <Text style={s.logName}>{item.name}</Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
+      renderItem={({ item }) => {
+        let typeBadgeColor = 'transparent';
+        let typeBadgeIcon = '';
+        if (item.meal_type === 'breakfast') { typeBadgeColor = '#f97316'; typeBadgeIcon = '🌅'; }
+        else if (item.meal_type === 'lunch') { typeBadgeColor = '#38bdf8'; typeBadgeIcon = '☀️'; }
+        else if (item.meal_type === 'dinner') { typeBadgeColor = '#6366f1'; typeBadgeIcon = '🌙'; }
+        else if (item.meal_type === 'snack') { typeBadgeColor = '#10b981'; typeBadgeIcon = '🍎'; }
+
+        return (
+          <View style={s.logItem}>
+            <View style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Text style={s.logName}>{item.name}</Text>
+                {item.meal_type && (
+                  <View style={{ backgroundColor: `${typeBadgeColor}20`, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4, borderWidth: 1, borderColor: `${typeBadgeColor}40` }}>
+                    <Text style={{ color: typeBadgeColor, fontSize: 10, fontWeight: 'bold', textTransform: 'capitalize' }}>{typeBadgeIcon} {item.meal_type}</Text>
+                  </View>
+                )}
+              </View>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
               <Text style={s.chip}>🔥 {item.calories} kcal</Text>
               <Text style={s.chip}>💪 {item.protein}g</Text>
               <Text style={s.chip}>🌾 {item.carbohydrates}g</Text>
@@ -268,13 +385,14 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
             </Text>
           </View>
         </View>
-      )}
+        );
+      }}
     />
   );
 }
 
 // ─── Profile Tab ──────────────────────────────────────────────────────────────
-function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile }: any) {
+function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weightHistory, fetchData, isLoading, setIsLoading }: any) {
   const [isEditing, setIsEditing] = useState(false);
   const [goal, setGoal] = useState<'lose' | 'maintain' | 'gain' | null>(rawProfile?.goal || null);
   const [gender, setGender] = useState<'M' | 'F' | null>(rawProfile?.gender || null);
@@ -282,6 +400,22 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile }: any)
   const [height, setHeight] = useState(rawProfile?.height_cm?.toString() || '');
   const [weight, setWeight] = useState(rawProfile?.weight_kg?.toString() || '');
   const [activity, setActivity] = useState<'sedentary' | 'light' | 'moderate' | 'active' | null>(rawProfile?.activity || null);
+
+  const [newWeight, setNewWeight] = useState('');
+
+  const handleLogWeight = async () => {
+    if (!newWeight) return;
+    setIsLoading(true);
+    try {
+      await logWeight(parseFloat(newWeight));
+      setNewWeight('');
+      await fetchData();
+    } catch (e) {
+      console.log('Failed to log weight', e);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const [targetCals, setTargetCals] = useState(targetMacros?.calories?.toString() || '');
   const [targetProtein, setTargetProtein] = useState(targetMacros?.protein?.toString() || '');
@@ -493,6 +627,41 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile }: any)
         </View>
       </View>
 
+      <Text style={[s.sectionTitle, { marginTop: 28 }]}>Weight Tracking</Text>
+      <View style={s.cardContainer}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TextInput
+            style={[s.input, { flex: 1, marginBottom: 0, marginRight: 8 }]}
+            placeholder="Enter weight in kg"
+            placeholderTextColor={C.textSecondary}
+            keyboardType="numeric"
+            value={newWeight}
+            onChangeText={setNewWeight}
+          />
+          <TouchableOpacity style={[s.logBtn, { marginBottom: 0, paddingHorizontal: 24, paddingVertical: 12 }]} onPress={handleLogWeight} disabled={isLoading || !newWeight}>
+            {isLoading ? <ActivityIndicator color={C.bg} /> : <Text style={s.btnText}>Log</Text>}
+          </TouchableOpacity>
+        </View>
+
+        {weightHistory && weightHistory.length > 0 && (
+          <View style={{ height: 120, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 24 }}>
+            {weightHistory.slice(0, 10).reverse().map((w: any, idx: number, arr: any[]) => {
+              const maxW = Math.max(...arr.map(h => h.weight_kg)) + 5;
+              const minW = Math.max(Math.min(...arr.map(h => h.weight_kg)) - 5, 0);
+              const range = maxW - minW || 1;
+              const heightPct = Math.max(((w.weight_kg - minW) / range) * 100, 10);
+              const isLatest = idx === arr.length - 1;
+              return (
+                <View key={w.id} style={{ alignItems: 'center', flex: 1 }}>
+                  <Text style={{ color: isLatest ? C.accent : C.textSecondary, fontSize: 10, marginBottom: 4 }}>{w.weight_kg}</Text>
+                  <View style={{ width: 8, height: `${heightPct}%`, backgroundColor: isLatest ? C.accent : C.cal, borderRadius: 4 }} />
+                </View>
+              );
+            })}
+          </View>
+        )}
+      </View>
+
       <TouchableOpacity style={[s.logBtn, { backgroundColor: C.surface, marginTop: 24 }]} onPress={() => supabase.auth.signOut()}>
         <Text style={[s.btnText, { color: C.error }]}>Sign Out</Text>
       </TouchableOpacity>
@@ -548,6 +717,8 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
   const [userInput, setUserInput] = useState('');
   const [logs, setLogs] = useState<any[]>([]);
   const [summary, setSummary] = useState(DEFAULT_SUMMARY);
+  const [weeklyData, setWeeklyData] = useState<any[]>([]);
+  const [weightHistory, setWeightHistory] = useState<any[]>([]);
   const [recipes, setRecipes] = useState<any[]>([]);
   const [showRecipesScreen, setShowRecipesScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -571,28 +742,25 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const token = session.access_token;
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const dateStr = viewDate.getFullYear() + '-' + String(viewDate.getMonth() + 1).padStart(2, '0') + '-' + String(viewDate.getDate()).padStart(2, '0');
-      const [rawLogs, rawSummary, rawRecipes] = await Promise.all([getLogs(token, tz, dateStr), getSummary(token, tz), getRecipes(token)]);
+      const [rawLogs, rawSummary, rawWeekly, rawRecipes, rawWeight] = await Promise.all([
+        getLogs(tz, dateStr), 
+        getSummary(tz), 
+        getWeeklyAnalytics(tz),
+        getRecipes(),
+        getWeightHistory(30)
+      ]);
       setLogs([...rawLogs].reverse());
       setSummary(rawSummary);
+      setWeeklyData(rawWeekly);
       setRecipes(rawRecipes);
+      setWeightHistory(rawWeight);
       setError(null);
     } catch (e: any) { setError('Could not reach the backend. Make sure it is running.'); }
     finally { setIsLoading(false); }
   };
 
-  const handleLogMeal = async () => {
-    if (!userInput.trim()) return;
-    setIsLoading(true); setError(null);
-    try {
-      await logMeal(session.access_token, userInput);
-      setUserInput('');
-      await fetchData();
-    } catch (e: any) { setError(e.message || 'Failed to log meal.'); }
-    finally { setIsLoading(false); }
-  };
 
   const handleDeleteLog = async (id: number) => {
     // Optimistic UI update: instantly remove log from list
@@ -600,7 +768,7 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
     setLogs(logs.filter(log => log.id !== id));
 
     try {
-      await deleteLog(session.access_token, id);
+      await deleteLog(id);
       await fetchData();
     } catch (e: any) {
       setLogs(previousLogs); // Rollback on failure
@@ -611,7 +779,7 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
   const handleSaveRecipe = async (name: string, item: any) => {
     setIsLoading(true); setError(null);
     try {
-      await saveRecipe(session.access_token, {
+      await saveRecipe({
         name,
         calories: item.calories,
         protein: item.protein,
@@ -626,7 +794,7 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
   const handleLogRecipe = async (id: number) => {
     setIsLoading(true); setError(null);
     try {
-      await logRecipe(session.access_token, id);
+      await logRecipe(id);
       await fetchData();
     } catch (e: any) { setError(e.message || 'Failed to log recipe.'); }
     finally { setIsLoading(false); }
@@ -636,7 +804,7 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
     const previous = [...recipes];
     setRecipes(recipes.filter(r => r.id !== id));
     try {
-      await deleteRecipe(session.access_token, id);
+      await deleteRecipe(id);
     } catch (e: any) {
       setRecipes(previous);
       setError(e.message || 'Failed to delete recipe.');
@@ -678,9 +846,11 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
           <View style={{ flex: 1 }}>
             {activeTab === 'home' && (
               <HomeTab
-                summary={summary} macros={macros}
+                summary={summary} macros={macros} weeklyData={weeklyData} targetMacros={targetMacros}
                 userInput={userInput} setUserInput={setUserInput}
-                handleLogMeal={handleLogMeal} isLoading={isLoading}
+                isLoading={isLoading} setIsLoading={setIsLoading}
+                setError={setError} fetchData={fetchData}
+                setViewDate={setViewDate} setActiveTab={setActiveTab}
               />
             )}
             {activeTab === 'history' && (
@@ -696,6 +866,10 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
                 targetMacros={targetMacros}
                 rawProfile={rawProfile}
                 onUpdateProfile={onUpdateProfile}
+                weightHistory={weightHistory}
+                fetchData={fetchData}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
               />
             )}
           </View>
@@ -748,7 +922,7 @@ export default function App() {
   const syncProfile = async (s: Session | null) => {
     if (!s) return;
     try {
-      const profile = await getProfile(s.access_token);
+      const profile = await getProfile();
       if (profile) {
         const targets = {
           calories: profile.target_calories,
@@ -787,7 +961,7 @@ export default function App() {
 
     if (session) {
       try {
-        await saveProfile(session.access_token, {
+        await saveProfile({
           ...profile,
           target_calories: targets.calories,
           target_protein: targets.protein,
@@ -808,7 +982,7 @@ export default function App() {
 
     if (session) {
       try {
-        await updateProfile(session.access_token, {
+        await updateProfile({
           ...profile,
           target_calories: targets.calories,
           target_protein: targets.protein,
@@ -892,4 +1066,12 @@ const s = StyleSheet.create({
   detailRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)' },
   detailLabel: { color: C.textSecondary, fontSize: 15 },
   detailValue: { color: C.textPrimary, fontSize: 15, fontWeight: '500', textTransform: 'capitalize' },
+  confirmationCard: { backgroundColor: C.surface, padding: 16, borderRadius: 14, borderWidth: 1, borderColor: C.border },
+  editRow: { backgroundColor: 'rgba(15,23,42,0.4)', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 8, marginBottom: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  editLabel: { color: C.textSecondary, fontSize: 12, textTransform: 'uppercase', fontWeight: 'bold' },
+  editInput: { color: C.textPrimary, fontSize: 16, fontWeight: '600', textAlign: 'right', padding: 0, margin: 0, minWidth: 60 },
+  mealTypePill: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: 1, borderColor: 'transparent' },
+  mealTypePillActive: { backgroundColor: 'rgba(56,189,248,0.1)', borderColor: C.accent },
+  mealTypeText: { color: C.textSecondary, fontSize: 13, fontWeight: '500' },
+  mealTypeTextActive: { color: C.accent, fontWeight: 'bold' }
 });
