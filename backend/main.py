@@ -11,6 +11,8 @@ from pydantic import BaseModel
 from datetime import datetime, timezone, time, timedelta
 from zoneinfo import ZoneInfo
 from contextlib import asynccontextmanager
+from sqlalchemy import Column
+from pgvector.sqlalchemy import Vector
 
 
 
@@ -185,6 +187,16 @@ class WeightLog(SQLModel, table=True):
         sa_column_kwargs={"server_default": text("TIMEZONE('utc', now())")}
     )
 
+class UsdaFood(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    fdc_id: int = Field(unique=True, index=True)
+    description: str
+    calories: float
+    protein: float
+    fat: float
+    carbs: float
+    embedding: list[float] | None = Field(default=None, sa_column=Column(Vector(1536)))
+
 
 
 
@@ -231,12 +243,32 @@ def get_health():
 
 @app.post("/parse-macros")
 def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> NutritionResponse:
+    embed_response = llm_client.embeddings.create(
+        model="text-embedding-3-small",
+        input=request.user_input
+    )
+    user_embedding = embed_response.data[0].embedding
+    
+    with Session(engine) as session:
+        statement = select(UsdaFood).order_by(UsdaFood.embedding.cosine_distance(user_embedding)).limit(5)
+        top_foods = session.exec(statement).all()
+        
+    context_str = "USDA Reference Foods (per 100g):\n"
+    for food in top_foods:
+        context_str += f"- {food.description}: {food.calories}kcal, Protein {food.protein}g, Carbs {food.carbs}g, Fat {food.fat}g\n"
+        
+    system_prompt = f"""You are a strict nutrition tracker. First, determine if the user input describes a recognizable food item. If it is gibberish, a non-food object, or completely unrelated, set is_food to False and all macros to 0. If it is a food, set is_food to True and calculate the macros. Also infer the meal_type from context clues (e.g., 'breakfast', 'lunch', 'dinner', 'snack') if possible, otherwise leave it null.
+
+Use the following USDA foundation food reference data to improve your accuracy. The reference data is strictly per 100g. Estimate the weight of the user's food and scale the macros appropriately.
+
+{context_str}"""
+
     response = llm_client.beta.chat.completions.parse(
         model= "gpt-4o-mini",
         response_format= NutritionResponse,
         messages= [{
             "role": "system",
-            "content": "You are a strict nutrition tracker. First, determine if the user input describes a recognizable food item. If it is gibberish, a non-food object (like 'table', 'car'), or completely unrelated, set is_food to False and all macros to 0. If it is a food, set is_food to True and calculate the macros. Also infer the meal_type from context clues (e.g., 'breakfast', 'lunch', 'dinner', 'snack') if possible, otherwise leave it null."
+            "content": system_prompt
         }, 
         {
             "role": "user",
