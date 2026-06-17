@@ -5,6 +5,7 @@ from sqlmodel import SQLModel, Field, Session, create_engine, select, text
 from dotenv import load_dotenv
 import os
 import jwt
+from jwt import PyJWKClient
 from openai import OpenAI
 from pydantic import BaseModel
 from datetime import datetime, timezone
@@ -21,6 +22,10 @@ load_dotenv()
 JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET")
 JWT_ALGORITHM = "HS256"
 
+# Supabase JWKS configuration for ES256 verification
+JWKS_URL = "https://xpyzowlshriupianmuit.supabase.co/auth/v1/.well-known/jwks.json"
+jwk_client = PyJWKClient(JWKS_URL)
+
 
 engine= create_engine(os.getenv("DATABASE_URL"))
 
@@ -30,18 +35,33 @@ security = HTTPBearer()
 
 
 
-def get_current_user(credentials: HTTPAuthorizationCredentials= Depends(security)) -> str:
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> str:
     token = credentials.credentials
+    try:
+        # Fetch the public key from the JWKS endpoint
+        signing_key = jwk_client.get_signing_key_from_jwt(token)
+        
+        # Verify the signature using the public key and ES256 algorithm
+        payload = jwt.decode(
+            token,
+            signing_key.key,
+            algorithms=["ES256"],
+            options={"verify_aud": False}
+        )
+        
+        user_id = payload.get("sub")
+        if not user_id:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Token payload is missing 'sub' claim."
+            )
+        return user_id
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Authentication failed: {str(e)}"
+        )
 
-    
-    payload = jwt.decode(
-        token,
-        JWT_SECRET,
-        algorithms= [JWT_ALGORITHM],
-        options= {"verify_aud": False}
-    )
-
-    return payload.get("sub")
 
 
 
