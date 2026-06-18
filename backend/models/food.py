@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field, text
 from pydantic import BaseModel
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column
 from pgvector.sqlalchemy import Vector
 
@@ -44,6 +44,7 @@ class FoodLog(SQLModel, table = True):
     meal_type: str | None = Field(default=None)
     notes: str | None= Field(default= None)
     created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
         sa_column_kwargs = {"server_default": text("TIMEZONE('utc', now())")}
     )
 
@@ -67,6 +68,7 @@ class SavedRecipe(SQLModel, table=True):
     carbohydrates: int
     fat: int
     created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
         sa_column_kwargs={"server_default": text("TIMEZONE('utc', now())")}
     )
 

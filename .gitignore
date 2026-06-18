@@ -22,3 +22,7 @@ resume/
 # Exercise database raw files
 backend/data/exercisedb_full.json
 backend/data/exercisedb_v1_sample/
+
+# Testing
+.pytest_cache/
+.coverage
