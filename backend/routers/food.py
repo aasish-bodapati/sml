@@ -1,0 +1,203 @@
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from sqlmodel import Session, select
+from datetime import datetime, timezone, time, timedelta
+from zoneinfo import ZoneInfo
+import time as time_lib
+from openai import OpenAI
+
+from db import engine
+from auth import get_current_user
+from models.food import FoodLog, MacroRequest, MultiItemResponse, LogMealRequest, TranscribeResponse
+
+router = APIRouter(tags=["food"])
+llm_client = OpenAI()
+
+@router.post("/parse-macros")
+def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> MultiItemResponse:
+    system_msg = {
+        "role": "system",
+        "content": (
+            "You are a strict nutrition tracker. Use short, clean dish names (e.g. 'Protein Shake', 'Chicken Sandwich') — never list ingredients in the name. "
+            "In the 'thinking' field, write 2-3 concise sentences explaining what portion sizes and reference values you used to estimate the macros (e.g. assumed standard serving, used USDA values, estimated weight). Do NOT list out arithmetic. "
+            "Group items into composite DISHES (e.g. 'chicken sandwich' is 1 dish). Do NOT split composite dishes into raw ingredients. "
+            "If the user ate multiple completely separate dishes, separate them into multiple NutritionItems in the 'items' array. "
+            "If an item is gibberish or non-food, set is_food to False. Infer the meal_type from context.\n\n"
+            "PORTION SIZE STANDARDS — always use these as your baseline, never deviate unless the user explicitly states grams or ml:\n"
+            "- 1 tsp = 5ml (oil/ghee ~4g, dry spice ~3g)\n"
+            "- 1 tbsp = 15ml (oil/ghee ~13g, peanut butter ~16g, sugar ~12g)\n"
+            "- 1 cup = 240ml (cooked rice ~200g, cooked dal ~220g, milk ~240g, flour ~120g)\n"
+            "- 1 bowl = 300ml / ~260g for solid foods (rice, dal, sabzi, pasta)\n"
+            "- 1 katori = 150ml / ~130g (standard small Indian bowl)\n"
+            "- 1 plate of rice = 250g cooked rice\n"
+            "- 1 plate (full meal) = treat as a standard thali: ~250g rice or 3 rotis + 1 katori dal + 1 katori sabzi\n"
+            "- 1 roti / chapati = 40g (medium, no oil); paratha = 60g\n"
+            "- 1 idli = 40g; 1 dosa (plain) = 70g\n"
+            "- 1 egg = 55g\n"
+            "- 1 slice bread = 30g\n"
+            "- 1 handful (dry nuts/seeds) = 30g; (chips/puffs) = 20g\n"
+            "- 1 glass = 250ml\n"
+            "- 'small' portion = reduce by 25%; 'large' or 'heaped' = increase by 30%; 'half' = reduce by 50%.\n"
+            "When a food's volume-to-weight conversion isn't listed above, use your best estimate of the food's density."
+        )
+    }
+    messages = [system_msg] + [msg.model_dump() for msg in request.messages]
+
+    response = llm_client.beta.chat.completions.parse(
+        model= "gpt-4o-mini",
+        response_format= MultiItemResponse,
+        messages=messages
+    )
+    return response.choices[0].message.parsed
+
+@router.post("/transcribe", response_model=TranscribeResponse)
+def transcribe_audio(file: UploadFile = File(...), user_id: str = Depends(get_current_user)):
+    try:
+        response = llm_client.audio.transcriptions.create(
+            model="whisper-1",
+            file=(file.filename, file.file, file.content_type)
+        )
+        return {"text": response.text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/log-meal")
+def log_meal(request: LogMealRequest, user_id: str = Depends(get_current_user)):
+    db_log = FoodLog(
+        name=request.name,
+        user_id=user_id,
+        calories=request.calories,
+        protein=request.protein,
+        carbohydrates=request.carbohydrates,
+        fat=request.fat,
+        meal_type=request.meal_type,
+        notes=request.reasoning
+    )
+    with Session(engine) as session:
+        session.add(db_log)
+        session.commit()
+        session.refresh(db_log)
+
+    return db_log
+
+@router.get("/get-logs")
+def get_logs(
+    tz: str = "UTC",
+    date: str | None = None,
+    user_id: str = Depends(get_current_user)
+):
+    t0 = time_lib.time()
+    try:
+        user_tz = ZoneInfo(tz)
+    except Exception:
+        user_tz = ZoneInfo("UTC")
+
+    if date:
+        target_date = datetime.strptime(date, "%Y-%m-%d").date()
+    else:
+        target_date = datetime.now(user_tz).date()
+
+    day_start_utc = datetime.combine(target_date, time.min, tzinfo=user_tz).astimezone(timezone.utc).replace(tzinfo=None)
+    day_end_utc = datetime.combine(target_date, time.max, tzinfo=user_tz).astimezone(timezone.utc).replace(tzinfo=None)
+
+    with Session(engine) as session:
+        statement = select(FoodLog).where(
+            FoodLog.user_id == user_id,
+            FoodLog.created_at >= day_start_utc,
+            FoodLog.created_at <= day_end_utc,
+        )
+        logs = session.exec(statement).all()
+
+    print(f"get_logs took {time_lib.time() - t0:.3f} seconds")
+    return logs
+
+@router.delete("/logs/{log_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_log(log_id: int, user_id: str = Depends(get_current_user)):
+    with Session(engine) as session:
+        log = session.get(FoodLog, log_id)
+        if not log:
+            raise HTTPException(status_code=404, detail="Log not found")
+        if log.user_id != user_id:
+            raise HTTPException(status_code=403, detail="Not your log")
+        session.delete(log)
+        session.commit()
+
+@router.get("/logs-summary")
+def logs_summary(tz: str = "UTC", user_id: str = Depends(get_current_user)):
+    t0 = time_lib.time()
+    try:
+        user_tz = ZoneInfo(tz)
+    except Exception:
+        user_tz = ZoneInfo("UTC")
+
+    # Get current time in user's timezone, find midnight, and convert to UTC
+    now_in_tz = datetime.now(user_tz)
+    midnight_in_tz = datetime.combine(now_in_tz.date(), time.min, tzinfo=user_tz)
+    midnight_utc = midnight_in_tz.astimezone(timezone.utc)
+    
+    # Strip timezone info so it matches PostgreSQL naive timestamp comparison
+    start_of_today = midnight_utc.replace(tzinfo=None)
+
+    statement = select(FoodLog).where(
+        FoodLog.user_id == user_id
+    ).where(
+        FoodLog.created_at >= start_of_today
+    )
+
+    with Session(engine) as session:
+        logs = session.exec(statement).all()
+
+    total_calories = sum(log.calories for log in logs)
+    total_protein = sum(log.protein for log in logs)
+    total_carbohydrates = sum(log.carbohydrates for log in logs)
+    total_fat = sum(log.fat for log in logs)
+    
+    print(f"logs_summary took {time_lib.time() - t0:.3f} seconds")
+    return {
+        "calories": total_calories,
+        "protein": total_protein,
+        "carbohydrates": total_carbohydrates,
+        "fat": total_fat
+    }
+
+@router.get("/analytics/weekly")
+def analytics_weekly(tz: str = "UTC", user_id: str = Depends(get_current_user)):
+    try:
+        user_tz = ZoneInfo(tz)
+    except Exception:
+        user_tz = ZoneInfo("UTC")
+
+    now_in_tz = datetime.now(user_tz)
+    midnight_in_tz = datetime.combine(now_in_tz.date(), time.min, tzinfo=user_tz)
+    
+    start_date = (midnight_in_tz - timedelta(days=6)).astimezone(timezone.utc).replace(tzinfo=None)
+    
+    statement = select(FoodLog).where(
+        FoodLog.user_id == user_id,
+        FoodLog.created_at >= start_date
+    )
+    
+    with Session(engine) as session:
+        logs = session.exec(statement).all()
+
+    daily_stats = {}
+    for i in range(7):
+        d = (now_in_tz.date() - timedelta(days=6-i))
+        daily_stats[d.isoformat()] = {"calories": 0, "protein": 0, "carbohydrates": 0, "fat": 0}
+
+    for log in logs:
+        log_utc = log.created_at.replace(tzinfo=timezone.utc)
+        log_local_date = log_utc.astimezone(user_tz).date().isoformat()
+        if log_local_date in daily_stats:
+            daily_stats[log_local_date]["calories"] += log.calories
+            daily_stats[log_local_date]["protein"] += log.protein
+            daily_stats[log_local_date]["carbohydrates"] += log.carbohydrates
+            daily_stats[log_local_date]["fat"] += log.fat
+
+    result = []
+    for date_str, stats in daily_stats.items():
+        result.append({
+            "date": date_str,
+            **stats
+        })
+
+    return result

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
-  SafeAreaView, StatusBar, KeyboardAvoidingView, Platform, ScrollView
+  StatusBar, KeyboardAvoidingView, Platform, ScrollView
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { calculationService } from './calculation-service';
 import { C, rs, fs } from './design-tokens';
 
