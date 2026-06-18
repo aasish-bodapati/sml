@@ -7,8 +7,8 @@ import { s } from '../styles/appStyles';
 export default function BottomTabBar({ active, onSelect }: { active: string, onSelect: (t: string) => void }) {
   const tabs = [
     { key: 'home', label: 'Dashboard', icon: 'grid-outline', iconActive: 'grid' },
-    { key: 'fitness', label: 'Fitness', icon: 'fitness-outline', iconActive: 'fitness' },
     { key: 'history', label: 'Nutrition', icon: 'bar-chart-outline', iconActive: 'bar-chart' },
+    { key: 'fitness', label: 'Fitness', icon: 'fitness-outline', iconActive: 'fitness' },
     { key: 'profile', label: 'Profile', icon: 'person-outline', iconActive: 'person' },
   ];
   return (

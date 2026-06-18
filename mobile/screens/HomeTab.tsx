@@ -5,7 +5,7 @@ import AnimatedProgressBar from '../components/AnimatedProgressBar';
 import { C, rs, fs } from '../design-tokens';
 import { s } from '../styles/appStyles';
 
-export default function HomeTab({ summary, macros, weeklyData, targetMacros, workouts, setViewDate, setActiveTab }: any) {
+export default function HomeTab({ summary, macros, weeklyData, targetMacros, workouts, setViewDate, setActiveTab, onLogWorkout }: any) {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -46,7 +46,13 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, wor
         >
           {/* Macros Card */}
           <View style={{ width: SCREEN_WIDTH }}>
-            <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), marginHorizontal: rs(16), height: rs(240) }}>
+            <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), marginHorizontal: rs(16), height: rs(250) }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(12) }}>
+                <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold' }}>Nutrition Today</Text>
+                <TouchableOpacity onPress={() => setActiveTab('chat')} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(12) }}>
+                  <Text style={{ color: C.accent, fontSize: fs(12), fontWeight: 'bold' }}>+ Log Meal</Text>
+                </TouchableOpacity>
+              </View>
               <View style={{ flex: 1, justifyContent: 'space-between' }}>
                 {macros.map((m: any, idx: number) => {
                   const target = m.target || 1;
@@ -71,10 +77,15 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, wor
 
           {/* Fitness Card */}
           <View style={{ width: SCREEN_WIDTH }}>
-            <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), marginHorizontal: rs(16), height: rs(240) }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: rs(16) }}>
-                <Ionicons name="barbell" size={24} color={C.accent} style={{ marginRight: rs(8) }} />
-                <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold' }}>Fitness Today</Text>
+            <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), marginHorizontal: rs(16), height: rs(250) }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(16) }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons name="barbell" size={24} color={C.accent} style={{ marginRight: rs(8) }} />
+                  <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold' }}>Fitness Today</Text>
+                </View>
+                <TouchableOpacity onPress={onLogWorkout} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(12) }}>
+                  <Text style={{ color: C.accent, fontSize: fs(12), fontWeight: 'bold' }}>+ Log Workout</Text>
+                </TouchableOpacity>
               </View>
 
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', flex: 1 }}>
@@ -92,13 +103,6 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, wor
                   <Text style={{ color: C.textSecondary, fontSize: fs(12) }}>active mins</Text>
                 </View>
               </View>
-              
-              <TouchableOpacity 
-                style={{ marginTop: rs(16), alignItems: 'center', paddingVertical: rs(12), backgroundColor: 'rgba(56,189,248,0.1)', borderRadius: rs(8) }}
-                onPress={() => setActiveTab('fitness')}
-              >
-                <Text style={{ color: C.accent, fontWeight: 'bold' }}>Log Workout</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>

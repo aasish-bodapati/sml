@@ -11,7 +11,7 @@ from main import Exercise
 load_dotenv()
 engine = create_engine(os.getenv("DATABASE_URL"))
 
-DATA_PATH = Path(__file__).parent / "exercisedb_full.json"
+DATA_PATH = Path(__file__).parent / "exercisedb_cleaned.json"
 
 def seed_exercises():
     print(f"Loading {DATA_PATH}...")

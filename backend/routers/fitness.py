@@ -10,10 +10,14 @@ from models.profile import UserProfile
 router = APIRouter(tags=["fitness"])
 llm_client = OpenAI()
 
+from sqlmodel import and_
+
 @router.get("/exercises/search")
 def search_exercises(q: str, limit: int = 20):
     with Session(engine) as session:
-        statement = select(Exercise).where(Exercise.name.ilike(f"%{q}%")).limit(limit)
+        words = q.split()
+        conditions = [Exercise.name.ilike(f"%{w}%") for w in words]
+        statement = select(Exercise).where(and_(*conditions)).limit(limit)
         results = session.exec(statement).all()
         return results
 

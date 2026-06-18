@@ -10,6 +10,7 @@ import ProfileTab from './ProfileTab';
 import FitnessTab from './FitnessTab';
 import RecipesScreen from './RecipesScreen';
 import CheatSheetScreen from './CheatSheetScreen';
+import LogWorkoutScreen from './LogWorkoutScreen';
 import { getLogs, getSummary, getWeeklyAnalytics, getWeightHistory, getRecipes, deleteLog, deleteRecipe, logRecipe, saveRecipe, getWorkouts } from '../api';
 import { MacroTargets, UserProfilePayload } from '../OnboardingScreen';
 import { s } from '../styles/appStyles';
@@ -28,6 +29,7 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
   const [workouts, setWorkouts] = useState<any[]>([]);
   const [showRecipesScreen, setShowRecipesScreen] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
+  const [showLogWorkoutScreen, setShowLogWorkoutScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [viewDate, setViewDate] = useState<Date>(new Date());
@@ -140,6 +142,15 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
           handleDeleteRecipe={handleDeleteRecipe} 
           onBack={() => setShowRecipesScreen(false)} 
         />
+      ) : showLogWorkoutScreen ? (
+        <LogWorkoutScreen 
+          onBack={() => setShowLogWorkoutScreen(false)}
+          onSuccess={() => {
+            setShowLogWorkoutScreen(false);
+            setActiveTab('fitness');
+            fetchData();
+          }}
+        />
       ) : (
         <>
           <View style={s.header}>
@@ -159,6 +170,7 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
                 summary={summary} macros={macros} weeklyData={weeklyData} targetMacros={targetMacros}
                 workouts={workouts}
                 setViewDate={setViewDate} setActiveTab={setActiveTab}
+                onLogWorkout={() => setShowLogWorkoutScreen(true)}
               />
             )}
             {activeTab === 'chat' && (
