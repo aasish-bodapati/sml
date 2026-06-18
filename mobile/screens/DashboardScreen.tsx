@@ -153,12 +153,14 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
         />
       ) : (
         <>
-          <View style={s.header}>
-            <View style={{ flex: 1 }}>
-              <Text style={s.headerTitle}>🥗 MacTrack</Text>
-              <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>{session.user?.email}</Text>
+          {activeTab === 'home' && (
+            <View style={s.header}>
+              <View style={{ flex: 1 }}>
+                <Text style={s.headerTitle}>🥗 MacTrack</Text>
+                <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>{session.user?.email}</Text>
+              </View>
             </View>
-          </View>
+          )}
 
           {error ? (
             <View style={s.errorBanner}><Text style={{ color: '#fca5a5' }}>⚠️ {error}</Text></View>

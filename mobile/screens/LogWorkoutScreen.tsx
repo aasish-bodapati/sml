@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Image, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { searchExercises, logWorkout } from '../api';
+import { searchExercises, logWorkout, updateWorkout } from '../api';
 import { C, rs, fs } from '../design-tokens';
 import { fitnessStyles } from '../styles/fitnessStyles';
 import { s } from '../styles/appStyles';
 import { safeParseArray } from './FitnessTab'; // Re-use the helper
 
-export default function LogWorkoutScreen({ initialRoutine, onBack, onSuccess }: { initialRoutine?: any, onBack: () => void, onSuccess: () => void }) {
+export default function LogWorkoutScreen({ initialRoutine, initialSession, onBack, onSuccess }: { initialRoutine?: any, initialSession?: any, onBack: () => void, onSuccess: () => void }) {
   // Default name handling
   const [workoutName, setWorkoutName] = useState('Workout Session');
   const [selectedExercises, setSelectedExercises] = useState<any[]>([]);
@@ -38,8 +38,24 @@ export default function LogWorkoutScreen({ initialRoutine, onBack, onSuccess }: 
         }))
       );
       setWorkoutName(initialRoutine.name.replace(/ ⚡| 🌀| 🦵/, '')); // clean up emojis for database
+    } else if (initialSession) {
+      setSelectedExercises(
+        initialSession.sets.map((ex: any) => ({
+          exercise_id: ex.exercise_id,
+          name: ex.name,
+          gif_url: ex.gif_url,
+          body_parts: ex.body_parts,
+          equipments: ex.equipments,
+          target_muscles: ex.target_muscles,
+          sets: ex.sets,
+          reps: ex.reps,
+          weight_kg: ex.weight_kg,
+          duration_seconds: ex.duration_seconds,
+        }))
+      );
+      setWorkoutName(initialSession.name || 'Workout Session');
     }
-  }, [initialRoutine]);
+  }, [initialRoutine, initialSession]);
 
   // Debounced exercise search
   useEffect(() => {
@@ -115,16 +131,27 @@ export default function LogWorkoutScreen({ initialRoutine, onBack, onSuccess }: 
         duration_seconds: ex.duration_seconds ? parseInt(ex.duration_seconds, 10) : undefined,
       }));
 
-      const res = await logWorkout({
+      const payload = {
         name: workoutName,
         sets: setsPayload,
-      });
+      };
 
-      Alert.alert(
-        'Workout Logged! 🔥',
-        `Estimated calorie burn: ${res.calories_burned} kcal.\nGreat job! Keep it up.`,
-        [{ text: 'Awesome' }]
-      );
+      let res;
+      if (initialSession && initialSession.id) {
+        res = await updateWorkout(initialSession.id, payload);
+        Alert.alert(
+          'Workout Updated! ✅',
+          `Estimated calorie burn: ${res.calories_burned} kcal.`,
+          [{ text: 'Awesome' }]
+        );
+      } else {
+        res = await logWorkout(payload);
+        Alert.alert(
+          'Workout Logged! 🔥',
+          `Estimated calorie burn: ${res.calories_burned} kcal.\nGreat job! Keep it up.`,
+          [{ text: 'Awesome' }]
+        );
+      }
       
       onSuccess();
     } catch (err: any) {

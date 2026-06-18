@@ -5,6 +5,7 @@ import { logWeight } from '../api';
 import { C, rs, fs } from '../design-tokens';
 import { s } from '../styles/appStyles';
 import { supabase } from '../supabaseClient';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weightHistory, fetchData, isLoading, setIsLoading, onShowCheatSheet }: any) {
   const [isEditing, setIsEditing] = useState(false);
@@ -101,74 +102,83 @@ export default function ProfileTab({ session, rawProfile, targetMacros, onUpdate
 
   return (
     <ScrollView contentContainerStyle={{ padding: rs(16) }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(24), marginTop: rs(12) }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, paddingRight: rs(12) }}>
-          <View style={[s.avatarPlaceholder, { width: rs(56), height: rs(56), borderRadius: rs(28), marginBottom: rs(0), marginRight: rs(12) }]}>
-            <Text style={[s.avatarText, { fontSize: fs(24) }]}>👤</Text>
-          </View>
-          <Text style={{ color: C.textPrimary, fontSize: fs(15), fontWeight: 'bold', flex: 1 }} numberOfLines={1} adjustsFontSizeToFit>{session?.user?.email}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: rs(16), marginTop: rs(12) }}>
+        <View style={[s.avatarPlaceholder, { width: rs(64), height: rs(64), borderRadius: rs(32), marginBottom: rs(0), marginRight: rs(16) }]}>
+          <Text style={[s.avatarText, { fontSize: fs(28) }]}>👤</Text>
         </View>
-        <View style={{ alignItems: 'center', flexDirection: 'row', gap: rs(8) }}>
-          <TouchableOpacity onPress={onShowCheatSheet} style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: rs(12), paddingVertical: rs(8), borderRadius: rs(20) }}>
-            <Text style={{ color: C.accent, fontWeight: '600' }}>📚 Cheat Sheet</Text>
-          </TouchableOpacity>
-          {isEditing ? (
-            <View style={{ flexDirection: 'row', gap: rs(12), alignItems: 'center' }}>
-              <TouchableOpacity onPress={handleCancel} style={{ paddingVertical: rs(8) }}>
-                <Text style={{ color: C.textSecondary, fontWeight: 'bold' }}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleSave} style={{ backgroundColor: C.accent, paddingHorizontal: rs(16), paddingVertical: rs(8), borderRadius: rs(8) }}>
-                <Text style={{ color: C.bg, fontWeight: 'bold' }}>Save</Text>
-              </TouchableOpacity>
-            </View>
-          ) : (
-            <TouchableOpacity onPress={() => setIsEditing(true)} style={{ backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: rs(20), paddingVertical: rs(8), borderRadius: rs(20) }}>
-              <Text style={{ color: C.textPrimary, fontWeight: '600' }}>Edit</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+        <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold', flex: 1 }} numberOfLines={1} adjustsFontSizeToFit>{session?.user?.email}</Text>
+      </View>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: rs(24) }}>
+        <TouchableOpacity onPress={onShowCheatSheet} style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: rs(10), paddingVertical: rs(6), borderRadius: rs(16) }}>
+          <Text style={{ color: C.accent, fontSize: fs(12), fontWeight: '600' }}>📚 Cheat Sheet</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(16) }}>
         <Text style={[s.sectionTitle, { marginBottom: rs(0) }]}>Daily Targets</Text>
-        {isEditing && (
-          <TouchableOpacity onPress={handleAutoCalculate} style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(12) }}>
-            <Text style={{ color: C.accent, fontSize: fs(12), fontWeight: 'bold' }}>Auto-Calculate</Text>
+        
+        {!isEditing ? (
+          <TouchableOpacity 
+            onPress={() => setIsEditing(true)}
+            style={{ borderWidth: 1, borderColor: 'rgba(255,255,255,0.15)', padding: rs(6), borderRadius: rs(8) }}
+          >
+            <Ionicons name="pencil" size={16} color={C.textSecondary} />
           </TouchableOpacity>
+        ) : (
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: rs(12) }}>
+            <TouchableOpacity onPress={handleAutoCalculate}>
+              <Ionicons name="calculator-outline" size={20} color={C.accent} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleCancel}>
+              <Ionicons name="close" size={24} color={C.textSecondary} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleSave}>
+              <Ionicons name="checkmark" size={24} color={C.accent} />
+            </TouchableOpacity>
+          </View>
         )}
       </View>
       <View style={[s.cardContainer, { paddingHorizontal: rs(24), marginBottom: rs(24) }]}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ alignItems: 'center' }}>
-            {isEditing ? (
-              <TextInput style={[s.input, { width: rs(72), paddingVertical: rs(2), paddingHorizontal: rs(2), marginBottom: rs(0), textAlign: 'center', color: C.cal, fontSize: fs(18), fontWeight: 'bold' }]} value={targetCals} onChangeText={setTargetCals} keyboardType="numeric" selectTextOnFocus={true} />
-            ) : (
-              <Text style={{ color: C.cal, fontSize: fs(20), fontWeight: 'bold' }}>{targetMacros?.calories || 0}</Text>
-            )}
+          <View style={{ alignItems: 'center', width: rs(72) }}>
+            <TextInput 
+              editable={isEditing}
+              style={[isEditing && s.input, { width: '100%', paddingVertical: rs(4), paddingHorizontal: rs(0), marginBottom: rs(0), textAlign: 'center', color: C.cal, fontSize: fs(18), fontWeight: 'bold', backgroundColor: isEditing ? C.surface : 'transparent', borderRadius: rs(8) }]} 
+              value={isEditing ? targetCals : String(targetMacros?.calories || 0)} 
+              onChangeText={setTargetCals} 
+              keyboardType="numeric" 
+            />
             <Text style={{ color: C.textSecondary, fontSize: fs(12), marginTop: rs(4) }}>kcal</Text>
           </View>
-          <View style={{ alignItems: 'center' }}>
-            {isEditing ? (
-              <TextInput style={[s.input, { width: rs(60), paddingVertical: rs(2), paddingHorizontal: rs(2), marginBottom: rs(0), textAlign: 'center', color: C.protein, fontSize: fs(18), fontWeight: 'bold' }]} value={targetProtein} onChangeText={setTargetProtein} keyboardType="numeric" selectTextOnFocus={true} />
-            ) : (
-              <Text style={{ color: C.protein, fontSize: fs(20), fontWeight: 'bold' }}>{targetMacros?.protein || 0}g</Text>
-            )}
+          <View style={{ alignItems: 'center', width: rs(60) }}>
+            <TextInput 
+              editable={isEditing}
+              style={[isEditing && s.input, { width: '100%', paddingVertical: rs(4), paddingHorizontal: rs(0), marginBottom: rs(0), textAlign: 'center', color: C.protein, fontSize: fs(18), fontWeight: 'bold', backgroundColor: isEditing ? C.surface : 'transparent', borderRadius: rs(8) }]} 
+              value={isEditing ? targetProtein : String(targetMacros?.protein || 0)} 
+              onChangeText={setTargetProtein} 
+              keyboardType="numeric" 
+            />
             <Text style={{ color: C.textSecondary, fontSize: fs(12), marginTop: rs(4) }}>Protein</Text>
           </View>
-          <View style={{ alignItems: 'center' }}>
-            {isEditing ? (
-              <TextInput style={[s.input, { width: rs(60), paddingVertical: rs(2), paddingHorizontal: rs(2), marginBottom: rs(0), textAlign: 'center', color: C.carbs, fontSize: fs(18), fontWeight: 'bold' }]} value={targetCarbs} onChangeText={setTargetCarbs} keyboardType="numeric" selectTextOnFocus={true} />
-            ) : (
-              <Text style={{ color: C.carbs, fontSize: fs(20), fontWeight: 'bold' }}>{targetMacros?.carbs || 0}g</Text>
-            )}
+          <View style={{ alignItems: 'center', width: rs(60) }}>
+            <TextInput 
+              editable={isEditing}
+              style={[isEditing && s.input, { width: '100%', paddingVertical: rs(4), paddingHorizontal: rs(0), marginBottom: rs(0), textAlign: 'center', color: C.carbs, fontSize: fs(18), fontWeight: 'bold', backgroundColor: isEditing ? C.surface : 'transparent', borderRadius: rs(8) }]} 
+              value={isEditing ? targetCarbs : String(targetMacros?.carbs || 0)} 
+              onChangeText={setTargetCarbs} 
+              keyboardType="numeric" 
+            />
             <Text style={{ color: C.textSecondary, fontSize: fs(12), marginTop: rs(4) }}>Carbs</Text>
           </View>
-          <View style={{ alignItems: 'center' }}>
-            {isEditing ? (
-              <TextInput style={[s.input, { width: rs(60), paddingVertical: rs(2), paddingHorizontal: rs(2), marginBottom: rs(0), textAlign: 'center', color: C.fat, fontSize: fs(18), fontWeight: 'bold' }]} value={targetFat} onChangeText={setTargetFat} keyboardType="numeric" selectTextOnFocus={true} />
-            ) : (
-              <Text style={{ color: C.fat, fontSize: fs(20), fontWeight: 'bold' }}>{targetMacros?.fat || 0}g</Text>
-            )}
+          <View style={{ alignItems: 'center', width: rs(60) }}>
+            <TextInput 
+              editable={isEditing}
+              style={[isEditing && s.input, { width: '100%', paddingVertical: rs(4), paddingHorizontal: rs(0), marginBottom: rs(0), textAlign: 'center', color: C.fat, fontSize: fs(18), fontWeight: 'bold', backgroundColor: isEditing ? C.surface : 'transparent', borderRadius: rs(8) }]} 
+              value={isEditing ? targetFat : String(targetMacros?.fat || 0)} 
+              onChangeText={setTargetFat} 
+              keyboardType="numeric" 
+            />
             <Text style={{ color: C.textSecondary, fontSize: fs(12), marginTop: rs(4) }}>Fat</Text>
           </View>
         </View>
@@ -177,8 +187,8 @@ export default function ProfileTab({ session, rawProfile, targetMacros, onUpdate
       <Text style={s.sectionTitle}>Personal Details</Text>
       <View style={s.cardContainer}>
         {/* Goal */}
-        <View style={s.detailRow}>
-          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Goal</Text>
+        <View style={[s.detailRow, { minHeight: rs(48), alignItems: 'center' }]}>
+          <Text style={s.detailLabel}>Goal</Text>
           {isEditing ? (
             <View style={{ flexDirection: 'row', gap: rs(4) }}>
               <OptionBtn label="Lose" selected={goal === 'lose'} onPress={() => setGoal('lose')} />
@@ -190,22 +200,26 @@ export default function ProfileTab({ session, rawProfile, targetMacros, onUpdate
           )}
         </View>
         {/* Activity Level */}
-        <View style={[s.detailRow, isEditing && { flexDirection: 'column', alignItems: 'flex-start', gap: rs(8) }]}>
+        <View style={[s.detailRow, { minHeight: rs(48), alignItems: 'center' }]}>
           <Text style={[s.detailLabel]}>Activity Level</Text>
           {isEditing ? (
-            <View style={{ flexDirection: 'row', gap: rs(4), flexWrap: 'wrap' }}>
-              <OptionBtn label="Sedentary" selected={activity === 'sedentary'} onPress={() => setActivity('sedentary')} />
-              <OptionBtn label="Light" selected={activity === 'light'} onPress={() => setActivity('light')} />
-              <OptionBtn label="Moderate" selected={activity === 'moderate'} onPress={() => setActivity('moderate')} />
-              <OptionBtn label="Active" selected={activity === 'active'} onPress={() => setActivity('active')} />
+            <View style={{ gap: rs(4), flex: 1, alignItems: 'flex-end', paddingVertical: rs(8) }}>
+              <View style={{ flexDirection: 'row', gap: rs(4) }}>
+                <OptionBtn label="Sedentary" selected={activity === 'sedentary'} onPress={() => setActivity('sedentary')} />
+                <OptionBtn label="Light" selected={activity === 'light'} onPress={() => setActivity('light')} />
+              </View>
+              <View style={{ flexDirection: 'row', gap: rs(4) }}>
+                <OptionBtn label="Moderate" selected={activity === 'moderate'} onPress={() => setActivity('moderate')} />
+                <OptionBtn label="Active" selected={activity === 'active'} onPress={() => setActivity('active')} />
+              </View>
             </View>
           ) : (
             <Text style={s.detailValue}>{activity}</Text>
           )}
         </View>
         {/* Gender */}
-        <View style={s.detailRow}>
-          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Gender</Text>
+        <View style={[s.detailRow, { minHeight: rs(48), alignItems: 'center' }]}>
+          <Text style={s.detailLabel}>Gender</Text>
           {isEditing ? (
             <View style={{ flexDirection: 'row', gap: rs(4) }}>
               <OptionBtn label="Male" selected={gender === 'M'} onPress={() => setGender('M')} />
@@ -216,31 +230,46 @@ export default function ProfileTab({ session, rawProfile, targetMacros, onUpdate
           )}
         </View>
         {/* Age */}
-        <View style={s.detailRow}>
-          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Age</Text>
-          {isEditing ? (
-            <TextInput style={[s.input, { marginBottom: rs(0), padding: rs(8), width: rs(80), textAlign: 'right' }]} keyboardType="numeric" value={age} onChangeText={setAge} />
-          ) : (
-            <Text style={s.detailValue}>{age} years</Text>
-          )}
+        <View style={[s.detailRow, { minHeight: rs(48), alignItems: 'center' }]}>
+          <Text style={s.detailLabel}>Age</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput 
+              editable={isEditing}
+              style={[isEditing && s.input, { marginBottom: rs(0), paddingVertical: rs(4), paddingHorizontal: rs(8), minWidth: rs(40), textAlign: 'right', color: C.textPrimary, fontSize: fs(16), backgroundColor: isEditing ? C.surface : 'transparent', borderRadius: rs(8) }]} 
+              keyboardType="numeric" 
+              value={isEditing ? age : String(rawProfile?.age || '')} 
+              onChangeText={setAge} 
+            />
+            <Text style={{ color: C.textSecondary, fontSize: fs(16), marginLeft: rs(4) }}>years</Text>
+          </View>
         </View>
         {/* Height */}
-        <View style={s.detailRow}>
-          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Height</Text>
-          {isEditing ? (
-            <TextInput style={[s.input, { marginBottom: rs(0), padding: rs(8), width: rs(80), textAlign: 'right' }]} keyboardType="numeric" value={height} onChangeText={setHeight} />
-          ) : (
-            <Text style={s.detailValue}>{height} cm</Text>
-          )}
+        <View style={[s.detailRow, { minHeight: rs(48), alignItems: 'center' }]}>
+          <Text style={s.detailLabel}>Height</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput 
+              editable={isEditing}
+              style={[isEditing && s.input, { marginBottom: rs(0), paddingVertical: rs(4), paddingHorizontal: rs(8), minWidth: rs(40), textAlign: 'right', color: C.textPrimary, fontSize: fs(16), backgroundColor: isEditing ? C.surface : 'transparent', borderRadius: rs(8) }]} 
+              keyboardType="numeric" 
+              value={isEditing ? height : String(rawProfile?.height_cm || '')} 
+              onChangeText={setHeight} 
+            />
+            <Text style={{ color: C.textSecondary, fontSize: fs(16), marginLeft: rs(4) }}>cm</Text>
+          </View>
         </View>
         {/* Weight */}
-        <View style={[s.detailRow, { borderBottomWidth: rs(0) }]}>
-          <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Weight</Text>
-          {isEditing ? (
-            <TextInput style={[s.input, { marginBottom: rs(0), padding: rs(8), width: rs(80), textAlign: 'right' }]} keyboardType="numeric" value={weight} onChangeText={setWeight} />
-          ) : (
-            <Text style={s.detailValue}>{weight} kg</Text>
-          )}
+        <View style={[s.detailRow, { minHeight: rs(48), alignItems: 'center', borderBottomWidth: rs(0) }]}>
+          <Text style={s.detailLabel}>Weight</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TextInput 
+              editable={isEditing}
+              style={[isEditing && s.input, { marginBottom: rs(0), paddingVertical: rs(4), paddingHorizontal: rs(8), minWidth: rs(40), textAlign: 'right', color: C.textPrimary, fontSize: fs(16), backgroundColor: isEditing ? C.surface : 'transparent', borderRadius: rs(8) }]} 
+              keyboardType="numeric" 
+              value={isEditing ? weight : String(rawProfile?.weight_kg || '')} 
+              onChangeText={setWeight} 
+            />
+            <Text style={{ color: C.textSecondary, fontSize: fs(16), marginLeft: rs(4) }}>kg</Text>
+          </View>
         </View>
       </View>
 

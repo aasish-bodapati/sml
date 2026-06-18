@@ -225,3 +225,71 @@ export async function getWorkouts() {
   if (!response.ok) throw new Error(`Failed to fetch workouts: ${await response.text()}`);
   return response.json();
 }
+
+export async function updateWorkout(workoutId: number, workoutData: any) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/workouts/${workoutId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(workoutData),
+  });
+  if (!response.ok) {
+    let errMsg = `Server error ${response.status}`;
+    try { const j = await response.json(); if (j?.detail) errMsg = j.detail; } catch (_) {}
+    throw new Error(errMsg);
+  }
+  return response.json();
+}
+
+export async function deleteWorkout(workoutId: number) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/workouts/${workoutId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to delete workout: ${await response.text()}`);
+}
+
+export async function generateRoutine(prompt: string) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/routines/generate`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ prompt }),
+  });
+  if (!response.ok) {
+    let errMsg = `Server error ${response.status}`;
+    try { const j = await response.json(); if (j?.detail) errMsg = j.detail; } catch (_) {}
+    throw new Error(errMsg);
+  }
+  return response.json();
+}
+
+export async function getRoutines() {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/routines`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to fetch routines: ${await response.text()}`);
+  return response.json();
+}
+
+export async function createRoutine(routineData: any) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/routines`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(routineData),
+  });
+  if (!response.ok) throw new Error(`Failed to create routine: ${await response.text()}`);
+  return response.json();
+}
+
+export async function deleteRoutine(routineId: number) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/routines/${routineId}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to delete routine: ${await response.text()}`);
+}
