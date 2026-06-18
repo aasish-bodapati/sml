@@ -5,18 +5,45 @@ async function getToken() {
   const { data } = await supabase.auth.getSession();
   return data.session?.access_token;
 }
-export async function parseMeal(userInput: string) {
+export async function parseMeal(messages: any[]) {
   const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/parse-macros`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-    body: JSON.stringify({ user_input: userInput }),
+    body: JSON.stringify({ messages }),
   });
   if (!response.ok) {
     let errMsg = `Server error ${response.status}`;
     try { const j = await response.json(); if (j?.detail) errMsg = j.detail; } catch (_) {}
     throw new Error(errMsg);
   }
+  return response.json();
+}
+
+export async function transcribeAudio(audioUri: string) {
+  const token = await getToken();
+  
+  const formData = new FormData();
+  formData.append('file', {
+    uri: audioUri,
+    name: 'audio.m4a',
+    type: 'audio/m4a',
+  } as any);
+
+  const response = await fetch(`${API_BASE_URL}/transcribe`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    let errMsg = `Server error ${response.status}`;
+    try { const j = await response.json(); if (j?.detail) errMsg = j.detail; } catch (_) {}
+    throw new Error(errMsg);
+  }
+  
   return response.json();
 }
 

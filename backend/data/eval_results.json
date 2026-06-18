@@ -1,0 +1,401 @@
+[
+  {
+    "description": "100g raw chicken breast",
+    "expected": {
+      "calories": 120,
+      "protein": 22.5,
+      "fat": 2.6,
+      "carbohydrates": 0.0
+    },
+    "predicted": {
+      "calories": 0,
+      "protein": 22,
+      "fat": 1,
+      "carbohydrates": 0
+    },
+    "errors": {
+      "calories": 1.0,
+      "protein": 0.022222222222222223,
+      "fat": 0.6153846153846154,
+      "carbohydrates": 0.0
+    }
+  },
+  {
+    "description": "1 large boiled egg",
+    "expected": {
+      "calories": 78,
+      "protein": 6.3,
+      "fat": 5.3,
+      "carbohydrates": 0.6
+    },
+    "predicted": {
+      "calories": 148,
+      "protein": 12,
+      "fat": 10,
+      "carbohydrates": 1
+    },
+    "errors": {
+      "calories": 0.8974358974358975,
+      "protein": 0.9047619047619048,
+      "fat": 0.8867924528301887,
+      "carbohydrates": 0.4
+    }
+  },
+  {
+    "description": "100g cooked white rice",
+    "expected": {
+      "calories": 130,
+      "protein": 2.7,
+      "fat": 0.3,
+      "carbohydrates": 28.0
+    },
+    "predicted": {
+      "calories": 130,
+      "protein": 2,
+      "fat": 0,
+      "carbohydrates": 28
+    },
+    "errors": {
+      "calories": 0.0,
+      "protein": 0.2592592592592593,
+      "fat": 0.3,
+      "carbohydrates": 0.0
+    }
+  },
+  {
+    "description": "1 tablespoon olive oil",
+    "expected": {
+      "calories": 119,
+      "protein": 0.0,
+      "fat": 13.5,
+      "carbohydrates": 0.0
+    },
+    "predicted": {
+      "calories": 119,
+      "protein": 0,
+      "fat": 14,
+      "carbohydrates": 0
+    },
+    "errors": {
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.037037037037037035,
+      "carbohydrates": 0.0
+    }
+  },
+  {
+    "description": "1 medium banana",
+    "expected": {
+      "calories": 105,
+      "protein": 1.3,
+      "fat": 0.4,
+      "carbohydrates": 27.0
+    },
+    "predicted": {
+      "calories": 97,
+      "protein": 1,
+      "fat": 0,
+      "carbohydrates": 23
+    },
+    "errors": {
+      "calories": 0.0761904761904762,
+      "protein": 0.23076923076923078,
+      "fat": 0.4,
+      "carbohydrates": 0.14814814814814814
+    }
+  },
+  {
+    "description": "2 slices of whole wheat bread",
+    "expected": {
+      "calories": 160,
+      "protein": 8.0,
+      "fat": 2.0,
+      "carbohydrates": 28.0
+    },
+    "predicted": {
+      "calories": 185,
+      "protein": 8,
+      "fat": 5,
+      "carbohydrates": 30
+    },
+    "errors": {
+      "calories": 0.15625,
+      "protein": 0.0,
+      "fat": 1.5,
+      "carbohydrates": 0.07142857142857142
+    }
+  },
+  {
+    "description": "1 cup whole milk",
+    "expected": {
+      "calories": 149,
+      "protein": 8.0,
+      "fat": 8.0,
+      "carbohydrates": 12.0
+    },
+    "predicted": {
+      "calories": 149,
+      "protein": 8,
+      "fat": 8,
+      "carbohydrates": 12
+    },
+    "errors": {
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
+    }
+  },
+  {
+    "description": "100g raw spinach",
+    "expected": {
+      "calories": 23,
+      "protein": 2.9,
+      "fat": 0.4,
+      "carbohydrates": 3.6
+    },
+    "predicted": {
+      "calories": 0,
+      "protein": 3,
+      "fat": 1,
+      "carbohydrates": 3
+    },
+    "errors": {
+      "calories": 1.0,
+      "protein": 0.03448275862068969,
+      "fat": 0.6,
+      "carbohydrates": 0.16666666666666669
+    }
+  },
+  {
+    "description": "a handful of almonds",
+    "expected": {
+      "calories": 164,
+      "protein": 6.0,
+      "fat": 14.0,
+      "carbohydrates": 6.0
+    },
+    "predicted": {
+      "calories": 320,
+      "protein": 6,
+      "fat": 28,
+      "carbohydrates": 6
+    },
+    "errors": {
+      "calories": 0.9512195121951219,
+      "protein": 0.0,
+      "fat": 1.0,
+      "carbohydrates": 0.0
+    }
+  },
+  {
+    "description": "1 medium apple",
+    "expected": {
+      "calories": 95,
+      "protein": 0.5,
+      "fat": 0.3,
+      "carbohydrates": 25.0
+    },
+    "predicted": {
+      "calories": 72,
+      "protein": 0,
+      "fat": 0,
+      "carbohydrates": 19
+    },
+    "errors": {
+      "calories": 0.24210526315789474,
+      "protein": 0.5,
+      "fat": 0.3,
+      "carbohydrates": 0.24
+    }
+  },
+  {
+    "description": "2 plain chapatis",
+    "expected": {
+      "calories": 140,
+      "protein": 4.0,
+      "fat": 0.8,
+      "carbohydrates": 30.0
+    },
+    "predicted": {
+      "calories": 160,
+      "protein": 6,
+      "fat": 2,
+      "carbohydrates": 32
+    },
+    "errors": {
+      "calories": 0.14285714285714285,
+      "protein": 0.5,
+      "fat": 1.2,
+      "carbohydrates": 0.06666666666666667
+    }
+  },
+  {
+    "description": "1 bowl of dal tadka",
+    "expected": {
+      "calories": 220,
+      "protein": 11.0,
+      "fat": 6.0,
+      "carbohydrates": 30.0
+    },
+    "predicted": {
+      "calories": 250,
+      "protein": 8,
+      "fat": 6,
+      "carbohydrates": 40
+    },
+    "errors": {
+      "calories": 0.13636363636363635,
+      "protein": 0.2727272727272727,
+      "fat": 0.0,
+      "carbohydrates": 0.3333333333333333
+    }
+  },
+  {
+    "description": "1 plate chicken biryani",
+    "expected": {
+      "calories": 600,
+      "protein": 25.0,
+      "fat": 20.0,
+      "carbohydrates": 70.0
+    },
+    "predicted": {
+      "calories": 295,
+      "protein": 10,
+      "fat": 9,
+      "carbohydrates": 31
+    },
+    "errors": {
+      "calories": 0.5083333333333333,
+      "protein": 0.6,
+      "fat": 0.55,
+      "carbohydrates": 0.5571428571428572
+    }
+  },
+  {
+    "description": "1 plain dosa",
+    "expected": {
+      "calories": 133,
+      "protein": 3.5,
+      "fat": 3.7,
+      "carbohydrates": 20.0
+    },
+    "predicted": {
+      "calories": 164,
+      "protein": 3,
+      "fat": 8,
+      "carbohydrates": 20
+    },
+    "errors": {
+      "calories": 0.23308270676691728,
+      "protein": 0.14285714285714285,
+      "fat": 1.162162162162162,
+      "carbohydrates": 0.0
+    }
+  },
+  {
+    "description": "100g paneer tikka",
+    "expected": {
+      "calories": 260,
+      "protein": 18.0,
+      "fat": 20.0,
+      "carbohydrates": 4.0
+    },
+    "predicted": {
+      "calories": 93,
+      "protein": 5,
+      "fat": 4,
+      "carbohydrates": 7
+    },
+    "errors": {
+      "calories": 0.6423076923076924,
+      "protein": 0.7222222222222222,
+      "fat": 0.8,
+      "carbohydrates": 0.75
+    }
+  },
+  {
+    "description": "peanut butter toast",
+    "expected": {
+      "calories": 174,
+      "protein": 8.0,
+      "fat": 9.0,
+      "carbohydrates": 17.0
+    },
+    "predicted": {
+      "calories": 336,
+      "protein": 14,
+      "fat": 19,
+      "carbohydrates": 29
+    },
+    "errors": {
+      "calories": 0.9310344827586207,
+      "protein": 0.75,
+      "fat": 1.1111111111111112,
+      "carbohydrates": 0.7058823529411765
+    }
+  },
+  {
+    "description": "a bowl of oatmeal with milk",
+    "expected": {
+      "calories": 299,
+      "protein": 13.0,
+      "fat": 11.0,
+      "carbohydrates": 39.0
+    },
+    "predicted": {
+      "calories": 210,
+      "protein": 8,
+      "fat": 5,
+      "carbohydrates": 30
+    },
+    "errors": {
+      "calories": 0.2976588628762542,
+      "protein": 0.38461538461538464,
+      "fat": 0.5454545454545454,
+      "carbohydrates": 0.23076923076923078
+    }
+  },
+  {
+    "description": "coffee with milk",
+    "expected": {
+      "calories": 18,
+      "protein": 1.0,
+      "fat": 1.0,
+      "carbohydrates": 1.5
+    },
+    "predicted": {
+      "calories": 30,
+      "protein": 1,
+      "fat": 1,
+      "carbohydrates": 5
+    },
+    "errors": {
+      "calories": 0.6666666666666666,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 2.3333333333333335
+    }
+  },
+  {
+    "description": "a snack",
+    "expected": {
+      "calories": 0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
+    },
+    "predicted": {
+      "calories": 150,
+      "protein": 4,
+      "fat": 6,
+      "carbohydrates": 20
+    },
+    "errors": {
+      "calories": 150.0,
+      "protein": 4.0,
+      "fat": 6.0,
+      "carbohydrates": 20.0
+    }
+  }
+]

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Header, Depends, HTTPException, status
+from fastapi import FastAPI, Header, Depends, HTTPException, status, UploadFile, File
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel, Field, Session, create_engine, select, text
@@ -81,18 +81,26 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 
 
 
+class ChatMessage(BaseModel):
+    role: str
+    content: str
+
 class MacroRequest(BaseModel):
-    user_input: str
+    messages: list[ChatMessage]
 
 
-class NutritionResponse(BaseModel):
+class NutritionItem(BaseModel):
     is_food: bool
-    name: str
+    name: str = Field(description="Cleaned up name of the food")
     calories: int
     protein: int
     carbohydrates: int
     fat: int
-    meal_type: str | None = Field(default=None)
+    meal_type: str | None
+
+class MultiItemResponse(BaseModel):
+    thinking: str = Field(description="Step by step reasoning about what the user input means. Group items into DISHES (e.g. 'chicken sandwich' is 1 dish, don't split into bread and chicken). But if they are separate discrete dishes/items (e.g. '1 apple and 2 eggs'), list them separately.")
+    items: list[NutritionItem] = Field(default=None)
 
 
 class LogMealRequest(BaseModel):
@@ -102,6 +110,7 @@ class LogMealRequest(BaseModel):
     carbohydrates: int
     fat: int
     meal_type: str | None = None
+    reasoning: str | None = None
 
 
 class FoodLog(SQLModel, table = True):
@@ -197,6 +206,26 @@ class UsdaFood(SQLModel, table=True):
     carbs: float
     embedding: list[float] | None = Field(default=None, sa_column=Column(Vector(1536)))
 
+class BaseIngredient(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    name: str
+    source: str
+    calories: float
+    protein: float
+    carbohydrates: float
+    fat: float
+    embedding: list[float] | None = Field(default=None, sa_column=Column(Vector(1536)))
+
+class ComplexDish(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    name: str
+    source: str
+    calories: float
+    protein: float
+    carbohydrates: float
+    fat: float
+    embedding: list[float] | None = Field(default=None, sa_column=Column(Vector(1536)))
+
 
 
 
@@ -242,49 +271,55 @@ def get_health():
 
 
 @app.post("/parse-macros")
-def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> NutritionResponse:
-    embed_response = llm_client.embeddings.create(
-        model="text-embedding-3-small",
-        input=request.user_input
-    )
-    user_embedding = embed_response.data[0].embedding
-    
-    with Session(engine) as session:
-        statement = select(UsdaFood).order_by(UsdaFood.embedding.cosine_distance(user_embedding)).limit(5)
-        top_foods = session.exec(statement).all()
-        
-    context_str = "USDA Reference Foods (per 100g):\n"
-    for food in top_foods:
-        context_str += f"- {food.description}: {food.calories}kcal, Protein {food.protein}g, Carbs {food.carbs}g, Fat {food.fat}g\n"
-        
-    system_prompt = f"""You are a strict nutrition tracker. First, determine if the user input describes a recognizable food item. If it is gibberish, a non-food object, or completely unrelated, set is_food to False and all macros to 0. If it is a food, set is_food to True and calculate the macros. Also infer the meal_type from context clues (e.g., 'breakfast', 'lunch', 'dinner', 'snack') if possible, otherwise leave it null.
-
-Use the following USDA foundation food reference data to improve your accuracy. The reference data is strictly per 100g. Estimate the weight of the user's food and scale the macros appropriately.
-
-{context_str}"""
+def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> MultiItemResponse:
+    system_msg = {
+        "role": "system",
+        "content": (
+            "You are a strict nutrition tracker. Use short, clean dish names (e.g. 'Protein Shake', 'Chicken Sandwich') — never list ingredients in the name. "
+            "In the 'thinking' field, write 2-3 concise sentences explaining what portion sizes and reference values you used to estimate the macros (e.g. assumed standard serving, used USDA values, estimated weight). Do NOT list out arithmetic. "
+            "Group items into composite DISHES (e.g. 'chicken sandwich' is 1 dish). Do NOT split composite dishes into raw ingredients. "
+            "If the user ate multiple completely separate dishes, separate them into multiple NutritionItems in the 'items' array. "
+            "If an item is gibberish or non-food, set is_food to False. Infer the meal_type from context.\n\n"
+            "PORTION SIZE STANDARDS — always use these as your baseline, never deviate unless the user explicitly states grams or ml:\n"
+            "- 1 tsp = 5ml (oil/ghee ~4g, dry spice ~3g)\n"
+            "- 1 tbsp = 15ml (oil/ghee ~13g, peanut butter ~16g, sugar ~12g)\n"
+            "- 1 cup = 240ml (cooked rice ~200g, cooked dal ~220g, milk ~240g, flour ~120g)\n"
+            "- 1 bowl = 300ml / ~260g for solid foods (rice, dal, sabzi, pasta)\n"
+            "- 1 katori = 150ml / ~130g (standard small Indian bowl)\n"
+            "- 1 plate of rice = 250g cooked rice\n"
+            "- 1 plate (full meal) = treat as a standard thali: ~250g rice or 3 rotis + 1 katori dal + 1 katori sabzi\n"
+            "- 1 roti / chapati = 40g (medium, no oil); paratha = 60g\n"
+            "- 1 idli = 40g; 1 dosa (plain) = 70g\n"
+            "- 1 egg = 55g\n"
+            "- 1 slice bread = 30g\n"
+            "- 1 handful (dry nuts/seeds) = 30g; (chips/puffs) = 20g\n"
+            "- 1 glass = 250ml\n"
+            "- 'small' portion = reduce by 25%; 'large' or 'heaped' = increase by 30%; 'half' = reduce by 50%.\n"
+            "When a food's volume-to-weight conversion isn't listed above, use your best estimate of the food's density."
+        )
+    }
+    messages = [system_msg] + [msg.model_dump() for msg in request.messages]
 
     response = llm_client.beta.chat.completions.parse(
         model= "gpt-4o-mini",
-        response_format= NutritionResponse,
-        messages= [{
-            "role": "system",
-            "content": system_prompt
-        }, 
-        {
-            "role": "user",
-            "content": request.user_input
-        }]
+        response_format= MultiItemResponse,
+        messages=messages
     )
-    
-    parsed_macros = response.choices[0].message.parsed
+    return response.choices[0].message.parsed
 
-    if not parsed_macros.is_food:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="We couldn't recognize that as food. Please describe a meal!"
+class TranscribeResponse(BaseModel):
+    text: str
+
+@app.post("/transcribe", response_model=TranscribeResponse)
+def transcribe_audio(file: UploadFile = File(...), user_id: str = Depends(get_current_user)):
+    try:
+        response = llm_client.audio.transcriptions.create(
+            model="whisper-1",
+            file=(file.filename, file.file, file.content_type)
         )
-
-    return parsed_macros
+        return {"text": response.text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/log-meal")
 def log_meal(request: LogMealRequest, user_id: str = Depends(get_current_user)):
@@ -295,7 +330,8 @@ def log_meal(request: LogMealRequest, user_id: str = Depends(get_current_user)):
         protein=request.protein,
         carbohydrates=request.carbohydrates,
         fat=request.fat,
-        meal_type=request.meal_type
+        meal_type=request.meal_type,
+        reasoning=request.reasoning
     )
     with Session(engine) as session:
         session.add(db_log)

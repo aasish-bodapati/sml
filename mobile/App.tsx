@@ -9,27 +9,14 @@ import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Session } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
-import { parseMeal, confirmLogMeal, getLogs, getSummary, getWeeklyAnalytics, logWeight, getWeightHistory, deleteLog, getProfile, saveProfile, getRecipes, saveRecipe, deleteRecipe, logRecipe } from './api';
+import { parseMeal, confirmLogMeal, getLogs, getSummary, getWeeklyAnalytics, logWeight, getWeightHistory, deleteLog, getProfile, saveProfile, getRecipes, saveRecipe, deleteRecipe, logRecipe, transcribeAudio } from './api';
 import OnboardingScreen, { MacroTargets, UserProfilePayload } from './OnboardingScreen';
 import { calculationService } from './calculation-service';
+import { Audio } from 'expo-av';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
-
-// ─── Colours ─────────────────────────────────────────────────────────────────
-const C = {
-  bg: '#0f172a',
-  surface: 'rgba(30,41,59,0.7)',
-  accent: '#38bdf8',
-  textPrimary: '#f8fafc',
-  textSecondary: '#94a3b8',
-  textMuted: '#64748b',
-  border: 'rgba(56,189,248,0.2)',
-  error: '#ef4444',
-  cal: '#f97316',
-  protein: '#38bdf8',
-  carbs: '#4ade80',
-  fat: '#f43f5e',
-};
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
+import { C, rs, fs } from './design-tokens';
 
 // ─── Login Screen ─────────────────────────────────────────────────────────────
 function LoginScreen() {
@@ -67,7 +54,7 @@ function LoginScreen() {
         <TouchableOpacity style={s.btn} onPress={handleAuth} disabled={loading}>
           {loading ? <ActivityIndicator color={C.bg} /> : <Text style={s.btnText}>{isSignUp ? 'Sign Up' : 'Sign In'}</Text>}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)} style={{ marginTop: 16, alignItems: 'center' }}>
+        <TouchableOpacity onPress={() => setIsSignUp(!isSignUp)} style={{ marginTop: rs(16), alignItems: 'center' }}>
           <Text style={{ color: C.textSecondary }}>
             {isSignUp ? 'Have an account? ' : "No account? "}
             <Text style={{ color: C.accent, fontWeight: 'bold' }}>{isSignUp ? 'Sign In' : 'Sign Up'}</Text>
@@ -82,6 +69,7 @@ function LoginScreen() {
 function BottomTabBar({ active, onSelect }: { active: string, onSelect: (t: string) => void }) {
   const tabs = [
     { key: 'home', label: 'Dashboard', icon: 'grid-outline', iconActive: 'grid' },
+    { key: 'chat', label: 'Log Meal', icon: 'chatbubbles-outline', iconActive: 'chatbubbles' },
     { key: 'history', label: 'Logs', icon: 'bar-chart-outline', iconActive: 'bar-chart' },
     { key: 'profile', label: 'Profile', icon: 'person-outline', iconActive: 'person' },
   ];
@@ -105,38 +93,35 @@ function BottomTabBar({ active, onSelect }: { active: string, onSelect: (t: stri
   );
 }
 
-// ─── Home Tab ─────────────────────────────────────────────────────────────────
-function HomeTab({ summary, macros, weeklyData, targetMacros, userInput, setUserInput, isLoading, setIsLoading, setError, fetchData, setViewDate, setActiveTab }: any) {
-  const [pendingMeal, setPendingMeal] = useState<any>(null);
-  const [editedMeal, setEditedMeal] = useState<any>(null);
+function AnimatedProgressBar({ progress, color }: { progress: number, color: string }) {
+  const widthAnim = useSharedValue(progress * 100);
 
-  const handleParse = async () => {
-    if (!userInput.trim()) return;
-    setIsLoading(true); setError(null);
-    try {
-      const result = await parseMeal(userInput);
-      setPendingMeal(result);
-      setEditedMeal({ ...result, meal_type: result.meal_type || 'snack' });
-    } catch (e: any) { setError(e.message || 'Failed to parse meal.'); }
-    finally { setIsLoading(false); }
-  };
+  useEffect(() => {
+    widthAnim.value = withTiming(progress * 100, {
+      duration: 1000,
+      easing: Easing.out(Easing.cubic),
+    });
+  }, [progress]);
 
-  const handleConfirm = async () => {
-    setIsLoading(true); setError(null);
-    try {
-      await confirmLogMeal(editedMeal);
-      setPendingMeal(null);
-      setEditedMeal(null);
-      setUserInput('');
-      await fetchData();
-    } catch (e: any) { setError(e.message || 'Failed to log meal.'); }
-    finally { setIsLoading(false); }
-  };
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      width: `${widthAnim.value}%`,
+    };
+  });
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16 }} keyboardShouldPersistTaps="handled">
+    <View style={{ height: rs(12), backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: rs(6), overflow: 'hidden' }}>
+      <Animated.View style={[{ height: '100%', backgroundColor: color, borderRadius: rs(6) }, animatedStyle]} />
+    </View>
+  );
+}
+
+// ─── Home Tab ─────────────────────────────────────────────────────────────────
+function HomeTab({ summary, macros, weeklyData, targetMacros, setViewDate, setActiveTab }: any) {
+  return (
+    <ScrollView contentContainerStyle={{ padding: rs(16) }} keyboardShouldPersistTaps="handled">
       <Text style={s.sectionTitle}>Summary</Text>
-      <View style={{ backgroundColor: C.surface, padding: 16, borderRadius: 14 }}>
+      <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14) }}>
         {macros.map((m: any, idx: number) => {
           const target = m.target || 1;
           const current = m.value || 0;
@@ -144,22 +129,20 @@ function HomeTab({ summary, macros, weeklyData, targetMacros, userInput, setUser
 
           return (
             <View key={m.label} style={{ marginBottom: idx === macros.length - 1 ? 0 : 16 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: rs(8) }}>
                 <Text style={{ color: C.textPrimary, fontWeight: '600' }}>{m.label}</Text>
-                <Text style={{ color: C.textSecondary, fontSize: 13 }}>
+                <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>
                   <Text style={{ color: C.textPrimary, fontWeight: '500' }}>{current}</Text>{m.unit} {m.target ? `/ ${m.target}${m.unit}` : ''}
                 </Text>
               </View>
-              <View style={{ height: 12, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 6, overflow: 'hidden' }}>
-                <View style={{ height: '100%', width: `${progress * 100}%`, backgroundColor: m.color, borderRadius: 6 }} />
-              </View>
+              <AnimatedProgressBar progress={progress} color={m.color} />
             </View>
           );
         })}
       </View>
 
-      <Text style={[s.sectionTitle, { marginTop: 28 }]}>Weekly Progress</Text>
-      <View style={{ backgroundColor: C.surface, padding: 16, borderRadius: 14, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', height: 160 }}>
+      <Text style={[s.sectionTitle, { marginTop: rs(28) }]}>Weekly Progress</Text>
+      <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', height: rs(160) }}>
         {weeklyData.map((day: any) => {
           const maxCal = Math.max(...weeklyData.map((d: any) => d.calories || 1), targetMacros?.calories || 2000);
           const heightPct = Math.min((day.calories / maxCal) * 100, 100);
@@ -174,82 +157,293 @@ function HomeTab({ summary, macros, weeklyData, targetMacros, userInput, setUser
                 setActiveTab('history');
               }}
             >
-              <View style={{ width: '60%', height: '100%', justifyContent: 'flex-end', marginBottom: 8 }}>
-                <View style={{ width: '100%', height: `${heightPct}%`, backgroundColor: isToday ? C.accent : C.cal, borderRadius: 4, minHeight: 4 }} />
+              <View style={{ width: '60%', height: '100%', justifyContent: 'flex-end', marginBottom: rs(8) }}>
+                <View style={{ width: '100%', height: `${heightPct}%`, backgroundColor: isToday ? C.accent : C.cal, borderRadius: rs(4), minHeight: rs(4) }} />
               </View>
-              <Text style={{ color: isToday ? C.accent : C.textSecondary, fontSize: 12, fontWeight: isToday ? 'bold' : 'normal' }}>{dayName}</Text>
+              <Text style={{ color: isToday ? C.accent : C.textSecondary, fontSize: fs(12), fontWeight: isToday ? 'bold' : 'normal' }}>{dayName}</Text>
             </TouchableOpacity>
           );
         })}
       </View>
 
-      <Text style={[s.sectionTitle, { marginTop: 28 }]}>Log a Meal</Text>
-      {!pendingMeal ? (
-        <View style={s.logForm}>
-          <TextInput
-            style={[s.input, { flex: 1 }]}
-            placeholder='e.g. "2 boiled eggs"'
-            placeholderTextColor={C.textSecondary}
-            value={userInput}
-            onChangeText={setUserInput}
-            onSubmitEditing={handleParse}
-            returnKeyType="send"
-          />
-          <TouchableOpacity style={s.logBtn} onPress={handleParse} disabled={isLoading || !userInput.trim()}>
-            {isLoading ? <ActivityIndicator color={C.bg} size="small" /> : <Text style={s.btnText}>+ Log</Text>}
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View style={s.confirmationCard}>
-          <Text style={{ color: C.textPrimary, fontSize: 16, fontWeight: 'bold', marginBottom: 12 }}>Confirm Meal Details</Text>
-          
-          <View style={s.editRow}>
-            <Text style={s.editLabel}>Name</Text>
-            <TextInput style={s.editInput} value={editedMeal.name} onChangeText={t => setEditedMeal({...editedMeal, name: t})} />
-          </View>
-          
-          <View style={{ flexDirection: 'row', gap: 8 }}>
-            <View style={[s.editRow, { flex: 1 }]}>
-              <Text style={s.editLabel}>Kcal</Text>
-              <TextInput style={s.editInput} keyboardType="numeric" value={editedMeal.calories.toString()} onChangeText={t => setEditedMeal({...editedMeal, calories: parseInt(t) || 0})} />
-            </View>
-            <View style={[s.editRow, { flex: 1 }]}>
-              <Text style={s.editLabel}>Protein</Text>
-              <TextInput style={s.editInput} keyboardType="numeric" value={editedMeal.protein.toString()} onChangeText={t => setEditedMeal({...editedMeal, protein: parseInt(t) || 0})} />
-            </View>
-          </View>
-          
-          <View style={{ flexDirection: 'row', gap: 8 }}>
-            <View style={[s.editRow, { flex: 1 }]}>
-              <Text style={s.editLabel}>Carbs</Text>
-              <TextInput style={s.editInput} keyboardType="numeric" value={editedMeal.carbohydrates.toString()} onChangeText={t => setEditedMeal({...editedMeal, carbohydrates: parseInt(t) || 0})} />
-            </View>
-            <View style={[s.editRow, { flex: 1 }]}>
-              <Text style={s.editLabel}>Fat</Text>
-              <TextInput style={s.editInput} keyboardType="numeric" value={editedMeal.fat.toString()} onChangeText={t => setEditedMeal({...editedMeal, fat: parseInt(t) || 0})} />
-            </View>
-          </View>
-          
-          <Text style={[s.editLabel, { marginTop: 8 }]}>Meal Type</Text>
-          <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
-            {['breakfast', 'lunch', 'dinner', 'snack'].map(type => (
-              <TouchableOpacity key={type} onPress={() => setEditedMeal({...editedMeal, meal_type: type})} style={[s.mealTypePill, editedMeal.meal_type === type && s.mealTypePillActive]}>
-                <Text style={[s.mealTypeText, editedMeal.meal_type === type && s.mealTypeTextActive]}>{type.charAt(0).toUpperCase() + type.slice(1)}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+    </ScrollView>
+  );
+}
 
-          <View style={{ flexDirection: 'row', gap: 12 }}>
-            <TouchableOpacity style={[s.btn, { flex: 1, backgroundColor: 'transparent', borderWidth: 1, borderColor: C.border }]} onPress={() => { setPendingMeal(null); setEditedMeal(null); }}>
-              <Text style={[s.btnText, { color: C.textPrimary }]}>✕ Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[s.btn, { flex: 1, marginBottom: 0 }]} onPress={handleConfirm} disabled={isLoading}>
-              {isLoading ? <ActivityIndicator color={C.bg} /> : <Text style={s.btnText}>✓ Confirm & Log</Text>}
-            </TouchableOpacity>
+// ─── Confirmation Card Component ──────────────────────────────────────────────
+function ConfirmationCard({ parsedData, onConfirm, onCancel, isLoading }: any) {
+  const [editedMeals, setEditedMeals] = useState<any[]>(
+    parsedData.items.map((item: any) => ({ ...item, meal_type: item.meal_type || 'snack' }))
+  );
+
+  const totalCalories = editedMeals.reduce((sum, meal) => sum + (parseInt(meal.calories) || 0), 0);
+  const totalProtein = editedMeals.reduce((sum, meal) => sum + (parseInt(meal.protein) || 0), 0);
+  const totalCarbs = editedMeals.reduce((sum, meal) => sum + (parseInt(meal.carbohydrates) || 0), 0);
+  const totalFat = editedMeals.reduce((sum, meal) => sum + (parseInt(meal.fat) || 0), 0);
+
+  return (
+    <View style={s.confirmationCard}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(12) }}>
+        <Text style={{ color: C.textPrimary, fontSize: fs(16), fontWeight: 'bold' }}>Confirm Meal Details</Text>
+        {editedMeals[0]?.meal_type && (
+          <View style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: rs(10), paddingVertical: rs(4), borderRadius: rs(12), borderWidth: rs(1), borderColor: 'rgba(56,189,248,0.3)' }}>
+            <Text style={{ color: C.accent, fontSize: fs(12), fontWeight: 'bold', textTransform: 'capitalize' }}>
+              {editedMeals[0].meal_type}
+            </Text>
+          </View>
+        )}
+      </View>
+
+      {parsedData.thinking && (
+        <Text selectable={true} style={{ color: C.textSecondary, fontSize: fs(13), fontStyle: 'italic', marginBottom: rs(16), padding: rs(12), backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: rs(8) }}>
+          💡 <Text style={{fontWeight: 'bold', color: C.accent}}>Reasoning:</Text> {parsedData.thinking}
+        </Text>
+      )}
+
+      {editedMeals.length > 1 && (
+        <View style={{ backgroundColor: 'rgba(15,23,42,0.4)', padding: rs(12), borderRadius: rs(12), marginBottom: rs(16), flexDirection: 'row', justifyContent: 'space-around', borderWidth: rs(1), borderColor: 'rgba(255,255,255,0.05)' }}>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ color: C.textSecondary, fontSize: fs(10), textTransform: 'uppercase', fontWeight: 'bold', marginBottom: rs(2) }}>Total Kcal</Text>
+            <Text style={{ color: C.cal, fontSize: fs(16), fontWeight: 'bold' }}>{totalCalories}</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ color: C.textSecondary, fontSize: fs(10), textTransform: 'uppercase', fontWeight: 'bold', marginBottom: rs(2) }}>Protein</Text>
+            <Text style={{ color: C.protein, fontSize: fs(16), fontWeight: 'bold' }}>{totalProtein}g</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ color: C.textSecondary, fontSize: fs(10), textTransform: 'uppercase', fontWeight: 'bold', marginBottom: rs(2) }}>Carbs</Text>
+            <Text style={{ color: C.carbs, fontSize: fs(16), fontWeight: 'bold' }}>{totalCarbs}g</Text>
+          </View>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ color: C.textSecondary, fontSize: fs(10), textTransform: 'uppercase', fontWeight: 'bold', marginBottom: rs(2) }}>Fat</Text>
+            <Text style={{ color: C.fat, fontSize: fs(16), fontWeight: 'bold' }}>{totalFat}g</Text>
           </View>
         </View>
       )}
-    </ScrollView>
+      
+      {editedMeals.map((meal, index) => (
+        <View key={index} style={{ marginBottom: rs(24), paddingBottom: rs(16), borderBottomWidth: index < editedMeals.length - 1 ? 1 : 0, borderBottomColor: C.surface }}>
+          {!meal.is_food && (
+            <Text style={{ color: C.error, fontSize: fs(13), marginBottom: rs(8) }}>⚠️ This item was not recognized as food.</Text>
+          )}
+          <View style={s.editRow}>
+            <Text style={s.editLabel}>Name</Text>
+            <TextInput 
+              style={[s.editInput, { flex: 1, minHeight: rs(36) }]} 
+              value={meal.name} 
+              onChangeText={t => { const newMeals = [...editedMeals]; newMeals[index].name = t; setEditedMeals(newMeals); }} 
+            />
+          </View>
+          
+          <View style={{ flexDirection: 'row', gap: rs(8) }}>
+            <View style={[s.editRow, { flex: 1 }]}>
+              <Text style={s.editLabel}>Kcal</Text>
+              <TextInput style={s.editInput} keyboardType="numeric" value={meal.calories.toString()} onChangeText={t => { const newMeals = [...editedMeals]; newMeals[index].calories = parseInt(t) || 0; setEditedMeals(newMeals); }} />
+            </View>
+            <View style={[s.editRow, { flex: 1 }]}>
+              <Text style={s.editLabel}>Protein</Text>
+              <TextInput style={s.editInput} keyboardType="numeric" value={meal.protein.toString()} onChangeText={t => { const newMeals = [...editedMeals]; newMeals[index].protein = parseInt(t) || 0; setEditedMeals(newMeals); }} />
+            </View>
+          </View>
+          
+          <View style={{ flexDirection: 'row', gap: rs(8) }}>
+            <View style={[s.editRow, { flex: 1 }]}>
+              <Text style={s.editLabel}>Carbs</Text>
+              <TextInput style={s.editInput} keyboardType="numeric" value={meal.carbohydrates.toString()} onChangeText={t => { const newMeals = [...editedMeals]; newMeals[index].carbohydrates = parseInt(t) || 0; setEditedMeals(newMeals); }} />
+            </View>
+            <View style={[s.editRow, { flex: 1 }]}>
+              <Text style={s.editLabel}>Fat</Text>
+              <TextInput style={s.editInput} keyboardType="numeric" value={meal.fat.toString()} onChangeText={t => { const newMeals = [...editedMeals]; newMeals[index].fat = parseInt(t) || 0; setEditedMeals(newMeals); }} />
+            </View>
+          </View>
+          
+
+        </View>
+      ))}
+
+      <View style={{ flexDirection: 'row', gap: rs(12), marginTop: rs(8) }}>
+        <TouchableOpacity style={[s.btn, { flex: 1, paddingVertical: rs(12), marginBottom: rs(0), backgroundColor: 'transparent', borderWidth: rs(1), borderColor: C.border }]} onPress={onCancel}>
+          <Text style={[s.btnText, { color: C.textPrimary, fontSize: fs(15) }]}>✕ Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[s.btn, { flex: 1, paddingVertical: rs(12), marginBottom: rs(0) }]} onPress={() => onConfirm(editedMeals, parsedData.thinking)} disabled={isLoading || editedMeals.length === 0}>
+          {isLoading ? <ActivityIndicator color={C.bg} /> : <Text style={[s.btnText, { fontSize: fs(15) }]}>✓ Confirm</Text>}
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+
+// ─── Chat Tab ─────────────────────────────────────────────────────────────────
+function ChatTab({ fetchData, setActiveTab }: any) {
+  const [messages, setMessages] = useState<{role: string, content: string, parsedData?: any}[]>([
+    { role: 'assistant', content: 'What did you eat today?' }
+  ]);
+  const [input, setInput] = useState('');
+  const [mealType, setMealType] = useState(() => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 11) return 'breakfast';
+    if (hour >= 11 && hour < 16) return 'lunch';
+    if (hour >= 16 && hour < 18) return 'snack';
+    if (hour >= 18 && hour < 22) return 'dinner';
+    return 'snack';
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [recording, setRecording] = useState<Audio.Recording | null>(null);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+
+  const startRecording = async () => {
+    try {
+      const permission = await Audio.requestPermissionsAsync();
+      if (permission.status === 'granted') {
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: true,
+          playsInSilentModeIOS: true,
+        });
+        const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
+        setRecording(recording);
+      } else {
+        Alert.alert('Permission Denied', 'Please grant microphone permissions to use voice transcription.');
+      }
+    } catch (err) {
+      console.error('Failed to start recording', err);
+      setError('Failed to start recording.');
+    }
+  };
+
+  const stopRecording = async () => {
+    if (!recording) return;
+    setIsTranscribing(true);
+    setRecording(null);
+    try {
+      await recording.stopAndUnloadAsync();
+      const uri = recording.getURI();
+      if (uri) {
+        const result = await transcribeAudio(uri);
+        if (result.text) {
+          setInput(input ? input + ' ' + result.text : result.text);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to transcribe', err);
+      setError('Failed to transcribe audio.');
+    } finally {
+      setIsTranscribing(false);
+    }
+  };
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+    const userMsg = { role: 'user', content: input };
+    const newMessages = [...messages, userMsg];
+    setMessages(newMessages);
+    setInput('');
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const payload = newMessages.map(m => ({ role: m.role, content: m.content }));
+      if (payload.length > 0) {
+        payload[payload.length - 1].content = `[Meal Type: ${mealType}] ${payload[payload.length - 1].content}`;
+      }
+      const result = await parseMeal(payload);
+      
+      const assistantMsg = { 
+        role: 'assistant', 
+        content: '',
+        parsedData: result
+      };
+      setMessages([...newMessages, assistantMsg]);
+    } catch (e: any) { 
+      setError(e.message || 'Failed to parse meal.'); 
+      setMessages([...newMessages, { role: 'assistant', content: 'Sorry, I encountered an error. Could you try again?' }]);
+    }
+    finally { setIsLoading(false); }
+  };
+
+  const handleConfirm = async (editedMeals: any[], thinking: string) => {
+    setIsLoading(true); setError(null);
+    try {
+      for (const meal of editedMeals) {
+        if (meal.is_food !== false) {
+          await confirmLogMeal({ ...meal, reasoning: thinking });
+        }
+      }
+      setMessages([{ role: 'assistant', content: 'Meal logged successfully! What else did you eat?' }]);
+      await fetchData();
+      setActiveTab('home');
+    } catch (e: any) { setError(e.message || 'Failed to log meal.'); }
+    finally { setIsLoading(false); }
+  };
+
+  return (
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }} keyboardVerticalOffset={Platform.OS === 'ios' ? 140 : 0}>
+      <FlatList
+        data={messages}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={{ padding: rs(16), paddingBottom: rs(24) }}
+        renderItem={({ item }) => (
+          <View style={{ alignItems: item.role === 'user' ? 'flex-end' : 'flex-start', marginBottom: rs(16) }}>
+            {(!item.parsedData && item.content !== '') && (
+              <View style={{ backgroundColor: item.role === 'user' ? C.accent : C.surface, padding: rs(12), borderRadius: rs(16), maxWidth: '85%', borderBottomRightRadius: item.role === 'user' ? 4 : 16, borderBottomLeftRadius: item.role === 'assistant' ? 4 : 16 }}>
+                <Text selectable={true} style={{ color: item.role === 'user' ? C.bg : C.textPrimary, fontSize: fs(15) }}>{item.content}</Text>
+              </View>
+            )}
+            {item.parsedData && (
+              <View style={{ width: '100%', marginTop: rs(8) }}>
+                <ConfirmationCard 
+                  parsedData={item.parsedData} 
+                  onConfirm={handleConfirm} 
+                  onCancel={() => setMessages([...messages, { role: 'user', content: 'Cancel that.' }, { role: 'assistant', content: 'Cancelled. What else did you eat?' }])} 
+                  isLoading={isLoading} 
+                />
+              </View>
+            )}
+          </View>
+        )}
+      />
+      {error && <Text style={{ color: C.error, textAlign: 'center', marginBottom: rs(8) }}>{error}</Text>}
+      <View style={{ backgroundColor: C.bg, borderTopWidth: rs(1), borderTopColor: C.border }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: rs(16), paddingTop: rs(12), paddingBottom: rs(4), gap: rs(8) }}>
+          {['breakfast', 'lunch', 'dinner', 'snack'].map(type => (
+            <TouchableOpacity 
+              key={type} 
+              onPress={() => setMealType(type)} 
+              style={[s.mealTypePill, mealType === type && s.mealTypePillActive, { paddingVertical: rs(6), paddingHorizontal: rs(14) }]}
+            >
+              <Text style={[s.mealTypeText, mealType === type && s.mealTypeTextActive, { fontSize: fs(13) }]}>
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        <View style={{ flexDirection: 'row', padding: rs(16), paddingTop: rs(8) }}>
+          <TextInput
+            style={[s.input, { flex: 1, marginBottom: rs(0), borderRadius: rs(24), paddingHorizontal: rs(16) }]}
+            placeholder={recording ? 'Recording...' : 'e.g. "2 boiled eggs"'}
+            placeholderTextColor={recording ? C.error : C.textSecondary}
+            value={input}
+            onChangeText={setInput}
+            onSubmitEditing={handleSend}
+            returnKeyType="send"
+            editable={!recording && !isTranscribing}
+          />
+          {!input.trim() ? (
+            <TouchableOpacity 
+              style={{ marginLeft: rs(12), backgroundColor: recording ? 'rgba(244,63,94,0.2)' : C.surface, width: rs(48), height: rs(48), borderRadius: rs(24), justifyContent: 'center', alignItems: 'center', borderWidth: recording ? 1 : 0, borderColor: C.error }} 
+              onPress={recording ? stopRecording : startRecording} 
+              disabled={isLoading || isTranscribing}
+            >
+              {isTranscribing ? <ActivityIndicator color={C.textPrimary} /> : <Ionicons name={recording ? "stop" : "mic"} size={20} color={recording ? C.error : C.textPrimary} />}
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={{ marginLeft: rs(12), backgroundColor: C.accent, width: rs(48), height: rs(48), borderRadius: rs(24), justifyContent: 'center', alignItems: 'center' }} onPress={handleSend} disabled={isLoading || isTranscribing}>
+              {isLoading ? <ActivityIndicator color={C.bg} /> : <Ionicons name="send" size={20} color={C.bg} style={{ marginLeft: rs(4) }} />}
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -261,13 +455,13 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
     <FlatList
       data={logs}
       keyExtractor={(item) => item.id.toString()}
-      contentContainerStyle={{ padding: 16 }}
+      contentContainerStyle={{ padding: rs(16) }}
       ListHeaderComponent={
         <>
           {/* Date Navigator */}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-            <TouchableOpacity onPress={() => { const d = new Date(viewDate); d.setDate(d.getDate() - 1); setViewDate(d); }} style={{ padding: 8 }}>
-              <Text style={{ color: C.accent, fontWeight: 'bold', fontSize: 16 }}>{'<'} Prev</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(16) }}>
+            <TouchableOpacity onPress={() => { const d = new Date(viewDate); d.setDate(d.getDate() - 1); setViewDate(d); }} style={{ padding: rs(8) }}>
+              <Text style={{ color: C.accent, fontWeight: 'bold', fontSize: fs(16) }}>{'<'} Prev</Text>
             </TouchableOpacity>
 
             {Platform.OS === 'ios' ? (
@@ -282,14 +476,14 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
               />
             ) : (
               <TouchableOpacity onPress={() => setShowPicker(true)}>
-                <Text style={{ color: C.textPrimary, fontSize: 16, fontWeight: '600' }}>
+                <Text style={{ color: C.textPrimary, fontSize: fs(16), fontWeight: '600' }}>
                   {viewDate.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
                 </Text>
               </TouchableOpacity>
             )}
 
-            <TouchableOpacity onPress={() => { const d = new Date(viewDate); d.setDate(d.getDate() + 1); setViewDate(d); }} style={{ padding: 8 }}>
-              <Text style={{ color: C.accent, fontWeight: 'bold', fontSize: 16 }}>Next {'>'}</Text>
+            <TouchableOpacity onPress={() => { const d = new Date(viewDate); d.setDate(d.getDate() + 1); setViewDate(d); }} style={{ padding: rs(8) }}>
+              <Text style={{ color: C.accent, fontWeight: 'bold', fontSize: fs(16) }}>Next {'>'}</Text>
             </TouchableOpacity>
           </View>
           {Platform.OS !== 'ios' && showPicker && (
@@ -308,13 +502,13 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
           )}
 
           {/* History label */}
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <Text style={[s.sectionTitle, { marginBottom: 0 }]}>Meal History</Text>
-            <TouchableOpacity onPress={() => setShowRecipesScreen(true)} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: C.border }}>
-              <Text style={{ color: C.accent, fontSize: 13, fontWeight: 'bold' }}>⭐ Saved Recipes</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(8) }}>
+            <Text style={[s.sectionTitle, { marginBottom: rs(0) }]}>Meal History</Text>
+            <TouchableOpacity onPress={() => setShowRecipesScreen(true)} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(8), borderWidth: rs(1), borderColor: C.border }}>
+              <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>⭐ Saved Recipes</Text>
             </TouchableOpacity>
           </View>
-          {logs.length === 0 && <Text style={{ color: C.textMuted, fontStyle: 'italic', textAlign: 'center', marginTop: 16 }}>Nothing logged.</Text>}
+          {logs.length === 0 && <Text style={{ color: C.textMuted, fontStyle: 'italic', textAlign: 'center', marginTop: rs(16) }}>Nothing logged.</Text>}
         </>
       }
       renderItem={({ item }) => {
@@ -328,23 +522,28 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
         return (
           <View style={s.logItem}>
             <View style={{ flex: 1 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: rs(8) }}>
                 <Text style={s.logName}>{item.name}</Text>
                 {item.meal_type && (
-                  <View style={{ backgroundColor: `${typeBadgeColor}20`, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4, borderWidth: 1, borderColor: `${typeBadgeColor}40` }}>
-                    <Text style={{ color: typeBadgeColor, fontSize: 10, fontWeight: 'bold', textTransform: 'capitalize' }}>{typeBadgeIcon} {item.meal_type}</Text>
+                  <View style={{ backgroundColor: `${typeBadgeColor}20`, paddingHorizontal: rs(6), paddingVertical: rs(2), borderRadius: rs(4), borderWidth: rs(1), borderColor: `${typeBadgeColor}40` }}>
+                    <Text style={{ color: typeBadgeColor, fontSize: fs(10), fontWeight: 'bold', textTransform: 'capitalize' }}>{typeBadgeIcon} {item.meal_type}</Text>
                   </View>
                 )}
               </View>
-              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 6 }}>
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: rs(6), marginTop: rs(6) }}>
               <Text style={s.chip}>🔥 {item.calories} kcal</Text>
               <Text style={s.chip}>💪 {item.protein}g</Text>
               <Text style={s.chip}>🌾 {item.carbohydrates}g</Text>
               <Text style={s.chip}>🧈 {item.fat}g</Text>
             </View>
+            {item.reasoning && (
+              <Text style={{ color: C.textMuted, fontSize: fs(11), fontStyle: 'italic', marginTop: rs(8) }}>
+                💡 {item.reasoning}
+              </Text>
+            )}
           </View>
-          <View style={{ alignItems: 'flex-end', justifyContent: 'space-between', paddingVertical: 2 }}>
-            <View style={{ flexDirection: 'row', gap: 16 }}>
+          <View style={{ alignItems: 'flex-end', justifyContent: 'space-between', paddingVertical: rs(2) }}>
+            <View style={{ flexDirection: 'row', gap: rs(16) }}>
               <TouchableOpacity
                 onPress={() => {
                   Alert.prompt(
@@ -358,10 +557,10 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
                     item.name
                   );
                 }}
-                style={{ padding: 12, paddingRight: 0 }}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                style={{ padding: rs(12), paddingRight: rs(0) }}
+                hitSlop={{ top: rs(10), bottom: rs(10), left: rs(10), right: rs(10) }}
               >
-                <Text style={{ color: C.accent, fontSize: 13, fontWeight: 'bold' }}>⭐ Save</Text>
+                <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>⭐ Save</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -374,13 +573,13 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
                     ]
                   );
                 }}
-                style={{ padding: 12, paddingRight: 0 }}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                style={{ padding: rs(12), paddingRight: rs(0) }}
+                hitSlop={{ top: rs(10), bottom: rs(10), left: rs(10), right: rs(10) }}
               >
-                <Text style={{ color: C.error, fontSize: 13, fontWeight: 'bold' }}>Delete</Text>
+                <Text style={{ color: C.error, fontSize: fs(13), fontWeight: 'bold' }}>Delete</Text>
               </TouchableOpacity>
             </View>
-            <Text style={{ color: C.textMuted, fontSize: 12, marginLeft: 12 }}>
+            <Text style={{ color: C.textMuted, fontSize: fs(12), marginLeft: rs(12) }}>
               {new Date(item.created_at + 'Z').toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </Text>
           </View>
@@ -392,7 +591,7 @@ function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLog, handleSaveRe
 }
 
 // ─── Profile Tab ──────────────────────────────────────────────────────────────
-function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weightHistory, fetchData, isLoading, setIsLoading }: any) {
+function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weightHistory, fetchData, isLoading, setIsLoading, onShowCheatSheet }: any) {
   const [isEditing, setIsEditing] = useState(false);
   const [goal, setGoal] = useState<'lose' | 'maintain' | 'gain' | null>(rawProfile?.goal || null);
   const [gender, setGender] = useState<'M' | 'F' | null>(rawProfile?.gender || null);
@@ -480,79 +679,82 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
   };
 
   const OptionBtn = ({ label, selected, onPress }: any) => (
-    <TouchableOpacity style={[s.optionBtn, selected && s.optionBtnSelected, { paddingVertical: 6, paddingHorizontal: 10, marginBottom: 0 }]} onPress={onPress}>
-      <Text style={[s.optionText, selected && s.optionTextSelected, { fontSize: 13 }]}>{label}</Text>
+    <TouchableOpacity style={[s.optionBtn, selected && s.optionBtnSelected, { paddingVertical: rs(6), paddingHorizontal: rs(10), marginBottom: rs(0) }]} onPress={onPress}>
+      <Text style={[s.optionText, selected && s.optionTextSelected, { fontSize: fs(13) }]}>{label}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16 }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 24, marginTop: 12 }}>
-        <View style={{ alignItems: 'flex-start' }}>
-          <View style={s.avatarPlaceholder}>
-            <Text style={s.avatarText}>👤</Text>
+    <ScrollView contentContainerStyle={{ padding: rs(16) }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(24), marginTop: rs(12) }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, paddingRight: rs(12) }}>
+          <View style={[s.avatarPlaceholder, { width: rs(56), height: rs(56), borderRadius: rs(28), marginBottom: rs(0), marginRight: rs(12) }]}>
+            <Text style={[s.avatarText, { fontSize: fs(24) }]}>👤</Text>
           </View>
-          <Text style={{ color: C.textPrimary, fontSize: 18, fontWeight: 'bold', marginBottom: 4 }}>{session?.user?.email}</Text>
+          <Text style={{ color: C.textPrimary, fontSize: fs(15), fontWeight: 'bold', flex: 1 }} numberOfLines={1} adjustsFontSizeToFit>{session?.user?.email}</Text>
         </View>
-        <View style={{ alignItems: 'flex-end' }}>
+        <View style={{ alignItems: 'center', flexDirection: 'row', gap: rs(8) }}>
+          <TouchableOpacity onPress={onShowCheatSheet} style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: rs(12), paddingVertical: rs(8), borderRadius: rs(20) }}>
+            <Text style={{ color: C.accent, fontWeight: '600' }}>📚 Cheat Sheet</Text>
+          </TouchableOpacity>
           {isEditing ? (
-            <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
-              <TouchableOpacity onPress={handleCancel} style={{ paddingVertical: 8 }}>
+            <View style={{ flexDirection: 'row', gap: rs(12), alignItems: 'center' }}>
+              <TouchableOpacity onPress={handleCancel} style={{ paddingVertical: rs(8) }}>
                 <Text style={{ color: C.textSecondary, fontWeight: 'bold' }}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleSave} style={{ backgroundColor: C.accent, paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 }}>
+              <TouchableOpacity onPress={handleSave} style={{ backgroundColor: C.accent, paddingHorizontal: rs(16), paddingVertical: rs(8), borderRadius: rs(8) }}>
                 <Text style={{ color: C.bg, fontWeight: 'bold' }}>Save</Text>
               </TouchableOpacity>
             </View>
           ) : (
-            <TouchableOpacity onPress={() => setIsEditing(true)} style={{ backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: 20, paddingVertical: 8, borderRadius: 20 }}>
+            <TouchableOpacity onPress={() => setIsEditing(true)} style={{ backgroundColor: 'rgba(255,255,255,0.1)', paddingHorizontal: rs(20), paddingVertical: rs(8), borderRadius: rs(20) }}>
               <Text style={{ color: C.textPrimary, fontWeight: '600' }}>Edit</Text>
             </TouchableOpacity>
           )}
         </View>
       </View>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-        <Text style={[s.sectionTitle, { marginBottom: 0 }]}>Daily Targets</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(16) }}>
+        <Text style={[s.sectionTitle, { marginBottom: rs(0) }]}>Daily Targets</Text>
         {isEditing && (
-          <TouchableOpacity onPress={handleAutoCalculate} style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 12 }}>
-            <Text style={{ color: C.accent, fontSize: 12, fontWeight: 'bold' }}>Auto-Calculate</Text>
+          <TouchableOpacity onPress={handleAutoCalculate} style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(12) }}>
+            <Text style={{ color: C.accent, fontSize: fs(12), fontWeight: 'bold' }}>Auto-Calculate</Text>
           </TouchableOpacity>
         )}
       </View>
-      <View style={[s.cardContainer, { paddingHorizontal: 24, marginBottom: 24 }]}>
+      <View style={[s.cardContainer, { paddingHorizontal: rs(24), marginBottom: rs(24) }]}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={{ alignItems: 'center' }}>
             {isEditing ? (
-              <TextInput style={[s.input, { width: 72, paddingVertical: 2, paddingHorizontal: 2, marginBottom: 0, textAlign: 'center', color: C.cal, fontSize: 18, fontWeight: 'bold' }]} value={targetCals} onChangeText={setTargetCals} keyboardType="numeric" selectTextOnFocus={true} />
+              <TextInput style={[s.input, { width: rs(72), paddingVertical: rs(2), paddingHorizontal: rs(2), marginBottom: rs(0), textAlign: 'center', color: C.cal, fontSize: fs(18), fontWeight: 'bold' }]} value={targetCals} onChangeText={setTargetCals} keyboardType="numeric" selectTextOnFocus={true} />
             ) : (
-              <Text style={{ color: C.cal, fontSize: 20, fontWeight: 'bold' }}>{targetMacros?.calories || 0}</Text>
+              <Text style={{ color: C.cal, fontSize: fs(20), fontWeight: 'bold' }}>{targetMacros?.calories || 0}</Text>
             )}
-            <Text style={{ color: C.textSecondary, fontSize: 12, marginTop: 4 }}>kcal</Text>
+            <Text style={{ color: C.textSecondary, fontSize: fs(12), marginTop: rs(4) }}>kcal</Text>
           </View>
           <View style={{ alignItems: 'center' }}>
             {isEditing ? (
-              <TextInput style={[s.input, { width: 60, paddingVertical: 2, paddingHorizontal: 2, marginBottom: 0, textAlign: 'center', color: C.protein, fontSize: 18, fontWeight: 'bold' }]} value={targetProtein} onChangeText={setTargetProtein} keyboardType="numeric" selectTextOnFocus={true} />
+              <TextInput style={[s.input, { width: rs(60), paddingVertical: rs(2), paddingHorizontal: rs(2), marginBottom: rs(0), textAlign: 'center', color: C.protein, fontSize: fs(18), fontWeight: 'bold' }]} value={targetProtein} onChangeText={setTargetProtein} keyboardType="numeric" selectTextOnFocus={true} />
             ) : (
-              <Text style={{ color: C.protein, fontSize: 20, fontWeight: 'bold' }}>{targetMacros?.protein || 0}g</Text>
+              <Text style={{ color: C.protein, fontSize: fs(20), fontWeight: 'bold' }}>{targetMacros?.protein || 0}g</Text>
             )}
-            <Text style={{ color: C.textSecondary, fontSize: 12, marginTop: 4 }}>Protein</Text>
+            <Text style={{ color: C.textSecondary, fontSize: fs(12), marginTop: rs(4) }}>Protein</Text>
           </View>
           <View style={{ alignItems: 'center' }}>
             {isEditing ? (
-              <TextInput style={[s.input, { width: 60, paddingVertical: 2, paddingHorizontal: 2, marginBottom: 0, textAlign: 'center', color: C.carbs, fontSize: 18, fontWeight: 'bold' }]} value={targetCarbs} onChangeText={setTargetCarbs} keyboardType="numeric" selectTextOnFocus={true} />
+              <TextInput style={[s.input, { width: rs(60), paddingVertical: rs(2), paddingHorizontal: rs(2), marginBottom: rs(0), textAlign: 'center', color: C.carbs, fontSize: fs(18), fontWeight: 'bold' }]} value={targetCarbs} onChangeText={setTargetCarbs} keyboardType="numeric" selectTextOnFocus={true} />
             ) : (
-              <Text style={{ color: C.carbs, fontSize: 20, fontWeight: 'bold' }}>{targetMacros?.carbs || 0}g</Text>
+              <Text style={{ color: C.carbs, fontSize: fs(20), fontWeight: 'bold' }}>{targetMacros?.carbs || 0}g</Text>
             )}
-            <Text style={{ color: C.textSecondary, fontSize: 12, marginTop: 4 }}>Carbs</Text>
+            <Text style={{ color: C.textSecondary, fontSize: fs(12), marginTop: rs(4) }}>Carbs</Text>
           </View>
           <View style={{ alignItems: 'center' }}>
             {isEditing ? (
-              <TextInput style={[s.input, { width: 60, paddingVertical: 2, paddingHorizontal: 2, marginBottom: 0, textAlign: 'center', color: C.fat, fontSize: 18, fontWeight: 'bold' }]} value={targetFat} onChangeText={setTargetFat} keyboardType="numeric" selectTextOnFocus={true} />
+              <TextInput style={[s.input, { width: rs(60), paddingVertical: rs(2), paddingHorizontal: rs(2), marginBottom: rs(0), textAlign: 'center', color: C.fat, fontSize: fs(18), fontWeight: 'bold' }]} value={targetFat} onChangeText={setTargetFat} keyboardType="numeric" selectTextOnFocus={true} />
             ) : (
-              <Text style={{ color: C.fat, fontSize: 20, fontWeight: 'bold' }}>{targetMacros?.fat || 0}g</Text>
+              <Text style={{ color: C.fat, fontSize: fs(20), fontWeight: 'bold' }}>{targetMacros?.fat || 0}g</Text>
             )}
-            <Text style={{ color: C.textSecondary, fontSize: 12, marginTop: 4 }}>Fat</Text>
+            <Text style={{ color: C.textSecondary, fontSize: fs(12), marginTop: rs(4) }}>Fat</Text>
           </View>
         </View>
       </View>
@@ -563,7 +765,7 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
         <View style={s.detailRow}>
           <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Goal</Text>
           {isEditing ? (
-            <View style={{ flexDirection: 'row', gap: 4 }}>
+            <View style={{ flexDirection: 'row', gap: rs(4) }}>
               <OptionBtn label="Lose" selected={goal === 'lose'} onPress={() => setGoal('lose')} />
               <OptionBtn label="Maintain" selected={goal === 'maintain'} onPress={() => setGoal('maintain')} />
               <OptionBtn label="Gain" selected={goal === 'gain'} onPress={() => setGoal('gain')} />
@@ -573,10 +775,10 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
           )}
         </View>
         {/* Activity Level */}
-        <View style={[s.detailRow, isEditing && { flexDirection: 'column', alignItems: 'flex-start', gap: 8 }]}>
+        <View style={[s.detailRow, isEditing && { flexDirection: 'column', alignItems: 'flex-start', gap: rs(8) }]}>
           <Text style={[s.detailLabel]}>Activity Level</Text>
           {isEditing ? (
-            <View style={{ flexDirection: 'row', gap: 4, flexWrap: 'wrap' }}>
+            <View style={{ flexDirection: 'row', gap: rs(4), flexWrap: 'wrap' }}>
               <OptionBtn label="Sedentary" selected={activity === 'sedentary'} onPress={() => setActivity('sedentary')} />
               <OptionBtn label="Light" selected={activity === 'light'} onPress={() => setActivity('light')} />
               <OptionBtn label="Moderate" selected={activity === 'moderate'} onPress={() => setActivity('moderate')} />
@@ -590,7 +792,7 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
         <View style={s.detailRow}>
           <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Gender</Text>
           {isEditing ? (
-            <View style={{ flexDirection: 'row', gap: 4 }}>
+            <View style={{ flexDirection: 'row', gap: rs(4) }}>
               <OptionBtn label="Male" selected={gender === 'M'} onPress={() => setGender('M')} />
               <OptionBtn label="Female" selected={gender === 'F'} onPress={() => setGender('F')} />
             </View>
@@ -602,7 +804,7 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
         <View style={s.detailRow}>
           <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Age</Text>
           {isEditing ? (
-            <TextInput style={[s.input, { marginBottom: 0, padding: 8, width: 80, textAlign: 'right' }]} keyboardType="numeric" value={age} onChangeText={setAge} />
+            <TextInput style={[s.input, { marginBottom: rs(0), padding: rs(8), width: rs(80), textAlign: 'right' }]} keyboardType="numeric" value={age} onChangeText={setAge} />
           ) : (
             <Text style={s.detailValue}>{age} years</Text>
           )}
@@ -611,40 +813,40 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
         <View style={s.detailRow}>
           <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Height</Text>
           {isEditing ? (
-            <TextInput style={[s.input, { marginBottom: 0, padding: 8, width: 80, textAlign: 'right' }]} keyboardType="numeric" value={height} onChangeText={setHeight} />
+            <TextInput style={[s.input, { marginBottom: rs(0), padding: rs(8), width: rs(80), textAlign: 'right' }]} keyboardType="numeric" value={height} onChangeText={setHeight} />
           ) : (
             <Text style={s.detailValue}>{height} cm</Text>
           )}
         </View>
         {/* Weight */}
-        <View style={[s.detailRow, { borderBottomWidth: 0 }]}>
+        <View style={[s.detailRow, { borderBottomWidth: rs(0) }]}>
           <Text style={[s.detailLabel, isEditing && { alignSelf: 'center' }]}>Weight</Text>
           {isEditing ? (
-            <TextInput style={[s.input, { marginBottom: 0, padding: 8, width: 80, textAlign: 'right' }]} keyboardType="numeric" value={weight} onChangeText={setWeight} />
+            <TextInput style={[s.input, { marginBottom: rs(0), padding: rs(8), width: rs(80), textAlign: 'right' }]} keyboardType="numeric" value={weight} onChangeText={setWeight} />
           ) : (
             <Text style={s.detailValue}>{weight} kg</Text>
           )}
         </View>
       </View>
 
-      <Text style={[s.sectionTitle, { marginTop: 28 }]}>Weight Tracking</Text>
+      <Text style={[s.sectionTitle, { marginTop: rs(28) }]}>Weight Tracking</Text>
       <View style={s.cardContainer}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <TextInput
-            style={[s.input, { flex: 1, marginBottom: 0, marginRight: 8 }]}
+            style={[s.input, { flex: 1, marginBottom: rs(0), marginRight: rs(8) }]}
             placeholder="Enter weight in kg"
             placeholderTextColor={C.textSecondary}
             keyboardType="numeric"
             value={newWeight}
             onChangeText={setNewWeight}
           />
-          <TouchableOpacity style={[s.logBtn, { marginBottom: 0, paddingHorizontal: 24, paddingVertical: 12 }]} onPress={handleLogWeight} disabled={isLoading || !newWeight}>
+          <TouchableOpacity style={[s.logBtn, { marginBottom: rs(0), paddingHorizontal: rs(24), paddingVertical: rs(12) }]} onPress={handleLogWeight} disabled={isLoading || !newWeight}>
             {isLoading ? <ActivityIndicator color={C.bg} /> : <Text style={s.btnText}>Log</Text>}
           </TouchableOpacity>
         </View>
 
         {weightHistory && weightHistory.length > 0 && (
-          <View style={{ height: 120, flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 24 }}>
+          <View style={{ height: rs(120), flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: rs(24) }}>
             {weightHistory.slice(0, 10).reverse().map((w: any, idx: number, arr: any[]) => {
               const maxW = Math.max(...arr.map(h => h.weight_kg)) + 5;
               const minW = Math.max(Math.min(...arr.map(h => h.weight_kg)) - 5, 0);
@@ -653,8 +855,8 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
               const isLatest = idx === arr.length - 1;
               return (
                 <View key={w.id} style={{ alignItems: 'center', flex: 1 }}>
-                  <Text style={{ color: isLatest ? C.accent : C.textSecondary, fontSize: 10, marginBottom: 4 }}>{w.weight_kg}</Text>
-                  <View style={{ width: 8, height: `${heightPct}%`, backgroundColor: isLatest ? C.accent : C.cal, borderRadius: 4 }} />
+                  <Text style={{ color: isLatest ? C.accent : C.textSecondary, fontSize: fs(10), marginBottom: rs(4) }}>{w.weight_kg}</Text>
+                  <View style={{ width: rs(8), height: `${heightPct}%`, backgroundColor: isLatest ? C.accent : C.cal, borderRadius: rs(4) }} />
                 </View>
               );
             })}
@@ -662,7 +864,7 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
         )}
       </View>
 
-      <TouchableOpacity style={[s.logBtn, { backgroundColor: C.surface, marginTop: 24 }]} onPress={() => supabase.auth.signOut()}>
+      <TouchableOpacity style={[s.logBtn, { backgroundColor: C.surface, marginTop: rs(24) }]} onPress={() => supabase.auth.signOut()}>
         <Text style={[s.btnText, { color: C.error }]}>Sign Out</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -673,38 +875,94 @@ function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weight
 function RecipesScreen({ recipes, handleLogRecipe, handleDeleteRecipe, onBack }: any) {
   return (
     <View style={{ flex: 1, backgroundColor: C.bg }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', padding: 16, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)' }}>
-        <TouchableOpacity onPress={onBack} style={{ padding: 8, marginRight: 8 }}>
-          <Text style={{ color: C.accent, fontSize: 16, fontWeight: 'bold' }}>{'<'} Back</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', padding: rs(16), borderBottomWidth: rs(1), borderBottomColor: 'rgba(255,255,255,0.1)' }}>
+        <TouchableOpacity onPress={onBack} style={{ padding: rs(8), marginRight: rs(8) }}>
+          <Text style={{ color: C.accent, fontSize: fs(16), fontWeight: 'bold' }}>{'<'} Back</Text>
         </TouchableOpacity>
-        <Text style={{ color: C.textPrimary, fontSize: 18, fontWeight: 'bold' }}>Saved Recipes</Text>
+        <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold' }}>Saved Recipes</Text>
       </View>
 
       <FlatList
         data={recipes}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ padding: 16 }}
-        ListEmptyComponent={<Text style={{ color: C.textMuted, textAlign: 'center', marginTop: 32, fontStyle: 'italic' }}>No saved recipes yet. Log a meal and tap '⭐ Save' in the Logs tab to add one!</Text>}
+        contentContainerStyle={{ padding: rs(16) }}
+        ListEmptyComponent={<Text style={{ color: C.textMuted, textAlign: 'center', marginTop: rs(32), fontStyle: 'italic' }}>No saved recipes yet. Log a meal and tap '⭐ Save' in the Logs tab to add one!</Text>}
         renderItem={({ item }) => (
-          <View style={{ backgroundColor: C.surface, padding: 16, borderRadius: 12, marginBottom: 12 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <Text style={{ color: C.textPrimary, fontSize: 16, fontWeight: 'bold' }}>{item.name}</Text>
-              <TouchableOpacity onPress={() => handleDeleteRecipe(item.id)} hitSlop={{top: 10, bottom: 10, left: 10, right: 10}}>
-                <Text style={{ color: C.error, fontSize: 20 }}>×</Text>
+          <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(12), marginBottom: rs(12) }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(12) }}>
+              <Text style={{ color: C.textPrimary, fontSize: fs(16), fontWeight: 'bold' }}>{item.name}</Text>
+              <TouchableOpacity onPress={() => handleDeleteRecipe(item.id)} hitSlop={{top: rs(10), bottom: rs(10), left: rs(10), right: rs(10)}}>
+                <Text style={{ color: C.error, fontSize: fs(20) }}>×</Text>
               </TouchableOpacity>
             </View>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: rs(6), marginBottom: rs(16) }}>
               <Text style={s.chip}>🔥 {item.calories} kcal</Text>
               <Text style={s.chip}>💪 {item.protein}g</Text>
               <Text style={s.chip}>🌾 {item.carbohydrates}g</Text>
               <Text style={s.chip}>🧈 {item.fat}g</Text>
             </View>
-            <TouchableOpacity onPress={() => { handleLogRecipe(item.id); onBack(); }} style={{ backgroundColor: C.accent, paddingVertical: 10, borderRadius: 8, alignItems: 'center' }}>
-              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 14 }}>+ Log this Meal</Text>
+            <TouchableOpacity onPress={() => { handleLogRecipe(item.id); onBack(); }} style={{ backgroundColor: C.accent, paddingVertical: rs(10), borderRadius: rs(8), alignItems: 'center' }}>
+              <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: fs(14) }}>+ Log this Meal</Text>
             </TouchableOpacity>
           </View>
         )}
       />
+    </View>
+  );
+}
+
+// ─── Cheat Sheet Screen ───────────────────────────────────────────────────────
+function CheatSheetScreen({ onBack }: any) {
+  return (
+    <View style={{ flex: 1, backgroundColor: C.bg }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', padding: rs(16), borderBottomWidth: rs(1), borderBottomColor: 'rgba(255,255,255,0.1)' }}>
+        <TouchableOpacity onPress={onBack} style={{ padding: rs(8), marginRight: rs(8) }}>
+          <Text style={{ color: C.accent, fontSize: fs(16), fontWeight: 'bold' }}>{'<'} Back</Text>
+        </TouchableOpacity>
+        <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold' }}>Nutrition Cheat Sheet</Text>
+      </View>
+
+      <ScrollView contentContainerStyle={{ padding: rs(16), paddingBottom: rs(40) }}>
+        <Text style={[s.sectionTitle, { color: C.protein, marginTop: rs(8) }]}>High Protein</Text>
+        <Text style={{ color: C.textSecondary, marginBottom: rs(16), lineHeight: rs(22) }}>
+          • <Text style={{ color: C.textPrimary }}>Chicken Breast</Text> (Lean, high protein){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Greek Yogurt</Text> (High protein, probiotics){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Salmon</Text> (Protein + Omega-3s){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Tofu</Text> (Plant-based protein){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Eggs</Text> (Complete protein source)
+        </Text>
+
+        <Text style={[s.sectionTitle, { color: C.carbs, marginTop: rs(16) }]}>Quality Carbohydrates</Text>
+        <Text style={{ color: C.textSecondary, marginBottom: rs(16), lineHeight: rs(22) }}>
+          • <Text style={{ color: C.textPrimary }}>Rolled Oats</Text> (Slow-digesting, great for breakfast){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Sweet Potatoes</Text> (Rich in vitamins and complex carbs){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Quinoa</Text> (Contains all 9 essential amino acids){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Brown Rice</Text> (Whole grain staple)
+        </Text>
+
+        <Text style={[s.sectionTitle, { color: '#22c55e', marginTop: rs(16) }]}>High Fiber</Text>
+        <Text style={{ color: C.textSecondary, marginBottom: rs(16), lineHeight: rs(22) }}>
+          • <Text style={{ color: C.textPrimary }}>Chia Seeds</Text> (Incredibly high fiber & healthy fats){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Black Beans</Text> (Fiber + plant protein){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Broccoli</Text> (Cruciferous vegetable, low calorie){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Berries</Text> (Antioxidants + fiber)
+        </Text>
+
+        <Text style={[s.sectionTitle, { color: C.fat, marginTop: rs(16) }]}>Healthy Fats</Text>
+        <Text style={{ color: C.textSecondary, marginBottom: rs(16), lineHeight: rs(22) }}>
+          • <Text style={{ color: C.textPrimary }}>Avocado</Text> (Monounsaturated fats){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Almonds / Walnuts</Text> (Nuts for snacking){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Extra Virgin Olive Oil</Text> (For cooking/dressing){'\n'}
+          • <Text style={{ color: C.textPrimary }}>Peanut Butter</Text> (Natural, no added sugar)
+        </Text>
+
+        <Text style={[s.sectionTitle, { color: C.cal, marginTop: rs(16) }]}>Popular Whole Meals</Text>
+        <Text style={{ color: C.textSecondary, marginBottom: rs(16), lineHeight: rs(22) }}>
+          • <Text style={{ color: C.textPrimary, fontWeight: 'bold' }}>Chicken & Rice Bowl:</Text> Grilled chicken breast, brown rice, and roasted broccoli.{'\n\n'}
+          • <Text style={{ color: C.textPrimary, fontWeight: 'bold' }}>Power Oatmeal:</Text> Rolled oats cooked with milk, mixed berries, and a scoop of protein powder.{'\n\n'}
+          • <Text style={{ color: C.textPrimary, fontWeight: 'bold' }}>Salmon Dinner:</Text> Baked salmon, quinoa, and asparagus.
+        </Text>
+      </ScrollView>
     </View>
   );
 }
@@ -721,6 +979,7 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
   const [weightHistory, setWeightHistory] = useState<any[]>([]);
   const [recipes, setRecipes] = useState<any[]>([]);
   const [showRecipesScreen, setShowRecipesScreen] = useState(false);
+  const [showCheatSheet, setShowCheatSheet] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [viewDate, setViewDate] = useState<Date>(new Date());
@@ -822,7 +1081,9 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
     <SafeAreaView style={s.safe}>
       <StatusBar barStyle="light-content" />
 
-      {showRecipesScreen ? (
+      {showCheatSheet ? (
+        <CheatSheetScreen onBack={() => setShowCheatSheet(false)} />
+      ) : showRecipesScreen ? (
         <RecipesScreen 
           recipes={recipes} 
           handleLogRecipe={handleLogRecipe} 
@@ -831,11 +1092,10 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
         />
       ) : (
         <>
-          {/* Header */}
           <View style={s.header}>
             <View style={{ flex: 1 }}>
               <Text style={s.headerTitle}>🥗 MacTrack</Text>
-              <Text style={{ color: C.textSecondary, fontSize: 13 }}>{session.user?.email}</Text>
+              <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>{session.user?.email}</Text>
             </View>
           </View>
 
@@ -847,11 +1107,11 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
             {activeTab === 'home' && (
               <HomeTab
                 summary={summary} macros={macros} weeklyData={weeklyData} targetMacros={targetMacros}
-                userInput={userInput} setUserInput={setUserInput}
-                isLoading={isLoading} setIsLoading={setIsLoading}
-                setError={setError} fetchData={fetchData}
                 setViewDate={setViewDate} setActiveTab={setActiveTab}
               />
+            )}
+            {activeTab === 'chat' && (
+              <ChatTab fetchData={fetchData} setActiveTab={setActiveTab} />
             )}
             {activeTab === 'history' && (
               <HistoryTab
@@ -870,6 +1130,7 @@ function DashboardScreen({ session, targetMacros, rawProfile, onUpdateProfile }:
                 fetchData={fetchData}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
+                onShowCheatSheet={() => setShowCheatSheet(true)}
               />
             )}
           </View>
@@ -1028,50 +1289,50 @@ export default function App() {
 // ─── Styles ───────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
   flex: { flex: 1, backgroundColor: C.bg },
-  safe: { flex: 1, backgroundColor: C.bg, paddingTop: Platform.OS === 'android' ? 40 : 0 },
-  loginContainer: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: C.bg },
-  loginTitle: { fontSize: 26, fontWeight: 'bold', color: C.textPrimary, textAlign: 'center', marginBottom: 28 },
-  msgBanner: { backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: 1, borderColor: C.accent, borderRadius: 8, padding: 12, marginBottom: 16 },
+  safe: { flex: 1, backgroundColor: C.bg, paddingTop: Platform.OS === 'android' ? rs(40) : 0 },
+  loginContainer: { flex: 1, justifyContent: 'center', padding: rs(24), backgroundColor: C.bg },
+  loginTitle: { fontSize: fs(26), fontWeight: 'bold', color: C.textPrimary, textAlign: 'center', marginBottom: rs(28) },
+  msgBanner: { backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: rs(1), borderColor: C.accent, borderRadius: rs(8), padding: rs(12), marginBottom: rs(16) },
   msgText: { color: '#e0f2fe', textAlign: 'center' },
-  input: { backgroundColor: 'rgba(15,23,42,0.6)', borderWidth: 1, borderColor: C.border, borderRadius: 8, padding: 14, color: C.textPrimary, fontSize: 16, marginBottom: 12 },
-  btn: { backgroundColor: C.accent, padding: 16, borderRadius: 8, alignItems: 'center', marginBottom: 8 },
-  btnText: { color: C.bg, fontWeight: 'bold', fontSize: 16 },
-  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingTop: 16, paddingBottom: 8 },
-  headerTitle: { fontSize: 22, fontWeight: 'bold', color: C.textPrimary },
-  signOutBtn: { backgroundColor: 'rgba(255,255,255,0.08)', paddingVertical: 8, paddingHorizontal: 12, borderRadius: 8 },
-  errorBanner: { backgroundColor: 'rgba(239,68,68,0.15)', borderWidth: 1, borderColor: C.error, borderRadius: 8, padding: 12, marginHorizontal: 16, marginBottom: 8 },
-  sectionTitle: { fontSize: 17, fontWeight: '600', color: '#e2e8f0', marginBottom: 12 },
-  macroGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  macroCard: { flex: 1, minWidth: '44%', backgroundColor: C.surface, padding: 16, borderRadius: 14, borderTopWidth: 3, borderTopColor: C.accent, alignItems: 'center' },
-  macroLabel: { color: C.textSecondary, fontSize: 11, textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6 },
-  macroValue: { color: C.textPrimary, fontSize: 22, fontWeight: 'bold' },
-  macroUnit: { color: C.textMuted, fontSize: 11, marginTop: 2 },
-  logForm: { flexDirection: 'row', gap: 8, alignItems: 'center' },
-  logBtn: { backgroundColor: C.accent, paddingHorizontal: 18, paddingVertical: 14, borderRadius: 8, justifyContent: 'center', alignItems: 'center' },
-  logItem: { backgroundColor: 'rgba(30,41,59,0.5)', padding: 14, borderRadius: 12, marginBottom: 10, flexDirection: 'row', alignItems: 'center' },
-  logName: { color: C.textPrimary, fontSize: 15, fontWeight: '500' },
-  chip: { color: C.textSecondary, fontSize: 12, backgroundColor: 'rgba(15,23,42,0.5)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: 4 },
-  tabBar: { flexDirection: 'row', backgroundColor: 'rgba(15,23,42,0.95)', borderTopWidth: 1, borderTopColor: C.border, paddingBottom: Platform.OS === 'ios' ? 24 : 12, paddingTop: 12 },
+  input: { backgroundColor: 'rgba(15,23,42,0.6)', borderWidth: rs(1), borderColor: C.border, borderRadius: rs(8), padding: rs(14), color: C.textPrimary, fontSize: fs(16), marginBottom: rs(12) },
+  btn: { backgroundColor: C.accent, padding: rs(16), borderRadius: rs(8), alignItems: 'center', marginBottom: rs(8) },
+  btnText: { color: C.bg, fontWeight: 'bold', fontSize: fs(16) },
+  header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: rs(16), paddingTop: rs(16), paddingBottom: rs(8) },
+  headerTitle: { fontSize: fs(22), fontWeight: 'bold', color: C.textPrimary },
+  signOutBtn: { backgroundColor: 'rgba(255,255,255,0.08)', paddingVertical: rs(8), paddingHorizontal: rs(12), borderRadius: rs(8) },
+  errorBanner: { backgroundColor: 'rgba(239,68,68,0.15)', borderWidth: rs(1), borderColor: C.error, borderRadius: rs(8), padding: rs(12), marginHorizontal: rs(16), marginBottom: rs(8) },
+  sectionTitle: { fontSize: fs(17), fontWeight: '600', color: '#e2e8f0', marginBottom: rs(12) },
+  macroGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: rs(10) },
+  macroCard: { flex: 1, minWidth: '44%', backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), borderTopWidth: rs(3), borderTopColor: C.accent, alignItems: 'center' },
+  macroLabel: { color: C.textSecondary, fontSize: fs(11), textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: rs(6) },
+  macroValue: { color: C.textPrimary, fontSize: fs(22), fontWeight: 'bold' },
+  macroUnit: { color: C.textMuted, fontSize: fs(11), marginTop: rs(2) },
+  logForm: { flexDirection: 'row', gap: rs(8), alignItems: 'center' },
+  logBtn: { backgroundColor: C.accent, paddingHorizontal: rs(18), paddingVertical: rs(14), borderRadius: rs(8), justifyContent: 'center', alignItems: 'center' },
+  logItem: { backgroundColor: 'rgba(30,41,59,0.5)', padding: rs(14), borderRadius: rs(12), marginBottom: rs(10), flexDirection: 'row', alignItems: 'center' },
+  logName: { color: C.textPrimary, fontSize: fs(15), fontWeight: '500' },
+  chip: { color: C.textSecondary, fontSize: fs(12), backgroundColor: 'rgba(15,23,42,0.5)', paddingHorizontal: rs(8), paddingVertical: rs(3), borderRadius: rs(4) },
+  tabBar: { flexDirection: 'row', backgroundColor: 'rgba(15,23,42,0.95)', borderTopWidth: rs(1), borderTopColor: C.border, paddingBottom: Platform.OS === 'ios' ? rs(24) : rs(12), paddingTop: rs(12) },
   tabItem: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  tabIcon: { fontSize: 24, marginBottom: 4 },
-  tabLabel: { fontSize: 12, color: C.textSecondary, fontWeight: '500' },
-  activeDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: C.accent, marginTop: 4 },
-  optionBtn: { backgroundColor: C.surface, borderWidth: 1, borderColor: 'transparent', borderRadius: 8, alignItems: 'center' },
+  tabIcon: { fontSize: fs(24), marginBottom: rs(4) },
+  tabLabel: { fontSize: fs(12), color: C.textSecondary, fontWeight: '500' },
+  activeDot: { width: rs(4), height: rs(4), borderRadius: rs(2), backgroundColor: C.accent, marginTop: rs(4) },
+  optionBtn: { backgroundColor: C.surface, borderWidth: rs(1), borderColor: 'transparent', borderRadius: rs(8), alignItems: 'center' },
   optionBtnSelected: { borderColor: C.accent, backgroundColor: 'rgba(56,189,248,0.15)' },
-  optionText: { color: C.textSecondary, fontSize: 14, fontWeight: '500' },
+  optionText: { color: C.textSecondary, fontSize: fs(14), fontWeight: '500' },
   optionTextSelected: { color: C.accent, fontWeight: 'bold' },
-  avatarPlaceholder: { width: 80, height: 80, borderRadius: 40, backgroundColor: 'rgba(56,189,248,0.2)', justifyContent: 'center', alignItems: 'center', marginBottom: 12 },
-  avatarText: { fontSize: 32 },
-  cardContainer: { backgroundColor: C.surface, borderRadius: 14, padding: 16, marginBottom: 16 },
-  detailRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.05)' },
-  detailLabel: { color: C.textSecondary, fontSize: 15 },
-  detailValue: { color: C.textPrimary, fontSize: 15, fontWeight: '500', textTransform: 'capitalize' },
-  confirmationCard: { backgroundColor: C.surface, padding: 16, borderRadius: 14, borderWidth: 1, borderColor: C.border },
-  editRow: { backgroundColor: 'rgba(15,23,42,0.4)', borderRadius: 8, paddingHorizontal: 12, paddingVertical: 8, marginBottom: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
-  editLabel: { color: C.textSecondary, fontSize: 12, textTransform: 'uppercase', fontWeight: 'bold' },
-  editInput: { color: C.textPrimary, fontSize: 16, fontWeight: '600', textAlign: 'right', padding: 0, margin: 0, minWidth: 60 },
-  mealTypePill: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: 1, borderColor: 'transparent' },
+  avatarPlaceholder: { width: rs(80), height: rs(80), borderRadius: rs(40), backgroundColor: 'rgba(56,189,248,0.2)', justifyContent: 'center', alignItems: 'center', marginBottom: rs(12) },
+  avatarText: { fontSize: fs(32) },
+  cardContainer: { backgroundColor: C.surface, borderRadius: rs(14), padding: rs(16), marginBottom: rs(16) },
+  detailRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: rs(12), borderBottomWidth: rs(1), borderBottomColor: 'rgba(255,255,255,0.05)' },
+  detailLabel: { color: C.textSecondary, fontSize: fs(15) },
+  detailValue: { color: C.textPrimary, fontSize: fs(15), fontWeight: '500', textTransform: 'capitalize' },
+  confirmationCard: { backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), borderWidth: rs(1), borderColor: C.border },
+  editRow: { backgroundColor: 'rgba(15,23,42,0.4)', borderRadius: rs(8), paddingHorizontal: rs(12), paddingVertical: rs(8), marginBottom: rs(8), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  editLabel: { color: C.textSecondary, fontSize: fs(12), textTransform: 'uppercase', fontWeight: 'bold' },
+  editInput: { color: C.textPrimary, fontSize: fs(16), fontWeight: '600', textAlign: 'right', padding: rs(0), margin: rs(0), minWidth: rs(60) },
+  mealTypePill: { paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(16), backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: rs(1), borderColor: 'transparent' },
   mealTypePillActive: { backgroundColor: 'rgba(56,189,248,0.1)', borderColor: C.accent },
-  mealTypeText: { color: C.textSecondary, fontSize: 13, fontWeight: '500' },
+  mealTypeText: { color: C.textSecondary, fontSize: fs(13), fontWeight: '500' },
   mealTypeTextActive: { color: C.accent, fontWeight: 'bold' }
 });

@@ -4,19 +4,7 @@ import {
   SafeAreaView, StatusBar, KeyboardAvoidingView, Platform, ScrollView
 } from 'react-native';
 import { calculationService } from './calculation-service';
-
-const C = {
-  bg: '#0f172a',
-  surface: 'rgba(30,41,59,0.7)',
-  accent: '#38bdf8',
-  textPrimary: '#f8fafc',
-  textSecondary: '#94a3b8',
-  border: 'rgba(56,189,248,0.2)',
-  cal: '#f97316',
-  protein: '#38bdf8',
-  carbs: '#4ade80',
-  fat: '#f43f5e',
-};
+import { C, rs, fs } from './design-tokens';
 
 export interface MacroTargets {
   calories: number;
@@ -99,7 +87,7 @@ export default function OnboardingScreen({ onComplete }: OnboardingProps) {
             <View style={s.stepContent}>
               <Text style={s.question}>Tell us about yourself</Text>
               
-              <View style={{ flexDirection: 'row', gap: 10, marginBottom: 16 }}>
+              <View style={{ flexDirection: 'row', gap: rs(10), marginBottom: rs(16) }}>
                 <View style={{ flex: 1 }}>
                   <OptionBtn label="Male" selected={gender === 'M'} onPress={() => setGender('M')} />
                 </View>
@@ -112,7 +100,7 @@ export default function OnboardingScreen({ onComplete }: OnboardingProps) {
               <TextInput style={s.input} placeholder="Height (cm)" placeholderTextColor={C.textSecondary} keyboardType="numeric" value={height} onChangeText={setHeight} />
               <TextInput style={s.input} placeholder="Weight (kg)" placeholderTextColor={C.textSecondary} keyboardType="numeric" value={weight} onChangeText={setWeight} />
 
-              <View style={{ flexDirection: 'row', gap: 10 }}>
+              <View style={{ flexDirection: 'row', gap: rs(10) }}>
                 <TouchableOpacity style={[s.nextBtn, { flex: 1, backgroundColor: C.surface }]} onPress={() => setStep(1)}>
                   <Text style={s.nextBtnText}>Back</Text>
                 </TouchableOpacity>
@@ -136,7 +124,7 @@ export default function OnboardingScreen({ onComplete }: OnboardingProps) {
               <OptionBtn label="Moderate (3-5 days/week)" selected={activity === 'moderate'} onPress={() => setActivity('moderate')} />
               <OptionBtn label="Active (6-7 days/week)" selected={activity === 'active'} onPress={() => setActivity('active')} />
 
-              <View style={{ flexDirection: 'row', gap: 10 }}>
+              <View style={{ flexDirection: 'row', gap: rs(10) }}>
                 <TouchableOpacity style={[s.nextBtn, { flex: 1, backgroundColor: C.surface }]} onPress={() => setStep(2)}>
                   <Text style={s.nextBtnText}>Back</Text>
                 </TouchableOpacity>
@@ -159,7 +147,7 @@ export default function OnboardingScreen({ onComplete }: OnboardingProps) {
                 <View style={s.resultCard}><Text style={[s.resLabel, { color: C.fat }]}>Fat (g)</Text><Text style={s.resVal}>{targets.fat}</Text></View>
               </View>
 
-              <TouchableOpacity style={[s.nextBtn, { marginTop: 20 }]} onPress={() => onComplete(targets, {
+              <TouchableOpacity style={[s.nextBtn, { marginTop: rs(20) }]} onPress={() => onComplete(targets, {
                 goal: goal!,
                 gender: gender!,
                 age: parseInt(age, 10),
@@ -181,21 +169,21 @@ export default function OnboardingScreen({ onComplete }: OnboardingProps) {
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: C.bg },
   flex: { flex: 1 },
-  container: { flexGrow: 1, padding: 24, justifyContent: 'center' },
-  title: { fontSize: 28, fontWeight: 'bold', color: C.textPrimary, textAlign: 'center', marginBottom: 8 },
-  subtitle: { fontSize: 14, color: C.textSecondary, textAlign: 'center', marginBottom: 32 },
+  container: { flexGrow: 1, padding: rs(24), justifyContent: 'center' },
+  title: { fontSize: fs(28), fontWeight: 'bold', color: C.textPrimary, textAlign: 'center', marginBottom: rs(8) },
+  subtitle: { fontSize: fs(14), color: C.textSecondary, textAlign: 'center', marginBottom: rs(32) },
   stepContent: { width: '100%' },
-  question: { fontSize: 18, fontWeight: '600', color: C.textPrimary, marginBottom: 20, textAlign: 'center' },
-  optionBtn: { backgroundColor: C.surface, borderWidth: 1, borderColor: 'transparent', padding: 16, borderRadius: 12, marginBottom: 12, alignItems: 'center' },
+  question: { fontSize: fs(18), fontWeight: '600', color: C.textPrimary, marginBottom: rs(20), textAlign: 'center' },
+  optionBtn: { backgroundColor: C.surface, borderWidth: rs(1), borderColor: 'transparent', padding: rs(16), borderRadius: rs(12), marginBottom: rs(12), alignItems: 'center' },
   optionBtnSelected: { borderColor: C.accent, backgroundColor: 'rgba(56,189,248,0.1)' },
-  optionText: { color: C.textSecondary, fontSize: 16, fontWeight: '500' },
+  optionText: { color: C.textSecondary, fontSize: fs(16), fontWeight: '500' },
   optionTextSelected: { color: C.accent, fontWeight: 'bold' },
-  nextBtn: { backgroundColor: C.accent, padding: 16, borderRadius: 12, alignItems: 'center', marginTop: 12 },
+  nextBtn: { backgroundColor: C.accent, padding: rs(16), borderRadius: rs(12), alignItems: 'center', marginTop: rs(12) },
   disabledBtn: { opacity: 0.5 },
-  nextBtnText: { color: '#0f172a', fontWeight: 'bold', fontSize: 16 },
-  input: { backgroundColor: C.surface, borderRadius: 12, padding: 16, color: C.textPrimary, fontSize: 16, marginBottom: 12 },
-  resultsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-  resultCard: { width: '48%', backgroundColor: C.surface, padding: 16, borderRadius: 12, alignItems: 'center' },
-  resLabel: { fontSize: 13, fontWeight: 'bold', marginBottom: 8 },
-  resVal: { fontSize: 24, color: C.textPrimary, fontWeight: 'bold' }
+  nextBtnText: { color: '#0f172a', fontWeight: 'bold', fontSize: fs(16) },
+  input: { backgroundColor: C.surface, borderRadius: rs(12), padding: rs(16), color: C.textPrimary, fontSize: fs(16), marginBottom: rs(12) },
+  resultsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: rs(12) },
+  resultCard: { width: '48%', backgroundColor: C.surface, padding: rs(16), borderRadius: rs(12), alignItems: 'center' },
+  resLabel: { fontSize: fs(13), fontWeight: 'bold', marginBottom: rs(8) },
+  resVal: { fontSize: fs(24), color: C.textPrimary, fontWeight: 'bold' }
 });
