@@ -10,7 +10,7 @@ import ProfileTab from './ProfileTab';
 import FitnessTab from './FitnessTab';
 import RecipesScreen from './RecipesScreen';
 import CheatSheetScreen from './CheatSheetScreen';
-import { getLogs, getSummary, getWeeklyAnalytics, getWeightHistory, getRecipes, deleteLog, deleteRecipe, logRecipe, saveRecipe } from '../api';
+import { getLogs, getSummary, getWeeklyAnalytics, getWeightHistory, getRecipes, deleteLog, deleteRecipe, logRecipe, saveRecipe, getWorkouts } from '../api';
 import { MacroTargets, UserProfilePayload } from '../OnboardingScreen';
 import { s } from '../styles/appStyles';
 import { C, rs, fs } from '../design-tokens';
@@ -25,6 +25,7 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
   const [weeklyData, setWeeklyData] = useState<any[]>([]);
   const [weightHistory, setWeightHistory] = useState<any[]>([]);
   const [recipes, setRecipes] = useState<any[]>([]);
+  const [workouts, setWorkouts] = useState<any[]>([]);
   const [showRecipesScreen, setShowRecipesScreen] = useState(false);
   const [showCheatSheet, setShowCheatSheet] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -50,18 +51,20 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
     try {
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const dateStr = viewDate.getFullYear() + '-' + String(viewDate.getMonth() + 1).padStart(2, '0') + '-' + String(viewDate.getDate()).padStart(2, '0');
-      const [rawLogs, rawSummary, rawWeekly, rawRecipes, rawWeight] = await Promise.all([
+      const [rawLogs, rawSummary, rawWeekly, rawRecipes, rawWeight, rawWorkouts] = await Promise.all([
         getLogs(tz, dateStr), 
         getSummary(tz), 
         getWeeklyAnalytics(tz),
         getRecipes(),
-        getWeightHistory(30)
+        getWeightHistory(30),
+        getWorkouts()
       ]);
       setLogs([...rawLogs].reverse());
       setSummary(rawSummary);
       setWeeklyData(rawWeekly);
       setRecipes(rawRecipes);
       setWeightHistory(rawWeight);
+      setWorkouts(rawWorkouts);
       setError(null);
     } catch (e: any) { setError('Could not reach the backend. Make sure it is running.'); }
     finally { setIsLoading(false); }
@@ -154,6 +157,7 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
             {activeTab === 'home' && (
               <HomeTab
                 summary={summary} macros={macros} weeklyData={weeklyData} targetMacros={targetMacros}
+                workouts={workouts}
                 setViewDate={setViewDate} setActiveTab={setActiveTab}
               />
             )}

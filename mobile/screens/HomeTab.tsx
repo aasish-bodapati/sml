@@ -1,35 +1,111 @@
-import React from 'react';
-import { ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Dimensions, NativeSyntheticEvent, NativeScrollEvent, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import AnimatedProgressBar from '../components/AnimatedProgressBar';
 import { C, rs, fs } from '../design-tokens';
 import { s } from '../styles/appStyles';
 
-export default function HomeTab({ summary, macros, weeklyData, targetMacros, setViewDate, setActiveTab }: any) {
-  return (
-    <ScrollView contentContainerStyle={{ padding: rs(16) }} keyboardShouldPersistTaps="handled">
-      <Text style={s.sectionTitle}>Summary</Text>
-      <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14) }}>
-        {macros.map((m: any, idx: number) => {
-          const target = m.target || 1;
-          const current = m.value || 0;
-          const progress = Math.min(Math.max(current / target, 0), 1);
+export default function HomeTab({ summary, macros, weeklyData, targetMacros, workouts, setViewDate, setActiveTab }: any) {
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const SCREEN_WIDTH = Dimensions.get('window').width;
 
-          return (
-            <View key={m.label} style={{ marginBottom: idx === macros.length - 1 ? 0 : 16 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: rs(8) }}>
-                <Text style={{ color: C.textPrimary, fontWeight: '600' }}>{m.label}</Text>
-                <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>
-                  <Text style={{ color: C.textPrimary, fontWeight: '500' }}>{current}</Text>{m.unit} {m.target ? `/ ${m.target}${m.unit}` : ''}
-                </Text>
-              </View>
-              <AnimatedProgressBar progress={progress} color={m.color} />
-            </View>
-          );
-        })}
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const slideSize = event.nativeEvent.layoutMeasurement.width;
+    const index = Math.round(event.nativeEvent.contentOffset.x / slideSize);
+    setActiveCardIndex(index);
+  };
+
+  // Calculate today's fitness
+  const todayStr = new Date().toISOString().split('T')[0];
+  const todaysWorkouts = (workouts || []).filter((w: any) => {
+    if (!w.logged_at) return false;
+    return w.logged_at.startsWith(todayStr);
+  });
+  
+  const todayFitnessCals = todaysWorkouts.reduce((sum: number, w: any) => sum + (w.calories_burned || 0), 0);
+  const todayFitnessMins = todaysWorkouts.reduce((sum: number, w: any) => sum + (w.duration_minutes || 0), 0);
+
+  return (
+    <View style={{ flex: 1, paddingVertical: rs(16) }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: rs(16) }}>
+        <Text style={s.sectionTitle}>Summary</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: rs(12) }}>
+          <View style={{ width: rs(6), height: rs(6), borderRadius: rs(3), backgroundColor: activeCardIndex === 0 ? C.accent : C.textMuted, marginRight: rs(4) }} />
+          <View style={{ width: rs(6), height: rs(6), borderRadius: rs(3), backgroundColor: activeCardIndex === 1 ? C.accent : C.textMuted }} />
+        </View>
       </View>
 
-      <Text style={[s.sectionTitle, { marginTop: rs(28) }]}>Weekly Progress</Text>
-      <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', height: rs(160) }}>
+      <View style={{ height: rs(240) }}>
+        <ScrollView 
+          horizontal 
+          pagingEnabled 
+          showsHorizontalScrollIndicator={false}
+          onMomentumScrollEnd={handleScroll}
+          style={{ width: SCREEN_WIDTH }}
+          contentContainerStyle={{ alignItems: 'center' }}
+        >
+          {/* Macros Card */}
+          <View style={{ width: SCREEN_WIDTH }}>
+            <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), marginHorizontal: rs(16), height: rs(240) }}>
+              <View style={{ flex: 1, justifyContent: 'space-between' }}>
+                {macros.map((m: any, idx: number) => {
+                  const target = m.target || 1;
+                  const current = m.value || 0;
+                  const progress = Math.min(Math.max(current / target, 0), 1);
+
+                  return (
+                    <View key={m.label} style={{ marginBottom: idx === macros.length - 1 ? 0 : 8 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: rs(6) }}>
+                        <Text style={{ color: C.textPrimary, fontWeight: '600' }}>{m.label}</Text>
+                        <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>
+                          <Text style={{ color: C.textPrimary, fontWeight: '500' }}>{current}</Text>{m.unit} {m.target ? `/ ${m.target}${m.unit}` : ''}
+                        </Text>
+                      </View>
+                      <AnimatedProgressBar progress={progress} color={m.color} />
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+          </View>
+
+          {/* Fitness Card */}
+          <View style={{ width: SCREEN_WIDTH }}>
+            <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), marginHorizontal: rs(16), height: rs(240) }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: rs(16) }}>
+                <Ionicons name="barbell" size={24} color={C.accent} style={{ marginRight: rs(8) }} />
+                <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold' }}>Fitness Today</Text>
+              </View>
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', flex: 1 }}>
+                <View style={{ alignItems: 'center' }}>
+                  <Ionicons name="flame" size={32} color={C.cal} style={{ marginBottom: rs(8) }} />
+                  <Text style={{ color: C.textPrimary, fontSize: fs(24), fontWeight: 'bold' }}>{todayFitnessCals}</Text>
+                  <Text style={{ color: C.textSecondary, fontSize: fs(12) }}>kcal burned</Text>
+                </View>
+
+                <View style={{ width: 1, height: '80%', backgroundColor: C.border }} />
+
+                <View style={{ alignItems: 'center' }}>
+                  <Ionicons name="time" size={32} color={C.accent} style={{ marginBottom: rs(8) }} />
+                  <Text style={{ color: C.textPrimary, fontSize: fs(24), fontWeight: 'bold' }}>{todayFitnessMins}</Text>
+                  <Text style={{ color: C.textSecondary, fontSize: fs(12) }}>active mins</Text>
+                </View>
+              </View>
+              
+              <TouchableOpacity 
+                style={{ marginTop: rs(16), alignItems: 'center', paddingVertical: rs(12), backgroundColor: 'rgba(56,189,248,0.1)', borderRadius: rs(8) }}
+                onPress={() => setActiveTab('fitness')}
+              >
+                <Text style={{ color: C.accent, fontWeight: 'bold' }}>Log Workout</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+
+      <Text style={[s.sectionTitle, { marginTop: rs(28), paddingHorizontal: rs(16) }]}>Weekly Progress</Text>
+      <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), marginHorizontal: rs(16), flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', flex: 1, minHeight: rs(140) }}>
         {weeklyData.map((day: any) => {
           const maxCal = Math.max(...weeklyData.map((d: any) => d.calories || 1), targetMacros?.calories || 2000);
           const heightPct = Math.min((day.calories / maxCal) * 100, 100);
@@ -38,7 +114,7 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, set
           return (
             <TouchableOpacity 
               key={day.date} 
-              style={{ alignItems: 'center', flex: 1 }}
+              style={{ alignItems: 'center', flex: 1, height: '100%' }}
               onPress={() => {
                 setViewDate(new Date(day.date));
                 setActiveTab('history');
@@ -53,6 +129,6 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, set
         })}
       </View>
 
-    </ScrollView>
+    </View>
   );
 }
