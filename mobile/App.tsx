@@ -12,7 +12,7 @@ import { supabase } from './supabaseClient';
 import { parseMeal, confirmLogMeal, getLogs, getSummary, getWeeklyAnalytics, logWeight, getWeightHistory, deleteLog, getProfile, saveProfile, getRecipes, saveRecipe, deleteRecipe, logRecipe, transcribeAudio, searchExercises, logWorkout, getWorkouts, updateProfile } from './api';
 import OnboardingScreen, { MacroTargets, UserProfilePayload } from './OnboardingScreen';
 import { calculationService } from './calculation-service';
-import { Audio } from 'expo-av';
+import { useAudioRecorder, RecordingPresets, requestRecordingPermissionsAsync } from 'expo-audio';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing } from 'react-native-reanimated';
@@ -290,19 +290,17 @@ function ChatTab({ fetchData, setActiveTab }: any) {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [recording, setRecording] = useState<Audio.Recording | null>(null);
+  const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+  const [isRecording, setIsRecording] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
 
   const startRecording = async () => {
     try {
-      const permission = await Audio.requestPermissionsAsync();
-      if (permission.status === 'granted') {
-        await Audio.setAudioModeAsync({
-          allowsRecordingIOS: true,
-          playsInSilentModeIOS: true,
-        });
-        const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
-        setRecording(recording);
+      const permission = await requestRecordingPermissionsAsync();
+      if (permission.granted) {
+        await recorder.prepareToRecordAsync();
+        recorder.record();
+        setIsRecording(true);
       } else {
         Alert.alert('Permission Denied', 'Please grant microphone permissions to use voice transcription.');
       }
@@ -313,12 +311,12 @@ function ChatTab({ fetchData, setActiveTab }: any) {
   };
 
   const stopRecording = async () => {
-    if (!recording) return;
+    if (!isRecording) return;
     setIsTranscribing(true);
-    setRecording(null);
+    setIsRecording(false);
     try {
-      await recording.stopAndUnloadAsync();
-      const uri = recording.getURI();
+      await recorder.stop();
+      const uri = recorder.uri;
       if (uri) {
         const result = await transcribeAudio(uri);
         if (result.text) {
@@ -421,21 +419,21 @@ function ChatTab({ fetchData, setActiveTab }: any) {
         <View style={{ flexDirection: 'row', padding: rs(16), paddingTop: rs(8) }}>
           <TextInput
             style={[s.input, { flex: 1, marginBottom: rs(0), borderRadius: rs(24), paddingHorizontal: rs(16) }]}
-            placeholder={recording ? 'Recording...' : 'e.g. "2 boiled eggs"'}
-            placeholderTextColor={recording ? C.error : C.textSecondary}
+            placeholder={isRecording ? 'Recording...' : 'e.g. "2 boiled eggs"'}
+            placeholderTextColor={isRecording ? C.error : C.textSecondary}
             value={input}
             onChangeText={setInput}
             onSubmitEditing={handleSend}
             returnKeyType="send"
-            editable={!recording && !isTranscribing}
+            editable={!isRecording && !isTranscribing}
           />
           {!input.trim() ? (
             <TouchableOpacity 
-              style={{ marginLeft: rs(12), backgroundColor: recording ? 'rgba(244,63,94,0.2)' : C.surface, width: rs(48), height: rs(48), borderRadius: rs(24), justifyContent: 'center', alignItems: 'center', borderWidth: recording ? 1 : 0, borderColor: C.error }} 
-              onPress={recording ? stopRecording : startRecording} 
+              style={{ marginLeft: rs(12), backgroundColor: isRecording ? 'rgba(244,63,94,0.2)' : C.surface, width: rs(48), height: rs(48), borderRadius: rs(24), justifyContent: 'center', alignItems: 'center', borderWidth: isRecording ? 1 : 0, borderColor: C.error }} 
+              onPress={isRecording ? stopRecording : startRecording} 
               disabled={isLoading || isTranscribing}
             >
-              {isTranscribing ? <ActivityIndicator color={C.textPrimary} /> : <Ionicons name={recording ? "stop" : "mic"} size={20} color={recording ? C.error : C.textPrimary} />}
+              {isTranscribing ? <ActivityIndicator color={C.textPrimary} /> : <Ionicons name={isRecording ? "stop" : "mic"} size={20} color={isRecording ? C.error : C.textPrimary} />}
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={{ marginLeft: rs(12), backgroundColor: C.accent, width: rs(48), height: rs(48), borderRadius: rs(24), justifyContent: 'center', alignItems: 'center' }} onPress={handleSend} disabled={isLoading || isTranscribing}>
