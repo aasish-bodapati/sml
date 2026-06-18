@@ -192,3 +192,36 @@ export async function getWeightHistory(days: number = 30) {
   if (!response.ok) throw new Error(`Failed to fetch weight history: ${await response.text()}`);
   return response.json();
 }
+
+export async function searchExercises(q: string) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/exercises/search?q=${encodeURIComponent(q)}`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to search exercises: ${await response.text()}`);
+  return response.json();
+}
+
+export async function logWorkout(workoutData: any) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/workouts`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(workoutData),
+  });
+  if (!response.ok) {
+    let errMsg = `Server error ${response.status}`;
+    try { const j = await response.json(); if (j?.detail) errMsg = j.detail; } catch (_) {}
+    throw new Error(errMsg);
+  }
+  return response.json();
+}
+
+export async function getWorkouts() {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/workouts`, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to fetch workouts: ${await response.text()}`);
+  return response.json();
+}
