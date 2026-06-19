@@ -44,3 +44,24 @@ def test_recipe_not_found(client: TestClient):
 
     response = client.post("/recipes/999/log")
     assert response.status_code == 404
+
+from models.food import SavedRecipe
+
+def test_recipe_forbidden(client: TestClient, session):
+    other_recipe = SavedRecipe(
+        name="Other Recipe",
+        user_id="other_user_456",
+        calories=100,
+        protein=0,
+        carbohydrates=0,
+        fat=0
+    )
+    session.add(other_recipe)
+    session.commit()
+    session.refresh(other_recipe)
+
+    response = client.delete(f"/recipes/{other_recipe.id}")
+    assert response.status_code == 403
+
+    response = client.post(f"/recipes/{other_recipe.id}/log")
+    assert response.status_code == 403

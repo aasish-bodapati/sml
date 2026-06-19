@@ -94,3 +94,28 @@ def test_get_weight_history(client: TestClient):
     assert len(data) == 2
     assert data[0]["weight_kg"] == 74.5  # Ordered by desc
     assert data[1]["weight_kg"] == 75.0
+
+def test_update_profile_not_found(client: TestClient):
+    update_data = {
+        "goal": "cut", "gender": "male", "age": 30, "height_cm": 180, "weight_kg": 70,
+        "activity": "high", "target_calories": 2200, "target_protein": 180,
+        "target_carbs": 200, "target_fat": 60
+    }
+    response = client.put("/profile", json=update_data)
+    assert response.status_code == 404
+
+def test_log_weight_with_profile(client: TestClient):
+    profile_data = {
+        "goal": "maintenance", "gender": "male", "age": 30, "height_cm": 180, "weight_kg": 75,
+        "activity": "moderate", "target_calories": 2600, "target_protein": 150,
+        "target_carbs": 300, "target_fat": 80
+    }
+    client.post("/profile", json=profile_data)
+    
+    weight_data = {"weight_kg": 72.5}
+    response = client.post("/weight", json=weight_data)
+    assert response.status_code == 200
+    
+    # Verify profile weight was updated
+    resp2 = client.get("/profile")
+    assert resp2.json()["weight_kg"] == 72.5

@@ -63,6 +63,7 @@ def log_weight(request: WeightLogRequest, user_id: str = Depends(get_current_use
         profile = session.exec(statement).first()
         if profile:
             profile.weight_kg = request.weight_kg
+            profile.updated_at = datetime.now(timezone.utc)
             session.add(profile)
             session.commit()
             

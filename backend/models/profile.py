@@ -32,7 +32,7 @@ class UserProfile(SQLModel, table=True):
     target_fat: int
     updated_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
-        sa_column_kwargs={"server_default": text("TIMEZONE('utc', now())"), "onupdate": text("TIMEZONE('utc', now())")}
+        sa_column_kwargs={"server_default": text("TIMEZONE('utc', now())")}
     )
 
 class WeightLogRequest(BaseModel):
