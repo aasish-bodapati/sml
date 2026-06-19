@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator, Alert, StatusBar, Text } from 'react-native';
+import { View, ActivityIndicator, Alert, StatusBar, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Session } from '@supabase/supabase-js';
 import BottomTabBar from '../components/BottomTabBar';
@@ -156,8 +156,31 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
           {activeTab === 'home' && (
             <View style={s.header}>
               <View style={{ flex: 1 }}>
-                <Text style={s.headerTitle}>🥗 MacTrack</Text>
+                <Text style={s.headerTitle}>✨ LyfSync</Text>
                 <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>{session.user?.email}</Text>
+              </View>
+            </View>
+          )}
+
+          {activeTab === 'history' && (
+            <View style={[s.header, { justifyContent: 'space-between' }]}>
+              <View style={{ flex: 1 }}>
+                <Text style={s.headerTitle}>Nutrition</Text>
+                <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>History & Logs</Text>
+              </View>
+              <View style={{ flexDirection: 'row', gap: rs(8), alignItems: 'center' }}>
+                <TouchableOpacity 
+                  onPress={() => setShowRecipesScreen(true)} 
+                  style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(8), borderWidth: rs(1), borderColor: C.border }}
+                >
+                  <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>⭐ Recipes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  onPress={() => setActiveTab('chat')} 
+                  style={{ backgroundColor: C.accent, paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(8) }}
+                >
+                  <Text style={{ color: C.bg, fontSize: fs(13), fontWeight: 'bold' }}>+ Log Meal</Text>
+                </TouchableOpacity>
               </View>
             </View>
           )}

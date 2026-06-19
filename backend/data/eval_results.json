@@ -8,15 +8,15 @@
       "carbohydrates": 0.0
     },
     "predicted": {
-      "calories": 0,
-      "protein": 22,
-      "fat": 1,
+      "calories": 165,
+      "protein": 31,
+      "fat": 3,
       "carbohydrates": 0
     },
     "errors": {
-      "calories": 1.0,
-      "protein": 0.022222222222222223,
-      "fat": 0.6153846153846154,
+      "calories": 0.375,
+      "protein": 0.37777777777777777,
+      "fat": 0.1538461538461538,
       "carbohydrates": 0.0
     }
   },
@@ -29,15 +29,15 @@
       "carbohydrates": 0.6
     },
     "predicted": {
-      "calories": 148,
-      "protein": 12,
-      "fat": 10,
+      "calories": 78,
+      "protein": 6,
+      "fat": 5,
       "carbohydrates": 1
     },
     "errors": {
-      "calories": 0.8974358974358975,
-      "protein": 0.9047619047619048,
-      "fat": 0.8867924528301887,
+      "calories": 0.0,
+      "protein": 0.047619047619047596,
+      "fat": 0.05660377358490563,
       "carbohydrates": 0.4
     }
   },
@@ -51,13 +51,13 @@
     },
     "predicted": {
       "calories": 130,
-      "protein": 2,
+      "protein": 3,
       "fat": 0,
       "carbohydrates": 28
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.2592592592592593,
+      "protein": 0.11111111111111104,
       "fat": 0.3,
       "carbohydrates": 0.0
     }
@@ -71,13 +71,13 @@
       "carbohydrates": 0.0
     },
     "predicted": {
-      "calories": 119,
+      "calories": 120,
       "protein": 0,
       "fat": 14,
       "carbohydrates": 0
     },
     "errors": {
-      "calories": 0.0,
+      "calories": 0.008403361344537815,
       "protein": 0.0,
       "fat": 0.037037037037037035,
       "carbohydrates": 0.0
@@ -92,16 +92,16 @@
       "carbohydrates": 27.0
     },
     "predicted": {
-      "calories": 97,
+      "calories": 105,
       "protein": 1,
       "fat": 0,
-      "carbohydrates": 23
+      "carbohydrates": 27
     },
     "errors": {
-      "calories": 0.0761904761904762,
+      "calories": 0.0,
       "protein": 0.23076923076923078,
       "fat": 0.4,
-      "carbohydrates": 0.14814814814814814
+      "carbohydrates": 0.0
     }
   },
   {
@@ -113,15 +113,15 @@
       "carbohydrates": 28.0
     },
     "predicted": {
-      "calories": 185,
+      "calories": 160,
       "protein": 8,
-      "fat": 5,
+      "fat": 2,
       "carbohydrates": 30
     },
     "errors": {
-      "calories": 0.15625,
+      "calories": 0.0,
       "protein": 0.0,
-      "fat": 1.5,
+      "fat": 0.0,
       "carbohydrates": 0.07142857142857142
     }
   },
@@ -134,13 +134,13 @@
       "carbohydrates": 12.0
     },
     "predicted": {
-      "calories": 149,
+      "calories": 150,
       "protein": 8,
       "fat": 8,
       "carbohydrates": 12
     },
     "errors": {
-      "calories": 0.0,
+      "calories": 0.006711409395973154,
       "protein": 0.0,
       "fat": 0.0,
       "carbohydrates": 0.0
@@ -155,16 +155,16 @@
       "carbohydrates": 3.6
     },
     "predicted": {
-      "calories": 0,
+      "calories": 23,
       "protein": 3,
-      "fat": 1,
-      "carbohydrates": 3
+      "fat": 0,
+      "carbohydrates": 4
     },
     "errors": {
-      "calories": 1.0,
+      "calories": 0.0,
       "protein": 0.03448275862068969,
-      "fat": 0.6,
-      "carbohydrates": 0.16666666666666669
+      "fat": 0.4,
+      "carbohydrates": 0.11111111111111108
     }
   },
   {
@@ -176,15 +176,15 @@
       "carbohydrates": 6.0
     },
     "predicted": {
-      "calories": 320,
+      "calories": 174,
       "protein": 6,
-      "fat": 28,
+      "fat": 15,
       "carbohydrates": 6
     },
     "errors": {
-      "calories": 0.9512195121951219,
+      "calories": 0.06097560975609756,
       "protein": 0.0,
-      "fat": 1.0,
+      "fat": 0.07142857142857142,
       "carbohydrates": 0.0
     }
   },
@@ -197,16 +197,16 @@
       "carbohydrates": 25.0
     },
     "predicted": {
-      "calories": 72,
+      "calories": 95,
       "protein": 0,
       "fat": 0,
-      "carbohydrates": 19
+      "carbohydrates": 25
     },
     "errors": {
-      "calories": 0.24210526315789474,
+      "calories": 0.0,
       "protein": 0.5,
       "fat": 0.3,
-      "carbohydrates": 0.24
+      "carbohydrates": 0.0
     }
   },
   {
@@ -218,16 +218,16 @@
       "carbohydrates": 30.0
     },
     "predicted": {
-      "calories": 160,
+      "calories": 210,
       "protein": 6,
       "fat": 2,
-      "carbohydrates": 32
+      "carbohydrates": 42
     },
     "errors": {
-      "calories": 0.14285714285714285,
+      "calories": 0.5,
       "protein": 0.5,
       "fat": 1.2,
-      "carbohydrates": 0.06666666666666667
+      "carbohydrates": 0.4
     }
   },
   {
@@ -239,16 +239,16 @@
       "carbohydrates": 30.0
     },
     "predicted": {
-      "calories": 250,
-      "protein": 8,
-      "fat": 6,
-      "carbohydrates": 40
+      "calories": 210,
+      "protein": 12,
+      "fat": 2,
+      "carbohydrates": 34
     },
     "errors": {
-      "calories": 0.13636363636363635,
-      "protein": 0.2727272727272727,
-      "fat": 0.0,
-      "carbohydrates": 0.3333333333333333
+      "calories": 0.045454545454545456,
+      "protein": 0.09090909090909091,
+      "fat": 0.6666666666666666,
+      "carbohydrates": 0.13333333333333333
     }
   },
   {
@@ -260,16 +260,16 @@
       "carbohydrates": 70.0
     },
     "predicted": {
-      "calories": 295,
-      "protein": 10,
-      "fat": 9,
-      "carbohydrates": 31
+      "calories": 420,
+      "protein": 25,
+      "fat": 15,
+      "carbohydrates": 55
     },
     "errors": {
-      "calories": 0.5083333333333333,
-      "protein": 0.6,
-      "fat": 0.55,
-      "carbohydrates": 0.5571428571428572
+      "calories": 0.3,
+      "protein": 0.0,
+      "fat": 0.25,
+      "carbohydrates": 0.21428571428571427
     }
   },
   {
@@ -281,16 +281,16 @@
       "carbohydrates": 20.0
     },
     "predicted": {
-      "calories": 164,
+      "calories": 142,
       "protein": 3,
-      "fat": 8,
-      "carbohydrates": 20
+      "fat": 1,
+      "carbohydrates": 30
     },
     "errors": {
-      "calories": 0.23308270676691728,
+      "calories": 0.06766917293233082,
       "protein": 0.14285714285714285,
-      "fat": 1.162162162162162,
-      "carbohydrates": 0.0
+      "fat": 0.7297297297297297,
+      "carbohydrates": 0.5
     }
   },
   {
@@ -302,16 +302,16 @@
       "carbohydrates": 4.0
     },
     "predicted": {
-      "calories": 93,
-      "protein": 5,
-      "fat": 4,
-      "carbohydrates": 7
+      "calories": 240,
+      "protein": 18,
+      "fat": 18,
+      "carbohydrates": 6
     },
     "errors": {
-      "calories": 0.6423076923076924,
-      "protein": 0.7222222222222222,
-      "fat": 0.8,
-      "carbohydrates": 0.75
+      "calories": 0.07692307692307693,
+      "protein": 0.0,
+      "fat": 0.1,
+      "carbohydrates": 0.5
     }
   },
   {
@@ -323,15 +323,15 @@
       "carbohydrates": 17.0
     },
     "predicted": {
-      "calories": 336,
-      "protein": 14,
-      "fat": 19,
+      "calories": 314,
+      "protein": 10,
+      "fat": 18,
       "carbohydrates": 29
     },
     "errors": {
-      "calories": 0.9310344827586207,
-      "protein": 0.75,
-      "fat": 1.1111111111111112,
+      "calories": 0.8045977011494253,
+      "protein": 0.25,
+      "fat": 1.0,
       "carbohydrates": 0.7058823529411765
     }
   },
@@ -344,16 +344,16 @@
       "carbohydrates": 39.0
     },
     "predicted": {
-      "calories": 210,
-      "protein": 8,
-      "fat": 5,
-      "carbohydrates": 30
+      "calories": 290,
+      "protein": 10,
+      "fat": 7,
+      "carbohydrates": 45
     },
     "errors": {
-      "calories": 0.2976588628762542,
-      "protein": 0.38461538461538464,
-      "fat": 0.5454545454545454,
-      "carbohydrates": 0.23076923076923078
+      "calories": 0.030100334448160536,
+      "protein": 0.23076923076923078,
+      "fat": 0.36363636363636365,
+      "carbohydrates": 0.15384615384615385
     }
   },
   {
@@ -365,37 +365,289 @@
       "carbohydrates": 1.5
     },
     "predicted": {
-      "calories": 30,
-      "protein": 1,
-      "fat": 1,
-      "carbohydrates": 5
+      "calories": 90,
+      "protein": 4,
+      "fat": 4,
+      "carbohydrates": 10
     },
     "errors": {
-      "calories": 0.6666666666666666,
-      "protein": 0.0,
-      "fat": 0.0,
-      "carbohydrates": 2.3333333333333335
+      "calories": 4.0,
+      "protein": 3.0,
+      "fat": 3.0,
+      "carbohydrates": 5.666666666666667
     }
   },
   {
-    "description": "a snack",
+    "description": "I had a sandwich for lunch",
     "expected": {
-      "calories": 0,
-      "protein": 0.0,
-      "fat": 0.0,
-      "carbohydrates": 0.0
+      "calories": 350,
+      "protein": 15.0,
+      "fat": 12.0,
+      "carbohydrates": 45.0
     },
     "predicted": {
-      "calories": 150,
-      "protein": 4,
-      "fat": 6,
-      "carbohydrates": 20
+      "calories": 350,
+      "protein": 25,
+      "fat": 15,
+      "carbohydrates": 40
     },
     "errors": {
-      "calories": 150.0,
-      "protein": 4.0,
-      "fat": 6.0,
+      "calories": 0.0,
+      "protein": 0.6666666666666666,
+      "fat": 0.25,
+      "carbohydrates": 0.1111111111111111
+    }
+  },
+  {
+    "description": "Ate a big bowl of pasta",
+    "expected": {
+      "calories": 500,
+      "protein": 15.0,
+      "fat": 10.0,
+      "carbohydrates": 85.0
+    },
+    "predicted": {
+      "calories": 360,
+      "protein": 12,
+      "fat": 2,
+      "carbohydrates": 72
+    },
+    "errors": {
+      "calories": 0.28,
+      "protein": 0.2,
+      "fat": 0.8,
+      "carbohydrates": 0.15294117647058825
+    }
+  },
+  {
+    "description": "Some chicken and rice",
+    "expected": {
+      "calories": 400,
+      "protein": 30.0,
+      "fat": 5.0,
+      "carbohydrates": 55.0
+    },
+    "predicted": {
+      "calories": 550,
+      "protein": 45,
+      "fat": 12,
+      "carbohydrates": 70
+    },
+    "errors": {
+      "calories": 0.375,
+      "protein": 0.5,
+      "fat": 1.4,
+      "carbohydrates": 0.2727272727272727
+    }
+  },
+  {
+    "description": "Just a regular cheeseburger from McDonalds",
+    "expected": {
+      "calories": 300,
+      "protein": 15.0,
+      "fat": 12.0,
+      "carbohydrates": 33.0
+    },
+    "predicted": {
+      "calories": 300,
+      "protein": 13,
+      "fat": 16,
+      "carbohydrates": 32
+    },
+    "errors": {
+      "calories": 0.0,
+      "protein": 0.13333333333333333,
+      "fat": 0.3333333333333333,
+      "carbohydrates": 0.030303030303030304
+    }
+  },
+  {
+    "description": "Chicken Caesar salad with extra dressing and croutons",
+    "expected": {
+      "calories": 600,
+      "protein": 30.0,
+      "fat": 45.0,
       "carbohydrates": 20.0
+    },
+    "predicted": {
+      "calories": 620,
+      "protein": 40,
+      "fat": 40,
+      "carbohydrates": 30
+    },
+    "errors": {
+      "calories": 0.03333333333333333,
+      "protein": 0.3333333333333333,
+      "fat": 0.1111111111111111,
+      "carbohydrates": 0.5
+    }
+  },
+  {
+    "description": "Two slices of large pepperoni pizza",
+    "expected": {
+      "calories": 600,
+      "protein": 24.0,
+      "fat": 26.0,
+      "carbohydrates": 68.0
+    },
+    "predicted": {
+      "calories": 400,
+      "protein": 20,
+      "fat": 18,
+      "carbohydrates": 50
+    },
+    "errors": {
+      "calories": 0.3333333333333333,
+      "protein": 0.16666666666666666,
+      "fat": 0.3076923076923077,
+      "carbohydrates": 0.2647058823529412
+    }
+  },
+  {
+    "description": "A burrito bowl with brown rice, black beans, double chicken, and guac",
+    "expected": {
+      "calories": 800,
+      "protein": 60.0,
+      "fat": 30.0,
+      "carbohydrates": 70.0
+    },
+    "predicted": {
+      "calories": 850,
+      "protein": 60,
+      "fat": 35,
+      "carbohydrates": 80
+    },
+    "errors": {
+      "calories": 0.0625,
+      "protein": 0.0,
+      "fat": 0.16666666666666666,
+      "carbohydrates": 0.14285714285714285
+    }
+  },
+  {
+    "description": "150g raw chicken breast, 200g cooked white rice, 50g steamed broccoli",
+    "expected": {
+      "calories": 457,
+      "protein": 39.0,
+      "fat": 4.0,
+      "carbohydrates": 59.0
+    },
+    "predicted": {
+      "calories": 442,
+      "protein": 38,
+      "fat": 4,
+      "carbohydrates": 62
+    },
+    "errors": {
+      "calories": 0.03282275711159737,
+      "protein": 0.02564102564102564,
+      "fat": 0.0,
+      "carbohydrates": 0.05084745762711865
+    }
+  },
+  {
+    "description": "3 large eggs scrambled with 1 tbsp butter and 30g cheddar cheese",
+    "expected": {
+      "calories": 430,
+      "protein": 25.0,
+      "fat": 36.0,
+      "carbohydrates": 2.0
+    },
+    "predicted": {
+      "calories": 360,
+      "protein": 30,
+      "fat": 27,
+      "carbohydrates": 2
+    },
+    "errors": {
+      "calories": 0.16279069767441862,
+      "protein": 0.2,
+      "fat": 0.25,
+      "carbohydrates": 0.0
+    }
+  },
+  {
+    "description": "2 scoop whey protein, 300ml whole milk, 1 medium banana, 1 tbsp peanut butter",
+    "expected": {
+      "calories": 620,
+      "protein": 63.0,
+      "fat": 21.0,
+      "carbohydrates": 50.0
+    },
+    "predicted": {
+      "calories": 520,
+      "protein": 40,
+      "fat": 21,
+      "carbohydrates": 46
+    },
+    "errors": {
+      "calories": 0.16129032258064516,
+      "protein": 0.36507936507936506,
+      "fat": 0.0,
+      "carbohydrates": 0.08
+    }
+  },
+  {
+    "description": "I pan fried 200g of raw salmon in 1 tablespoon of olive oil, served with 100g of roasted sweet potatoes",
+    "expected": {
+      "calories": 621,
+      "protein": 41.6,
+      "fat": 40.0,
+      "carbohydrates": 20.0
+    },
+    "predicted": {
+      "calories": 613,
+      "protein": 46,
+      "fat": 37,
+      "carbohydrates": 21
+    },
+    "errors": {
+      "calories": 0.01288244766505636,
+      "protein": 0.10576923076923073,
+      "fat": 0.075,
+      "carbohydrates": 0.05
+    }
+  },
+  {
+    "description": "Made a stew with 300g beef chuck, 2 large carrots, 1 medium potato, slow cooked in 2 cups of beef broth",
+    "expected": {
+      "calories": 970,
+      "protein": 65.3,
+      "fat": 58.5,
+      "carbohydrates": 46.0
+    },
+    "predicted": {
+      "calories": 570,
+      "protein": 60,
+      "fat": 25,
+      "carbohydrates": 40
+    },
+    "errors": {
+      "calories": 0.41237113402061853,
+      "protein": 0.08116385911179169,
+      "fat": 0.5726495726495726,
+      "carbohydrates": 0.13043478260869565
+    }
+  },
+  {
+    "description": "Deep fried 200g of french fries in vegetable oil",
+    "expected": {
+      "calories": 646,
+      "protein": 7.0,
+      "fat": 32.0,
+      "carbohydrates": 84.0
+    },
+    "predicted": {
+      "calories": 420,
+      "protein": 5,
+      "fat": 19,
+      "carbohydrates": 63
+    },
+    "errors": {
+      "calories": 0.3498452012383901,
+      "protein": 0.2857142857142857,
+      "fat": 0.40625,
+      "carbohydrates": 0.25
     }
   }
 ]

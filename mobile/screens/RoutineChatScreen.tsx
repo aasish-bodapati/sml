@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useAudioRecorder, RecordingPresets, requestRecordingPermissionsAsync } from 'expo-audio';
+import { useAudioRecorder, RecordingPresets, requestRecordingPermissionsAsync, setAudioModeAsync } from 'expo-audio';
 import { generateRoutine, createRoutine, transcribeAudio } from '../api';
 import { C, rs, fs } from '../design-tokens';
 import { s } from '../styles/appStyles';
@@ -22,6 +22,7 @@ export default function RoutineChatScreen({ onBack, onSuccess }: any) {
     try {
       const permission = await requestRecordingPermissionsAsync();
       if (permission.granted) {
+        await setAudioModeAsync({ allowsRecording: true, playsInSilentMode: true });
         await recorder.prepareToRecordAsync();
         recorder.record();
         setIsRecording(true);

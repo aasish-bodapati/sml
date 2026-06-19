@@ -57,17 +57,8 @@ export default function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLo
             />
           )}
 
-          {/* History label */}
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(8) }}>
             <Text style={[s.sectionTitle, { marginBottom: rs(0) }]}>Meal History</Text>
-            <View style={{ flexDirection: 'row', gap: rs(8) }}>
-              <TouchableOpacity onPress={() => setActiveTab('chat')} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(8), borderWidth: rs(1), borderColor: C.border }}>
-                <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>+ Log Meal</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setShowRecipesScreen(true)} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(8), borderWidth: rs(1), borderColor: C.border }}>
-                <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>⭐ Recipes</Text>
-              </TouchableOpacity>
-            </View>
           </View>
           {logs.length === 0 && <Text style={{ color: C.textMuted, fontStyle: 'italic', textAlign: 'center', marginTop: rs(16) }}>Nothing logged.</Text>}
         </>

@@ -1,5 +1,5 @@
 import pandas as pd
-from main import parse_macros, MacroRequest
+from routers.food import parse_macros, MacroRequest
 import json
 import traceback
 

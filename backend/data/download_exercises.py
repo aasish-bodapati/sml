@@ -23,7 +23,7 @@ def fetch_page(after_cursor: str | None = None) -> dict:
     if after_cursor:
         url += f"&after={after_cursor}"
 
-    req = urllib.request.Request(url, headers={"User-Agent": "MacTrack/1.0"})
+    req = urllib.request.Request(url, headers={"User-Agent": "LyfSync/1.0"})
     with urllib.request.urlopen(req, timeout=15) as resp:
         return json.loads(resp.read())
 

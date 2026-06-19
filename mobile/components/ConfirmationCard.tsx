@@ -1,17 +1,53 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { C, rs, fs } from '../design-tokens';
 import { s } from '../styles/appStyles';
+import { saveRecipe } from '../api';
 
 export default function ConfirmationCard({ parsedData, onConfirm, onCancel, isLoading }: any) {
   const [editedMeals, setEditedMeals] = useState<any[]>(
     parsedData.items.map((item: any) => ({ ...item, meal_type: item.meal_type || 'snack' }))
   );
+  const [isSaving, setIsSaving] = useState(false);
 
   const totalCalories = editedMeals.reduce((sum, meal) => sum + (parseInt(meal.calories) || 0), 0);
   const totalProtein = editedMeals.reduce((sum, meal) => sum + (parseInt(meal.protein) || 0), 0);
   const totalCarbs = editedMeals.reduce((sum, meal) => sum + (parseInt(meal.carbohydrates) || 0), 0);
   const totalFat = editedMeals.reduce((sum, meal) => sum + (parseInt(meal.fat) || 0), 0);
+
+  const handleSave = () => {
+    const defaultName = editedMeals.length === 1 ? editedMeals[0].name : `${editedMeals[0].name} + ${editedMeals.length - 1} more`;
+    Alert.prompt(
+      'Save as Recipe',
+      'Give this meal a name to quickly log it later.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Save',
+          onPress: async (name?: string) => {
+            if (!name?.trim()) return;
+            setIsSaving(true);
+            try {
+              await saveRecipe({
+                name: name.trim(),
+                calories: totalCalories,
+                protein: totalProtein,
+                carbohydrates: totalCarbs,
+                fat: totalFat,
+              });
+              Alert.alert('Saved!', `"${name.trim()}" added to your recipes.`);
+            } catch (e: any) {
+              Alert.alert('Error', e.message || 'Failed to save recipe.');
+            } finally {
+              setIsSaving(false);
+            }
+          }
+        }
+      ],
+      'plain-text',
+      defaultName
+    );
+  };
 
   return (
     <View style={s.confirmationCard}>
@@ -88,17 +124,37 @@ export default function ConfirmationCard({ parsedData, onConfirm, onCancel, isLo
               <TextInput style={s.editInput} keyboardType="numeric" value={meal.fat.toString()} onChangeText={t => { const newMeals = [...editedMeals]; newMeals[index].fat = parseInt(t) || 0; setEditedMeals(newMeals); }} />
             </View>
           </View>
-          
-
         </View>
       ))}
 
-      <View style={{ flexDirection: 'row', gap: rs(12), marginTop: rs(8) }}>
-        <TouchableOpacity style={[s.btn, { flex: 1, paddingVertical: rs(12), marginBottom: rs(0), backgroundColor: 'transparent', borderWidth: rs(1), borderColor: C.border }]} onPress={onCancel}>
-          <Text style={[s.btnText, { color: C.textPrimary, fontSize: fs(15) }]}>✕ Cancel</Text>
+      <View style={{ flexDirection: 'row', gap: rs(8), marginTop: rs(8) }}>
+        <TouchableOpacity
+          style={{ flex: 1, flexBasis: 0, height: rs(40), borderRadius: rs(8), flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent', borderWidth: rs(1), borderColor: C.border }}
+          onPress={onCancel}
+        >
+          <Text numberOfLines={1} style={{ color: C.textPrimary, fontWeight: 'bold', fontSize: fs(13) }}>✕ Cancel</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[s.btn, { flex: 1, paddingVertical: rs(12), marginBottom: rs(0) }]} onPress={() => onConfirm(editedMeals, parsedData.thinking)} disabled={isLoading || editedMeals.length === 0}>
-          {isLoading ? <ActivityIndicator color={C.bg} /> : <Text style={[s.btnText, { fontSize: fs(15) }]}>✓ Confirm</Text>}
+        <TouchableOpacity
+          style={{ flex: 1, flexBasis: 0, height: rs(40), borderRadius: rs(8), flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(251,191,36,0.12)', borderWidth: rs(1), borderColor: 'rgba(251,191,36,0.4)' }}
+          onPress={handleSave}
+          disabled={isLoading || isSaving}
+        >
+          {isSaving ? (
+            <ActivityIndicator color="#fbbf24" size="small" />
+          ) : (
+            <Text numberOfLines={1} style={{ color: '#fbbf24', fontWeight: 'bold', fontSize: fs(13) }}>⭐ Save</Text>
+          )}
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ flex: 1, flexBasis: 0, height: rs(40), borderRadius: rs(8), flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: C.accent }}
+          onPress={() => onConfirm(editedMeals, parsedData.thinking)}
+          disabled={isLoading || editedMeals.length === 0}
+        >
+          {isLoading ? (
+            <ActivityIndicator color={C.bg} size="small" />
+          ) : (
+            <Text numberOfLines={1} style={{ color: C.bg, fontWeight: 'bold', fontSize: fs(13) }}>✓ Log</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

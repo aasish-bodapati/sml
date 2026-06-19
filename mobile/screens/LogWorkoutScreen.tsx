@@ -5,7 +5,19 @@ import { searchExercises, logWorkout, updateWorkout } from '../api';
 import { C, rs, fs } from '../design-tokens';
 import { fitnessStyles } from '../styles/fitnessStyles';
 import { s } from '../styles/appStyles';
-import { safeParseArray } from './FitnessTab'; // Re-use the helper
+
+
+// Re-use the helper locally to avoid require cycle
+const safeParseArray = (val: any) => {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  try {
+    const parsed = JSON.parse(val);
+    return Array.isArray(parsed) ? parsed : [parsed];
+  } catch {
+    return [];
+  }
+};
 
 export default function LogWorkoutScreen({ initialRoutine, initialSession, onBack, onSuccess }: { initialRoutine?: any, initialSession?: any, onBack: () => void, onSuccess: () => void }) {
   // Default name handling
