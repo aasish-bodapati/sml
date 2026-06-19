@@ -19,7 +19,7 @@ def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)
         "role": "system",
         "content": (
             "You are a strict nutrition tracker. Use short, clean dish names (e.g. 'Protein Shake', 'Chicken Sandwich') — never list ingredients in the name. "
-            "In the 'thinking' field, write 2-3 concise sentences explaining what portion sizes and reference values you used to estimate the macros (e.g. assumed standard serving, used USDA values, estimated weight). Do NOT list out arithmetic. "
+            "In the 'thinking' field, perform a step-by-step calculation showing your portion assumptions, reference values, and raw arithmetic for each ingredient/item (e.g. '300g beef chuck = 3 * 250 = 750 kcal, 20g * 3 = 60g protein. 2 carrots = 60 kcal. Total = 810 kcal'). Ensure the final sums match the output fields exactly. "
             "Group items into composite DISHES (e.g. 'chicken sandwich' is 1 dish). Do NOT split composite dishes into raw ingredients. "
             "If the user ate multiple completely separate dishes, separate them into multiple NutritionItems in the 'items' array. "
             "If an item is gibberish or non-food, set is_food to False. Infer the meal_type from context.\n\n"
@@ -38,7 +38,7 @@ def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)
             "- 1 handful (dry nuts/seeds) = 30g; (chips/puffs) = 20g\n"
             "- 1 glass = 250ml\n"
             "- 'small' portion = reduce by 25%; 'large' or 'heaped' = increase by 30%; 'half' = reduce by 50%.\n"
-            "When a food's volume-to-weight conversion isn't listed above, use your best estimate of the food's density.\n\n"
+            "CRITICAL: You MUST follow these PORTION SIZE STANDARDS and INGREDIENT DEFAULTS exactly. Do NOT use your own internal database weights or default portions if they are defined here. For example, 1 slice of bread must be treated as ~80 kcal based on the 30g slice default, not 265 kcal (which is the 100g value). When a food's volume-to-weight conversion isn't listed above, use your best estimate of the food's density.\n\n"
         ) + get_ingredient_defaults()
     }
     messages = [system_msg] + [msg.model_dump() for msg in request.messages]

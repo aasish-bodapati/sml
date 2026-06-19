@@ -1,0 +1,257 @@
+{
+  "case_count": 31,
+  "overall": {
+    "calories": {
+      "mape": 0.02602760071033366,
+      "median_error": 0.0,
+      "rmse": 0.06160198206507303,
+      "within_10pct": 0.9354838709677419,
+      "within_20pct": 0.967741935483871,
+      "within_30pct": 1.0
+    },
+    "protein": {
+      "mape": 0.08842167757531433,
+      "median_error": 0.009615384615384581,
+      "rmse": 0.170538883264137,
+      "within_10pct": 0.7096774193548387,
+      "within_20pct": 0.8064516129032258,
+      "within_30pct": 0.9354838709677419
+    },
+    "fat": {
+      "mape": 0.16527766864802773,
+      "median_error": 0.037037037037037035,
+      "rmse": 0.30978498142359,
+      "within_10pct": 0.6451612903225806,
+      "within_20pct": 0.7096774193548387,
+      "within_30pct": 0.8064516129032258
+    },
+    "carbohydrates": {
+      "mape": 0.12166247036307262,
+      "median_error": 0.0,
+      "rmse": 0.28300735734657334,
+      "within_10pct": 0.7419354838709677,
+      "within_20pct": 0.8064516129032258,
+      "within_30pct": 0.8387096774193549
+    }
+  },
+  "by_category": {
+    "Moderate/Single Item": {
+      "count": 8,
+      "macros": {
+        "calories": {
+          "mape": 0.02330316742081448,
+          "median_error": 0.0,
+          "rmse": 0.05471292503414606,
+          "within_10pct": 0.875,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        },
+        "protein": {
+          "mape": 0.14640567765567766,
+          "median_error": 0.09523809523809522,
+          "rmse": 0.22034920434144803,
+          "within_10pct": 0.5,
+          "within_20pct": 0.625,
+          "within_30pct": 0.875
+        },
+        "fat": {
+          "mape": 0.13434023646287796,
+          "median_error": 0.06884242733299333,
+          "rmse": 0.19401993164550485,
+          "within_10pct": 0.625,
+          "within_20pct": 0.75,
+          "within_30pct": 0.875
+        },
+        "carbohydrates": {
+          "mape": 0.11753812636165577,
+          "median_error": 0.029411764705882353,
+          "rmse": 0.1925224637942588,
+          "within_10pct": 0.625,
+          "within_20pct": 0.75,
+          "within_30pct": 0.75
+        }
+      }
+    },
+    "Specific/Detailed": {
+      "count": 19,
+      "macros": {
+        "calories": {
+          "mape": 0.018180541192306717,
+          "median_error": 0.0033444816053511705,
+          "rmse": 0.03083563958045288,
+          "within_10pct": 1.0,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        },
+        "protein": {
+          "mape": 0.05279789036435034,
+          "median_error": 0.009615384615384581,
+          "rmse": 0.10053738396394556,
+          "within_10pct": 0.7894736842105263,
+          "within_20pct": 0.8947368421052632,
+          "within_30pct": 1.0
+        },
+        "fat": {
+          "mape": 0.21309925454662296,
+          "median_error": 0.0625,
+          "rmse": 0.3751363895956427,
+          "within_10pct": 0.5789473684210527,
+          "within_20pct": 0.631578947368421,
+          "within_30pct": 0.7368421052631579
+        },
+        "carbohydrates": {
+          "mape": 0.14646035378300823,
+          "median_error": 0.0,
+          "rmse": 0.33912581495428773,
+          "within_10pct": 0.7368421052631579,
+          "within_20pct": 0.7894736842105263,
+          "within_30pct": 0.8421052631578947
+        }
+      }
+    },
+    "Vague/General": {
+      "count": 4,
+      "macros": {
+        "calories": {
+          "mape": 0.06875,
+          "median_error": 0.0,
+          "rmse": 0.1375,
+          "within_10pct": 0.75,
+          "within_20pct": 0.75,
+          "within_30pct": 1.0
+        },
+        "protein": {
+          "mape": 0.14166666666666666,
+          "median_error": 0.0,
+          "rmse": 0.2833333333333333,
+          "within_10pct": 0.75,
+          "within_20pct": 0.75,
+          "within_30pct": 0.75
+        },
+        "fat": {
+          "mape": 0.0,
+          "median_error": 0.0,
+          "rmse": 0.0,
+          "within_10pct": 1.0,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        },
+        "carbohydrates": {
+          "mape": 0.012121212121212121,
+          "median_error": 0.00909090909090909,
+          "rmse": 0.01766955119650091,
+          "within_10pct": 1.0,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        }
+      }
+    }
+  },
+  "worst_cases": [
+    {
+      "case_id": null,
+      "description": "Some chicken and rice",
+      "category": "Vague/General",
+      "calorie_error": 0.275,
+      "protein_error": 0.5666666666666667,
+      "fat_error": 0.0,
+      "carbohydrate_error": 0.01818181818181818,
+      "expected": {
+        "calories": 400.0,
+        "protein": 30.0,
+        "fat": 5.0,
+        "carbohydrates": 55.0
+      },
+      "predicted": {
+        "calories": 510.0,
+        "protein": 47.0,
+        "fat": 5.0,
+        "carbohydrates": 56.0
+      }
+    },
+    {
+      "case_id": null,
+      "description": "1 medium banana",
+      "category": "Moderate/Single Item",
+      "calorie_error": 0.1523809523809524,
+      "protein_error": 0.23076923076923078,
+      "fat_error": 0.4,
+      "carbohydrate_error": 0.14814814814814814,
+      "expected": {
+        "calories": 105.0,
+        "protein": 1.3,
+        "fat": 0.4,
+        "carbohydrates": 27.0
+      },
+      "predicted": {
+        "calories": 89.0,
+        "protein": 1.0,
+        "fat": 0.0,
+        "carbohydrates": 23.0
+      }
+    },
+    {
+      "case_id": null,
+      "description": "1 plate chicken biryani",
+      "category": "Specific/Detailed",
+      "calorie_error": 0.08333333333333333,
+      "protein_error": 0.2,
+      "fat_error": 0.0,
+      "carbohydrate_error": 0.21428571428571427,
+      "expected": {
+        "calories": 600.0,
+        "protein": 25.0,
+        "fat": 20.0,
+        "carbohydrates": 70.0
+      },
+      "predicted": {
+        "calories": 650.0,
+        "protein": 30.0,
+        "fat": 20.0,
+        "carbohydrates": 85.0
+      }
+    },
+    {
+      "case_id": null,
+      "description": "2 slices of whole wheat bread",
+      "category": "Specific/Detailed",
+      "calorie_error": 0.0625,
+      "protein_error": 0.25,
+      "fat_error": 0.0,
+      "carbohydrate_error": 0.07142857142857142,
+      "expected": {
+        "calories": 160.0,
+        "protein": 8.0,
+        "fat": 2.0,
+        "carbohydrates": 28.0
+      },
+      "predicted": {
+        "calories": 150.0,
+        "protein": 6.0,
+        "fat": 2.0,
+        "carbohydrates": 26.0
+      }
+    },
+    {
+      "case_id": null,
+      "description": "3 large eggs scrambled with 1 tbsp butter and 30g cheddar cheese",
+      "category": "Specific/Detailed",
+      "calorie_error": 0.05813953488372093,
+      "protein_error": 0.0,
+      "fat_error": 0.4444444444444444,
+      "carbohydrate_error": 1.0,
+      "expected": {
+        "calories": 430.0,
+        "protein": 25.0,
+        "fat": 36.0,
+        "carbohydrates": 2.0
+      },
+      "predicted": {
+        "calories": 455.0,
+        "protein": 25.0,
+        "fat": 20.0,
+        "carbohydrates": 0.0
+      }
+    }
+  ]
+}

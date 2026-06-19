@@ -2,652 +2,1157 @@
   {
     "description": "100g raw chicken breast",
     "expected": {
-      "calories": 120,
+      "calories": 120.0,
       "protein": 22.5,
       "fat": 2.6,
       "carbohydrates": 0.0
     },
     "predicted": {
-      "calories": 120,
-      "protein": 22,
-      "fat": 2,
-      "carbohydrates": 0
+      "calories": 120.0,
+      "protein": 22.0,
+      "fat": 3.0,
+      "carbohydrates": 0.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.022222222222222223,
-      "fat": 0.23076923076923078,
+      "fat": 0.1538461538461538,
       "carbohydrates": 0.0
-    }
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "100g raw chicken breast = 120 kcal, 22.5g protein, 2.6g fat, 0g carbs. \nTotal = 120 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Raw Chicken Breast",
+        "calories": 120,
+        "protein": 22,
+        "carbohydrates": 0,
+        "fat": 3,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "1 large boiled egg",
     "expected": {
-      "calories": 78,
+      "calories": 78.0,
       "protein": 6.3,
       "fat": 5.3,
       "carbohydrates": 0.6
     },
     "predicted": {
-      "calories": 80,
-      "protein": 6,
-      "fat": 5,
-      "carbohydrates": 1
+      "calories": 80.0,
+      "protein": 6.0,
+      "fat": 5.0,
+      "carbohydrates": 1.0
     },
     "errors": {
       "calories": 0.02564102564102564,
       "protein": 0.047619047619047596,
       "fat": 0.05660377358490563,
       "carbohydrates": 0.4
-    }
+    },
+    "category": "Moderate/Single Item",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 large boiled egg \u2248 80 kcal, 6.3g protein, 5.3g fat, 0.6g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Boiled Egg",
+        "calories": 80,
+        "protein": 6,
+        "carbohydrates": 1,
+        "fat": 5,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "100g cooked white rice",
     "expected": {
-      "calories": 130,
+      "calories": 130.0,
       "protein": 2.7,
       "fat": 0.3,
       "carbohydrates": 28.0
     },
     "predicted": {
-      "calories": 130,
-      "protein": 2,
-      "fat": 0,
-      "carbohydrates": 29
+      "calories": 130.0,
+      "protein": 3.0,
+      "fat": 0.0,
+      "carbohydrates": 28.0
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.2592592592592593,
+      "protein": 0.11111111111111104,
       "fat": 0.3,
-      "carbohydrates": 0.03571428571428571
-    }
+      "carbohydrates": 0.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "100g cooked white rice = 130 kcal, 2.7g protein, 0.3g fat, 28g carbs. Total = 130 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Cooked White Rice",
+        "calories": 130,
+        "protein": 3,
+        "carbohydrates": 28,
+        "fat": 0,
+        "meal_type": null
+      }
+    ]
   },
   {
     "description": "1 tablespoon olive oil",
     "expected": {
-      "calories": 119,
+      "calories": 119.0,
       "protein": 0.0,
       "fat": 13.5,
       "carbohydrates": 0.0
     },
     "predicted": {
-      "calories": 119,
-      "protein": 0,
-      "fat": 13,
-      "carbohydrates": 0
+      "calories": 120.0,
+      "protein": 0.0,
+      "fat": 14.0,
+      "carbohydrates": 0.0
     },
     "errors": {
-      "calories": 0.0,
+      "calories": 0.008403361344537815,
       "protein": 0.0,
       "fat": 0.037037037037037035,
       "carbohydrates": 0.0
-    }
+    },
+    "category": "Moderate/Single Item",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 tbsp olive oil = 15ml \u2248 120 kcal, 14g fat.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Olive Oil",
+        "calories": 120,
+        "protein": 0,
+        "carbohydrates": 0,
+        "fat": 14,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "1 medium banana",
     "expected": {
-      "calories": 105,
+      "calories": 105.0,
       "protein": 1.3,
       "fat": 0.4,
       "carbohydrates": 27.0
     },
     "predicted": {
-      "calories": 89,
-      "protein": 1,
-      "fat": 0,
-      "carbohydrates": 23
+      "calories": 89.0,
+      "protein": 1.0,
+      "fat": 0.0,
+      "carbohydrates": 23.0
     },
     "errors": {
       "calories": 0.1523809523809524,
       "protein": 0.23076923076923078,
       "fat": 0.4,
       "carbohydrates": 0.14814814814814814
-    }
+    },
+    "category": "Moderate/Single Item",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 medium banana \u2248 89 kcal, 1g protein, 23g carbs. Total = 89 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Banana",
+        "calories": 89,
+        "protein": 1,
+        "carbohydrates": 23,
+        "fat": 0,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "2 slices of whole wheat bread",
     "expected": {
-      "calories": 160,
+      "calories": 160.0,
       "protein": 8.0,
       "fat": 2.0,
       "carbohydrates": 28.0
     },
     "predicted": {
-      "calories": 147,
-      "protein": 7,
-      "fat": 2,
-      "carbohydrates": 27
+      "calories": 150.0,
+      "protein": 6.0,
+      "fat": 2.0,
+      "carbohydrates": 26.0
     },
     "errors": {
-      "calories": 0.08125,
-      "protein": 0.125,
+      "calories": 0.0625,
+      "protein": 0.25,
       "fat": 0.0,
-      "carbohydrates": 0.03571428571428571
-    }
+      "carbohydrates": 0.07142857142857142
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "2 slices of whole wheat bread = 2 * 75 kcal = 150 kcal, 2 * 3g protein = 6g protein, 2 * 1g fat = 2g fat, 2 * 13g carbs = 26g carbs.  Total = 150 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Whole Wheat Bread",
+        "calories": 150,
+        "protein": 6,
+        "carbohydrates": 26,
+        "fat": 2,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "1 cup whole milk",
     "expected": {
-      "calories": 149,
+      "calories": 149.0,
       "protein": 8.0,
       "fat": 8.0,
       "carbohydrates": 12.0
     },
     "predicted": {
-      "calories": 146,
-      "protein": 7,
-      "fat": 8,
-      "carbohydrates": 12
+      "calories": 150.0,
+      "protein": 8.0,
+      "fat": 8.0,
+      "carbohydrates": 12.0
     },
     "errors": {
-      "calories": 0.020134228187919462,
-      "protein": 0.125,
+      "calories": 0.006711409395973154,
+      "protein": 0.0,
       "fat": 0.0,
       "carbohydrates": 0.0
-    }
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 cup whole milk = 1 * 150 = 150 kcal, 8g protein, 8g fat, 12g carbs. Total = 150 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Whole Milk",
+        "calories": 150,
+        "protein": 8,
+        "carbohydrates": 12,
+        "fat": 8,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "100g raw spinach",
     "expected": {
-      "calories": 23,
+      "calories": 23.0,
       "protein": 2.9,
       "fat": 0.4,
       "carbohydrates": 3.6
     },
     "predicted": {
-      "calories": 23,
-      "protein": 2,
-      "fat": 0,
-      "carbohydrates": 3
+      "calories": 23.0,
+      "protein": 3.0,
+      "fat": 0.0,
+      "carbohydrates": 4.0
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.31034482758620685,
+      "protein": 0.03448275862068969,
       "fat": 0.4,
-      "carbohydrates": 0.16666666666666669
-    }
+      "carbohydrates": 0.11111111111111108
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "100g raw spinach = 23 kcal, 2.9g protein, 3.6g carbs, 0.4g fat. Total = 23 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Raw Spinach",
+        "calories": 23,
+        "protein": 3,
+        "carbohydrates": 4,
+        "fat": 0,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "a handful of almonds",
     "expected": {
-      "calories": 164,
+      "calories": 164.0,
       "protein": 6.0,
       "fat": 14.0,
       "carbohydrates": 6.0
     },
     "predicted": {
-      "calories": 173,
-      "protein": 6,
-      "fat": 15,
-      "carbohydrates": 6
+      "calories": 170.0,
+      "protein": 6.0,
+      "fat": 15.0,
+      "carbohydrates": 6.0
     },
     "errors": {
-      "calories": 0.054878048780487805,
+      "calories": 0.036585365853658534,
       "protein": 0.0,
       "fat": 0.07142857142857142,
       "carbohydrates": 0.0
-    }
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 handful of almonds \u2248 30g = 170 kcal, 6g protein, 15g fat, 6g carbs",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Almonds",
+        "calories": 170,
+        "protein": 6,
+        "carbohydrates": 6,
+        "fat": 15,
+        "meal_type": null
+      }
+    ]
   },
   {
     "description": "1 medium apple",
     "expected": {
-      "calories": 95,
+      "calories": 95.0,
       "protein": 0.5,
       "fat": 0.3,
       "carbohydrates": 25.0
     },
     "predicted": {
-      "calories": 95,
-      "protein": 0,
-      "fat": 0,
-      "carbohydrates": 25
+      "calories": 95.0,
+      "protein": 1.0,
+      "fat": 0.0,
+      "carbohydrates": 25.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.5,
       "fat": 0.3,
       "carbohydrates": 0.0
-    }
+    },
+    "category": "Moderate/Single Item",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 medium apple (~182g) \u2248 95 kcal, 1g protein, 25g carbs. Total = 95 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Apple",
+        "calories": 95,
+        "protein": 1,
+        "carbohydrates": 25,
+        "fat": 0,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "2 plain chapatis",
     "expected": {
-      "calories": 140,
+      "calories": 140.0,
       "protein": 4.0,
       "fat": 0.8,
       "carbohydrates": 30.0
     },
     "predicted": {
-      "calories": 215,
-      "protein": 6,
-      "fat": 4,
-      "carbohydrates": 42
+      "calories": 140.0,
+      "protein": 4.0,
+      "fat": 1.0,
+      "carbohydrates": 30.0
     },
     "errors": {
-      "calories": 0.5357142857142857,
-      "protein": 0.5,
-      "fat": 3.2,
-      "carbohydrates": 0.4
-    }
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.19999999999999996,
+      "carbohydrates": 0.0
+    },
+    "category": "Moderate/Single Item",
+    "tags": [],
+    "case_id": null,
+    "thinking": "2 chapatis: 2 * 70 kcal = 140 kcal, 2 * 2g protein = 4g protein, 2 * 0.4g fat = 0.8g fat, 2 * 15g carbs = 30g carbs. Total = 140 kcal, 4g protein, 0.8g fat, 30g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Chapati",
+        "calories": 140,
+        "protein": 4,
+        "carbohydrates": 30,
+        "fat": 1,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "1 bowl of dal tadka",
     "expected": {
-      "calories": 220,
+      "calories": 220.0,
       "protein": 11.0,
       "fat": 6.0,
       "carbohydrates": 30.0
     },
     "predicted": {
-      "calories": 260,
-      "protein": 20,
-      "fat": 7,
-      "carbohydrates": 34
+      "calories": 220.0,
+      "protein": 11.0,
+      "fat": 6.0,
+      "carbohydrates": 30.0
     },
     "errors": {
-      "calories": 0.18181818181818182,
-      "protein": 0.8181818181818182,
-      "fat": 0.16666666666666666,
-      "carbohydrates": 0.13333333333333333
-    }
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 bowl of dal (300ml \u2248 220 kcal, 11g protein, 6g fat, 30g carbs). Total = 220 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Dal Tadka",
+        "calories": 220,
+        "protein": 11,
+        "carbohydrates": 30,
+        "fat": 6,
+        "meal_type": "lunch"
+      }
+    ]
   },
   {
     "description": "1 plate chicken biryani",
     "expected": {
-      "calories": 600,
+      "calories": 600.0,
       "protein": 25.0,
       "fat": 20.0,
       "carbohydrates": 70.0
     },
     "predicted": {
-      "calories": 650,
-      "protein": 35,
-      "fat": 22,
-      "carbohydrates": 85
+      "calories": 650.0,
+      "protein": 30.0,
+      "fat": 20.0,
+      "carbohydrates": 85.0
     },
     "errors": {
       "calories": 0.08333333333333333,
-      "protein": 0.4,
-      "fat": 0.1,
+      "protein": 0.2,
+      "fat": 0.0,
       "carbohydrates": 0.21428571428571427
-    }
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 plate chicken biryani \u2248 350g \u2248 650 kcal, 30g protein, 20g fat, 85g carbs. Total = 650 kcal, 30g protein, 20g fat, 85g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Chicken Biryani",
+        "calories": 650,
+        "protein": 30,
+        "carbohydrates": 85,
+        "fat": 20,
+        "meal_type": "lunch"
+      }
+    ]
   },
   {
     "description": "1 plain dosa",
     "expected": {
-      "calories": 133,
+      "calories": 133.0,
       "protein": 3.5,
       "fat": 3.7,
       "carbohydrates": 20.0
     },
     "predicted": {
-      "calories": 133,
-      "protein": 3,
-      "fat": 3,
-      "carbohydrates": 20
+      "calories": 133.0,
+      "protein": 4.0,
+      "fat": 4.0,
+      "carbohydrates": 20.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.14285714285714285,
-      "fat": 0.18918918918918923,
+      "fat": 0.08108108108108103,
       "carbohydrates": 0.0
-    }
+    },
+    "category": "Moderate/Single Item",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 plain dosa = 1 dosa (70g) \u2248 133 kcal, 3.5g protein, 3.7g fat, 20g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Plain Dosa",
+        "calories": 133,
+        "protein": 4,
+        "carbohydrates": 20,
+        "fat": 4,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "100g paneer tikka",
     "expected": {
-      "calories": 260,
+      "calories": 260.0,
       "protein": 18.0,
       "fat": 20.0,
       "carbohydrates": 4.0
     },
     "predicted": {
-      "calories": 265,
-      "protein": 19,
-      "fat": 20,
-      "carbohydrates": 5
+      "calories": 265.0,
+      "protein": 18.0,
+      "fat": 20.0,
+      "carbohydrates": 4.0
     },
     "errors": {
       "calories": 0.019230769230769232,
-      "protein": 0.05555555555555555,
+      "protein": 0.0,
       "fat": 0.0,
-      "carbohydrates": 0.25
-    }
+      "carbohydrates": 0.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "100g paneer tikka: 100g paneer = 265 kcal, 18g protein, 20g fat, 4g carbs (assuming standard paneer). Paneer tikka may have some additional spices and yogurt, but the predominant ingredient is paneer. Thus, we will treat this as 100g of paneer tikka with minimal additional nutritional value added. \n\nTotal for paneer tikka = 265 kcal, 18g protein, 20g fat, 4g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Paneer Tikka",
+        "calories": 265,
+        "protein": 18,
+        "carbohydrates": 4,
+        "fat": 20,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "peanut butter toast",
     "expected": {
-      "calories": 174,
+      "calories": 174.0,
       "protein": 8.0,
       "fat": 9.0,
       "carbohydrates": 17.0
     },
     "predicted": {
-      "calories": 174,
-      "protein": 8,
-      "fat": 9,
-      "carbohydrates": 17
+      "calories": 174.0,
+      "protein": 6.0,
+      "fat": 9.0,
+      "carbohydrates": 18.0
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.0,
+      "protein": 0.25,
       "fat": 0.0,
-      "carbohydrates": 0.0
-    }
+      "carbohydrates": 0.058823529411764705
+    },
+    "category": "Moderate/Single Item",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 slice of white bread (30g) = 80 kcal, 2.5g protein, 1g fat, 15g carbs; 1 tbsp peanut butter (16g) = 94 kcal, 4g protein, 8g fat, 3g carbs. Total = 80 + 94 = 174 kcal, 2.5 + 4 = 6.5g protein, 1 + 8 = 9g fat, 15 + 3 = 18g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Peanut Butter Toast",
+        "calories": 174,
+        "protein": 6,
+        "carbohydrates": 18,
+        "fat": 9,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "a bowl of oatmeal with milk",
     "expected": {
-      "calories": 299,
+      "calories": 299.0,
       "protein": 13.0,
       "fat": 11.0,
       "carbohydrates": 39.0
     },
     "predicted": {
-      "calories": 460,
-      "protein": 15,
-      "fat": 16,
-      "carbohydrates": 72
+      "calories": 300.0,
+      "protein": 13.0,
+      "fat": 11.0,
+      "carbohydrates": 39.0
     },
     "errors": {
-      "calories": 0.5384615384615384,
-      "protein": 0.15384615384615385,
-      "fat": 0.45454545454545453,
-      "carbohydrates": 0.8461538461538461
-    }
+      "calories": 0.0033444816053511705,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 bowl of oatmeal with milk = 40g oats cooked in 240ml whole milk. \\n\\n- 40g oats \u2248 150 kcal, 5g protein, 3g fat, 27g carbs.\\n- 240ml whole milk \u2248 150 kcal, 8g protein, 8g fat, 12g carbs.\\n\\nTotal = 150 + 150 = 300 kcal; protein = 5 + 8 = 13g; fat = 3 + 8 = 11g; carbs = 27 + 12 = 39g.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Bowl of Oatmeal with Milk",
+        "calories": 300,
+        "protein": 13,
+        "carbohydrates": 39,
+        "fat": 11,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "coffee with milk",
     "expected": {
-      "calories": 18,
+      "calories": 18.0,
       "protein": 1.0,
       "fat": 1.0,
       "carbohydrates": 1.5
     },
     "predicted": {
-      "calories": 18,
-      "protein": 1,
-      "fat": 1,
-      "carbohydrates": 1
+      "calories": 18.0,
+      "protein": 1.0,
+      "fat": 1.0,
+      "carbohydrates": 2.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.0,
       "fat": 0.0,
       "carbohydrates": 0.3333333333333333
-    }
+    },
+    "category": "Moderate/Single Item",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 cup coffee with milk (30ml whole milk) = 18 kcal, 1g protein, 1g fat, 1.5g carbs. Total = 18 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Coffee with Milk",
+        "calories": 18,
+        "protein": 1,
+        "carbohydrates": 2,
+        "fat": 1,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "I had a sandwich for lunch",
     "expected": {
-      "calories": 350,
+      "calories": 350.0,
       "protein": 15.0,
       "fat": 12.0,
       "carbohydrates": 45.0
     },
     "predicted": {
-      "calories": 320,
-      "protein": 18,
-      "fat": 12,
-      "carbohydrates": 30
+      "calories": 350.0,
+      "protein": 15.0,
+      "fat": 12.0,
+      "carbohydrates": 45.0
     },
     "errors": {
-      "calories": 0.08571428571428572,
-      "protein": 0.2,
+      "calories": 0.0,
+      "protein": 0.0,
       "fat": 0.0,
-      "carbohydrates": 0.3333333333333333
-    }
+      "carbohydrates": 0.0
+    },
+    "category": "Vague/General",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 sandwich = 1 standard sandwich with bread, deli meat/cheese, and spread (~350 kcal, 15g protein, 12g fat, 45g carbs).",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Sandwich",
+        "calories": 350,
+        "protein": 15,
+        "carbohydrates": 45,
+        "fat": 12,
+        "meal_type": "lunch"
+      }
+    ]
   },
   {
     "description": "Ate a big bowl of pasta",
     "expected": {
-      "calories": 500,
+      "calories": 500.0,
       "protein": 15.0,
       "fat": 10.0,
       "carbohydrates": 85.0
     },
     "predicted": {
-      "calories": 474,
-      "protein": 17,
-      "fat": 3,
-      "carbohydrates": 80
+      "calories": 500.0,
+      "protein": 15.0,
+      "fat": 10.0,
+      "carbohydrates": 85.0
     },
     "errors": {
-      "calories": 0.052,
-      "protein": 0.13333333333333333,
-      "fat": 0.7,
-      "carbohydrates": 0.058823529411764705
-    }
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 big bowl of pasta \u2248 340g \u2248 500 kcal, 15g protein, 10g fat, 85g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Pasta",
+        "calories": 500,
+        "protein": 15,
+        "carbohydrates": 85,
+        "fat": 10,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "Some chicken and rice",
     "expected": {
-      "calories": 400,
+      "calories": 400.0,
       "protein": 30.0,
       "fat": 5.0,
       "carbohydrates": 55.0
     },
     "predicted": {
-      "calories": 573,
-      "protein": 50,
-      "fat": 6,
-      "carbohydrates": 72
+      "calories": 510.0,
+      "protein": 47.0,
+      "fat": 5.0,
+      "carbohydrates": 56.0
     },
     "errors": {
-      "calories": 0.4325,
-      "protein": 0.6666666666666666,
-      "fat": 0.2,
-      "carbohydrates": 0.3090909090909091
-    }
+      "calories": 0.275,
+      "protein": 0.5666666666666667,
+      "fat": 0.0,
+      "carbohydrates": 0.01818181818181818
+    },
+    "category": "Vague/General",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 standard plate of 'chicken and rice' typically involves 100g of cooked chicken breast (250 kcal, 47g protein, 5g fat) and 180g of cooked white rice (260 kcal, 5g protein, 0g fat, 56g carbs). Total = 250 + 260 = 510 kcal, 47g protein, 5g fat, 56g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Chicken and Rice",
+        "calories": 510,
+        "protein": 47,
+        "carbohydrates": 56,
+        "fat": 5,
+        "meal_type": "main"
+      }
+    ]
   },
   {
     "description": "Just a regular cheeseburger from McDonalds",
     "expected": {
-      "calories": 300,
+      "calories": 300.0,
       "protein": 15.0,
       "fat": 12.0,
       "carbohydrates": 33.0
     },
     "predicted": {
-      "calories": 303,
-      "protein": 12,
-      "fat": 12,
-      "carbohydrates": 32
+      "calories": 300.0,
+      "protein": 15.0,
+      "fat": 12.0,
+      "carbohydrates": 32.0
     },
     "errors": {
-      "calories": 0.01,
-      "protein": 0.2,
+      "calories": 0.0,
+      "protein": 0.0,
       "fat": 0.0,
       "carbohydrates": 0.030303030303030304
-    }
+    },
+    "category": "Vague/General",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 cheeseburger = 1 standard McDonald's cheeseburger (~300 kcal, ~15g protein, ~12g fat, ~32g carbs). Total = 300 kcal.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Cheeseburger",
+        "calories": 300,
+        "protein": 15,
+        "carbohydrates": 32,
+        "fat": 12,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "Chicken Caesar salad with extra dressing and croutons",
     "expected": {
-      "calories": 600,
+      "calories": 600.0,
       "protein": 30.0,
       "fat": 45.0,
       "carbohydrates": 20.0
     },
     "predicted": {
-      "calories": 560,
-      "protein": 40,
-      "fat": 30,
-      "carbohydrates": 35
+      "calories": 600.0,
+      "protein": 30.0,
+      "fat": 45.0,
+      "carbohydrates": 20.0
     },
     "errors": {
-      "calories": 0.06666666666666667,
-      "protein": 0.3333333333333333,
-      "fat": 0.3333333333333333,
-      "carbohydrates": 0.75
-    }
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
+    },
+    "category": "Vague/General",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 Chicken Caesar salad (with extra dressing and croutons) = 600 kcal, 30g protein, 45g fat, 20g carbs based on standard restaurant serving with extras.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Chicken Caesar Salad",
+        "calories": 600,
+        "protein": 30,
+        "carbohydrates": 20,
+        "fat": 45,
+        "meal_type": "meal"
+      }
+    ]
   },
   {
     "description": "Two slices of large pepperoni pizza",
     "expected": {
-      "calories": 600,
+      "calories": 600.0,
       "protein": 24.0,
       "fat": 26.0,
       "carbohydrates": 68.0
     },
     "predicted": {
-      "calories": 700,
-      "protein": 28,
-      "fat": 36,
-      "carbohydrates": 72
+      "calories": 600.0,
+      "protein": 24.0,
+      "fat": 26.0,
+      "carbohydrates": 68.0
     },
     "errors": {
-      "calories": 0.16666666666666666,
-      "protein": 0.16666666666666666,
-      "fat": 0.38461538461538464,
-      "carbohydrates": 0.058823529411764705
-    }
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "2 slices of large pepperoni pizza = 2 * 300 kcal = 600 kcal; 2 * 12g protein = 24g protein; 2 * 13g fat = 26g fat; 2 * 34g carbs = 68g carbs. Total = 600 kcal, 24g protein, 26g fat, 68g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Pepperoni Pizza",
+        "calories": 600,
+        "protein": 24,
+        "carbohydrates": 68,
+        "fat": 26,
+        "meal_type": "meal"
+      }
+    ]
   },
   {
     "description": "A burrito bowl with brown rice, black beans, double chicken, and guac",
     "expected": {
-      "calories": 800,
+      "calories": 800.0,
       "protein": 60.0,
       "fat": 30.0,
       "carbohydrates": 70.0
     },
     "predicted": {
-      "calories": 700,
-      "protein": 60,
-      "fat": 25,
-      "carbohydrates": 70
+      "calories": 790.0,
+      "protein": 76.0,
+      "fat": 22.0,
+      "carbohydrates": 71.0
     },
     "errors": {
-      "calories": 0.125,
-      "protein": 0.0,
-      "fat": 0.16666666666666666,
-      "carbohydrates": 0.0
-    }
+      "calories": 0.0125,
+      "protein": 0.26666666666666666,
+      "fat": 0.26666666666666666,
+      "carbohydrates": 0.014285714285714285
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "1 scoop brown rice (~150g) \u2248 220 kcal, 5g protein, 3g fat, 45g carbs. 1 scoop black beans (~90g) \u2248 110 kcal, 7g protein, 0g fat, 20g carbs. 200g cooked chicken breast (double portion) \u2248 330 kcal, 62g protein, 7g fat. 1 scoop guacamole (~80g) \u2248 130 kcal, 2g protein, 12g fat, 6g carbs. Total = 220 + 110 + 330 + 130 = 790 kcal, 76g protein, 22g fat, 71g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "burrito bowl",
+        "calories": 790,
+        "protein": 76,
+        "carbohydrates": 71,
+        "fat": 22,
+        "meal_type": "lunch"
+      }
+    ]
   },
   {
     "description": "150g raw chicken breast, 200g cooked white rice, 50g steamed broccoli",
     "expected": {
-      "calories": 457,
+      "calories": 457.0,
       "protein": 39.0,
       "fat": 4.0,
       "carbohydrates": 59.0
     },
     "predicted": {
-      "calories": 458,
-      "protein": 41,
-      "fat": 5,
-      "carbohydrates": 62
+      "calories": 457.0,
+      "protein": 41.0,
+      "fat": 4.0,
+      "carbohydrates": 59.0
     },
     "errors": {
-      "calories": 0.002188183807439825,
+      "calories": 0.0,
       "protein": 0.05128205128205128,
-      "fat": 0.25,
-      "carbohydrates": 0.05084745762711865
-    }
+      "fat": 0.0,
+      "carbohydrates": 0.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "150g raw chicken breast = 180 kcal, 34g protein, 4g fat; 200g cooked white rice = 260 kcal, 5g protein, 0g fat, 56g carbs; 50g steamed broccoli = 17 kcal, 2g protein, 0g fat, 3g carbs. \nTotal = 180 + 260 + 17 = 457 kcal, 34 + 5 + 2 = 41g protein, 4 + 0 + 0 = 4g fat, 56 + 3 = 59g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Chicken and Rice",
+        "calories": 457,
+        "protein": 41,
+        "carbohydrates": 59,
+        "fat": 4,
+        "meal_type": "lunch"
+      }
+    ]
   },
   {
     "description": "3 large eggs scrambled with 1 tbsp butter and 30g cheddar cheese",
     "expected": {
-      "calories": 430,
+      "calories": 430.0,
       "protein": 25.0,
       "fat": 36.0,
       "carbohydrates": 2.0
     },
     "predicted": {
-      "calories": 385,
-      "protein": 28,
-      "fat": 31,
-      "carbohydrates": 2
+      "calories": 455.0,
+      "protein": 25.0,
+      "fat": 20.0,
+      "carbohydrates": 0.0
     },
     "errors": {
-      "calories": 0.10465116279069768,
-      "protein": 0.12,
-      "fat": 0.1388888888888889,
-      "carbohydrates": 0.0
-    }
+      "calories": 0.05813953488372093,
+      "protein": 0.0,
+      "fat": 0.4444444444444444,
+      "carbohydrates": 1.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "3 large eggs = 3 * 80 kcal = 240 kcal, 3 * 6.3g protein = 18.9g protein. 1 tbsp butter = 100 kcal, 11g fat. 30g cheddar cheese = 115 kcal, 7g protein, 9g fat. Total: 240 + 100 + 115 = 455 kcal; protein: 18.9 + 7 = 25.9g protein; fat: 11 + 9 = 20g fat. The meal type is likely breakfast.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Scrambled Eggs with Cheese and Butter",
+        "calories": 455,
+        "protein": 25,
+        "carbohydrates": 0,
+        "fat": 20,
+        "meal_type": "Breakfast"
+      }
+    ]
   },
   {
     "description": "2 scoop whey protein, 300ml whole milk, 1 medium banana, 1 tbsp peanut butter",
     "expected": {
-      "calories": 620,
+      "calories": 620.0,
       "protein": 63.0,
       "fat": 21.0,
       "carbohydrates": 50.0
     },
     "predicted": {
-      "calories": 423,
-      "protein": 55,
-      "fat": 11,
-      "carbohydrates": 32
+      "calories": 603.0,
+      "protein": 65.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
     },
     "errors": {
-      "calories": 0.317741935483871,
-      "protein": 0.12698412698412698,
-      "fat": 0.47619047619047616,
-      "carbohydrates": 0.36
-    }
+      "calories": 0.027419354838709678,
+      "protein": 0.031746031746031744,
+      "fat": 1.0,
+      "carbohydrates": 1.0
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "2 scoops of whey protein = 2 * 120 kcal = 240 kcal, 2 * 25g protein = 50g protein. 300ml whole milk = 1.2 * 150 kcal = 180 kcal, 1.2 * 8g protein = 9.6g protein. 1 medium banana ~89 kcal, 1g protein. 1 tbsp peanut butter ~94 kcal, 4g protein. Total = 240 + 180 + 89 + 94 = 603 kcal; Total protein = 50 + 9.6 + 1 + 4 = 64.6g protein.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Protein Shake",
+        "calories": 603,
+        "protein": 65,
+        "carbohydrates": 0,
+        "fat": 0,
+        "meal_type": "Snack"
+      }
+    ]
   },
   {
     "description": "I pan fried 200g of raw salmon in 1 tablespoon of olive oil, served with 100g of roasted sweet potatoes",
     "expected": {
-      "calories": 621,
+      "calories": 621.0,
       "protein": 41.6,
       "fat": 40.0,
       "carbohydrates": 20.0
     },
     "predicted": {
-      "calories": 621,
-      "protein": 46,
-      "fat": 38,
-      "carbohydrates": 20
+      "calories": 622.0,
+      "protein": 42.0,
+      "fat": 26.0,
+      "carbohydrates": 20.0
     },
     "errors": {
-      "calories": 0.0,
-      "protein": 0.10576923076923073,
-      "fat": 0.05,
+      "calories": 0.001610305958132045,
+      "protein": 0.009615384615384581,
+      "fat": 0.35,
       "carbohydrates": 0.0
-    }
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "200g salmon = 2 * 208 = 416 kcal, 20g * 2 = 40g protein, 13g * 2 = 26g fat. 1 tbsp olive oil = 120 kcal, 14g fat. 100g sweet potatoes \u2248 86 kcal, 2g protein, 20g carbs. Total for salmon = 416 + 120 = 536 kcal; Total for sweet potatoes = 86 kcal. Overall Total = 536 + 86 = 622 kcal.",
+    "item_count": 2,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Pan Fried Salmon",
+        "calories": 536,
+        "protein": 40,
+        "carbohydrates": 0,
+        "fat": 26,
+        "meal_type": "null"
+      },
+      {
+        "is_food": true,
+        "name": "Roasted Sweet Potatoes",
+        "calories": 86,
+        "protein": 2,
+        "carbohydrates": 20,
+        "fat": 0,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "Made a stew with 300g beef chuck, 2 large carrots, 1 medium potato, slow cooked in 2 cups of beef broth",
     "expected": {
-      "calories": 970,
+      "calories": 970.0,
       "protein": 65.3,
       "fat": 58.5,
       "carbohydrates": 46.0
     },
     "predicted": {
-      "calories": 970,
-      "protein": 85,
-      "fat": 50,
-      "carbohydrates": 40
+      "calories": 970.0,
+      "protein": 67.0,
+      "fat": 0.0,
+      "carbohydrates": 30.0
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.3016845329249618,
-      "fat": 0.1452991452991453,
-      "carbohydrates": 0.13043478260869565
-    }
+      "protein": 0.026033690658499278,
+      "fat": 1.0,
+      "carbohydrates": 0.34782608695652173
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "300g beef chuck = 3 * 250 = 750 kcal, 20g * 3 = 60g protein. 2 large carrots (about 80g each) = 160g = 2 * 30 = 60 kcal. 1 medium potato (about 150g) = 130 kcal, 3g protein, 30g carbs. 2 cups of beef broth = 2 * 15 = 30 kcal, 4g protein. Total for the stew = 750 + 60 + 130 + 30 = 970 kcal. Total protein = 60 + 0 + 3 + 4 = 67g protein. Total carbs = 0 + 0 + 30 + 0 = 30g carbs.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "Beef Stew",
+        "calories": 970,
+        "protein": 67,
+        "carbohydrates": 30,
+        "fat": 0,
+        "meal_type": "null"
+      }
+    ]
   },
   {
     "description": "Deep fried 200g of french fries in vegetable oil",
     "expected": {
-      "calories": 646,
+      "calories": 646.0,
       "protein": 7.0,
       "fat": 32.0,
       "carbohydrates": 84.0
     },
     "predicted": {
-      "calories": 700,
-      "protein": 7,
-      "fat": 34,
-      "carbohydrates": 84
+      "calories": 624.0,
+      "protein": 7.0,
+      "fat": 30.0,
+      "carbohydrates": 82.0
     },
     "errors": {
-      "calories": 0.08359133126934984,
+      "calories": 0.034055727554179564,
       "protein": 0.0,
       "fat": 0.0625,
-      "carbohydrates": 0.0
-    }
+      "carbohydrates": 0.023809523809523808
+    },
+    "category": "Specific/Detailed",
+    "tags": [],
+    "case_id": null,
+    "thinking": "200g french fries = 624 kcal, 7g protein, 30g fat, 82g carbs (as per the assumption for fried french fries). Vegetable oil is already included in this value as the frying oil absorption is already accounted for.",
+    "item_count": 1,
+    "items": [
+      {
+        "is_food": true,
+        "name": "French Fries",
+        "calories": 624,
+        "protein": 7,
+        "carbohydrates": 82,
+        "fat": 30,
+        "meal_type": "null"
+      }
+    ]
   }
 ]

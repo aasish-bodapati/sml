@@ -28,6 +28,7 @@ routers.recipes.engine = test_engine
 
 from main import app
 from auth import get_current_user
+from models import food, profile, fitness
 
 # Mock user for testing
 TEST_USER_ID = "test_user_123"
@@ -37,15 +38,18 @@ def override_get_current_user():
 
 app.dependency_overrides[get_current_user] = override_get_current_user
 
+@pytest.fixture(autouse=True)
+def setup_database():
+    SQLModel.metadata.create_all(test_engine)
+    yield
+    SQLModel.metadata.drop_all(test_engine)
+
 @pytest.fixture(name="session")
 def session_fixture():
-    # Because lifespan creates tables, we will yield the session here
     with Session(test_engine) as session:
         yield session
 
 @pytest.fixture(name="client")
 def client_fixture():
     with TestClient(app) as client:
-        # Tables are created and dropped by main's lifespan
         yield client
-

@@ -19,7 +19,8 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, wor
   const todayStr = new Date().toLocaleDateString('en-CA');
   const todaysWorkouts = (workouts || []).filter((w: any) => {
     if (!w.logged_at) return false;
-    return w.logged_at.startsWith(todayStr);
+    const localDateStr = new Date(w.logged_at).toLocaleDateString('en-CA');
+    return localDateStr === todayStr;
   });
   
   const todayFitnessCals = todaysWorkouts.reduce((sum: number, w: any) => sum + (w.calories_burned || 0), 0);
