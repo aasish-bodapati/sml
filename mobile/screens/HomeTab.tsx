@@ -16,7 +16,7 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, wor
   };
 
   // Calculate today's fitness
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = new Date().toLocaleDateString('en-CA');
   const todaysWorkouts = (workouts || []).filter((w: any) => {
     if (!w.logged_at) return false;
     return w.logged_at.startsWith(todayStr);
@@ -113,7 +113,7 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, wor
         {weeklyData.map((day: any) => {
           const maxCal = Math.max(...weeklyData.map((d: any) => d.calories || 1), targetMacros?.calories || 2000);
           const heightPct = Math.min((day.calories / maxCal) * 100, 100);
-          const isToday = new Date().toISOString().split('T')[0] === day.date;
+          const isToday = new Date().toLocaleDateString('en-CA') === day.date;
           const dayName = new Date(day.date).toLocaleDateString(undefined, { weekday: 'narrow' });
           return (
             <TouchableOpacity 

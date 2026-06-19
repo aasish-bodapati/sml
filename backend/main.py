@@ -15,6 +15,7 @@ from models import food, profile, fitness
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # TODO: Remove create_all before production deployment — use Alembic migrations only
     SQLModel.metadata.create_all(engine)
     yield
     engine.dispose()

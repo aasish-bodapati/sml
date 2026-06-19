@@ -13,16 +13,13 @@ JWKS_URL = "https://xpyzowlshriupianmuit.supabase.co/auth/v1/.well-known/jwks.js
 jwk_client = PyJWKClient(JWKS_URL, cache_keys=True)
 
 security = HTTPBearer()
-cached_signing_key = None
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> str:
-    global cached_signing_key
     token = credentials.credentials
     try:
         t0 = time_lib.time()
         # Fetch the public key from the JWKS endpoint
-        if not cached_signing_key:
-            cached_signing_key = jwk_client.get_signing_key_from_jwt(token).key
+        signing_key = jwk_client.get_signing_key_from_jwt(token).key
         
         t1 = time_lib.time()
         print(f"JWK Fetch took {t1 - t0:.3f} seconds")
@@ -30,7 +27,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         # Verify the signature using the public key and ES256 algorithm
         payload = jwt.decode(
             token,
-            cached_signing_key,
+            signing_key,
             algorithms=["ES256"],
             options={"verify_aud": False}
         )
@@ -45,7 +42,9 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
             )
         return user_id
     except Exception as e:
+        # Avoid leaking raw exceptions like Signature verification failed
+        print(f"Auth error: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Authentication failed: {str(e)}"
+            detail="Invalid or expired authentication token."
         )

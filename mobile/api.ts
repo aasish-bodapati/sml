@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://192.168.1.3:8000';
+import Constants from 'expo-constants';
+const API_BASE_URL = Constants.expoConfig?.extra?.apiBaseUrl || 'http://192.168.1.3:8000';
 import { supabase } from './supabaseClient';
 
 async function getToken() {
