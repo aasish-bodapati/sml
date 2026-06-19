@@ -7,7 +7,7 @@ import { s } from '../styles/appStyles';
 import { supabase } from '../supabaseClient';
 import { Ionicons } from '@expo/vector-icons';
 
-export default function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weightHistory, fetchData, isLoading, setIsLoading, onShowCheatSheet }: any) {
+export default function ProfileTab({ session, rawProfile, targetMacros, onUpdateProfile, weightHistory, fetchData, isLoading, setIsLoading }: any) {
   const [isEditing, setIsEditing] = useState(false);
   const [goal, setGoal] = useState<'lose' | 'maintain' | 'gain' | null>(rawProfile?.goal || null);
   const [gender, setGender] = useState<'M' | 'F' | null>(rawProfile?.gender || null);
@@ -102,17 +102,11 @@ export default function ProfileTab({ session, rawProfile, targetMacros, onUpdate
 
   return (
     <ScrollView contentContainerStyle={{ padding: rs(16) }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: rs(16), marginTop: rs(12) }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: rs(24), marginTop: rs(12) }}>
         <View style={[s.avatarPlaceholder, { width: rs(64), height: rs(64), borderRadius: rs(32), marginBottom: rs(0), marginRight: rs(16) }]}>
           <Text style={[s.avatarText, { fontSize: fs(28) }]}>👤</Text>
         </View>
         <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold', flex: 1 }} numberOfLines={1} adjustsFontSizeToFit>{session?.user?.email}</Text>
-      </View>
-
-      <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: rs(24) }}>
-        <TouchableOpacity onPress={onShowCheatSheet} style={{ backgroundColor: 'rgba(56,189,248,0.15)', paddingHorizontal: rs(10), paddingVertical: rs(6), borderRadius: rs(16) }}>
-          <Text style={{ color: C.accent, fontSize: fs(12), fontWeight: '600' }}>📚 Cheat Sheet</Text>
-        </TouchableOpacity>
       </View>
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(16) }}>

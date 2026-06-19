@@ -7,7 +7,7 @@ import { parseMeal, confirmLogMeal, transcribeAudio } from '../api';
 import { C, rs, fs } from '../design-tokens';
 import { s } from '../styles/appStyles';
 
-export default function ChatTab({ fetchData, setActiveTab }: any) {
+export default function ChatTab({ fetchData, onClose }: any) {
   const [messages, setMessages] = useState<{role: string, content: string, parsedData?: any}[]>([
     { role: 'assistant', content: 'What did you eat today?' }
   ]);
@@ -103,13 +103,19 @@ export default function ChatTab({ fetchData, setActiveTab }: any) {
       }
       setMessages([{ role: 'assistant', content: 'Meal logged successfully! What else did you eat?' }]);
       await fetchData();
-      setActiveTab('home');
+      onClose?.();
     } catch (e: any) { setError(e.message || 'Failed to log meal.'); }
     finally { setIsLoading(false); }
   };
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }} keyboardVerticalOffset={Platform.OS === 'ios' ? 140 : 0}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', padding: rs(16), borderBottomWidth: rs(1), borderBottomColor: 'rgba(255,255,255,0.1)' }}>
+        <TouchableOpacity onPress={onClose} style={{ padding: rs(8), marginRight: rs(8) }}>
+          <Text style={{ color: C.accent, fontSize: fs(16), fontWeight: 'bold' }}>{'<'} Back</Text>
+        </TouchableOpacity>
+        <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold' }}>Log Meal</Text>
+      </View>
       <FlatList
         data={messages}
         keyExtractor={(item, index) => index.toString()}

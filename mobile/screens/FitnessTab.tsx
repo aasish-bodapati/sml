@@ -92,6 +92,7 @@ export default function FitnessTab() {
       <Modal visible={true} animationType="slide">
         <LogWorkoutScreen 
           initialRoutine={activeRoutine} 
+          workoutHistory={history}
           onBack={() => setActiveRoutine(null)} 
           onSuccess={() => {
             setActiveRoutine(null);
@@ -121,6 +122,7 @@ export default function FitnessTab() {
       <Modal visible={true} animationType="slide">
         <LogWorkoutScreen 
           initialSession={editingHistorySession} 
+          workoutHistory={history}
           onBack={() => setEditingHistorySession(null)} 
           onSuccess={() => {
             setEditingHistorySession(null);

@@ -88,11 +88,6 @@ export default function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLo
               <Text style={s.chip}>🌾 {item.carbohydrates}g</Text>
               <Text style={s.chip}>🧈 {item.fat}g</Text>
             </View>
-            {item.reasoning && (
-              <Text style={{ color: C.textMuted, fontSize: fs(11), fontStyle: 'italic', marginTop: rs(8) }}>
-                💡 {item.reasoning}
-              </Text>
-            )}
           </View>
           <View style={{ alignItems: 'flex-end', justifyContent: 'space-between', paddingVertical: rs(2) }}>
             <View style={{ flexDirection: 'row', gap: rs(16) }}>

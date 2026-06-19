@@ -5,7 +5,7 @@ import AnimatedProgressBar from '../components/AnimatedProgressBar';
 import { C, rs, fs } from '../design-tokens';
 import { s } from '../styles/appStyles';
 
-export default function HomeTab({ summary, macros, weeklyData, targetMacros, workouts, setViewDate, setActiveTab, onLogWorkout }: any) {
+export default function HomeTab({ summary, macros, weeklyData, targetMacros, workouts, setViewDate, setActiveTab, onLogWorkout, onLogMeal }: any) {
   const [activeCardIndex, setActiveCardIndex] = useState(0);
   const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -49,7 +49,7 @@ export default function HomeTab({ summary, macros, weeklyData, targetMacros, wor
             <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(14), marginHorizontal: rs(16), height: rs(250) }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(12) }}>
                 <Text style={{ color: C.textPrimary, fontSize: fs(18), fontWeight: 'bold' }}>Nutrition Today</Text>
-                <TouchableOpacity onPress={() => setActiveTab('chat')} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(12) }}>
+                <TouchableOpacity onPress={onLogMeal} style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(12) }}>
                   <Text style={{ color: C.accent, fontSize: fs(12), fontWeight: 'bold' }}>+ Log Meal</Text>
                 </TouchableOpacity>
               </View>

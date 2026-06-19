@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Image, Modal } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { searchExercises, logWorkout, updateWorkout } from '../api';
+import { searchExercises, logWorkout, updateWorkout, getWorkouts } from '../api';
 import { C, rs, fs } from '../design-tokens';
 import { fitnessStyles } from '../styles/fitnessStyles';
 import { s } from '../styles/appStyles';
@@ -19,7 +19,7 @@ const safeParseArray = (val: any) => {
   }
 };
 
-export default function LogWorkoutScreen({ initialRoutine, initialSession, onBack, onSuccess }: { initialRoutine?: any, initialSession?: any, onBack: () => void, onSuccess: () => void }) {
+export default function LogWorkoutScreen({ initialRoutine, initialSession, workoutHistory, onBack, onSuccess }: { initialRoutine?: any, initialSession?: any, workoutHistory?: any[], onBack: () => void, onSuccess: () => void }) {
   // Default name handling
   const [workoutName, setWorkoutName] = useState('Workout Session');
   const [selectedExercises, setSelectedExercises] = useState<any[]>([]);
@@ -32,6 +32,25 @@ export default function LogWorkoutScreen({ initialRoutine, initialSession, onBac
 
   // Modal Detail state
   const [selectedDetailExercise, setSelectedDetailExercise] = useState<any | null>(null);
+
+  // Workout history state for prefilling values
+  const [history, setHistory] = useState<any[]>(workoutHistory || []);
+
+  useEffect(() => {
+    if (workoutHistory && workoutHistory.length > 0) {
+      setHistory(workoutHistory);
+    }
+  }, [workoutHistory]);
+
+  useEffect(() => {
+    if (history.length === 0) {
+      getWorkouts().then(res => {
+        if (res) setHistory(res);
+      }).catch(err => {
+        console.log('Failed to fetch workouts history in LogWorkoutScreen:', err);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (initialRoutine) {
@@ -96,6 +115,24 @@ export default function LogWorkoutScreen({ initialRoutine, initialSession, onBac
       return;
     }
 
+    // Default fallback values
+    let prefilledSets = '3';
+    let prefilledReps = '10';
+    let prefilledWeight = '';
+    let prefilledDuration = '';
+
+    // Search workout history for the latest instance of this exercise to prefill values
+    const latestExerciseLog = history
+      .flatMap(session => session.sets || [])
+      .find(s => s.exercise_id === item.exercise_id);
+
+    if (latestExerciseLog) {
+      prefilledSets = latestExerciseLog.sets !== null && latestExerciseLog.sets !== undefined ? String(latestExerciseLog.sets) : '3';
+      prefilledReps = latestExerciseLog.reps !== null && latestExerciseLog.reps !== undefined ? String(latestExerciseLog.reps) : '10';
+      prefilledWeight = latestExerciseLog.weight_kg !== null && latestExerciseLog.weight_kg !== undefined ? String(latestExerciseLog.weight_kg) : '';
+      prefilledDuration = latestExerciseLog.duration_seconds !== null && latestExerciseLog.duration_seconds !== undefined ? String(latestExerciseLog.duration_seconds) : '';
+    }
+
     setSelectedExercises(prev => [
       ...prev,
       {
@@ -105,10 +142,10 @@ export default function LogWorkoutScreen({ initialRoutine, initialSession, onBac
         body_parts: item.body_parts,
         equipments: item.equipments,
         target_muscles: item.target_muscles,
-        sets: '3',
-        reps: '10',
-        weight_kg: '',
-        duration_seconds: '',
+        sets: prefilledSets,
+        reps: prefilledReps,
+        weight_kg: prefilledWeight,
+        duration_seconds: prefilledDuration,
       }
     ]);
     setSearchQuery('');
@@ -183,13 +220,78 @@ export default function LogWorkoutScreen({ initialRoutine, initialSession, onBac
       </View>
 
       <ScrollView contentContainerStyle={fitnessStyles.scrollContent} keyboardShouldPersistTaps="handled">
+        {/* Add exercise search */}
+        <Text style={[fitnessStyles.sectionTitle, { marginTop: 0 }]}>Search Exercises</Text>
+        <View style={fitnessStyles.searchBoxContainer}>
+          <Ionicons name="search-outline" size={20} color={C.textMuted} style={fitnessStyles.searchIcon} />
+          <TextInput 
+            style={fitnessStyles.searchInput}
+            placeholder="e.g. bench press, bicep curl..."
+            placeholderTextColor={C.textMuted}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            autoCapitalize="none"
+          />
+          {searchQuery ? (
+            <TouchableOpacity onPress={() => setSearchQuery('')} style={fitnessStyles.clearSearchBtn}>
+              <Ionicons name="close-circle" size={18} color={C.textMuted} />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+
+        {loadingSearch && <ActivityIndicator color={C.accent} style={{ marginVertical: rs(12) }} />}
+
+        {searchResults.map((item) => {
+          const muscles = safeParseArray(item.target_muscles);
+          const equip = safeParseArray(item.equipments);
+          return (
+            <View key={item.exercise_id} style={fitnessStyles.searchResultCard}>
+              {item.gif_url ? (
+                <TouchableOpacity onPress={() => setSelectedDetailExercise(item)}>
+                  <Image source={{ uri: item.gif_url }} style={fitnessStyles.exerciseThumb} />
+                </TouchableOpacity>
+              ) : (
+                <View style={[fitnessStyles.exerciseThumb, { justifyContent: 'center', alignItems: 'center' }]}>
+                  <Ionicons name="barbell-outline" size={20} color={C.textMuted} />
+                </View>
+              )}
+              <View style={fitnessStyles.searchResultTextContainer}>
+                <TouchableOpacity onPress={() => setSelectedDetailExercise(item)}>
+                  <Text style={fitnessStyles.searchResultTitle} numberOfLines={1}>{item.name}</Text>
+                </TouchableOpacity>
+                <View style={fitnessStyles.searchResultMeta}>
+                  {muscles.length > 0 && (
+                    <View style={fitnessStyles.muscleBadge}>
+                      <Text style={fitnessStyles.muscleText}>{muscles[0]}</Text>
+                    </View>
+                  )}
+                  {equip.length > 0 && (
+                    <View style={[fitnessStyles.muscleBadge, { backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }]}>
+                      <Text style={[fitnessStyles.muscleText, { color: C.textSecondary }]}>{equip[0]}</Text>
+                    </View>
+                  )}
+                </View>
+              </View>
+              <TouchableOpacity onPress={() => handleAddExercise(item)} style={fitnessStyles.addResultBtn}>
+                <Ionicons name="add" size={20} color={C.bg} />
+              </TouchableOpacity>
+            </View>
+          );
+        })}
+
+        {searchQuery.trim().length > 0 && !loadingSearch && searchResults.length === 0 && (
+          <Text style={{ color: C.textMuted, fontStyle: 'italic', textAlign: 'center', marginVertical: rs(12) }}>
+            No exercise matches found. Try spelling differently or another term.
+          </Text>
+        )}
+
         {/* Selected exercises list */}
-        <Text style={fitnessStyles.sectionTitle}>Exercises ({selectedExercises.length})</Text>
+        <Text style={[fitnessStyles.sectionTitle, { marginTop: rs(16) }]}>Exercises ({selectedExercises.length})</Text>
         {selectedExercises.length === 0 ? (
           <View style={[fitnessStyles.formCard, { alignItems: 'center', paddingVertical: rs(24) }]}>
             <Ionicons name="barbell-outline" size={32} color={C.textMuted} style={{ marginBottom: rs(8) }} />
             <Text style={{ color: C.textSecondary, fontSize: fs(14), textAlign: 'center' }}>
-              No exercises added yet. Use the search bar below to add exercises to your session!
+              No exercises added yet. Use the search bar above to add exercises to your session!
             </Text>
           </View>
         ) : (
@@ -268,71 +370,6 @@ export default function LogWorkoutScreen({ initialRoutine, initialSession, onBac
               </View>
             );
           })
-        )}
-
-        {/* Add exercise search */}
-        <Text style={[fitnessStyles.sectionTitle, { marginTop: rs(16) }]}>Search Exercises</Text>
-        <View style={fitnessStyles.searchBoxContainer}>
-          <Ionicons name="search-outline" size={20} color={C.textMuted} style={fitnessStyles.searchIcon} />
-          <TextInput 
-            style={fitnessStyles.searchInput}
-            placeholder="e.g. bench press, bicep curl..."
-            placeholderTextColor={C.textMuted}
-            value={searchQuery}
-            onChangeText={setSearchQuery}
-            autoCapitalize="none"
-          />
-          {searchQuery ? (
-            <TouchableOpacity onPress={() => setSearchQuery('')} style={fitnessStyles.clearSearchBtn}>
-              <Ionicons name="close-circle" size={18} color={C.textMuted} />
-            </TouchableOpacity>
-          ) : null}
-        </View>
-
-        {loadingSearch && <ActivityIndicator color={C.accent} style={{ marginVertical: rs(12) }} />}
-
-        {searchResults.map((item) => {
-          const muscles = safeParseArray(item.target_muscles);
-          const equip = safeParseArray(item.equipments);
-          return (
-            <View key={item.exercise_id} style={fitnessStyles.searchResultCard}>
-              {item.gif_url ? (
-                <TouchableOpacity onPress={() => setSelectedDetailExercise(item)}>
-                  <Image source={{ uri: item.gif_url }} style={fitnessStyles.exerciseThumb} />
-                </TouchableOpacity>
-              ) : (
-                <View style={[fitnessStyles.exerciseThumb, { justifyContent: 'center', alignItems: 'center' }]}>
-                  <Ionicons name="barbell-outline" size={20} color={C.textMuted} />
-                </View>
-              )}
-              <View style={fitnessStyles.searchResultTextContainer}>
-                <TouchableOpacity onPress={() => setSelectedDetailExercise(item)}>
-                  <Text style={fitnessStyles.searchResultTitle} numberOfLines={1}>{item.name}</Text>
-                </TouchableOpacity>
-                <View style={fitnessStyles.searchResultMeta}>
-                  {muscles.length > 0 && (
-                    <View style={fitnessStyles.muscleBadge}>
-                      <Text style={fitnessStyles.muscleText}>{muscles[0]}</Text>
-                    </View>
-                  )}
-                  {equip.length > 0 && (
-                    <View style={[fitnessStyles.muscleBadge, { backgroundColor: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.1)' }]}>
-                      <Text style={[fitnessStyles.muscleText, { color: C.textSecondary }]}>{equip[0]}</Text>
-                    </View>
-                  )}
-                </View>
-              </View>
-              <TouchableOpacity onPress={() => handleAddExercise(item)} style={fitnessStyles.addResultBtn}>
-                <Ionicons name="add" size={20} color={C.bg} />
-              </TouchableOpacity>
-            </View>
-          );
-        })}
-
-        {searchQuery.trim().length > 0 && !loadingSearch && searchResults.length === 0 && (
-          <Text style={{ color: C.textMuted, fontStyle: 'italic', textAlign: 'center', marginVertical: rs(12) }}>
-            No exercise matches found. Try spelling differently or another term.
-          </Text>
         )}
 
         {/* Submit button */}

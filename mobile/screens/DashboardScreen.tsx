@@ -9,7 +9,6 @@ import HistoryTab from './HistoryTab';
 import ProfileTab from './ProfileTab';
 import FitnessTab from './FitnessTab';
 import RecipesScreen from './RecipesScreen';
-import CheatSheetScreen from './CheatSheetScreen';
 import LogWorkoutScreen from './LogWorkoutScreen';
 import { getLogs, getSummary, getWeeklyAnalytics, getWeightHistory, getRecipes, deleteLog, deleteRecipe, logRecipe, saveRecipe, getWorkouts } from '../api';
 import { MacroTargets, UserProfilePayload } from '../OnboardingScreen';
@@ -28,7 +27,7 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
   const [recipes, setRecipes] = useState<any[]>([]);
   const [workouts, setWorkouts] = useState<any[]>([]);
   const [showRecipesScreen, setShowRecipesScreen] = useState(false);
-  const [showCheatSheet, setShowCheatSheet] = useState(false);
+  const [showLogMealModal, setShowLogMealModal] = useState(false);
   const [showLogWorkoutScreen, setShowLogWorkoutScreen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -133,9 +132,7 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
     <SafeAreaView style={s.safe}>
       <StatusBar barStyle="light-content" />
 
-      {showCheatSheet ? (
-        <CheatSheetScreen onBack={() => setShowCheatSheet(false)} />
-      ) : showRecipesScreen ? (
+      {showRecipesScreen ? (
         <RecipesScreen 
           recipes={recipes} 
           handleLogRecipe={handleLogRecipe} 
@@ -144,12 +141,18 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
         />
       ) : showLogWorkoutScreen ? (
         <LogWorkoutScreen 
+          workoutHistory={workouts}
           onBack={() => setShowLogWorkoutScreen(false)}
           onSuccess={() => {
             setShowLogWorkoutScreen(false);
             setActiveTab('fitness');
             fetchData();
           }}
+        />
+      ) : showLogMealModal ? (
+        <ChatTab 
+          fetchData={fetchData} 
+          onClose={() => setShowLogMealModal(false)} 
         />
       ) : (
         <>
@@ -176,10 +179,27 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
                   <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>⭐ Recipes</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
-                  onPress={() => setActiveTab('chat')} 
+                  onPress={() => setShowLogMealModal(true)} 
                   style={{ backgroundColor: C.accent, paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(8) }}
                 >
                   <Text style={{ color: C.bg, fontSize: fs(13), fontWeight: 'bold' }}>+ Log Meal</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+
+          {activeTab === 'fitness' && (
+            <View style={[s.header, { justifyContent: 'space-between' }]}>
+              <View style={{ flex: 1 }}>
+                <Text style={s.headerTitle}>Fitness</Text>
+                <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>Workouts & Routines</Text>
+              </View>
+              <View style={{ flexDirection: 'row', gap: rs(8), alignItems: 'center' }}>
+                <TouchableOpacity 
+                  onPress={() => setShowLogWorkoutScreen(true)} 
+                  style={{ backgroundColor: C.accent, paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(8) }}
+                >
+                  <Text style={{ color: C.bg, fontSize: fs(13), fontWeight: 'bold' }}>+ Log Workout</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -196,10 +216,8 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
                 workouts={workouts}
                 setViewDate={setViewDate} setActiveTab={setActiveTab}
                 onLogWorkout={() => setShowLogWorkoutScreen(true)}
+                onLogMeal={() => setShowLogMealModal(true)}
               />
-            )}
-            {activeTab === 'chat' && (
-              <ChatTab fetchData={fetchData} setActiveTab={setActiveTab} />
             )}
             {activeTab === 'fitness' && (
               <FitnessTab />
@@ -221,7 +239,6 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
                 fetchData={fetchData}
                 isLoading={isLoading}
                 setIsLoading={setIsLoading}
-                onShowCheatSheet={() => setShowCheatSheet(true)}
               />
             )}
           </View>
