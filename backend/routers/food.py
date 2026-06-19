@@ -8,6 +8,7 @@ from openai import OpenAI
 from db import engine
 from auth import get_current_user
 from models.food import FoodLog, MacroRequest, MultiItemResponse, LogMealRequest, TranscribeResponse
+from prompts.ingredient_defaults import get_ingredient_defaults
 
 router = APIRouter(tags=["food"])
 llm_client = OpenAI()
@@ -37,8 +38,8 @@ def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)
             "- 1 handful (dry nuts/seeds) = 30g; (chips/puffs) = 20g\n"
             "- 1 glass = 250ml\n"
             "- 'small' portion = reduce by 25%; 'large' or 'heaped' = increase by 30%; 'half' = reduce by 50%.\n"
-            "When a food's volume-to-weight conversion isn't listed above, use your best estimate of the food's density."
-        )
+            "When a food's volume-to-weight conversion isn't listed above, use your best estimate of the food's density.\n\n"
+        ) + get_ingredient_defaults()
     }
     messages = [system_msg] + [msg.model_dump() for msg in request.messages]
 
