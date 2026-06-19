@@ -25,6 +25,7 @@ OILS & FATS:
 BREAD & GRAINS:
 - "bread" (unspecified) → white sandwich bread (~265 kcal/100g, 1 slice ≈ 30g)
 - "brown bread" → whole wheat sandwich bread (~247 kcal/100g)
+- "peanut butter toast" (unspecified) → 1 slice of white bread with 1 tbsp peanut butter (~174 kcal, 8g protein, 9g fat, 17g carbs)
 - "rice" (unspecified) → cooked white basmati rice (~130 kcal/100g)
 - "brown rice" → cooked long-grain brown rice (~112 kcal/100g)
 - "pasta" (unspecified) → cooked white pasta (~158 kcal/100g)
@@ -43,7 +44,8 @@ EGGS:
 - "omelette" (unspecified) → 2-egg omelette with 1 tsp oil/butter + vegetables
 
 MEAT & POULTRY:
-- "chicken" (unspecified) → boneless skinless chicken breast (~165 kcal/100g, 31g protein)
+- "raw chicken breast" / "chicken breast (raw)" → 100g raw boneless skinless chicken breast (~120 kcal, 22.5g protein, 2.6g fat, 0g carbs)
+- "cooked chicken breast" / "chicken breast (cooked)" / "chicken breast" (unspecified cooking) → 100g cooked boneless skinless chicken breast (~165 kcal, 31g protein, 3.6g fat, 0g carbs)
 - "chicken curry" → assume bone-in chicken in a standard Indian gravy with oil; 1 katori ≈ 200g
 - "fish" (unspecified, Indian context) → rohu or catla (freshwater fish, ~97 kcal/100g)
 - "mutton" → bone-in mutton/goat curry; 1 katori ≈ 170g
@@ -56,6 +58,7 @@ INDIAN STAPLES:
 - "biryani" → chicken biryani, 1 plate ≈ 350g (~600–700 kcal)
 - "sambar" → standard South Indian sambar (~50 kcal per 100ml)
 - "chutney" → coconut or tomato chutney, 1 tbsp ≈ 30 kcal
+- "dosa" / "plain dosa" (unspecified) → 1 standard plain dosa (~133 kcal, 3.5g protein, 3.7g fat, 20g carbs, cooked with minimal oil/ghee)
 
 NUTS & SEEDS:
 - "almonds" → raw, unsalted (~579 kcal/100g, 1 handful ≈ 30g)
@@ -70,7 +73,8 @@ FRUITS:
 - "mango" → 1 cup chopped (~165g, ~99 kcal)
 
 BEVERAGES:
-- "coffee" (unspecified) → black coffee (~5 kcal); if 'with milk' add 250ml whole milk
+- "coffee" (unspecified black) → black coffee (~5 kcal)
+- "coffee with milk" (unspecified) → black coffee with a splash of whole milk (~30ml whole milk, ~18 kcal, 1g protein, 1g fat, 1.5g carbs) unless specified as latte or cappuccino
 - "tea" / "chai" → standard Indian chai with whole milk & sugar, 1 cup ≈ 80–100 kcal
 - "green tea" → unsweetened (~3 kcal per cup)
 - "juice" (unspecified) → assume store-bought commercial fruit juice (~45 kcal/100ml, not fresh-squeezed)
