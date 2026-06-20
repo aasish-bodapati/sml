@@ -6,9 +6,11 @@ import time as time_lib
 from openai import OpenAI
 
 from db import engine
+import json
 from auth import get_current_user
 from models.food import FoodLog, MacroRequest, MultiItemResponse, LogMealRequest, TranscribeResponse
 from prompts.ingredient_defaults import get_ingredient_defaults
+from utils.search import search_nutrition
 
 router = APIRouter(tags=["food"])
 llm_client = OpenAI()
@@ -43,12 +45,61 @@ def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)
 
     messages = [{"role": "system", "content": system_prompt}] + [msg.model_dump() for msg in request.messages]
 
-    response = llm_client.beta.chat.completions.parse(
+    SEARCH_TOOL = {
+        "type": "function",
+        "function": {
+            "name": "search_nutrition",
+            "description": (
+                "Search the internet for nutrition facts of a specific food, "
+                "brand, or restaurant item. Only call this if you are not confident "
+                "in the exact macro values from your own knowledge or the provided defaults."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "The food or brand name to search for, e.g. 'Snickers bar' or 'Subway footlong chicken'",
+                    }
+                },
+                "required": ["query"],
+            },
+        },
+    }
+
+    # Step 1: Initial call (may trigger tool)
+    first_response = llm_client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=messages,
+        tools=[SEARCH_TOOL],
+        tool_choice="auto"
+    )
+    msg = first_response.choices[0].message
+
+    # Step 2: If a tool was called, execute it and append the result
+    if msg.tool_calls:
+        tool_call = msg.tool_calls[0]
+        try:
+            query = json.loads(tool_call.function.arguments)["query"]
+            search_result = search_nutrition(query)
+        except Exception:
+            search_result = "Search failed."
+        
+        # We must append the assistant's tool call message, then the tool result
+        messages.append(msg.model_dump())
+        messages.append({
+            "role": "tool",
+            "tool_call_id": tool_call.id,
+            "content": search_result,
+        })
+
+    # Step 3: Final parse into the Pydantic schema
+    final_response = llm_client.beta.chat.completions.parse(
         model="gpt-4o-mini",
         response_format=MultiItemResponse,
         messages=messages
     )
-    return response.choices[0].message.parsed
+    return final_response.choices[0].message.parsed
 
 @router.post("/transcribe", response_model=TranscribeResponse)
 def transcribe_audio(file: UploadFile = File(...), user_id: str = Depends(get_current_user)):

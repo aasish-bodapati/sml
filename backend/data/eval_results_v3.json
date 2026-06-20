@@ -24,7 +24,7 @@
       "raw_weight"
     ],
     "case_id": "legacy_001",
-    "thinking": "User consumed 100g of raw chicken breast. \n- Chicken Breast (Raw): 120 kcal, 22g protein, 2.5g fat, 0g carbs per 100g.\n- For 100g, the nutrition values remain the same since that's the standard serving. \n\nFinal calculation: \nCalories: 120 \nProtein: 22g \nFat: 2.5g \nCarbs: 0g",
+    "thinking": "The user ate 100g of raw chicken breast. According to the defaults, 100g of raw chicken breast has 120 kcal, 22g protein, 2.5g fat, and 0g carbs. This is a single dish item.\n\nCalculating for 100g raw chicken breast:\n- Calories: 120 kcal\n- Protein: 22g\n- Fat: 2.5g\n- Carbohydrates: 0g",
     "item_count": 1,
     "items": [
       {
@@ -34,7 +34,7 @@
         "protein": 22,
         "carbohydrates": 0,
         "fat": 2,
-        "meal_type": "null"
+        "meal_type": null
       }
     ],
     "is_miss": false,
@@ -68,7 +68,7 @@
       "composite"
     ],
     "case_id": "legacy_002",
-    "thinking": "1 large boiled egg weighs 55g. According to the default values, 1 large boiled egg contains 70 kcal, 6.0g protein, 5.0g fat, and 0.5g carbs. Therefore, totaling the values based on one large egg:\n- Calories: 70 kcal\n- Protein: 6.0g\n- Fat: 5.0g\n- Carbs: 0.5g",
+    "thinking": "1 large boiled egg weighs approximately 55g.\n\nUsing the standard values:\n- 1 egg = 70 kcal, 6.0g protein, 5.0g fat, 0.5g carbs\n\nTherefore, for 1 large boiled egg:\n- Calories = 70 kcal,\n- Protein = 6.0g,\n- Fat = 5.0g,\n- Carbs = 0.5g.\n\nThis matches with the output fields exactly for 1 large boiled egg.",
     "item_count": 1,
     "items": [
       {
@@ -78,7 +78,7 @@
         "protein": 6,
         "carbohydrates": 1,
         "fat": 5,
-        "meal_type": "Snack"
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -112,17 +112,17 @@
       "cooked_weight"
     ],
     "case_id": "legacy_003",
-    "thinking": "User consumed 100g of cooked white rice. Based on standard portion values, 100g of cooked rice contains approximately 130 kcal, 2.5g of protein, 0.3g of fat, and 28g of carbs. This is calculated considering that 1 cup (240ml) of cooked rice is about 200g. Therefore, 100g is half that amount. \n\n- Rice (100g): 130 kcal, 2.5g protein, 0.3g fat, 28g carbs\n\nTotal for 1 serving of cooked white rice: 130 kcal, 2.5g protein, 0.3g fat, 28g carbs.",
+    "thinking": "User consumed 100g of cooked white rice. Reference value for cooked rice is approximately 200 kcal per 1 cup (240ml) which is around 200g. Thus for 100g:\n\n200 kcal / 200g = 1 kcal/g.\n\nSo for 100g:\n1 kcal/g * 100g = 100 kcal\n\nBased on values:\nCalories: 100 kcal\nProtein: 2.0g\nCarbs: 22.0g\nFat: 0.4g\n\nTotal for 100g of cooked white rice would be:\n- Calories: 130 kcal (adjusted due to standard serving)\n- Protein: 2.0g\n- Carbs: 28.0g\n- Fat: 0.4g\n\nTotal shall be calculated as follows.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Cooked White Rice",
+        "name": "White Rice",
         "calories": 130,
         "protein": 2,
         "carbohydrates": 28,
         "fat": 0,
-        "meal_type": "meal"
+        "meal_type": "side"
       }
     ],
     "is_miss": false,
@@ -156,7 +156,7 @@
       "synonym_risk"
     ],
     "case_id": "legacy_004",
-    "thinking": "1 tablespoon of olive oil corresponds to 15ml. Using the reference values:\n- Olive Oil: 120 kcal, 0g protein, 14g fat, 0g carbs (per 1 tbsp, 15ml)\n\nThus, for 1 tablespoon:  \nCalories = 120  \nProtein = 0  \nFat = 14  \nCarbs = 0\n\nTotal:\n- Calories = 120\n- Protein = 0g\n- Fat = 14g\n- Carbohydrates = 0g",
+    "thinking": "1 tablespoon of olive oil is approximately 15ml. Using the reference value, 1 tablespoon of oil has 120 kcal, 0g protein, 14g fat, and 0g carbohydrates.\n\n- Portion Assumptions:\n  - 1 tablespoon = 120 kcal, 0g protein, 14g fat, 0g carbs\n\nFinal values for the item:\n- Calories: 120\n- Protein: 0\n- Fat: 14\n- Carbohydrates: 0",
     "item_count": 1,
     "items": [
       {
@@ -166,7 +166,7 @@
         "protein": 0,
         "carbohydrates": 0,
         "fat": 14,
-        "meal_type": "null"
+        "meal_type": null
       }
     ],
     "is_miss": false,
@@ -200,7 +200,7 @@
       "synonym_risk"
     ],
     "case_id": "legacy_005",
-    "thinking": "The user mentioned '1 medium banana'. A medium banana is typically about 118 grams, and based on the USDA nutrition data, a medium banana contains approximately 105 calories, 1.3g protein, 27g carbohydrates, and 0.3g fat. Therefore, for 1 medium banana: \n - Calories: 105 kcal\n - Protein: 1.3g\n - Carbohydrates: 27g\n - Fat: 0.3g\n As there's no specific meal type mentioned, I will not assign a type. \n  \n Thus, I will output these values accordingly.",
+    "thinking": "The user ate 1 medium banana. A medium banana is generally estimated to weigh about 118 grams. Nutritional values for bananas are approximately: 105 kcal, 1.3g protein, 27g carbs, and 0.3g fat per medium banana. Therefore, for a portion of 1 banana: \nCalories: 105 kcal \nProtein: 1.3g \nCarbohydrates: 27g \nFat: 0.3g.\n\nTotal for 1 medium banana: \nCalories = 105 \nProtein = 1.3 \nCarbs = 27 \nFat = 0.3",
     "item_count": 1,
     "items": [
       {
@@ -210,7 +210,7 @@
         "protein": 1,
         "carbohydrates": 27,
         "fat": 0,
-        "meal_type": null
+        "meal_type": "snack"
       }
     ],
     "is_miss": false,
@@ -228,33 +228,33 @@
       "carbohydrates": 28.0
     },
     "predicted": {
-      "calories": 140.0,
-      "protein": 6.0,
-      "fat": 1.0,
-      "carbohydrates": 30.0
+      "calories": 160.0,
+      "protein": 8.0,
+      "fat": 2.0,
+      "carbohydrates": 28.0
     },
     "errors": {
-      "calories": 0.125,
-      "protein": 0.25,
-      "fat": 0.5,
-      "carbohydrates": 0.07142857142857142
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
     },
     "category": "composite_meal",
     "tags": [
       "composite"
     ],
     "case_id": "legacy_006",
-    "thinking": "User consumed 2 slices of whole wheat bread. 1 slice of bread = 30g; therefore for 2 slices: 2 slices x 30g/slice = 60g total. Reference values per slice (30g): 1 slice = 70 kcal, 2 slices = 140 kcal, 6g protein, 0.8g fat, 30g carbs. Final calculations: Total for 2 slices: 140 kcal, 6g protein, 1.6g fat, 30g carbs.",
+    "thinking": "User had 2 slices of whole wheat bread. Each slice of bread is 30g and contains 80 kcal, 4g protein, 14g carbohydrates, and 1g fat. Thus, for 2 slices:\n\nCalories: 80 kcal/slice * 2 slices = 160 kcal\nProtein: 4g/slice * 2 slices = 8g\nCarbohydrates: 14g/slice * 2 slices = 28g\nFat: 1g/slice * 2 slices = 2g\n\nTotal: 160 kcal, 8g protein, 28g carbs, 2g fat.\n\nMeal type is inferred as breakfast (but could be a snack too).",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Whole Wheat Bread",
-        "calories": 140,
-        "protein": 6,
-        "carbohydrates": 30,
-        "fat": 1,
-        "meal_type": "null"
+        "calories": 160,
+        "protein": 8,
+        "carbohydrates": 28,
+        "fat": 2,
+        "meal_type": "breakfast"
       }
     ],
     "is_miss": false,
@@ -272,13 +272,13 @@
       "carbohydrates": 12.0
     },
     "predicted": {
-      "calories": 150.0,
+      "calories": 144.0,
       "protein": 8.0,
       "fat": 8.0,
       "carbohydrates": 12.0
     },
     "errors": {
-      "calories": 0.006711409395973154,
+      "calories": 0.03355704697986577,
       "protein": 0.0,
       "fat": 0.0,
       "carbohydrates": 0.0
@@ -288,17 +288,17 @@
       "synonym_risk"
     ],
     "case_id": "legacy_007",
-    "thinking": "1 cup of whole milk is equivalent to 240ml. According to the baseline values, 1 cup of milk contains 150 kcal, 8.0g protein, 8.0g fat, and 12g carbs.",
+    "thinking": "1 cup of whole milk = 240ml. \nReference values: \nWhole milk provides 150 kcal, 8.0g protein, 8.0g fat, and 12g carbs (per 1 glass, 250ml). Given that 240ml is slightly less than 250ml, we will scale the nutrient values accordingly. \nCalculations: \nCalories: (150 kcal / 250 ml) * 240 ml = 144 kcal \nProtein: (8.0 g / 250 ml) * 240 ml = 7.68 g (round to 8g) \nFat: (8.0 g / 250 ml) * 240 ml = 7.68 g (round to 8g) \nCarbohydrates: (12 g / 250 ml) * 240 ml = 11.52 g (round to 12g) \nAs such, the summarised values for 1 cup of whole milk are 144 kcal, 8g protein, 8g fat, and 12g carbs.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Whole Milk",
-        "calories": 150,
+        "name": "Milk",
+        "calories": 144,
         "protein": 8,
         "carbohydrates": 12,
         "fat": 8,
-        "meal_type": "Snack"
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -332,12 +332,12 @@
       "raw_weight"
     ],
     "case_id": "legacy_008",
-    "thinking": "Raw spinach is considered a non-food item in terms of nutritional tracking here since I only track standard foods prepared or consumed in meals. Therefore, 'raw spinach' is not considered a food item for the context of this request.",
+    "thinking": "User mentioned 100g of raw spinach. Spinach is not a food item as per nutrition values provided (no default for raw spinach). Therefore, I will set is_food to False.",
     "item_count": 1,
     "items": [
       {
         "is_food": false,
-        "name": "raw spinach",
+        "name": "Raw Spinach",
         "calories": 0,
         "protein": 0,
         "carbohydrates": 0,
@@ -380,7 +380,7 @@
       "synonym_risk"
     ],
     "case_id": "legacy_009",
-    "thinking": "The user stated they had a handful of almonds. A handful is typically considered to be about 30g for dry nuts. Almonds provide approximately 174 calories, 6g of protein, 15g of fat, and 6g of carbohydrates per 30g serving.\n\nCalculating total:\n- Portion size: 30g almonds\n- Calories: 174 kcal\n- Protein: 6g\n- Fat: 15g\n- Carbs: 6g\n\nTotal for 1 handful of almonds:\nCalories: 174\nProtein: 6\nFat: 15\nCarbs: 6",
+    "thinking": "A handful of almonds typically weighs around 30g. The nutritional values for 30g of almonds are: calories ~174, protein ~6g, fat ~15g, carbohydrates ~6g. This equals 1 dish of almonds.",
     "item_count": 1,
     "items": [
       {
@@ -390,7 +390,7 @@
         "protein": 6,
         "carbohydrates": 6,
         "fat": 15,
-        "meal_type": null
+        "meal_type": "snack"
       }
     ],
     "is_miss": false,
@@ -424,7 +424,7 @@
       "synonym_risk"
     ],
     "case_id": "legacy_010",
-    "thinking": "The user specified '1 medium apple', which is a whole fruit. A medium apple typically weighs about 182g and contains approximately 95 calories, 0.5g protein, 25g carbohydrates, and 0.3g fat. Thus, I will classify this as a single item called 'Apple'.",
+    "thinking": "The user consumed 1 medium apple. A medium apple typically weighs around 182 grams and has approximately 95 calories, 0.5g protein, 25g carbohydrates, and 0.3g fat. Since this is a single item, I will provide its nutritional values as one dish.",
     "item_count": 1,
     "items": [
       {
@@ -470,17 +470,17 @@
       "serving_based"
     ],
     "case_id": "legacy_011",
-    "thinking": "Each plain chapati is 40g and provides 70 kcal, 2.0g protein, 0.4g fat, and 15g carbs. For 2 chapatis:\n- Calories: 2 * 70 kcal = 140 kcal\n- Protein: 2 * 2.0g = 4.0g\n- Fat: 2 * 0.4g = 0.8g\n- Carbs: 2 * 15g = 30g\n\nTotal for 2 chapatis: 140 kcal, 4.0g protein, 0.8g fat, 30g carbs.",
+    "thinking": "2 plain chapatis = 2 x 70 kcal, 2 x 2g protein, 2 x 0.4g fat, 2 x 15g carbs.\\nCalories: 2 x 70 = 140 kcal\\nProtein: 2 x 2g = 4g\\nFat: 2 x 0.4g = 0.8g\\nCarbohydrates: 2 x 15g = 30g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Plain Chapati",
+        "name": "Chapatis",
         "calories": 140,
         "protein": 4,
         "carbohydrates": 30,
         "fat": 1,
-        "meal_type": "main"
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -516,7 +516,7 @@
       "serving_based"
     ],
     "case_id": "legacy_012",
-    "thinking": "1 bowl of dal tadka is approximately equivalent to 300ml / ~260g of cooked dal. For this, I'll use the reference value for dal, which is:\n- Dal (cooked): 110 kcal, 5.5g protein, 3.0g fat, 15g carbs (per 1 katori, 130g)\n\nSince a bowl is around 2 katoris, I'll calculate the values based on that. \n\nCalculating:\n1. Calories: 110 kcal * 2 = 220 kcal\n2. Protein: 5.5g * 2 = 11g\n3. Fat: 3.0g * 2 = 6g\n4. Carbs: 15g * 2 = 30g\n\nThus, 1 bowl of dal tadka provides approximately:\n- Calories: 220 kcal\n- Protein: 11g\n- Fat: 6g\n- Carbs: 30g",
+    "thinking": "Assuming 1 bowl of dal tadka is approximately 300ml, which corresponds to about 260g for solid foods such as dal. According to the ingredient defaults, dal cooked provides 110 kcal, 5.5g protein, 3g fat, and 15g carbs per 130g (1 katori). Therefore, for 260g, the nutritional values can be calculated as follows:\n\n- Calories: (110 kcal / 130g) * 260g = 220 kcal\n- Protein: (5.5g / 130g) * 260g = 11g protein\n- Fat: (3g / 130g) * 260g = 6g fat\n- Carbs: (15g / 130g) * 260g = 30g carbs\n\nTherefore, the total for 1 bowl of dal tadka is:\n- 220 kcal, 11g protein, 30g carbs, 6g fat.",
     "item_count": 1,
     "items": [
       {
@@ -526,7 +526,7 @@
         "protein": 11,
         "carbohydrates": 30,
         "fat": 6,
-        "meal_type": "main"
+        "meal_type": null
       }
     ],
     "is_miss": false,
@@ -562,7 +562,7 @@
       "serving_based"
     ],
     "case_id": "legacy_013",
-    "thinking": "User had 1 plate of chicken biryani. According to the reference, 1 plate of biryani (350g) contains:\n- Calories: 650\n- Protein: 30g\n- Fat: 20g\n- Carbohydrates: 85g\n\nTotal for 1 plate of biryani is:\n- 650 kcal\n- 30 g protein\n- 20 g fat\n- 85 g carbs",
+    "thinking": "1 plate of chicken biryani is assumed to be 350g based on standard portion sizes.\\nUsing the default values for chicken biryani: 650 kcal, 30g protein, 20g fat, and 85g carbs (per 1 plate). Therefore, the total values for the dish are as follows: 650 kcal, 30g protein, 20g fat, 85g carbs.",
     "item_count": 1,
     "items": [
       {
@@ -591,7 +591,7 @@
     },
     "predicted": {
       "calories": 133.0,
-      "protein": 3.0,
+      "protein": 4.0,
       "fat": 4.0,
       "carbohydrates": 20.0
     },
@@ -608,17 +608,17 @@
       "serving_based"
     ],
     "case_id": "legacy_014",
-    "thinking": "The user had 1 plain dosa. The reference values for a plain dosa are 133 kcal, 3.5g protein, 3.7g fat, and 20g carbs. Since the user specified 1 dosa, I will use these values directly without scaling.",
+    "thinking": "1 plain dosa \n- Reference values: 133 kcal, 3.5g protein, 3.7g fat, 20g carbs (per 1 dosa)\n- Total for 1 dosa: \n  - Calories: 133 kcal \n  - Protein: 3.5g \n  - Fat: 3.7g \n  - Carbs: 20g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Plain Dosa",
         "calories": 133,
-        "protein": 3,
+        "protein": 4,
         "carbohydrates": 20,
         "fat": 4,
-        "meal_type": "null"
+        "meal_type": "breakfast"
       }
     ],
     "is_miss": false,
@@ -654,7 +654,7 @@
       "serving_based"
     ],
     "case_id": "legacy_015",
-    "thinking": "User had 100g of paneer tikka. Paneer as a basic ingredient has the following nutrition values for 100g: 265 kcal, 18g protein, 20g fat, 4g carbs. Since it is paneer-based, I'll use these values directly without scaling. \n\nCalculating for 100g paneer tikka:\n- Calories: 265 kcal\n- Protein: 18g\n- Fat: 20g\n- Carbohydrates: 4g\n\nFinal dish totals:\nCalories: 265 kcal\nProtein: 18g\nFat: 20g\nCarbohydrates: 4g.",
+    "thinking": "User requested 100g of paneer tikka. Paneer in this dish provides: 100g of paneer = 2.65 times the standard 100g serving (260 kcal, 18g protein, 20g fat, 4g carbs). Assuming paneer tikka includes only paneer, the nutritional values are directly taken for 100g. \n\nTotal Values: \n- Calories: 265 \n- Protein: 18g \n- Fat: 20g \n- Carbs: 4g",
     "item_count": 1,
     "items": [
       {
@@ -682,15 +682,15 @@
       "carbohydrates": 17.0
     },
     "predicted": {
-      "calories": 164.0,
+      "calories": 174.0,
       "protein": 6.0,
-      "fat": 8.0,
+      "fat": 9.0,
       "carbohydrates": 18.0
     },
     "errors": {
-      "calories": 0.05747126436781609,
+      "calories": 0.0,
       "protein": 0.25,
-      "fat": 0.1111111111111111,
+      "fat": 0.0,
       "carbohydrates": 0.058823529411764705
     },
     "category": "composite_meal",
@@ -698,17 +698,17 @@
       "composite"
     ],
     "case_id": "legacy_016",
-    "thinking": "1 slice of toast is assumed to weigh approximately 30g. Peanut butter is assumed to be 1 tbsp (16g).\n\nFor the toast:\n- Toast (1 slice): 70 kcal, 2.0g protein, 0.4g fat, 15g carbs (assumed standard slice)\n\nFor the peanut butter:\n- Peanut Butter (1 tbsp = 16g): 94 kcal, 4.0g protein, 8.0g fat, 3g carbs\n\nCalculating totals:\n- Toast: 70 kcal, 2g protein, 0.4g fat, 15g carbs\n- Peanut Butter: 94 kcal, 4g protein, 8g fat, 3g carbs\n\nTotal:\nCalories = 70 + 94 = 164 kcal\nProtein = 2 + 4 = 6g\nFat = 0.4 + 8 = 8.4g\nCarbs = 15 + 3 = 18g\n\nAll values are summed to provide the final output.",
+    "thinking": "1 slice of bread = 30g. 1 tbsp peanut butter = 16g. Assuming 1 slice of bread and 1 tbsp of peanut butter for the toast:\n\n- Bread: 1 slice = 30g  -> 80 kcal (based on common value for bread)\n- Peanut Butter: 1 tbsp = 16g -> 94 kcal\n\nTotal:\n- Calories: 80 + 94 = 174 kcal\n- Protein: 2g (from bread) + 4g (from peanut butter) = 6g\n- Carbohydrates: 15g (from bread) + 3g (from peanut butter) = 18g\n- Fat: 1g (from bread) + 8g (from peanut butter) = 9g\n\nThis is a single dish: Peanut Butter Toast.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Peanut Butter Toast",
-        "calories": 164,
+        "calories": 174,
         "protein": 6,
         "carbohydrates": 18,
-        "fat": 8,
-        "meal_type": "breakfast"
+        "fat": 9,
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -726,42 +726,33 @@
       "carbohydrates": 39.0
     },
     "predicted": {
-      "calories": 310.0,
-      "protein": 13.0,
-      "fat": 7.0,
-      "carbohydrates": 46.0
+      "calories": 300.0,
+      "protein": 14.0,
+      "fat": 11.0,
+      "carbohydrates": 39.0
     },
     "errors": {
-      "calories": 0.03678929765886288,
-      "protein": 0.0,
-      "fat": 0.36363636363636365,
-      "carbohydrates": 0.1794871794871795
+      "calories": 0.0033444816053511705,
+      "protein": 0.07692307692307693,
+      "fat": 0.0,
+      "carbohydrates": 0.0
     },
     "category": "atomic_ingredient",
     "tags": [
       "synonym_risk"
     ],
     "case_id": "legacy_017",
-    "thinking": "The user mentioned 'a bowl of oatmeal with milk'. I will treat 'bowl of oatmeal' as one dish and 'milk' as a separate item. Using the portion standards: \n- A bowl is 300ml or ~260g for solid foods. Assuming the 'bowl of oatmeal' contains 200g of cooked oatmeal, this is a complete dish.\n- For milk, one glass is 250ml, but since it's likely a splash in the oatmeal, I will standardize it to 100ml, which is about 40 kcal.\n\nCalculating:\n1. Oatmeal (bowl):\n   - Oatmeal ~250 kcal and 10g protein (using average values for cooked oats)\n\n2. Milk (splash, 100ml):\n   - Milk: 150 kcal, 8g protein, 8g fat, 12g carbs (per glass)\n   - For 100ml: 150 kcal * (100ml / 250ml) = 60 kcal (approx 3.2g protein)\n\nTotal for oatmeal with milk:\n1. Oatmeal: 250 kcal, 10g protein\n2. Milk: 60 kcal, 3.2g protein\nTotal:\nCalories: 250 + 60 = 310 kcal\nProtein: 10 + 3.2 = 13.2g protein (approx rounded to 13g)\n\nFinal dish calculations:\nTotal for Bowl of Oatmeal: 250 kcal, 10g protein\nTotal for Milk (splash): 60 kcal, 3g protein",
-    "item_count": 2,
+    "thinking": "For the oatmeal, I will consider 1 bowl (300ml) of cooked oatmeal, which is standard for a portion. The calories of a bowl of oatmeal can vary, but a typical estimate is around 150 kcal for cooked oatmeal. I will also add 1 cup (240ml) of milk, which has 150 kcal.  \n\nCalculating the totals:  \n- Oatmeal: 150 kcal  \n- Milk: 150 kcal  \n\nTotal calories = 150 + 150 = 300 kcal.  \n\nTotal protein and other macronutrients: Assuming roughly around 6g protein and 27g carbs for the oatmeal and for the milk, about 8g protein and 12g carbs.  \n\nSo, for the total:  \n- Protein = 6g (oatmeal) + 8g (milk) = 14g  \n- Carbohydrates = 27g (oatmeal) + 12g (milk) = 39g  \n- Fat = 3g (oatmeal) + 8g (milk) = 11g  \n\nThus, the totals for the bowl of oatmeal with milk are 300 kcal, 14g protein, 39g carbs, and 11g fat: It makes 1 composite dish.",
+    "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Oatmeal",
-        "calories": 250,
-        "protein": 10,
-        "carbohydrates": 40,
-        "fat": 5,
-        "meal_type": "breakfast"
-      },
-      {
-        "is_food": true,
-        "name": "Milk",
-        "calories": 60,
-        "protein": 3,
-        "carbohydrates": 6,
-        "fat": 2,
-        "meal_type": "breakfast"
+        "name": "Oatmeal with Milk",
+        "calories": 300,
+        "protein": 14,
+        "carbohydrates": 39,
+        "fat": 11,
+        "meal_type": "Breakfast"
       }
     ],
     "is_miss": false,
@@ -795,7 +786,7 @@
       "synonym_risk"
     ],
     "case_id": "legacy_018",
-    "thinking": "The user had 'coffee with milk'. According to the ingredient defaults, a standard cup of coffee with milk yields 18 kcal, 1.0g protein, 1.0g fat, and 1.5g carbs per serving. Assuming the user had 1 serving:\n\n- Coffee with Milk: 18 kcal, 1.0g protein, 1.0g fat, 1.5g carbs (1 cup) \n\nSumming this, we get the total for coffee with milk. \n\nHence, the nutrition data for this single drink is as follows: \n\nCalories: 18, Protein: 1, Fat: 1, Carbs: 1.",
+    "thinking": "The user consumed 'coffee with milk', which is a standard item. Based on the reference values, this contains 18 kcal, 1.0g protein, 1.0g fat, and 1.5g carbs for one standard cup (black coffee + splash of milk). There are no adjustments to portion sizes mentioned, so it will be treated as one standard serving.",
     "item_count": 1,
     "items": [
       {
@@ -805,7 +796,7 @@
         "protein": 1,
         "carbohydrates": 2,
         "fat": 1,
-        "meal_type": "Beverage"
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -823,15 +814,15 @@
       "carbohydrates": 45.0
     },
     "predicted": {
-      "calories": 350.0,
-      "protein": 25.0,
-      "fat": 15.0,
+      "calories": 400.0,
+      "protein": 30.0,
+      "fat": 20.0,
       "carbohydrates": 30.0
     },
     "errors": {
-      "calories": 0.0,
-      "protein": 0.6666666666666666,
-      "fat": 0.25,
+      "calories": 0.14285714285714285,
+      "protein": 1.0,
+      "fat": 0.6666666666666666,
       "carbohydrates": 0.3333333333333333
     },
     "category": "vague_user_input",
@@ -840,16 +831,16 @@
       "followup_needed"
     ],
     "case_id": "legacy_019",
-    "thinking": "The user had a sandwich for lunch. Assuming a standard chicken sandwich as a representative example, I will categorize this as a single dish without further details about the specific contents. Using general reference values for a chicken sandwich: 350 kcal, 25g protein, 30g carbs, and 15g fat.",
+    "thinking": "The user had a sandwich, which I'll consider as a standard chicken sandwich. A typical chicken sandwich is assumed to weigh around 150g. For reference, a chicken sandwich provides approximately 400 calories, 30g protein, 20g fat, and 30g carbs.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Chicken Sandwich",
-        "calories": 350,
-        "protein": 25,
+        "calories": 400,
+        "protein": 30,
         "carbohydrates": 30,
-        "fat": 15,
+        "fat": 20,
         "meal_type": "Lunch"
       }
     ],
@@ -868,16 +859,16 @@
       "carbohydrates": 85.0
     },
     "predicted": {
-      "calories": 250.0,
-      "protein": 9.0,
+      "calories": 364.0,
+      "protein": 7.0,
       "fat": 1.0,
-      "carbohydrates": 50.0
+      "carbohydrates": 78.0
     },
     "errors": {
-      "calories": 0.5,
-      "protein": 0.4,
+      "calories": 0.272,
+      "protein": 0.5333333333333333,
       "fat": 0.9,
-      "carbohydrates": 0.4117647058823529
+      "carbohydrates": 0.08235294117647059
     },
     "category": "vague_user_input",
     "tags": [
@@ -885,17 +876,17 @@
       "followup_needed"
     ],
     "case_id": "legacy_020",
-    "thinking": "Assuming 'big bowl' refers to a standard serving size, I will consider it to be one bowl (300ml / ~260g) of pasta. The average calories for a bowl of cooked pasta can vary, but a common estimate is around 250 kcal per bowl. Thus, this is what I'll record.",
+    "thinking": "The user ate a 'big bowl' of pasta. Assuming a big bowl is approximately 300ml, which corresponds to about 260g of cooked pasta. Using the baseline, 1 plate of pasta is around 250g, so I will use the same nutritional value for a 250g serving for this calculation. Calculating the values: cooked pasta is typically around 350 kcal per 250g (general average for cooked pasta). Therefore, for 260g, I'll scale:\n\nCalories: (350 kcal / 250g) * 260g = 364 kcal\n\nAssuming typical macronutrient values for cooked pasta (7g protein, 1g fat, 75g carbs per 250g), for 260g:  \nProtein: (7g / 250g) * 260g = 7.28g \nFat: (1g / 250g) * 260g = 1.04g \nCarbohydrates: (75g / 250g) * 260g = 78g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Pasta",
-        "calories": 250,
-        "protein": 9,
-        "carbohydrates": 50,
+        "calories": 364,
+        "protein": 7,
+        "carbohydrates": 78,
         "fat": 1,
-        "meal_type": "Main"
+        "meal_type": "Dinner"
       }
     ],
     "is_miss": true,
@@ -917,46 +908,41 @@
       "carbohydrates": 55.0
     },
     "predicted": {
-      "calories": 415.0,
-      "protein": 35.0,
+      "calories": 490.0,
+      "protein": 31.0,
       "fat": 4.0,
-      "carbohydrates": 55.0
+      "carbohydrates": 75.0
     },
     "errors": {
-      "calories": 0.0375,
-      "protein": 0.16666666666666666,
+      "calories": 0.225,
+      "protein": 0.03333333333333333,
       "fat": 0.2,
-      "carbohydrates": 0.0
+      "carbohydrates": 0.36363636363636365
     },
     "category": "atomic_ingredient",
     "tags": [
       "synonym_risk"
     ],
     "case_id": "legacy_021",
-    "thinking": "Assuming 'some chicken' refers to 100g of cooked chicken and 'rice' refers to 250g cooked rice. \n\nFor chicken: 100g cooked chicken = 165 kcal, 31g protein, 3.6g fat, 0g carbs.\nFor rice: 250g cooked rice = 250 kcal, 4g protein, 0.5g fat, 55g carbs.\n\nCalculating totals:\n- Chicken: 165 kcal, 31g protein, 3.6g fat, 0g carbs.\n- Rice: 250 kcal, 4g protein, 0.5g fat, 55g carbs.\n\nTotal:\nCalories: 165 + 250 = 415 kcal\nProtein: 31 + 4 = 35g\nFat: 3.6 + 0.5 = 4.1g\nCarbs: 0 + 55 = 55g",
-    "item_count": 2,
+    "thinking": "The user mentioned 'some chicken and rice'. Assuming a standard serving for meal tracking: \n- For the chicken: assume 100g of cooked chicken breast (165 kcal, 31g protein, 3.6g fat, 0g carbs)\n- For the rice: treat as 1 plate of cooked rice = 250g (approx 325 kcal for 250g)\n\nCalculating total:\n- Chicken (100g): 165 kcal, 31g protein, 3.6g fat, 0g carbs\n- Rice (250g): 325 kcal, 0g protein, 0g fat, 75g carbs\n\nCombining both:\n- Total Calories: 165 + 325 = 490 kcal\n- Total Protein: 31g + 0g = 31g\n- Total Fat: 3.6g + 0g = 3.6g\n- Total Carbs: 0g + 75g = 75g\n\nListing as one meal type.",
+    "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Chicken",
-        "calories": 165,
+        "name": "Chicken and Rice",
+        "calories": 490,
         "protein": 31,
-        "carbohydrates": 0,
+        "carbohydrates": 75,
         "fat": 4,
-        "meal_type": "main"
-      },
-      {
-        "is_food": true,
-        "name": "Rice",
-        "calories": 250,
-        "protein": 4,
-        "carbohydrates": 55,
-        "fat": 0,
-        "meal_type": "main"
+        "meal_type": "Meal"
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "atomic_ingredient",
+      "failure_stage": "entity_confusion",
+      "suggested_fix": "Add synonym aliasing for this term"
+    },
     "entity_recall": null,
     "item_count_match": null,
     "followup_violated": false
@@ -971,15 +957,15 @@
     },
     "predicted": {
       "calories": 300.0,
-      "protein": 13.0,
-      "fat": 12.0,
-      "carbohydrates": 33.0
+      "protein": 12.0,
+      "fat": 15.0,
+      "carbohydrates": 30.0
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.13333333333333333,
-      "fat": 0.0,
-      "carbohydrates": 0.0
+      "protein": 0.2,
+      "fat": 0.25,
+      "carbohydrates": 0.09090909090909091
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -987,17 +973,17 @@
       "composite"
     ],
     "case_id": "legacy_022",
-    "thinking": "Assuming a standard McDonald's cheeseburger which typically contains a beef patty, cheese, pickles, onions, ketchup, and mustard in a bun. Based on nutritional information, a regular cheeseburger contains approximately:\n- Calories: 300 kcal\n- Protein: 13g\n- Carbs: 33g\n- Fat: 12g\nThus, the total for the cheeseburger is as stated below.",
+    "thinking": "A regular cheeseburger from McDonald's typically weighs around 120g. Based on similar fast food cheeseburgers, the estimated nutrition values are approximately 300 kcal, 12g protein, 15g fat, and 30g carbohydrates. This estimate combines the beef patty, cheese, bun, and condiments.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Cheeseburger",
         "calories": 300,
-        "protein": 13,
-        "carbohydrates": 33,
-        "fat": 12,
-        "meal_type": "snack"
+        "protein": 12,
+        "carbohydrates": 30,
+        "fat": 15,
+        "meal_type": "Dinner"
       }
     ],
     "is_miss": false,
@@ -1015,16 +1001,16 @@
       "carbohydrates": 20.0
     },
     "predicted": {
-      "calories": 555.0,
-      "protein": 36.0,
-      "fat": 38.0,
-      "carbohydrates": 21.0
+      "calories": 548.0,
+      "protein": 50.0,
+      "fat": 25.0,
+      "carbohydrates": 30.0
     },
     "errors": {
-      "calories": 0.075,
-      "protein": 0.2,
-      "fat": 0.15555555555555556,
-      "carbohydrates": 0.05
+      "calories": 0.08666666666666667,
+      "protein": 0.6666666666666666,
+      "fat": 0.4444444444444444,
+      "carbohydrates": 0.5
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -1032,17 +1018,17 @@
       "composite"
     ],
     "case_id": "legacy_023",
-    "thinking": "The dish is a Chicken Caesar Salad which typically contains cooked chicken, romaine lettuce, Caesar dressing, croutons, and parmesan cheese. For calorie estimation:\n\n1. Chicken (Cooked) - assuming a standard portion size of 100g:\n   - 165 kcal, 31g protein, 3.6g fat, 0g carbs\n\n2. Caesar Dressing - not specified, but typically a tablespoon (15ml) per serving. Assuming extra dressing means 2 tablespoons:\n   - 120 kcal per tablespoon (based on olive oil presence) \n   - Thus for 2 tbsp: 240 kcal, 0g protein, 28g fat, 0g carbs\n\n3. Croutons - assuming a standard serving of around 30g:\n   - 150 kcal, 5g protein, 6g fat, 21g carbs\n\nNow, I will sum these values for the final calculations:\n\nCalories: \n165 (chicken) + 240 (dressing) + 150 (croutons) = 555 kcal\n\nProtein: \n31g (chicken) + 0g (dressing) + 5g (croutons) = 36g\n\nFat: \n3.6g (chicken) + 28g (dressing) + 6g (croutons) = 37.6g\n\nCarbohydrates: \n0g (chicken) + 0g (dressing) + 21g (croutons) = 21g\n\nThus, the Chicken Caesar Salad with extra dressing and croutons totals to: 555 kcal, 36g protein, 37.6g fat, 21g carbs.",
+    "thinking": "For the Chicken Caesar salad, we'll assume a standard serving size. A typical serving of Chicken Caesar salad includes approximately 150g of chicken (cooked), romaine lettuce (which is negligible in calories), croutons (around 30g), and dressing (let's assume 30g for extra dressing). \n\nCalculating each component:\n1. **Chicken (cooked)**: 150g = 248 kcal, 46.5g protein, 5.4g fat, 0g carbs.\n2. **Croutons**: 30g = about 150 kcal. Assume less protein, around 4g; fat is negligible, carbs ~30g.\n3. **Dressing**: For Caesar dressing, around 150 kcal for 30g, assuming standard values of fats and negligible protein.\n\nNow summing up:\n- Total Calories = 248 kcal (chicken) + 150 kcal (croutons) + 150 kcal (dressing) = 548 kcal\n- Total Protein = 46.5g (chicken) + 4g (croutons) = 50.5g\n- Total Fat = 5.4g (chicken) + 0g (croutons) + (estimated fat from dressing) = ~ 25g\n- Total Carbs = 0g (chicken) + 30g (croutons) + 0g (dressing) = 30g \n\nFinal values could be approximated per standard serving sizes for a Caesar salad with these toppings.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Chicken Caesar Salad",
-        "calories": 555,
-        "protein": 36,
-        "carbohydrates": 21,
-        "fat": 38,
-        "meal_type": "Meal"
+        "calories": 548,
+        "protein": 50,
+        "carbohydrates": 30,
+        "fat": 25,
+        "meal_type": "salad"
       }
     ],
     "is_miss": false,
@@ -1062,14 +1048,14 @@
     "predicted": {
       "calories": 600.0,
       "protein": 24.0,
-      "fat": 28.0,
-      "carbohydrates": 72.0
+      "fat": 30.0,
+      "carbohydrates": 68.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.0,
-      "fat": 0.07692307692307693,
-      "carbohydrates": 0.058823529411764705
+      "fat": 0.15384615384615385,
+      "carbohydrates": 0.0
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -1077,7 +1063,7 @@
       "composite"
     ],
     "case_id": "legacy_024",
-    "thinking": "Assuming a typical large pepperoni pizza slice has approximately 300 calories, 12g protein, 14g fat, and 36g carbs. For two slices, I multiply these values by 2:\n\n- Calories: 300 kcal x 2 = 600 kcal\n- Protein: 12g x 2 = 24g\n- Fat: 14g x 2 = 28g\n- Carbohydrates: 36g x 2 = 72g\n\nTotal for two slices of large pepperoni pizza: 600 kcal, 24g protein, 28g fat, 72g carbs.",
+    "thinking": "Assuming one slice of large pepperoni pizza has approximately 300 calories, 12g protein, 15g fat, and 34g carbs. Therefore, for 2 slices:\n\n- Calories: 300 kcal/slice * 2 slices = 600 kcal\n- Protein: 12g/slice * 2 slices = 24g\n- Fat: 15g/slice * 2 slices = 30g\n- Carbohydrates: 34g/slice * 2 slices = 68g",
     "item_count": 1,
     "items": [
       {
@@ -1085,9 +1071,9 @@
         "name": "Pepperoni Pizza",
         "calories": 600,
         "protein": 24,
-        "carbohydrates": 72,
-        "fat": 28,
-        "meal_type": "main"
+        "carbohydrates": 68,
+        "fat": 30,
+        "meal_type": "lunch"
       }
     ],
     "is_miss": false,
@@ -1105,16 +1091,16 @@
       "carbohydrates": 70.0
     },
     "predicted": {
-      "calories": 910.0,
-      "protein": 77.0,
-      "fat": 28.0,
-      "carbohydrates": 86.0
+      "calories": 860.0,
+      "protein": 78.0,
+      "fat": 20.0,
+      "carbohydrates": 90.0
     },
     "errors": {
-      "calories": 0.1375,
-      "protein": 0.2833333333333333,
-      "fat": 0.06666666666666667,
-      "carbohydrates": 0.22857142857142856
+      "calories": 0.075,
+      "protein": 0.3,
+      "fat": 0.3333333333333333,
+      "carbohydrates": 0.2857142857142857
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -1122,16 +1108,16 @@
       "composite"
     ],
     "case_id": "legacy_025",
-    "thinking": "1. Burrito bowl components:\n   - Brown Rice: Assuming a standard bowl (300ml) is 260g of cooked rice, the brown rice accounts for approximately 260g.\n   - Black Beans: Assuming 1 katori (130g) of black beans.\n   - Double Chicken: For simplicity, I'll consider 'double' as 200g of cooked chicken since standard chicken serving is typically around 100g. \n   - Guacamole: Assuming a standard serving of guacamole is around 100g.\n\n2. Nutritional Breakdown:\n   - Brown Rice (260g):\n      - Estimated as 200g: ~240 kcal, ~4g protein, ~1g fat, ~52g carbs. \n   - Black Beans (130g):\n      - Estimated as 180 kcal, ~9g protein, ~5g fat, ~25g carbs.\n   - Chicken (200g):\n      - Estimated as 165 kcal * 2 = 330 kcal, ~31g * 2 = 62g protein, ~3.6g * 2 = 7.2g fat, 0g carbs.\n   - Guacamole (100g):\n      - Estimated as 160 kcal, ~2g protein, ~15g fat, ~9g carbs. \n\n3. Total Nutritional Values:\n   - Total Calories = 240 + 180 + 330 + 160 = 910 kcal.\n   - Total Protein = 4 + 9 + 62 + 2 = 77g protein.\n   - Total Fat = 1 + 5 + 7.2 + 15 = 28.2g fat.\n   - Total Carbs = 52 + 25 + 0 + 9 = 86g carbs.",
+    "thinking": "1. Burrito Bowl contains:\n   - Brown Rice: 1 bowl = 300ml = approx. 260g, using the reference for cooked rice which is 200g/cup, I estimate 1 bowl of brown rice is around 260g.\n   - Black Beans: 1 katori = 130g, using the reference for cooked beans which would typically be around 180 kcal for 130g.\n   - Double Chicken: Standard serving of chicken (cooked) is 100g, and the user specified 'double', thus estimating 200g of chicken cooked.\n   - Guacamole: Guac is assumed to be 1 serving, typically around 60g.\n\nCalculating Nutritional Values:\n- Brown Rice: 250 kcal (per 1 plate of rice)\n- Black Beans: 180 kcal (per 1 katori)\n- Chicken (double): 330 kcal (165 kcal per 100g x 2 = 330 kcal)\n- Guacamole: Typically around 100 kcal for a standard serving.\n\nTotal: 250 + 180 + 330 + 100 = 860 kcal\n\nMacro breakdown:\n- Protein: \n  - Brown Rice: 5g\n  - Black Beans: 9g (per 1 katori)\n  - Double Chicken: 62g (31g per 100g x 2 = 62g)\n  - Guacamole: 2g\nTotal Protein = 5 + 9 + 62 + 2 = 78g\n\n- Fat: \n  - Brown Rice: 0.7g\n  - Black Beans: 5g\n  - Double Chicken: 7.2g (3.6g per 100g x 2 = 7.2g)\n  - Guacamole: 8g\nTotal Fat = 0.7 + 5 + 7.2 + 8 = 20.9g\n\n- Carbohydrates:\n  - Brown Rice: 60g\n  - Black Beans: 25g\n  - Double Chicken: 0g\n  - Guacamole: 5g\nTotal Carbs = 60 + 25 + 0 + 5 = 90g.\n\nThus, the total burrito bowl has approximately:\n- Calories: 860\n- Protein: 78g\n- Carbohydrates: 90g\n- Fat: 20.9g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Burrito Bowl",
-        "calories": 910,
-        "protein": 77,
-        "carbohydrates": 86,
-        "fat": 28,
+        "calories": 860,
+        "protein": 78,
+        "carbohydrates": 90,
+        "fat": 20,
         "meal_type": "Lunch"
       }
     ],
@@ -1150,51 +1136,51 @@
       "carbohydrates": 59.0
     },
     "predicted": {
-      "calories": 457.0,
-      "protein": 46.0,
-      "fat": 5.0,
-      "carbohydrates": 65.0
+      "calories": 398.0,
+      "protein": 43.0,
+      "fat": 4.0,
+      "carbohydrates": 48.0
     },
     "errors": {
-      "calories": 0.0,
-      "protein": 0.1794871794871795,
-      "fat": 0.25,
-      "carbohydrates": 0.1016949152542373
+      "calories": 0.12910284463894967,
+      "protein": 0.10256410256410256,
+      "fat": 0.0,
+      "carbohydrates": 0.1864406779661017
     },
     "category": "raw_vs_cooked",
     "tags": [
       "cooked_weight"
     ],
     "case_id": "legacy_026",
-    "thinking": "For the chicken breast, the user consumed 150g, and the reference value for raw chicken breast (per 100g) is 120 kcal, 22g protein, 2.5g fat, and 0g carbs. Calculating for 150g: 150g / 100g = 1.5; therefore, the values are: Calories: 120 * 1.5 = 180 kcal, Protein: 22 * 1.5 = 33g, Fat: 2.5 * 1.5 = 3.75g (round to 4g), Carbs: 0g. \n\nFor the white rice, the user consumed 200g cooked rice. The reference for cooked rice (per 1 cup which is ~200g) is 260 kcal, 5.4g protein, 0.8g fat, and 58g carbs. Therefore, the values remain as: Calories: 260 kcal, Protein: 5.4g, Fat: 0.8g, Carbs: 58g.\n\nFor the steamed broccoli, the user consumed 50g. The reference value for broccoli (approx.) is 34 kcal, 3.0g protein, 0.4g fat, and 7g carbs (per 100g). So for 50g: 50g / 100g = 0.5; therefore, the values are: Calories: 34 * 0.5 = 17 kcal, Protein: 3.0 * 0.5 = 1.5g, Fat: 0.4 * 0.5 = 0.2g, Carbs: 7 * 0.5 = 3.5g.\n\nNow summing up these values:\n\n- Chicken Breast: 180 kcal, 33g protein, 4g fat, 0g carbs.\n- Rice: 260 kcal, 5.4g protein, 0.8g fat, 58g carbs.\n- Broccoli: 17 kcal, 1.5g protein, 0.2g fat, 3.5g carbs.\n\nTotal Calories: 180 + 260 + 17 = 457 kcal; Total Protein: 33 + 5.4 + 1.5 = 39.9g (round to 40g); Total Fat: 4 + 0.8 + 0.2 = 5g; Total Carbs: 0 + 58 + 3.5 = 61.5g (round to 62g).",
+    "thinking": "1. Raw Chicken Breast (150g):\\n   - Reference value: 120 kcal per 100g.\\n   - Calculation: 150g / 100g * 120 kcal = 180 kcal.\\n   - Protein: 22g protein per 100g.\\n   - Calculation: 150g / 100g * 22g = 33g protein.\\n   - Fat: 2.5g fat per 100g.\\n   - Calculation: 150g / 100g * 2.5g = 3.75g fat.\\n\\n2. Cooked White Rice (200g):\\n   - Reference value: 200g cooked rice is approximately 200 kcal (1 cup cooked rice is 240ml / ~200g).\\n   - Protein: 4.5g protein per 100g.\\n   - Calculation: 200g / 100g * 4.5g = 9g protein.\\n   - Fat: 0.3g fat per 100g.\\n   - Calculation: 200g / 100g * 0.3g = 0.6g fat.\\n\\n3. Steamed Broccoli (50g):\\n   - Broccoli contains approximately 35 kcal per 100g.\\n   - Calculation: 50g / 100g * 35 kcal = 17.5 kcal (rounded to 18 kcal).\\n   - Protein: 2.8g protein per 100g.\\n   - Calculation: 50g / 100g * 2.8g = 1.4g protein (rounded to 1g protein).\\n   - Fat: 0.4g fat per 100g.\\n   - Calculation: 50g / 100g * 0.4g = 0.2g fat (rounded to 0g fat).\\n\\nFinal Dish Outputs:\\n- Total calories for Raw Chicken = 180 kcal\\n- Total calories for Cooked Rice = 200 kcal\\n- Total calories for Steamed Broccoli = 18 kcal\\n\\nTotal Dish Summary: 180 + 200 + 18 = 398 kcal.\\nTotal Protein: 33g (Chicken) + 9g (Rice) + 1g (Broccoli) = 43g protein.\\nTotal Fat: 3.75g (Chicken) + 0.6g (Rice) + 0.2g (Broccoli) = 4.55g fat which will be rounded to 5g.",
     "item_count": 3,
     "items": [
       {
         "is_food": true,
-        "name": "Raw Chicken Breast",
+        "name": "Chicken Breast",
         "calories": 180,
-        "protein": 40,
+        "protein": 33,
         "carbohydrates": 0,
         "fat": 4,
-        "meal_type": null
+        "meal_type": "Lunch"
       },
       {
         "is_food": true,
         "name": "Cooked Rice",
-        "calories": 260,
-        "protein": 5,
-        "carbohydrates": 62,
-        "fat": 1,
-        "meal_type": null
+        "calories": 200,
+        "protein": 9,
+        "carbohydrates": 44,
+        "fat": 0,
+        "meal_type": "Lunch"
       },
       {
         "is_food": true,
         "name": "Steamed Broccoli",
-        "calories": 17,
+        "calories": 18,
         "protein": 1,
-        "carbohydrates": 3,
+        "carbohydrates": 4,
         "fat": 0,
-        "meal_type": null
+        "meal_type": "Lunch"
       }
     ],
     "is_miss": false,
@@ -1215,30 +1201,30 @@
       "calories": 430.0,
       "protein": 25.0,
       "fat": 36.0,
-      "carbohydrates": 3.0
+      "carbohydrates": 2.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.0,
       "fat": 0.0,
-      "carbohydrates": 0.5
+      "carbohydrates": 0.0
     },
     "category": "hidden_fat_or_cooking_medium",
     "tags": [
       "hidden_fat"
     ],
     "case_id": "legacy_027",
-    "thinking": "1. Scrambled Eggs: I calculate that 3 large eggs (3 * 70 kcal) = 210 kcal, protein = 3 * 6g = 18g, fat = 3 * 5g = 15g, carbs = 3 * 0.5g = 1.5g. Total for 3 eggs: 210 kcal, 18g protein, 15g fat, 1.5g carbs.  \n2. Butter: 1 tbsp of butter = 100 kcal, 0.1g protein, 11g fat, 0g carbs.  \n3. Cheddar Cheese: 30g cheddar cheese has an approximate value of about 120 kcal, 7g protein, 10g fat, 1g carbs (for 30g cheese based on typical cheddar nutritional values).  \n4. Now summing these:\n   - Total Calories = 210 kcal (eggs) + 100 kcal (butter) + 120 kcal (cheese) = 430 kcal. \n   - Total Protein = 18g (eggs) + 0.1g (butter) + 7g (cheese) = 25.1g. \n   - Total Fat = 15g (eggs) + 11g (butter) + 10g (cheese) = 36g. \n   - Total Carbs = 1.5g (eggs) + 0g (butter) + 1g (cheese) = 2.5g. \n\nThis data reflects the dish of scrambled eggs with butter and cheddar cheese. Summarizing as one complete dish.",
+    "thinking": "1. Scrambled Eggs:\n- 3 large eggs: 3 eggs * 70 kcal/egg = 210 kcal, 3 eggs * 6g protein/egg = 18g protein, 3 eggs * 5g fat/egg = 15g fat, 3 eggs * 0.5g carbs/egg = 1.5g carbs\n\n2. Butter: \n- 1 tbsp butter: 100 kcal, 0.1g protein, 11g fat, 0g carbs\n\n3. Cheddar Cheese: \n- 30g cheddar cheese: 120 kcal (approx.), 7g protein (approx.), 10g fat (approx.), 1g carbs (approx.)\n\nNow summing up:  \n- Total calories = 210 + 100 + 120 = 430 kcal  \n- Total protein = 18 + 0.1 + 7 = 25.1g  \n- Total fat = 15 + 11 + 10 = 36g  \n- Total carbs = 1.5 + 0 + 1 = 2.5g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Scrambled Eggs with Cheese",
+        "name": "Scrambled Eggs",
         "calories": 430,
         "protein": 25,
-        "carbohydrates": 3,
+        "carbohydrates": 2,
         "fat": 36,
-        "meal_type": "breakfast"
+        "meal_type": "Breakfast"
       }
     ],
     "is_miss": false,
@@ -1257,14 +1243,14 @@
     },
     "predicted": {
       "calories": 619.0,
-      "protein": 64.0,
-      "fat": 21.0,
+      "protein": 65.0,
+      "fat": 22.0,
       "carbohydrates": 50.0
     },
     "errors": {
       "calories": 0.0016129032258064516,
-      "protein": 0.015873015873015872,
-      "fat": 0.0,
+      "protein": 0.031746031746031744,
+      "fat": 0.047619047619047616,
       "carbohydrates": 0.0
     },
     "category": "atomic_ingredient",
@@ -1272,7 +1258,7 @@
       "synonym_risk"
     ],
     "case_id": "legacy_028",
-    "thinking": "For the meal components:\n\n1. Whey Protein Shake:\n   - 2 scoops of whey protein:\n     - Each scoop has 120 kcal, 25g protein, 2g fat, 3g carbs.\n     - 2 scoops = 240 kcal, 50g protein, 4g fat, 6g carbs.\n\n2. Whole Milk:\n   - 300 ml of whole milk:\n     - 1 glass (250ml) has 150 kcal, 8g protein, 8g fat, 12g carbs.\n     - 300ml is 1.2 glasses, so:\n     - 1.2 x 150 kcal = 180 kcal;\n     - 1.2 x 8g protein = 9.6g protein;\n     - 1.2 x 8g fat = 9.6g fat;\n     - 1.2 x 12g carbs = 14.4g carbs. \n\n3. Banana:\n   - 1 medium banana is approximately 105 kcal, 1.3g protein, 0.3g fat, 27g carbs.\n\n4. Peanut Butter:\n   - 1 tbsp peanut butter:\n     - 94 kcal, 4g protein, 8g fat, 3g carbs.\n\nNow, summarizing everything:\n\n- Whey Protein Shake: 240 kcal, 50g protein, 4g fat, 6g carbs.\n- Whole Milk: 180 kcal, 9.6g protein, 9.6g fat, 14.4g carbs.\n- Banana: 105 kcal, 1.3g protein, 0.3g fat, 27g carbs.\n- Peanut Butter: 94 kcal, 4g protein, 8g fat, 3g carbs.\n\nNow combining:\n- Total Calories = 240 + 180 + 105 + 94 = 619 kcal\n- Total Protein = 50 + 9.6 + 1.3 + 4 = 65.9g protein\n- Total Fat = 4 + 9.6 + 0.3 + 8 = 22.9g fat\n- Total Carbs = 6 + 14.4 + 27 + 3 = 50.4g carbs\n\nFinal rounded totals:\nTotal Calories = 619 kcal, Protein = 66g, Fat = 23g, Carbs = 50g.",
+    "thinking": "1. **Whey Protein Shake**: The user mentioned '2 scoop whey protein'. Each scoop has 120 kcal, 25g protein, 2g fat, and 3g carbs. For 2 scoops: \n   - Calories: 2 * 120 = 240 kcal\n   - Protein: 2 * 25g = 50g\n   - Fat: 2 * 2g = 4g\n   - Carbs: 2 * 3g = 6g\n   \n2. **Whole Milk**: The user consumed 300ml of whole milk. A standard glass (250ml) has 150 kcal, 8g protein, 8g fat, and 12g carbs. Therefore, for 300ml:\n   - Calories: (300/250) * 150 = 180 kcal\n   - Protein: (300/250) * 8g = 9.6g (approximately 10g)\n   - Fat: (300/250) * 8g = 9.6g (approximately 10g)\n   - Carbs: (300/250) * 12g = 14.4g (approximately 14g)\n   \n3. **Banana**: A medium banana typically has around 105 kcal, 1.3g protein, 0.3g fat, and 27g carbs.\n   \n4. **Peanut Butter**: The user consumed 1 tbsp peanut butter, which has 94 kcal, 4g protein, 8g fat, and 3g carbs.\n\nNow, aggregating all these values for the meal:\n\n- **Total Calories**: 240 (whey) + 180 (milk) + 105 (banana) + 94 (peanut butter) = 619 kcal\n- **Total Protein**: 50g (whey) + 10g (milk) + 1.3g (banana) + 4g (peanut butter) = 65.3g (approximately 65g)\n- **Total Fat**: 4g (whey) + 10g (milk) + 0.3g (banana) + 8g (peanut butter) = 22.3g (approximately 22g)\n- **Total Carbs**: 6g (whey) + 14g (milk) + 27g (banana) + 3g (peanut butter) = 50g\n\nThis totals up to the following final nutritional values.",
     "item_count": 4,
     "items": [
       {
@@ -1282,16 +1268,16 @@
         "protein": 50,
         "carbohydrates": 6,
         "fat": 4,
-        "meal_type": "Post-Workout"
+        "meal_type": "snack"
       },
       {
         "is_food": true,
         "name": "Whole Milk",
         "calories": 180,
-        "protein": 9,
+        "protein": 10,
         "carbohydrates": 14,
-        "fat": 9,
-        "meal_type": "Post-Workout"
+        "fat": 10,
+        "meal_type": "snack"
       },
       {
         "is_food": true,
@@ -1300,7 +1286,7 @@
         "protein": 1,
         "carbohydrates": 27,
         "fat": 0,
-        "meal_type": "Post-Workout"
+        "meal_type": "snack"
       },
       {
         "is_food": true,
@@ -1309,7 +1295,7 @@
         "protein": 4,
         "carbohydrates": 3,
         "fat": 8,
-        "meal_type": "Post-Workout"
+        "meal_type": "snack"
       }
     ],
     "is_miss": false,
@@ -1328,40 +1314,31 @@
     },
     "predicted": {
       "calories": 450.0,
-      "protein": 32.0,
-      "fat": 29.0,
-      "carbohydrates": 21.0
+      "protein": 52.0,
+      "fat": 34.0,
+      "carbohydrates": 20.0
     },
     "errors": {
       "calories": 0.2753623188405797,
-      "protein": 0.23076923076923078,
-      "fat": 0.275,
-      "carbohydrates": 0.05
+      "protein": 0.24999999999999994,
+      "fat": 0.15,
+      "carbohydrates": 0.0
     },
     "category": "raw_vs_cooked",
     "tags": [
       "raw_weight"
     ],
     "case_id": "legacy_029",
-    "thinking": "1. Salmon (cooked): Using reference values, 200g raw salmon roughly converts to about 150g cooked salmon (cooking shrinks it by roughly 25%). \n   Salmon (cooked): 150g provides approximately ~240 kcal, ~30g protein, ~15g fat, ~0g carbs (estimated values from average salmon nutrition).\n\n2. Olive Oil: 1 tablespoon = 15ml = 120 kcal, 0g protein, 14g fat, 0g carbs.\n\n3. Sweet Potatoes (roasted): 100g provides ~90 kcal, ~2g protein, ~0g fat, ~21g carbs (standard values for roasted sweet potatoes).\n\nNow, let's sum up the macros:\n- Total Calories = 240 (salmon) + 120 (olive oil) + 90 (sweet potatoes) = 450 kcal\n- Total Protein = 30 (salmon) + 0 (olive oil) + 2 (sweet potatoes) = 32g\n- Total Fat = 15 (salmon) + 14 (olive oil) + 0 (sweet potatoes) = 29g\n- Total Carbs = 0 (salmon) + 0 (olive oil) + 21 (sweet potatoes) = 21g",
-    "item_count": 3,
+    "thinking": "1. Salmon: 200g of raw salmon has 120 kcal per 100g. Therefore, for 200g: 120 kcal/100g * 200g = 240 kcal.\\n   Protein in salmon: 25g protein per 100g, so 25g/100g * 200g = 50g protein.\\n   Fat in salmon: 10g fat per 100g, so 10g/100g * 200g = 20g fat.\\n   Carbs in salmon: 0g carbs per 100g, so 0g/100g * 200g = 0g carbs.\\n\\n2. Olive Oil: 1 tbsp of olive oil (15ml) has 120 kcal, 0g protein, 14g fat, and 0g carbs.\\n\\n3. Roasted Sweet Potatoes: For roasted sweet potatoes, they generally have around 90 kcal per 100g, so for 100g: 90 kcal, 2g protein, 0g fat, and 20g carbs.\\n\\nNow to summarize the dishes:  \\n- Dish 1: Pan-fried Salmon with Olive Oil. Total for this dish: 240 kcal (salmon) + 120 kcal (oil) = 360 kcal, 50g protein (salmon), 20g fat (salmon) + 14g (oil) = 34g fat, 0g carbs (salmon) + 0g carbs (oil) = 0g carbs.\\n- Dish 2: Roasted Sweet Potatoes: 90 kcal, 2g protein, 0g fat, 20g carbs.\\n\\nTherefore, the final totals for each dish are as follows: Dish 1 - 360 kcal, 50g protein, 0g carbs, 34g fat; Dish 2 - 90 kcal, 2g protein, 20g carbs, 0g fat.  ",
+    "item_count": 2,
     "items": [
       {
         "is_food": true,
-        "name": "Pan Fried Salmon",
-        "calories": 240,
-        "protein": 30,
+        "name": "Pan-fried Salmon",
+        "calories": 360,
+        "protein": 50,
         "carbohydrates": 0,
-        "fat": 15,
-        "meal_type": "Dinner"
-      },
-      {
-        "is_food": true,
-        "name": "Olive Oil",
-        "calories": 120,
-        "protein": 0,
-        "carbohydrates": 0,
-        "fat": 14,
+        "fat": 34,
         "meal_type": "Dinner"
       },
       {
@@ -1369,7 +1346,7 @@
         "name": "Roasted Sweet Potatoes",
         "calories": 90,
         "protein": 2,
-        "carbohydrates": 21,
+        "carbohydrates": 20,
         "fat": 0,
         "meal_type": "Dinner"
       }
@@ -1393,33 +1370,33 @@
       "carbohydrates": 46.0
     },
     "predicted": {
-      "calories": 994.0,
-      "protein": 67.0,
-      "fat": 62.0,
-      "carbohydrates": 54.0
+      "calories": 995.0,
+      "protein": 90.0,
+      "fat": 57.0,
+      "carbohydrates": 45.0
     },
     "errors": {
-      "calories": 0.024742268041237112,
-      "protein": 0.026033690658499278,
-      "fat": 0.05982905982905983,
-      "carbohydrates": 0.17391304347826086
+      "calories": 0.02577319587628866,
+      "protein": 0.37825421133231246,
+      "fat": 0.02564102564102564,
+      "carbohydrates": 0.021739130434782608
     },
     "category": "composite_meal",
     "tags": [
       "composite"
     ],
     "case_id": "legacy_030",
-    "thinking": "First, I will calculate the nutritional values of each ingredient separately based on standard portion sizes.\n\n1. Beef Chuck: 300g \n   - Reference value: 250 kcal, 20g protein, 20g fat, 0g carbs per 100g \n   - Calculation: \n     - Calories: 300g / 100g * 250 kcal = 750 kcal \n     - Protein: 300g / 100g * 20g = 60g protein \n     - Fat: 300g / 100g * 20g = 60g fat \n     - Carbs: 0g \n\n2. Large Carrots: I will assume 2 large carrots weigh about 240g total (approx. 120g each). \n   - Reference value: 41 kcal, 1g protein, 0.2g fat, 10g carbs per 100g \n   - Calculation: \n     - Calories: 240g / 100g * 41 kcal = 98.4 kcal \n     - Protein: 240g / 100g * 1g = 2.4g protein \n     - Fat: 240g / 100g * 0.2g = 0.48g fat \n     - Carbs: 240g / 100g * 10g = 24g carbs \n\n3. Medium Potato: I will assume it weighs about 150g. \n   - Reference value: 77 kcal, 2g protein, 0.1g fat, 17g carbs per 100g \n   - Calculation: \n     - Calories: 150g / 100g * 77 kcal = 115.5 kcal \n     - Protein: 150g / 100g * 2g = 3g protein \n     - Fat: 150g / 100g * 0.1g = 0.15g fat \n     - Carbs: 150g / 100g * 17g = 25.5g carbs \n\n4. Beef Broth: 2 cups will be treated as approximately 480ml or 2 cups.\n   - Reference value: 15 kcal, 1g protein, 0.5g fat, 2g carbs per cup (approx. 240ml) \n   - Calculation: \n     - Calories: 2 cups * 15 kcal = 30 kcal \n     - Protein: 2 cups * 1g = 2g protein \n     - Fat: 2 cups * 0.5g = 1g fat \n     - Carbs: 2 cups * 2g = 4g carbs \n\nNow, I will sum up individual components for the total values:\n- Total Calories = 750 + 98.4 + 115.5 + 30 = 993.9 kcal\n- Total Protein = 60 + 2.4 + 3 + 2 = 67.4g\n- Total Fat = 60 + 0.48 + 0.15 + 1 = 61.63g\n- Total Carbs = 0 + 24 + 25.5 + 4 = 53.5g \n\nNow, rounding these to whole numbers for the output as following:\n- Calories: 994 kcal\n- Protein: 67g\n- Fat: 62g\n- Carbs: 54g\n\nThe dish is a stew made with the cited ingredients.",
+    "thinking": "First, I'll break down the stew into its components. The main ingredients here are beef chuck, carrots, potato, and beef broth. \n\n1. For beef chuck: \n   - Assuming 300g of cooked beef chuck, reference value is approximately 250 kcal per 100g. \n   - Calculation: 300g / 100g = 3 portions\n   - Total Calories = 3 x 250 kcal = 750 kcal.\n   - Protein is about 27g per 100g, so: 3 x 27g = 81g protein.\n   - Fat is approximately 19g per 100g, so: 3 x 19g = 57g fat.\n   - Carbohydrates are negligible.\n\n2. For carrots:\n   - A large carrot generally weighs about 70g. For 2 large carrots: 140g.\n   - Carrots typically have about 41 kcal per 100g. \n   - Calculation: 140g / 100g = 1.4 portions.\n   - Total calories = 1.4 x 41 kcal = 57.4 kcal (rounded to 57 kcal).\n   - Protein is roughly 0.9g per 100g, so: 1.4 x 0.9g = 1.26g protein (rounded to 1g).\n   - Carbs are about 10g per 100g: 1.4 x 10g = 14g carbs.\n   - Fat is negligible.\n\n3. For potato:\n   - A medium potato typically weighs around 150g.\n   - Calories are about 77 kcal per 100g, so: 150g / 100g = 1.5 portions.\n   - Total calories = 1.5 x 77 kcal = 115.5 kcal (rounded to 116 kcal).\n   - Protein is about 2g per 100g: 1.5 x 2g = 3g.\n   - Carbs are about 17g per 100g: 1.5 x 17g = 25.5g (rounded to 26g).\n   - Fat is negligible.\n\n4. For beef broth:\n   - 2 cups is approximately 480ml. The calories depend on the brand, but a rough average is around 15 kcal per 100ml.\n   - Calculation: 480ml / 100ml = 4.8 portions.\n   - Total calories = 4.8 x 15 kcal = 72 kcal.\n   - Protein is around 1g per 100ml, so: 4.8 x 1g = 4.8g (rounded to 5g).\n   - Carbs are around 1g per 100ml: 4.8 x 1g = 4.8g (rounded to 5g).\n   - Fat is negligible.\n\nNow, adding everything together:\n - Total Calories = 750 + 57 + 116 + 72 = 995 kcal.\n - Total Protein = 81g + 1g + 3g + 5g = 90g.\n - Total Carbs = 0g + 14g + 26g + 5g = 45g.\n - Total Fat = 57g + 0g + 0g + 0g = 57g.\n\nThe stew is counted as one dish. \n\nFinal Dish Count: 1 stew of beef chuck, carrots, potato, and broth.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Beef Stew",
-        "calories": 994,
-        "protein": 67,
-        "carbohydrates": 54,
-        "fat": 62,
-        "meal_type": "Dinner"
+        "calories": 995,
+        "protein": 90,
+        "carbohydrates": 45,
+        "fat": 57,
+        "meal_type": "lunch"
       }
     ],
     "is_miss": false,
@@ -1437,41 +1414,37 @@
       "carbohydrates": 84.0
     },
     "predicted": {
-      "calories": 864.0,
-      "protein": 7.0,
-      "fat": 58.0,
-      "carbohydrates": 82.0
+      "calories": 560.0,
+      "protein": 3.0,
+      "fat": 43.0,
+      "carbohydrates": 50.0
     },
     "errors": {
-      "calories": 0.33746130030959753,
-      "protein": 0.0,
-      "fat": 0.8125,
-      "carbohydrates": 0.023809523809523808
+      "calories": 0.13312693498452013,
+      "protein": 0.5714285714285714,
+      "fat": 0.34375,
+      "carbohydrates": 0.40476190476190477
     },
     "category": "hidden_fat_or_cooking_medium",
     "tags": [
       "hidden_fat"
     ],
     "case_id": "legacy_031",
-    "thinking": "1. French fries (200g) - Typically, 100g of french fries contains about 312 calories, 3.4g protein, 15g fat, 41g carbs. Therefore, for 200g:\n   - Calories = 312 * 2 = 624 kcal\n   - Protein = 3.4g * 2 = 6.8g\n   - Fat = 15g * 2 = 30g\n   - Carbs = 41g * 2 = 82g\n\n2. Vegetable Oil - Usually, 1 tablespoon (15ml) of vegetable oil has about 120 calories and 14g fat. Assuming around 2 tablespoons are absorbed:\n   - Calories = 120 * 2 = 240 kcal\n   - Fat = 14g * 2 = 28g\n\n3. Total for the dish of french fries:\n   - Calories Total = 624 (fries) + 240 (oil) = 864 kcal\n   - Protein Total = 6.8g\n   - Fat Total = 30g (fries) + 28g (oil) = 58g\n   - Carbs Total = 82g\n\nFinal Dish:\nFrench Fries = 864 kcal, 6.8g protein, 58g fat, 82g carbs.",
+    "thinking": "The user consumed french fries and indicated that they were deep fried in vegetable oil. I will assume the standard serving of french fries is 200g. Generally, 200g of french fries contains approximately 320 calories, 3g of protein, 15g of fat, and 50g of carbohydrates based on estimate values. Additionally, since the fries were prepared using vegetable oil, I'll include the amount of oil used in the cooking process. \n\nDeep frying typically absorbs a considerable amount of oil; let's assume that for 200g of fries, approximately 30ml of oil might be used, which accounts for roughly 240 calories and 28g of fat (based on 120 kcal per 15ml of oil). \n\nCalculating totals:\n- French fries: \n  - Calories: 320 kcal\n  - Protein: 3g\n  - Fat: 15g\n  - Carbs: 50g\n\n- Oil: \n  - Calories: 240 kcal\n  - Protein: 0g\n  - Fat: 28g\n  - Carbs: 0g\n\nFinal totals:\n- Total Calories: 320 + 240 = 560 kcal\n- Total Protein: 3 + 0 = 3g\n- Total Fat: 15 + 28 = 43g\n- Total Carbs: 50 + 0 = 50g\n\nThus, combining both components into one dish of 'French Fries'.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "French Fries",
-        "calories": 864,
-        "protein": 7,
-        "carbohydrates": 82,
-        "fat": 58,
-        "meal_type": "snack"
+        "calories": 560,
+        "protein": 3,
+        "carbohydrates": 50,
+        "fat": 43,
+        "meal_type": "Snack"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "hidden_fat_or_cooking_medium",
-      "failure_stage": "hidden_fat_missed",
-      "suggested_fix": "Add specific prompt constraints for implicit cooking fats (butter, oil)"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": null,
     "item_count_match": null,
     "followup_violated": false
@@ -1487,13 +1460,13 @@
     "predicted": {
       "calories": 360.0,
       "protein": 15.0,
-      "fat": 6.0,
+      "fat": 7.0,
       "carbohydrates": 60.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.0,
-      "fat": 0.14285714285714285,
+      "fat": 0.0,
       "carbohydrates": 0.0
     },
     "category": "indian_home_cooked",
@@ -1503,7 +1476,7 @@
       "composite"
     ],
     "case_id": "indian_001",
-    "thinking": "1 bowl of dal tadka is estimated to be approximately 300ml, which roughly equates to 260g of cooked dal. The nutritional values for dal (cooked) are 110 kcal, 5.5g protein, 3.0g fat, and 15g carbs per katori (130g). First, I calculate the nutritional values for 260g of dal. That\u2019s doubling the portion of dal: 2 x 110 kcal = 220 kcal, 2 x 5.5g protein = 11g protein, 2 x 3.0g fat = 6g fat, and 2 x 15g carbs = 30g carbs.\n\nFor the chapatis, I have 2 chapatis at 40g each. The nutritional values for one chapati are 70 kcal, 2.0g protein, 0.4g fat, and 15g carbs.  For 2 chapatis, that is 2 x 70 kcal = 140 kcal, 2 x 2.0g protein = 4g protein, 2 x 0.4g fat = 0.8g fat, and 2 x 15g carbs = 30g carbs.\n\nNow I sum the values:\nFor dal tadka: 220 kcal, 11g protein, 6g fat, 30g carbs.\nFor chapatis: 140 kcal, 4g protein, 0.8g fat, 30g carbs.\nFinal totals:\nCalories: 220 + 140 = 360 kcal;\nProtein: 11 + 4 = 15g;\nFat: 6 + 0.8 = 6.8g;\nCarbs: 30 + 30 = 60g.\n\nThe total for both dishes combines correctly into one meal.",
+    "thinking": "1 bowl dal tadka is considered as 1 katori of dal, which is ~260g for solid food. Using the dal reference: 110 kcal, 5.5g protein, 3g fat, 15g carbs per 130g. For 260g (which is double the katori), the values double:\n- Calories: 110 * 2 = 220 kcal\n- Protein: 5.5 * 2 = 11g\n- Fat: 3.0 * 2 = 6g\n- Carbs: 15 * 2 = 30g\n\nNow, for 2 chapatis, each roti is 70 kcal, 2g protein, 0.4g fat, 15g carbs (40g each).\n- For 2 chapatis:\n- Calories: 70 * 2 = 140 kcal\n- Protein: 2.0 * 2 = 4g\n- Fat: 0.4 * 2 = 0.8g\n- Carbs: 15 * 2 = 30g\n\nNow, summing everything:\nDal tadka:\n- Calories: 220, Protein: 11, Fat: 6, Carbs: 30\nChapatis:\n- Calories: 140, Protein: 4, Fat: 0.8, Carbs: 30\n\nTotal:\nCalories = 220 + 140 = 360 kcal\nProtein = 11 + 4 = 15g \nFat = 6 + 0.8 = 6.8g \nCarbs = 30 + 30 = 60g",
     "item_count": 2,
     "items": [
       {
@@ -1513,7 +1486,7 @@
         "protein": 11,
         "carbohydrates": 30,
         "fat": 6,
-        "meal_type": "Dinner"
+        "meal_type": "Main"
       },
       {
         "is_food": true,
@@ -1521,8 +1494,8 @@
         "calories": 140,
         "protein": 4,
         "carbohydrates": 30,
-        "fat": 0,
-        "meal_type": "Dinner"
+        "fat": 1,
+        "meal_type": "Main"
       }
     ],
     "is_miss": false,
@@ -1557,22 +1530,22 @@
       "serving_based"
     ],
     "case_id": "indian_002",
-    "thinking": "1 katori aloo sabzi is considered as 1 dish. The reference values for sabzi are as follows: \n- Sabzi: 120 kcal, 3.0g protein, 7.0g fat, 12g carbs (per 1 katori, 150g).\nThus, the total for this dish is:\n- Calories: 120 kcal\n- Protein: 3.0g\n- Fat: 7.0g\n- Carbohydrates: 12g",
+    "thinking": "The user consumed 1 katori of aloo sabzi. A katori of sabzi typically refers to approximately 150g of the dish. Based on the provided nutritional information for sabzi, the values per katori (150g) are: 120 kcal, 3.0g protein, 7.0g fat, and 12g carbs. Hence, the total nutrition for 1 katori of aloo sabzi is calculated directly using these values.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Aloo Sabzi",
+        "name": "Sabzi",
         "calories": 120,
         "protein": 3,
         "carbohydrates": 12,
         "fat": 7,
-        "meal_type": null
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
     "miss_diagnosis": null,
-    "entity_recall": 1.0,
+    "entity_recall": 0.0,
     "item_count_match": true,
     "followup_violated": false
   },
@@ -1602,7 +1575,7 @@
       "serving_based"
     ],
     "case_id": "indian_003",
-    "thinking": "User consumed 1 plate of poha.\\n\\n- Poha (1 plate) = 250 kcal, 5.0g protein, 8.0g fat, 40g carbs\\n\\nFinal calculation:\n- Calories: 250 kcal\n- Protein: 5.0g\n- Fat: 8.0g\n- Carbs: 40g",
+    "thinking": "The user has eaten 1 plate of poha. According to the standard reference values, 1 plate of poha is 200g which is 250 kcal, 5g protein, 8g fat, and 40g carbs. Therefore, the total for 1 plate of poha is: \n- Calories: 250 kcal \n- Protein: 5 g \n- Fat: 8 g \n- Carbs: 40 g.",
     "item_count": 1,
     "items": [
       {
@@ -1612,7 +1585,7 @@
         "protein": 5,
         "carbohydrates": 40,
         "fat": 8,
-        "meal_type": "breakfast"
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -1648,7 +1621,7 @@
       "composite"
     ],
     "case_id": "indian_004",
-    "thinking": "Calculating the nutritional values:\n- For 2 idlis:\n  - Each idli has 58 kcal, 2.0g protein, 0.4g fat, 12g carbs.\n  - 2 idlis = 2 * 58 = 116 kcal, 2 * 2.0g = 4.0g protein, 2 * 0.4g = 0.8g fat, 2 * 12g = 24g carbs.\n\n- For 1 katori sambar:\n  - 1 katori sambar has 75 kcal, 3.0g protein, 2.0g fat, 12g carbs.\n  - Total for 1 katori = 75 kcal, 3.0g protein, 2.0g fat, 12g carbs.\n\nCombining values:\nTotal Calories = 116 + 75 = 191 kcal\nTotal Protein = 4.0g + 3.0g = 7.0g\nTotal Fat = 0.8g + 2.0g = 2.8g\nTotal Carbohydrates = 24g + 12g = 36g",
+    "thinking": "The user had 2 idlis and 1 katori of sambar.\\n\\n1. For the 2 idlis: 2 idlis x 58 kcal = 116 kcal; 2 idlis x 2.0g protein = 4.0g protein; 2 idlis x 0.4g fat = 0.8g fat; 2 idlis x 12g carbs = 24g carbs.\\n\\n2. For the katori sambar: 1 katori x 75 kcal = 75 kcal; 1 katori x 3g protein = 3.0g protein; 1 katori x 2g fat = 2.0g fat; 1 katori x 12g carbs = 12g carbs.\\n\\nFinally, sum up: 116 + 75 = 191 kcal, 4.0 + 3.0 = 7.0g protein, 0.8 + 2.0 = 2.8g fat, 24 + 12 = 36g carbs.",
     "item_count": 2,
     "items": [
       {
@@ -1686,15 +1659,15 @@
     },
     "predicted": {
       "calories": 410.0,
-      "protein": 16.0,
-      "fat": 14.0,
-      "carbohydrates": 72.0
+      "protein": 9.0,
+      "fat": 12.0,
+      "carbohydrates": 65.0
     },
     "errors": {
       "calories": 0.025,
-      "protein": 0.6,
-      "fat": 0.06666666666666667,
-      "carbohydrates": 0.3090909090909091
+      "protein": 0.1,
+      "fat": 0.2,
+      "carbohydrates": 0.18181818181818182
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1703,26 +1676,26 @@
       "composite"
     ],
     "case_id": "indian_005",
-    "thinking": "The user had 2 pav and 1 plate of bhaji. \n\n- Pav: 1 pav = 30g, so 2 pav = 60g. The typical caloric value for 1 pav is around 80 kcal (assuming standard portion sizes for pav which are similar to bread). Therefore for 2 pav, total calories = 2 * 80 = 160 kcal.\n- Plate of bhaji: A plate of bhaji is generally around 250g. Assuming bhaji has an average caloric value of around 250 kcal for 1 plate (as it is often a spiced mix of vegetables), the total calories for 1 plate bhaji = 250 kcal.\n\nNow combining these:\n- Total Calories = 160 + 250 = 410 kcal.\n\nTherefore, the user consumed: \n- 2 pav (160 kcal) \n- 1 plate bhaji (250 kcal).",
+    "thinking": "Assuming standard portion sizes:\n- Pav: 1 pav = 30g, serving 2 pav = 60g total. \nEach pav typically has about 80 kcal, 2g protein, 1g fat, and 15g carbs. Therefore, for 2 pav:\n- Calories: 80 * 2 = 160 kcal\n- Protein: 2g * 2 = 4g\n- Fat: 1g * 2 = 2g\n- Carbs: 15g * 2 = 30g\n\n- Plate of bhaji: 1 plate = ~250g. Assuming bhaji has similar values to common vegetable preparations:\n- Calories: 250 kcal (standard estimate)\n- Protein: 5g (standard estimate)\n- Fat: 10g (standard estimate)\n- Carbs: 35g (standard estimate)\n\nNow summing up:\nTotal calories = 160 (pav) + 250 (bhaji) = 410 kcal\nTotal protein = 4g (pav) + 5g (bhaji) = 9g\nTotal fat = 2g (pav) + 10g (bhaji) = 12g\nTotal carbs = 30g (pav) + 35g (bhaji) = 65g\n\nFinal output:\nTotal dishes:\n1. Pav\n2. Plate of bhaji",
     "item_count": 2,
     "items": [
       {
         "is_food": true,
         "name": "Pav",
         "calories": 160,
-        "protein": 6,
-        "carbohydrates": 32,
+        "protein": 4,
+        "carbohydrates": 30,
         "fat": 2,
-        "meal_type": "Snack"
+        "meal_type": null
       },
       {
         "is_food": true,
-        "name": "Bhaji",
+        "name": "Plate of Bhaji",
         "calories": 250,
-        "protein": 10,
-        "carbohydrates": 40,
-        "fat": 12,
-        "meal_type": "Snack"
+        "protein": 5,
+        "carbohydrates": 35,
+        "fat": 10,
+        "meal_type": null
       }
     ],
     "is_miss": false,
@@ -1741,15 +1714,15 @@
     },
     "predicted": {
       "calories": 680.0,
-      "protein": 21.0,
+      "protein": 17.0,
       "fat": 25.0,
-      "carbohydrates": 97.0
+      "carbohydrates": 95.0
     },
     "errors": {
       "calories": 0.23636363636363636,
-      "protein": 0.75,
+      "protein": 0.4166666666666667,
       "fat": 0.0,
-      "carbohydrates": 0.49230769230769234
+      "carbohydrates": 0.46153846153846156
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1758,17 +1731,17 @@
       "composite"
     ],
     "case_id": "indian_006",
-    "thinking": "Calculating the nutrition values for 2 bhature and 1 katori chole:\n\n1. **Bhature**:\n   - 1 bhature = 250 kcal, 6g protein, 10g fat, 36g carbs (Assuming each bhature has these standard values)\n   - For 2 bhature: \n     - Calories = 250 * 2 = 500 kcal\n     - Protein = 6 * 2 = 12g\n     - Fat = 10 * 2 = 20g\n     - Carbs = 36 * 2 = 72g\n\n2. **Chole**:\n   - 1 katori chole = 180 kcal, 9g protein, 5g fat, 25g carbs (per 130g for 1 katori)\n   - For 1 katori: \n     - Calories = 180 kcal\n     - Protein = 9g\n     - Fat = 5g\n     - Carbs = 25g\n\nNow adding the totals:\n- Total Calories = 500 + 180 = 680 kcal\n- Total Protein = 12 + 9 = 21g\n- Total Fat = 20 + 5 = 25g\n- Total Carbs = 72 + 25 = 97g",
+    "thinking": "For 2 bhature:\n- 1 bhature is 250 kcal, based on common values for a standard bhature.\n- Therefore, for 2 bhature: 250 kcal/bhature * 2 = 500 kcal.\n\nFor 1 katori chole:\n- 1 katori chole is 180 kcal, based on standard cooked values.\n\nCalculating total:\nTotal calories = 500 kcal (bhature) + 180 kcal (chole) = 680 kcal.\n\nNutritional breakdown:\n- Bhature: 500 kcal, assumed protein 8g, assumed fat 20g, assumed carbs 70g (estimates based on a typical serving).\n- Chole: 180 kcal, 9g protein, 5g fat, 25g carbs (standard values).\n\nThus the total is:\n- Calories: 680\n- Protein: 8g + 9g = 17g\n- Fat: 20g + 5g = 25g\n- Carbs: 70g + 25g = 95g",
     "item_count": 2,
     "items": [
       {
         "is_food": true,
         "name": "Bhature",
         "calories": 500,
-        "protein": 12,
-        "carbohydrates": 72,
+        "protein": 8,
+        "carbohydrates": 70,
         "fat": 20,
-        "meal_type": "lunch"
+        "meal_type": "Lunch"
       },
       {
         "is_food": true,
@@ -1777,7 +1750,7 @@
         "protein": 9,
         "carbohydrates": 25,
         "fat": 5,
-        "meal_type": "lunch"
+        "meal_type": "Lunch"
       }
     ],
     "is_miss": true,
@@ -1799,16 +1772,16 @@
       "carbohydrates": 65.0
     },
     "predicted": {
-      "calories": 388.0,
-      "protein": 14.0,
+      "calories": 380.0,
+      "protein": 9.0,
       "fat": 5.0,
-      "carbohydrates": 62.0
+      "carbohydrates": 40.0
     },
     "errors": {
-      "calories": 0.10857142857142857,
-      "protein": 0.4,
+      "calories": 0.08571428571428572,
+      "protein": 0.1,
       "fat": 0.0,
-      "carbohydrates": 0.046153846153846156
+      "carbohydrates": 0.38461538461538464
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1817,17 +1790,17 @@
       "composite"
     ],
     "case_id": "indian_007",
-    "thinking": "1 plate of rajma chawal typically consists of 250g cooked rice and 1 katori of rajma. \n- Cooked rice (250g): Reference value = 250g rice = 250g, calories = 250g * (200 kcal / 240g) = 208.33 kcal; ~208 kcal\n- Rajma (1 katori = 130g): Reference value = 180 kcal per katori.\n\nTotal calories: 208 + 180 = 388 kcal. \n\nTherefore, this meal comprises:\n- 1 plate of rajma chawal = 388 kcal.",
+    "thinking": "1 plate of rajma chawal consists of 1 plate of rice (~250g) and 1 katori of rajma (cooked), which is ~130g. \n\\n**Rice:** For the rice, the estimated calories from 250g (cooked) is approximately (200 kcal/plate) = 200 kcal, with carbs mainly coming from the rice.  \n\\n**Rajma:** A katori of rajma is ~180 kcal containing 9g protein, 5g fat, and 25g carbs. \n\\nNow, summing these:  \n**Total Calories:** 200 kcal (rice) + 180 kcal (rajma) = 380 kcal  \n**Protein:** 0g (from rice) + 9g (from rajma) = 9g  \n**Fat:** 0g (from rice) + 5g (from rajma) = 5g  \n**Carbs:** 15g (from rice) + 25g (from rajma) = 40g  \n\\nFinal overall nutritional values for 1 plate of rajma chawal: 380 kcal, 9g protein, 5g fat, 40g carbs.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Rajma Chawal",
-        "calories": 388,
-        "protein": 14,
-        "carbohydrates": 62,
+        "calories": 380,
+        "protein": 9,
+        "carbohydrates": 40,
         "fat": 5,
-        "meal_type": "lunch"
+        "meal_type": "Lunch"
       }
     ],
     "is_miss": false,
@@ -1845,16 +1818,16 @@
       "carbohydrates": 42.0
     },
     "predicted": {
-      "calories": 230.0,
+      "calories": 250.0,
       "protein": 8.0,
-      "fat": 4.0,
-      "carbohydrates": 42.0
+      "fat": 5.0,
+      "carbohydrates": 45.0
     },
     "errors": {
-      "calories": 0.08,
+      "calories": 0.0,
       "protein": 0.0,
-      "fat": 0.2,
-      "carbohydrates": 0.0
+      "fat": 0.0,
+      "carbohydrates": 0.07142857142857142
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1862,16 +1835,16 @@
       "serving_based"
     ],
     "case_id": "indian_008",
-    "thinking": "Khichdi is typically a combination of rice and lentils, cooked together. A standard bowl is 300ml, which I will consider as ~260g for khichdi, approximately yielding: 230 kcal, 8g protein, 4g fat, 42g carbs (based on estimates for similar mixed dishes). I will treat this as one composite dish.\nTotal for 1 bowl khichdi: 230 kcal, 8g protein, 4g fat, 42g carbs.",
+    "thinking": "User mentioned '1 bowl khichdi'. Standard bowl size is 300ml, and a typical serving of khichdi is around 260g. Assuming standard value for khichdi: \n\n- Khichdi (per bowl) provides approx 250 kcal, 8g protein, 5g fat, 45g carbs (based on typical composition).\n\nThus:\n- Calories: 250 kcal\n- Protein: 8 g\n- Fat: 5 g\n- Carbohydrates: 45 g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Khichdi",
-        "calories": 230,
+        "calories": 250,
         "protein": 8,
-        "carbohydrates": 42,
-        "fat": 4,
+        "carbohydrates": 45,
+        "fat": 5,
         "meal_type": "main"
       }
     ],
@@ -1892,13 +1865,13 @@
     "predicted": {
       "calories": 45.0,
       "protein": 1.0,
-      "fat": 1.0,
+      "fat": 2.0,
       "carbohydrates": 7.0
     },
     "errors": {
       "calories": 0.3235294117647059,
       "protein": 0.19999999999999996,
-      "fat": 0.09090909090909098,
+      "fat": 0.818181818181818,
       "carbohydrates": 0.2962962962962962
     },
     "category": "serving_based_beverages",
@@ -1909,7 +1882,7 @@
       "synonym_risk"
     ],
     "case_id": "bev_001",
-    "thinking": "User had 1 cup of garam chai.\n- 1 small tea cup garam chai = 45 kcal, 1.5g protein, 1.5g fat, 7g carbs.\n\nTotal: 45 kcal, 1.5g protein, 1.5g fat, 7g carbs.",
+    "thinking": "User had 1 small tea cup of garam chai. The reference values are 45 kcal, 1.5g protein, 1.5g fat, and 7g carbs for 1 small cup (~100ml). Calculating for 1 cup:\n- Calories: 45 kcal\n- Protein: 1.5g\n- Fat: 1.5g\n- Carbs: 7g\n\nTherefore, total for 1 garam chai:\n\n- Total Calories: 45 kcal\n- Total Protein: 1.5g\n- Total Fat: 1.5g\n- Total Carbs: 7g",
     "item_count": 1,
     "items": [
       {
@@ -1918,8 +1891,8 @@
         "calories": 45,
         "protein": 1,
         "carbohydrates": 7,
-        "fat": 1,
-        "meal_type": "Beverage"
+        "fat": 2,
+        "meal_type": "beverage"
       }
     ],
     "is_miss": true,
@@ -1941,16 +1914,16 @@
       "carbohydrates": 30.0
     },
     "predicted": {
-      "calories": 60.0,
+      "calories": 40.0,
       "protein": 0.0,
       "fat": 0.0,
-      "carbohydrates": 15.0
+      "carbohydrates": 11.0
     },
     "errors": {
-      "calories": 0.5,
+      "calories": 0.6666666666666666,
       "protein": 0.5,
       "fat": 0.0,
-      "carbohydrates": 0.5
+      "carbohydrates": 0.6333333333333333
     },
     "category": "serving_based_beverages",
     "tags": [
@@ -1959,15 +1932,15 @@
       "serving_based"
     ],
     "case_id": "bev_002",
-    "thinking": "1 tall glass of aam panna (250ml) \nUsing the nutritional value of aam panna as per glass:\n- Calories = 60 kcal (per glass)\n- Protein = 0g (per glass)\n- Fat = 0g (per glass)\n- Carbohydrates = 15g (per glass)\n\nThus, for 1 tall glass of aam panna:\nCalories = 60 kcal\nProtein = 0g\nFat = 0g\nCarbohydrates = 15g",
+    "thinking": "The user mentioned '1 tall glass aam panna'. A standard tall glass is typically around 250ml. According to the nutrition defaults provided, aam panna (sweetened) contains 40 kcal per glass. Therefore, for 1 tall glass of aam panna, the nutrition values will be as follows:\n- Calories: 40 kcal\n- Protein: 0g\n- Fat: 0g\n- Carbohydrates: 11g\n\nThe corresponding dish is 'Aam Panna'.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Aam Panna",
-        "calories": 60,
+        "calories": 40,
         "protein": 0,
-        "carbohydrates": 15,
+        "carbohydrates": 11,
         "fat": 0,
         "meal_type": null
       }
@@ -2009,12 +1982,12 @@
       "serving_based"
     ],
     "case_id": "bev_003",
-    "thinking": "The user consumed 1 glass of sweet lassi. Based on the portion size standard, 1 glass is 250ml. The nutritional information for 1 glass of sweet lassi is as follows:\n- Calories: 180 kcal\n- Protein: 6.0g\n- Fat: 5.0g\n- Carbohydrates: 28g\nThus, there is only 1 item to track here.",
+    "thinking": "The user had 1 glass of sweet lassi. I will use the standard nutritional values for sweet lassi, which are:\n- Calories: 180 kcal (per 1 glass, 250ml)\n- Protein: 6.0g\n- Fat: 5.0g\n- Carbohydrates: 28g\n\nSince the user specified '1 glass', I do not need to adjust the portion size.\n\nTotal for 1 glass sweet lassi:\n- Calories: 180 kcal\n- Protein: 6.0g\n- Fat: 5.0g\n- Carbohydrates: 28g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Lassi (Sweet)",
+        "name": "Sweet Lassi",
         "calories": 180,
         "protein": 6,
         "carbohydrates": 28,
@@ -2055,7 +2028,7 @@
       "serving_based"
     ],
     "case_id": "bev_004",
-    "thinking": "The user consumed only 1 glass of nimbu pani. According to the baseline values, 1 glass of nimbu pani has 40 kcal, 0g protein, 0g fat, and 11g carbs.",
+    "thinking": "1 glass of nimbu pani is considered as one serving. 1 serving of nimbu pani is 40 kcal, 0g protein, 0g fat, and 11g carbs.\n\nCalculating:\n- Portion size: 1 glass (250ml)\n- Nimbu Pani (Sweetened) values: \n   - Calories: 40\n   - Protein: 0g\n   - Fat: 0g\n   - Carbs: 11g\n\nTotal for 1 glass: 40 kcal, 0g protein, 0g fat, 11g carbs.",
     "item_count": 1,
     "items": [
       {
@@ -2065,7 +2038,7 @@
         "protein": 0,
         "carbohydrates": 11,
         "fat": 0,
-        "meal_type": "null"
+        "meal_type": "beverage"
       }
     ],
     "is_miss": true,
@@ -2087,16 +2060,16 @@
       "carbohydrates": 12.0
     },
     "predicted": {
-      "calories": 150.0,
-      "protein": 4.0,
-      "fat": 4.0,
-      "carbohydrates": 25.0
+      "calories": 60.0,
+      "protein": 2.0,
+      "fat": 2.0,
+      "carbohydrates": 10.0
     },
     "errors": {
-      "calories": 0.875,
-      "protein": 1.0,
-      "fat": 1.0,
-      "carbohydrates": 1.0833333333333333
+      "calories": 0.25,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.16666666666666666
     },
     "category": "serving_based_beverages",
     "tags": [
@@ -2105,17 +2078,17 @@
       "serving_based"
     ],
     "case_id": "bev_005",
-    "thinking": "1 cup of filter coffee is approximately 250ml. The reference values for filter coffee based on a small cup (100ml) is 60 kcal, 1.5g protein, 1.5g fat, and 10g carbs. For 250ml, I need to scale this up by 2.5 times (since 250ml / 100ml = 2.5). So the calculations will be: 60 kcal * 2.5 = 150 kcal, 1.5g protein * 2.5 = 3.75g protein, 1.5g fat * 2.5 = 3.75g fat, 10g carbs * 2.5 = 25g carbs. Hence the values are: 150 kcal, 3.75g protein, 3.75g fat, 25g carbs. Round the protein and fat to whole numbers for final output.",
+    "thinking": "The user consumed 1 cup of filter coffee. The reference value for 1 small cup of filter coffee is ~100ml, which has 60 kcal, 1.5g protein, 1.5g fat, and 10g carbohydrates. Since they had 1 cup, we will use these values as they are. \n\n- Filter Coffee: 60 kcal, 1.5g protein, 1.5g fat, 10g carbs (for 1 cup)\n\nTotal for this item:\n- Calories: 60 kcal\n- Protein: 1.5g\n- Fat: 1.5g\n- Carbs: 10g\n\nThe item has been confirmed as food and is categorized as a drink.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Filter Coffee",
-        "calories": 150,
-        "protein": 4,
-        "carbohydrates": 25,
-        "fat": 4,
-        "meal_type": "beverage"
+        "calories": 60,
+        "protein": 2,
+        "carbohydrates": 10,
+        "fat": 2,
+        "meal_type": "Beverage"
       }
     ],
     "is_miss": true,
@@ -2154,17 +2127,17 @@
       "serving_based"
     ],
     "case_id": "bev_006",
-    "thinking": "User consumed 1 glass of hot milk. Each glass of milk is 250ml, which equals to 150 kcal, 8.0g protein, 8.0g fat, and 12g carbs. Therefore:\n\n- Milk (1 glass): 150 kcal, 8.0g protein, 8.0g fat, 12g carbs.\n\nFinal calculation:\n- Total Calories = 150 kcal\n- Total Protein = 8.0g\n- Total Fat = 8.0g\n- Total Carbohydrates = 12g",
+    "thinking": "1 glass of hot milk is 250ml. According to the standard values, 1 glass of milk (250ml) contains 150 kcal, 8g protein, 8g fat, and 12g carbs. Therefore, we consider this as 1 dish of hot milk.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Milk",
+        "name": "Hot Milk",
         "calories": 150,
         "protein": 8,
         "carbohydrates": 12,
         "fat": 8,
-        "meal_type": "null"
+        "meal_type": "Beverage"
       }
     ],
     "is_miss": false,
@@ -2182,32 +2155,32 @@
       "carbohydrates": 55.0
     },
     "predicted": {
-      "calories": 458.0,
-      "protein": 27.0,
-      "fat": 15.0,
-      "carbohydrates": 41.0
+      "calories": 405.0,
+      "protein": 31.0,
+      "fat": 3.0,
+      "carbohydrates": 60.0
     },
     "errors": {
-      "calories": 0.017777777777777778,
-      "protein": 0.22857142857142856,
-      "fat": 0.5,
-      "carbohydrates": 0.2545454545454545
+      "calories": 0.1,
+      "protein": 0.11428571428571428,
+      "fat": 0.7,
+      "carbohydrates": 0.09090909090909091
     },
     "category": "composite_meal",
     "tags": [
       "composite"
     ],
     "case_id": "comp_001",
-    "thinking": "Assuming a chicken rice bowl consists of 200g cooked rice and 200g chicken curry based on common serving sizes. \\n\\nFor 200g cooked rice: \\n- Rice (per 250g): ~250g provides ~260 kcal, \\n- So for 200g, it\u2019s (260 kcal / 250g) * 200g = 208 kcal. \\n\\nFor 200g chicken curry: \\n- Chicken Curry (per katori ~200g): 250 kcal.  \\n\\nThus, total for the chicken rice bowl: 208 kcal (rice) + 250 kcal (chicken) = 458 kcal. \\n\\nProtein, fat and carbs respectively come from each dish proportionally.",
+    "thinking": "Assuming a standard chicken rice bowl consists of cooked rice and chicken. A common serving size for a chicken rice bowl is:\n- 1 plate of rice = 250g cooked rice which is approximately 240 kcal.\n- For chicken breast cooked, let's assume a serving of about 100g, which equals 165 kcal.\nCalculating the total:\n- Rice: 240 kcal (for 250g)\n- Chicken: 165 kcal (for 100g)\n\nTotal: 240 + 165 = 405 kcal.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Chicken Rice Bowl",
-        "calories": 458,
-        "protein": 27,
-        "carbohydrates": 41,
-        "fat": 15,
+        "calories": 405,
+        "protein": 31,
+        "carbohydrates": 60,
+        "fat": 3,
         "meal_type": "lunch"
       }
     ],
@@ -2226,16 +2199,16 @@
       "carbohydrates": 75.0
     },
     "predicted": {
-      "calories": 885.0,
-      "protein": 49.0,
-      "fat": 19.0,
-      "carbohydrates": 116.0
+      "calories": 600.0,
+      "protein": 30.0,
+      "fat": 20.0,
+      "carbohydrates": 80.0
     },
     "errors": {
-      "calories": 0.475,
-      "protein": 0.6333333333333333,
-      "fat": 0.05,
-      "carbohydrates": 0.5466666666666666
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.06666666666666667
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -2243,25 +2216,21 @@
       "composite"
     ],
     "case_id": "comp_002",
-    "thinking": "The user mentioned a 'burrito bowl with guac'. A burrito bowl typically includes rice, beans, some type of protein (like chicken or beef), vegetables, and guacamole. However, without specific quantities or other components provided, I will assume a standard burrito bowl with basic components: \n- 1 bowl of rice (260g)  \n- 1 katori of beans (150g)  \n- 100g of grilled chicken  \n- 1 katori (150g) of mixed veggies \n- 1 serving of guacamole (50g). \n\nI will now calculate the total calories, protein, fat, and carbohydrates for each component based on typical values for each dish assumed in a burrito bowl.\n\n- **Rice (260g)**:  \n  (1 cup ~200g has ~260 kcal, so 260g has ~312 kcal)  \n  Protein: 6g, Fat: 1g, Carbs: 64g.\n\n- **Beans (150g)** (assuming black beans):  \n  (1 katori ~130g has ~180 kcal, so 150g has ~208 kcal)  \n  Protein: 8g, Fat: 0.7g, Carbs: 36g.\n\n- **Chicken (100g)** (grilled):  \n  (100g has approximately 165 kcal, Protein: 31g, Fat: 3.6g, Carbs: 0g).\n\n- **Mixed Veggies (150g)**:  \n  (1 katori of Sabzi has ~120 kcal)  \n  Protein: 3g, Fat: 7g, Carbs: 12g.\n\n- **Guacamole (50g)**:  \n  (Typically 100g of guac has ~160 kcal, so 50g has ~80 kcal)  \n  Protein: 1g, Fat: 7g, Carbs: 4g.\n\nNow summing up:\n- Total Calories: 312 + 208 + 165 + 120 + 80 = 885 kcal  \n- Total Protein: 6 + 8 + 31 + 3 + 1 = 49g  \n- Total Fat: 1 + 0.7 + 3.6 + 7 + 7 = 19.3g  \n- Total Carbs: 64 + 36 + 0 + 12 + 4 = 116g.\n\nI will present this as a single dish entry.",
+    "thinking": "The user mentioned a 'burrito bowl with guac'. Assuming this is a common dish in a burrito bowl, but without specific portion sizes or details about the ingredients, we will treat it as a single composite dish. A standard burrito bowl usually includes items such as rice, beans, protein (chicken, beef, etc.), and some toppings like guacamole. I will estimate the nutritional values based on an average burrito bowl with a standard serving size. There's also guacamole included which is typically around 100 calories per serving. The total will depend on the assumed quantities of each component based on standard burrito bowl serving sizes.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Burrito Bowl",
-        "calories": 885,
-        "protein": 49,
-        "carbohydrates": 116,
-        "fat": 19,
-        "meal_type": "lunch"
+        "calories": 600,
+        "protein": 30,
+        "carbohydrates": 80,
+        "fat": 20,
+        "meal_type": "Lunch"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "restaurant_or_packaged",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 0.5,
     "item_count_match": true,
     "followup_violated": false
@@ -2275,33 +2244,33 @@
       "carbohydrates": 15.0
     },
     "predicted": {
-      "calories": 250.0,
-      "protein": 6.0,
-      "fat": 15.0,
-      "carbohydrates": 12.0
+      "calories": 200.0,
+      "protein": 5.0,
+      "fat": 10.0,
+      "carbohydrates": 15.0
     },
     "errors": {
-      "calories": 0.375,
-      "protein": 0.6,
-      "fat": 0.5,
-      "carbohydrates": 0.2
+      "calories": 0.5,
+      "protein": 0.6666666666666666,
+      "fat": 0.6666666666666666,
+      "carbohydrates": 0.0
     },
     "category": "composite_meal",
     "tags": [
       "composite"
     ],
     "case_id": "comp_003",
-    "thinking": "The dish described is a 'Caesar Salad' which typically includes greens and croutons. However, it does not specify any additional components such as dressing, chicken, or cheese which are commonly included in a Caesar salad. For nutritional purposes, I will consider it a single dish: 'Caesar Salad with Croutons'. The calories and nutrients for a standard Caesar Salad are variable but generally around 200-300 calories without specific measurements. An approximation will include some basic values derived from common Caesar salad ingredients. Since no specific quantity was mentioned, I will assume a standard portion that falls within the typical range.",
+    "thinking": "The user specified 'Caesar Salad', which is a composite dish typically made with romaine lettuce, dressing, and toppings like croutons. However, specific nutritional values for a Caesar salad with croutons aren't provided in the defaults. Therefore, I will treat it as a standard salad for estimation purposes.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Caesar Salad",
-        "calories": 250,
-        "protein": 6,
-        "carbohydrates": 12,
-        "fat": 15,
-        "meal_type": "salad"
+        "calories": 200,
+        "protein": 5,
+        "carbohydrates": 15,
+        "fat": 10,
+        "meal_type": "null"
       }
     ],
     "is_miss": true,
@@ -2341,7 +2310,7 @@
       "serving_based"
     ],
     "case_id": "comp_004",
-    "thinking": "User ordered 1 masala dosa. Reference values indicate a masala dosa has 230 kcal, 5.0g protein, 8.0g fat, and 35g carbs. Therefore, the total for this dish is as follows: 1 x (230 kcal, 5.0g protein, 8.0g fat, 35g carbs) = (230 kcal, 5.0g protein, 8.0g fat, 35g carbs).",
+    "thinking": "1 masala dosa = 1 dish. The nutritional values per 1 dosa are: 230 kcal, 5.0g protein, 8.0g fat, 35g carbs. Therefore, the total for the dish is:\n- Calories: 230 kcal\n- Protein: 5.0g\n- Fat: 8.0g\n- Carbohydrates: 35g",
     "item_count": 1,
     "items": [
       {
@@ -2370,15 +2339,15 @@
     },
     "predicted": {
       "calories": 250.0,
-      "protein": 22.0,
+      "protein": 20.0,
       "fat": 15.0,
-      "carbohydrates": 6.0
+      "carbohydrates": 8.0
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.1,
+      "protein": 0.0,
       "fat": 0.0,
-      "carbohydrates": 0.4
+      "carbohydrates": 0.2
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -2387,17 +2356,17 @@
       "serving_based"
     ],
     "case_id": "comp_005",
-    "thinking": "1 katori of chicken tikka masala is considered as a composite dish. The approximate nutritional values for chicken tikka masala (similar to chicken curry) can be referenced: about 250 kcal, 22g protein, 15g fat, and 6g carbs per 1 katori (200g).",
+    "thinking": "1 katori of chicken tikka masala is taken as a composite dish.\n- Chicken Tikka Masala (per katori, assumed 200g): \n  - Calories: 250 kcal\n  - Protein: 20g\n  - Fat: 15g\n  - Carbs: 8g\n\nTotal for 1 katori: \n- Calories: 250 kcal \n- Protein: 20g \n- Fat: 15g \n- Carbs: 8g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Chicken Tikka Masala",
         "calories": 250,
-        "protein": 22,
-        "carbohydrates": 6,
+        "protein": 20,
+        "carbohydrates": 8,
         "fat": 15,
-        "meal_type": "main"
+        "meal_type": "lunch"
       }
     ],
     "is_miss": false,
@@ -2415,16 +2384,16 @@
       "carbohydrates": 35.0
     },
     "predicted": {
-      "calories": 350.0,
-      "protein": 10.0,
-      "fat": 20.0,
-      "carbohydrates": 40.0
+      "calories": 250.0,
+      "protein": 5.0,
+      "fat": 10.0,
+      "carbohydrates": 35.0
     },
     "errors": {
       "calories": 0.16666666666666666,
-      "protein": 1.0,
+      "protein": 0.0,
       "fat": 0.3333333333333333,
-      "carbohydrates": 0.14285714285714285
+      "carbohydrates": 0.0
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -2434,17 +2403,17 @@
       "serving_based"
     ],
     "case_id": "comp_006",
-    "thinking": "'Gobi Manchurian' is a dish and typically not referenced in standard nutrition data. However, a standard serving/homemade recipe portion can be assumed. A plate of Gobi Manchurian is often around 300g, which includes batter fried cauliflower and sauce. Estimating calories and macros based on a typical serving:\n- Estimated calories for 1 plate (300g): ~350 kcal (highly dependent on preparation method: frying, etc.)\n- Protein: ~10g (moderate protein from cauliflower and any added ingredients)\n- Fat: ~20g (due to frying)\n- Carbohydrates: ~40g (from batter and sauce)\n\nTotal for 1 plate of Gobi Manchurian:\n- Calories: 350 \n- Protein: 10g \n- Fat: 20g \n- Carbohydrates: 40g \n\nThis serves as a rough estimate for the dish caloric content based on general preparation style.",
+    "thinking": "Gobi Manchurian is typically served in a standard portion of about 250g. For estimating its nutritional content, I will assume a reference of 250 kcal, 5g protein, 10g fat, and 35g carbs based on similar dishes as there is no default value provided for Gobi Manchurian. This will serve as the baseline for this item.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Gobi Manchurian",
-        "calories": 350,
-        "protein": 10,
-        "carbohydrates": 40,
-        "fat": 20,
-        "meal_type": "main"
+        "calories": 250,
+        "protein": 5,
+        "carbohydrates": 35,
+        "fat": 10,
+        "meal_type": "Dinner"
       }
     ],
     "is_miss": false,
@@ -2478,7 +2447,7 @@
       "hidden_fat"
     ],
     "case_id": "fat_001",
-    "thinking": "Calculating the nutrition for 2 scrambled eggs and 1 tbsp of butter:\n\n1. **Eggs**:\n   - 2 eggs: 2 * 70 kcal = 140 kcal, 2 * 6g protein = 12g protein, 2 * 5g fat = 10g fat, 2 * 0.5g carbs = 1g carbs.\n\n2. **Butter**:\n   - 1 tbsp butter: 100 kcal, 0.1g protein, 11g fat, 0g carbs.\n\n**Total for the Dish**:\n- Calories: 140 (eggs) + 100 (butter) = 240 kcal\n- Protein: 12g (eggs) + 0.1g (butter) = 12.1g protein\n- Fat: 10g (eggs) + 11g (butter) = 21g fat\n- Carbs: 1g (eggs) + 0g (butter) = 1g carbs\n\nFinal totals:\n- Total calories: 240 kcal\n- Total protein: 12g\n- Total fat: 21g\n- Total carbohydrates: 1g\n\nThe complete meal includes 2 eggs scrambled in 1 tbsp of butter.",
+    "thinking": "Each egg is approximately 55g. For 2 eggs:\n- Calories: 2 x 70 kcal = 140 kcal\n- Protein: 2 x 6g = 12g\n- Fat: 2 x 5g = 10g\n- Carbs: 2 x 0.5g = 1g\n\nFor 1 tbsp butter (14g):\n- Calories: 100 kcal\n- Protein: 0.1g \n- Fat: 11g \n- Carbs: 0g \n\nTotal for the dish:\nCalories = 140 + 100 = 240 kcal\nProtein = 12 + 0.1 = 12.1g\nFat = 10 + 11 = 21g\nCarbs = 1 + 0 = 1g \n\nFinal output will be rounded as per nutrition item standards.",
     "item_count": 1,
     "items": [
       {
@@ -2488,7 +2457,7 @@
         "protein": 12,
         "carbohydrates": 1,
         "fat": 21,
-        "meal_type": null
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -2506,15 +2475,15 @@
       "carbohydrates": 0.0
     },
     "predicted": {
-      "calories": 429.0,
-      "protein": 33.0,
-      "fat": 14.0,
+      "calories": 420.0,
+      "protein": 25.0,
+      "fat": 29.0,
       "carbohydrates": 0.0
     },
     "errors": {
-      "calories": 0.5888888888888889,
-      "protein": 0.32,
-      "fat": 0.2222222222222222,
+      "calories": 0.5555555555555556,
+      "protein": 0.0,
+      "fat": 0.6111111111111112,
       "carbohydrates": 0.0
     },
     "category": "hidden_fat_or_cooking_medium",
@@ -2522,24 +2491,24 @@
       "hidden_fat"
     ],
     "case_id": "fat_002",
-    "thinking": "For the fried fish, I'm using the default portion for fish when it's cooked. Assuming the caloric value for fish is around 206 kcal per 100g (standard for cooked fish), the calculation would be: \n\n150g fish = (150g / 100g) * 206 kcal = 309 kcal\nProtein (assuming approximately 22g protein per 100g for cooked fish): \n150g fish = (150g / 100g) * 22g = 33g protein\nFor the oil, per 1 tbsp (15ml) of oil, it contains 120 kcal, 0g protein, 14g fat, and 0g carbs. \n\nTotal: \nFish: 309 kcal, 33g protein, 0g carbs, and fat contributes (assuming 0g from the fish itself, since it's lean)= 0g fat\nOil: 120 kcal, 0g protein, 0g carbs, 14g fat\n\nNow summing these:\nCalories: 309 + 120 = 429 kcal\nProtein: 33 + 0 = 33g\nFat: 0 + 14 = 14g\nCarbs: 0 + 0 = 0g\n\nTherefore, the total combined for the meal is 429 kcal, 33g protein, 14g fat, and 0g carbs. This is considered a meal, likely lunch or dinner, as it's a protein-heavy dish.",
+    "thinking": "The user has specified 150g of fried fish. Assuming a standard caloric value of fried fish is approximately 200 kcal per 100g, for 150g: \n\n150g fried fish = 200 kcal/100g * 150g = 300 kcal\n \nNow considering the oil used: 1 tbsp of oil (15ml) is 120 kcal. \n \nThus, the total calculation for this meal:\n- Fried Fish: 300 kcal\n- Oil: 120 kcal\n\nTotal: 300 + 120 = 420 kcal\n\nNext, let's calculate protein, fat, and carbs values:\n- Fried Fish (150g) provides around 25g protein and 15g fat (using estimated values for fried fish).\n- Oil contributes 14g fat, without any protein or carbs. \n\nTotaling:\n- Protein: 25g\n- Fat: 15g (fish) + 14g (oil) = 29g\n- Carbohydrates: typically negligible for both.\n\nFinal dish is the fried fish with oil as a single composite dish.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Fried Fish",
-        "calories": 429,
-        "protein": 33,
+        "calories": 420,
+        "protein": 25,
         "carbohydrates": 0,
-        "fat": 14,
-        "meal_type": "lunch"
+        "fat": 29,
+        "meal_type": "null"
       }
     ],
     "is_miss": true,
     "miss_diagnosis": {
       "food_type": "hidden_fat_or_cooking_medium",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
+      "failure_stage": "hidden_fat_missed",
+      "suggested_fix": "Add specific prompt constraints for implicit cooking fats (butter, oil)"
     },
     "entity_recall": 0.5,
     "item_count_match": true,
@@ -2572,7 +2541,7 @@
       "serving_based"
     ],
     "case_id": "fat_003",
-    "thinking": "1 plain paratha = 180 kcal, 3.5g protein, 7.0g fat, 26g carbs (60g). 1 tsp ghee = 45 kcal, 0g protein, 5.0g fat, 0g carbs (5g). Total: 180 + 45 = 225 kcal; protein: 3.5 + 0 = 3.5g; fat: 7 + 5 = 12g; carbs: 26 + 0 = 26g.",
+    "thinking": "Calculating the nutrition for 1 plain paratha and 1 tsp of ghee:\n- Plain Paratha:\n  - 180 kcal, 3.5g protein, 7.0g fat, 26g carbs (per 1 paratha)\n  - Portion: 1 paratha (60g)\n\n- Ghee:\n  - 45 kcal, 0g protein, 5.0g fat, 0g carbs (per 1 tsp, 5g)\n  - Portion: 1 tsp\n\nNow summing them up:\n- Total Calories = 180 + 45 = 225 kcal\n- Total Protein = 3.5g + 0g = 3.5g\n- Total Fat = 7.0g + 5.0g = 12.0g\n- Total Carbs = 26g + 0g = 26g\n\nFinal dish summary is:\n1. Plain Paratha\n2. Ghee\n\nTotal Nutrition is:\nCalories: 225, Protein: 3.5g, Fat: 12g, Carbs: 26g",
     "item_count": 2,
     "items": [
       {
@@ -2632,7 +2601,7 @@
       "serving_based"
     ],
     "case_id": "fat_004",
-    "thinking": "Calculating the nutrition for the dishes ordered. \n\nFor 1 plate of Chicken Biryani:\n- Standard serving size = 1 plate = 350g \n- Calories for 1 plate Biryani = 650 kcal \n- Protein = 30g \n- Fat = 20g \n- Carbohydrates = 85g \n\nTotal for Chicken Biryani:\n- Calories = 650 kcal \n- Protein = 30g \n- Fat = 20g \n- Carbs = 85g \n\nFor 1 katori of Raita:\n- Standard serving size = 1 katori = ~150g \n- Assumed values for Raita (based on curd): \n- Calories for 1 katori of Raita = 100 kcal (assumed standard for Curds) \n- Protein = 5g \n- Fat = 5g \n- Carbohydrates = 7g \n\nTotal for Raita:\n- Calories = 100 kcal \n- Protein = 5g \n- Fat = 5g \n- Carbs = 7g \n\nNow, summing the nutrition values for both dishes:\n\n- Total Calories = 650 + 100 = 750 kcal \n- Total Protein = 30 + 5 = 35g \n- Total Fat = 20 + 5 = 25g \n- Total Carbs = 85 + 7 = 92g",
+    "thinking": "Calculating the portion sizes based on standard values. For the chicken biryani, 1 plate is 650 kcal, 30g protein, 20g fat, and 85g carbs. For the raita (curd), 1 katori is treated as 1 cup (~150g), which is 100 kcal, 5g protein, 5g fat, and 7g carbs. \n\n1 plate Biryani:\n- Calories: 650 kcal\n- Protein: 30g\n- Fat: 20g\n- Carbs: 85g\n\n1 katori Raita:\n- Calories: 100 kcal\n- Protein: 5g\n- Fat: 5g\n- Carbs: 7g\n\nNow adding both:\n\nTotal Calories = 650 + 100 = 750 kcal\nTotal Protein = 30 + 5 = 35g\nTotal Fat = 20 + 5 = 25g\nTotal Carbs = 85 + 7 = 92g",
     "item_count": 2,
     "items": [
       {
@@ -2642,7 +2611,7 @@
         "protein": 30,
         "carbohydrates": 85,
         "fat": 20,
-        "meal_type": "Main"
+        "meal_type": "lunch"
       },
       {
         "is_food": true,
@@ -2651,7 +2620,7 @@
         "protein": 5,
         "carbohydrates": 7,
         "fat": 5,
-        "meal_type": "Side"
+        "meal_type": "lunch"
       }
     ],
     "is_miss": false,
@@ -2669,16 +2638,16 @@
       "carbohydrates": 20.0
     },
     "predicted": {
-      "calories": 300.0,
-      "protein": 6.0,
-      "fat": 14.0,
-      "carbohydrates": 50.0
+      "calories": 240.0,
+      "protein": 4.0,
+      "fat": 12.0,
+      "carbohydrates": 24.0
     },
     "errors": {
-      "calories": 0.5,
-      "protein": 0.5,
-      "fat": 0.16666666666666666,
-      "carbohydrates": 1.5
+      "calories": 0.2,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.2
     },
     "category": "hidden_fat_or_cooking_medium",
     "tags": [
@@ -2687,25 +2656,21 @@
       "serving_based"
     ],
     "case_id": "fat_005",
-    "thinking": "Each poori is assumed to weigh approximately 30g. A typical poori when deep fried is around 150 calories, with 3g protein, 7g fat, and 25g carbs. \n\n- For 2 pooris:\n  - Calories: 150 kcal * 2 = 300 kcal \n  - Protein: 3g * 2 = 6g \n  - Fat: 7g * 2 = 14g \n  - Carbs: 25g * 2 = 50g \n\nTotal for 2 pooris = 300 kcal, 6g protein, 14g fat, 50g carbs.",
+    "thinking": "Each poori is assumed to be around 30g. Deep-fried pooris can typically have about 120 kcal, 2g protein, 6g fat, and 12g carbohydrates per poori. For 2 pooris, the values are calculated as follows:\n\n120 kcal * 2 = 240 kcal\n2g protein * 2 = 4g protein\n6g fat * 2 = 12g fat\n12g carbs * 2 = 24g carbs\n\nTotal for 2 pooris:\n- Calories: 240\n- Protein: 4g\n- Fat: 12g\n- Carbohydrates: 24g\n\nAs such, these are treated as one dish:\n- Dish: 2 Pooris",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Poori",
-        "calories": 300,
-        "protein": 6,
-        "carbohydrates": 50,
-        "fat": 14,
-        "meal_type": "snack"
+        "name": "2 Pooris",
+        "calories": 240,
+        "protein": 4,
+        "carbohydrates": 24,
+        "fat": 12,
+        "meal_type": "null"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "hidden_fat_or_cooking_medium",
-      "failure_stage": "serving_assumption",
-      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": false
@@ -2719,16 +2684,16 @@
       "carbohydrates": 55.0
     },
     "predicted": {
-      "calories": 550.0,
-      "protein": 22.0,
-      "fat": 15.0,
-      "carbohydrates": 73.0
+      "calories": 365.0,
+      "protein": 31.0,
+      "fat": 3.0,
+      "carbohydrates": 50.0
     },
     "errors": {
-      "calories": 0.375,
-      "protein": 0.26666666666666666,
-      "fat": 2.0,
-      "carbohydrates": 0.32727272727272727
+      "calories": 0.0875,
+      "protein": 0.03333333333333333,
+      "fat": 0.4,
+      "carbohydrates": 0.09090909090909091
     },
     "category": "vague_user_input",
     "tags": [
@@ -2737,36 +2702,23 @@
       "followup_needed"
     ],
     "case_id": "vague_001",
-    "thinking": "The user mentioned 'chicken and rice', likely referring to a meal comprising cooked chicken and cooked rice. Assuming a standard portion for each dish: 200g of chicken and 250g of cooked rice. \n\nFor the chicken, assuming it is a cooked chicken curry: 250 kcal, 22g protein, 15g fat, 6g carbs (per 1 katori, 200g). \nFor the rice, 250g is a full plate of rice: 300 kcal (as 250g cooked rice). \nTotal for this meal:\n- Chicken: 250 kcal, 22g protein, 15g fat, 6g carbs \n- Rice: 300 kcal, 0g protein, 0g fat, 67g carbs\n\nFinal totals for the dishes combined: \nCalories: 250 + 300 = 550 kcal \nProtein: 22 + 0 = 22g \nFat: 15 + 0 = 15g \nCarbs: 6 + 67 = 73g.",
-    "item_count": 2,
+    "thinking": "Assuming a standard serving of chicken (Cooked) is around 100g and of rice (Cooked) is around 250g, for a typical meal of chicken and rice.\n\n- Chicken (Cooked): 165 kcal, 31g protein, 3.6g fat, 0g carbs (per 100g) \n\n- Rice (Cooked): 250g cooked rice ~ 200 kcal, (250g gives us about 220g for reference) - thus final values are assumed 220 kcal and 50g carbs (possibly more carbs from the 250g understanding). \n\nTotal for Chicken: 165 kcal, 31g protein, 3.6g fat, 0g carbs \nTotal for Rice: 200 kcal, 0g protein, 0g fat, 50g carbs\n\nFinal Dish Summary: \nChicken and Rice:\nCalories: 365 kcal \nProtein: 31g \nFat: 3.6g \nCarbs: 50g",
+    "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Chicken Curry",
-        "calories": 250,
-        "protein": 22,
-        "carbohydrates": 6,
-        "fat": 15,
-        "meal_type": "main"
-      },
-      {
-        "is_food": true,
-        "name": "Cooked Rice",
-        "calories": 300,
-        "protein": 0,
-        "carbohydrates": 67,
-        "fat": 0,
-        "meal_type": "main"
+        "name": "Chicken and Rice",
+        "calories": 365,
+        "protein": 31,
+        "carbohydrates": 50,
+        "fat": 3,
+        "meal_type": "lunch"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "vague_user_input",
-      "failure_stage": "vague_input_guessed",
-      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 1.0,
-    "item_count_match": false,
+    "item_count_match": true,
     "followup_violated": true
   },
   {
@@ -2778,16 +2730,16 @@
       "carbohydrates": 75.0
     },
     "predicted": {
-      "calories": 350.0,
-      "protein": 12.0,
-      "fat": 4.0,
-      "carbohydrates": 70.0
+      "calories": 300.0,
+      "protein": 10.0,
+      "fat": 2.0,
+      "carbohydrates": 60.0
     },
     "errors": {
-      "calories": 0.07894736842105263,
-      "protein": 0.0,
-      "fat": 1.0,
-      "carbohydrates": 0.06666666666666667
+      "calories": 0.21052631578947367,
+      "protein": 0.16666666666666666,
+      "fat": 0.0,
+      "carbohydrates": 0.2
     },
     "category": "vague_user_input",
     "tags": [
@@ -2795,21 +2747,25 @@
       "followup_needed"
     ],
     "case_id": "vague_002",
-    "thinking": "User ate pasta. I consider a standard serving portion of pasta to be around 1 plate, which is approximately 300g. For cooked pasta, the average calorie content is around 350 kcal per plate. I will categorize this as one dish: Pasta.",
+    "thinking": "The user mentions 'pasta', which is a type of carbohydrate and can vary in form. Assuming a standard serving of cooked pasta is about 1 plate equals 240g. The average nutritional values for 1 plate of pasta (typically cooked) are approximately 300 kcal, 10g protein, 2g fat, and 60g carbs (this value may vary by preparation). Thus, I will categorize this as 1 dish of 'Pasta'.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Pasta",
-        "calories": 350,
-        "protein": 12,
-        "carbohydrates": 70,
-        "fat": 4,
-        "meal_type": "lunch"
+        "calories": 300,
+        "protein": 10,
+        "carbohydrates": 60,
+        "fat": 2,
+        "meal_type": null
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "vague_user_input",
+      "failure_stage": "vague_input_guessed",
+      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+    },
     "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": true
@@ -2823,16 +2779,16 @@
       "carbohydrates": 40.0
     },
     "predicted": {
-      "calories": 225.0,
-      "protein": 7.0,
-      "fat": 17.0,
-      "carbohydrates": 13.0
+      "calories": 165.0,
+      "protein": 3.0,
+      "fat": 9.0,
+      "carbohydrates": 23.0
     },
     "errors": {
-      "calories": 0.25,
+      "calories": 0.45,
       "protein": 0.4,
-      "fat": 0.4166666666666667,
-      "carbohydrates": 0.675
+      "fat": 0.25,
+      "carbohydrates": 0.425
     },
     "category": "vague_user_input",
     "tags": [
@@ -2840,26 +2796,26 @@
       "followup_needed"
     ],
     "case_id": "vague_003",
-    "thinking": "The user mentioned 'tea', which typically corresponds to 'Garam Chai'. For 'snacks', I will infer a small portion, given no specific snacks were mentioned and treat it as a handful, common for snacks. Assuming a handful of dry snacks (like nuts) for calculation.\n\n1. **Garam Chai**: Standard serving is ~100ml.\n   - Calories: 45\n   - Protein: 1.5g\n   - Fat: 1.5g\n   - Carbohydrates: 7g\n   \n2. **Handful of dry snacks**: Assuming ~30g. Standard for dry nuts or similar snacks.\n   - Average estimates for nuts: ~180 kcal, 6g protein, 15g fat, 6g carbs (approximation per 30g)\n\n**Total for Garam Chai**: \nCalories: 45;\nProtein: 1.5g;\nFat: 1.5g;\nCarbs: 7g.\n\n**Total for Handful of Snacks**:\nCalories: 180;\nProtein: 6g;\nFat: 15g;\nCarbs: 6g.\n\n**Final Totals**:\nCalories: 225;\nProtein: 7.5g;\nFat: 16g;\nCarbs: 13g.",
+    "thinking": "The user mentioned 'tea' and 'snacks'. I will assume they had 1 small cup of tea and a typical snack portion. For tea, the reference value is 45 kcal for ~100ml (1 small cup). For snacks, I will estimate a small serving of chips/puffs which is usually considered as 1 handful (30g) for a snack. The reference value for chips/puffs is 120 kcal for 30g. \n\nCalculating for tea:\n- 1 small cup tea = 45 kcal, 1.5g protein, 1.5g fat, 7g carbs\n\nCalculating for snacks:\n- 1 handful chips/puffs = 120 kcal, 2g protein, 8g fat, 16g carbs\n\nTotaling:\n- Tea:\n  - Calories: 45 kcal\n  - Protein: 1.5g\n  - Carbs: 7g\n  - Fat: 1.5g\n\n- Snacks:\n  - Calories: 120 kcal\n  - Protein: 2g\n  - Carbs: 16g\n  - Fat: 8g\n\nThus, the total sums for both items are:\n- Total Calories: 45 + 120 = 165 kcal\n- Total Protein: 1.5 + 2 = 3.5g\n- Total Carbs: 7 + 16 = 23g\n- Total Fat: 1.5 + 8 = 9.5g\n\nEach item has been grouped correctly as separate food items but listed individually.",
     "item_count": 2,
     "items": [
       {
         "is_food": true,
-        "name": "Garam Chai",
+        "name": "Tea",
         "calories": 45,
         "protein": 1,
         "carbohydrates": 7,
-        "fat": 2,
-        "meal_type": "snack"
+        "fat": 1,
+        "meal_type": "Snack"
       },
       {
         "is_food": true,
-        "name": "Handful of Dry Snacks",
-        "calories": 180,
-        "protein": 6,
-        "carbohydrates": 6,
-        "fat": 15,
-        "meal_type": "snack"
+        "name": "Chips",
+        "calories": 120,
+        "protein": 2,
+        "carbohydrates": 16,
+        "fat": 8,
+        "meal_type": "Snack"
       }
     ],
     "is_miss": true,
@@ -2868,7 +2824,7 @@
       "failure_stage": "vague_input_guessed",
       "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
     },
-    "entity_recall": 0.0,
+    "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": true
   },
@@ -2881,16 +2837,16 @@
       "carbohydrates": 55.0
     },
     "predicted": {
-      "calories": 271.0,
-      "protein": 4.0,
-      "fat": 2.0,
-      "carbohydrates": 161.0
+      "calories": 361.0,
+      "protein": 13.0,
+      "fat": 10.0,
+      "carbohydrates": 72.0
     },
     "errors": {
-      "calories": 0.2257142857142857,
-      "protein": 0.6,
-      "fat": 0.8,
-      "carbohydrates": 1.9272727272727272
+      "calories": 0.03142857142857143,
+      "protein": 0.3,
+      "fat": 0.0,
+      "carbohydrates": 0.3090909090909091
     },
     "category": "vague_user_input",
     "tags": [
@@ -2898,36 +2854,23 @@
       "followup_needed"
     ],
     "case_id": "vague_004",
-    "thinking": "The user mentioned a 'small lunch', so I will assume a lighter meal. Typical small portions can include half servings of common dishes. This will generally consist of one or two lighter items. I will assume a small portion of a common lunch item such as dal and rice. For a small portion, I will reduce the serving size by 25%. \n\nAssuming one katori of dal (standard is 110 kcal) and one plate of rice (standard is 250 kcal), I'll calculate:\n\n1. Dal: 110 kcal x 0.75 (small portion) = 82.5 kcal, protein = 5.5g x 0.75 = 4.125g, fat = 3g x 0.75 = 2.25g, carbs = 15g x 0.75 = 11.25g\n2. Rice: 250 kcal x 0.75 (small portion) = 187.5 kcal, protein = 0g, fat = 0g, carbs = 200g x 0.75 = 150g\n\nNow rounding to the nearest whole number for items in the output:\n\n- Dal: 83 kcal, protein 4g, fat 2g, carbs 11g\n- Rice: 188 kcal, protein 0g, fat 0g, carbs 150g \n\nTotal for composite lunch: 271 kcal, protein 4g, fat 2g, carbs 161g.",
-    "item_count": 2,
+    "thinking": "Since the user specified a 'small lunch', I will assume a smaller portion of a common lunch item. A small meal can typically mean reducing by 25%. A common lunch item would be a plate of rice with some curry and sabzi. A standard meal portion would be around 250g of rice, 1 katori of dal (130g), and 1 katori of sabzi (150g).\n\n- Plate of Rice (250g): 250 kcal (standard)\n- Katori Dal (130g): 110 kcal (standard)\n- Katori Sabzi (150g): 120 kcal (standard)\n\nCalculating for a small portion, I will reduce the standard meal by 25%:\n\n- Rice: 250 kcal * 0.75 = 187.5 kcal -> 188 kcal\n- Dal: 110 kcal * 0.75 = 82.5 kcal -> 83 kcal\n- Sabzi: 120 kcal * 0.75 = 90 kcal -> 90 kcal\n\nAdding these together:\n188 kcal + 83 kcal + 90 kcal = 361 kcal\n\nNow summarizing:\n- Rice: 188 kcal, 5g protein, 45g carbs, 0g fat\n- Dal: 83 kcal, 5.5g protein, 15g carbs, 3g fat\n- Sabzi: 90 kcal, 3g protein, 12g carbs, 7g fat\n\nTotaling protein, carbs, and fat:\n- Total Protein: 5g + 5.5g + 3g = 13.5g\n- Total Carbs: 45g + 15g + 12g = 72g\n- Total Fat: 0g + 3g + 7g = 10g\n\nThe final output:\n1 x small plate of rice, 1 katori dal, and 1 katori sabzi = Composite Dish",
+    "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Dal",
-        "calories": 83,
-        "protein": 4,
-        "carbohydrates": 11,
-        "fat": 2,
-        "meal_type": "lunch"
-      },
-      {
-        "is_food": true,
-        "name": "Rice",
-        "calories": 188,
-        "protein": 0,
-        "carbohydrates": 150,
-        "fat": 0,
+        "name": "Small Plate of Rice with Dal and Sabzi",
+        "calories": 361,
+        "protein": 13,
+        "carbohydrates": 72,
+        "fat": 10,
         "meal_type": "lunch"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "vague_user_input",
-      "failure_stage": "vague_input_guessed",
-      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": null,
-    "item_count_match": false,
+    "item_count_match": true,
     "followup_violated": true
   },
   {
@@ -2939,16 +2882,16 @@
       "carbohydrates": 100.0
     },
     "predicted": {
-      "calories": 730.0,
-      "protein": 30.0,
-      "fat": 25.0,
-      "carbohydrates": 283.0
+      "calories": 900.0,
+      "protein": 52.0,
+      "fat": 35.0,
+      "carbohydrates": 91.0
     },
     "errors": {
-      "calories": 0.0875,
-      "protein": 0.0,
+      "calories": 0.125,
+      "protein": 0.7333333333333333,
       "fat": 0.16666666666666666,
-      "carbohydrates": 1.83
+      "carbohydrates": 0.09
     },
     "category": "vague_user_input",
     "tags": [
@@ -2956,23 +2899,32 @@
       "followup_needed"
     ],
     "case_id": "vague_005",
-    "thinking": "User mentioned a 'big dinner', indicating multiple dishes. However, no specific items were provided. To proceed, we will assume a standard thali-type meal that includes popular Indian dishes.\n\nLet's calculate a typical thali containing: 250g rice, 1 katori dal (130g), 1 katori sabzi (150g), and 1 chicken curry (200g).\n\n1. Rice: \n   - Portion: 250g \n   - Calories: (250g / 200g) * 200 kcal = 250 kcal \n   - Protein: 0g \n   - Fat: 0g \n   - Carbs: 250g.\n\n2. Dal: \n   - Portion: 1 katori (130g) \n   - Calories: 110 kcal \n   - Protein: 5.5g \n   - Fat: 3.0g \n   - Carbs: 15g.\n\n3. Sabzi: \n   - Portion: 1 katori (150g) \n   - Calories: 120 kcal \n   - Protein: 3.0g \n   - Fat: 7.0g \n   - Carbs: 12g.\n\n4. Chicken Curry: \n   - Portion: 1 katori (200g) \n   - Calories: 250 kcal \n   - Protein: 22g \n   - Fat: 15g \n   - Carbs: 6g.\n\nNow, summing these:\n- Total Calories = 250 + 110 + 120 + 250 = 730 kcal  \n- Total Protein = 0 + 5.5 + 3 + 22 = 30.5g  \n- Total Fat = 0 + 3 + 7 + 15 = 25g  \n- Total Carbs = 250 + 15 + 12 + 6 = 283g.\n\nI will represent this meal as one item in the response.",
-    "item_count": 1,
+    "thinking": "Since the user mentioned a 'big dinner', I will consider this as a full meal with substantial servings. I will include common big dinner items like biryani and chicken curry, and assume reasonable portion sizes for each. A typical portion for biryani can be a plate (350g) and for chicken curry can be a katori (200g). These assumptions will lead to the total caloric and nutritional values. Calculating for a plate of biryani and a katori of chicken curry:\n\n- **Biryani**: \n  - 1 plate (350g)\n  - Calories: 650 kcal, Protein: 30g, Fat: 20g, Carbs: 85g (per plate, 350g)\n\n- **Chicken Curry**:\n  - 1 katori (200g)\n  - Calories: 250 kcal, Protein: 22g, Fat: 15g, Carbs: 6g (per katori, 200g)\n\nTotal for the dinner:\n  - Calories: 650 + 250 = 900 kcal  \n  - Protein: 30 + 22 = 52g  \n  - Fat: 20 + 15 = 35g  \n  - Carbs: 85 + 6 = 91g  \n\nThus, the final calculations lead to a summary of a big dinner consisting of biryani and chicken curry.",
+    "item_count": 2,
     "items": [
       {
         "is_food": true,
-        "name": "Thali Meal",
-        "calories": 730,
+        "name": "Biryani",
+        "calories": 650,
         "protein": 30,
-        "carbohydrates": 283,
-        "fat": 25,
-        "meal_type": "Dinner"
+        "carbohydrates": 85,
+        "fat": 20,
+        "meal_type": "dinner"
+      },
+      {
+        "is_food": true,
+        "name": "Chicken Curry",
+        "calories": 250,
+        "protein": 22,
+        "carbohydrates": 6,
+        "fat": 15,
+        "meal_type": "dinner"
       }
     ],
     "is_miss": false,
     "miss_diagnosis": null,
     "entity_recall": null,
-    "item_count_match": true,
+    "item_count_match": false,
     "followup_violated": true
   },
   {
@@ -2984,23 +2936,23 @@
       "carbohydrates": 57.5
     },
     "predicted": {
-      "calories": 613.0,
-      "protein": 30.0,
-      "fat": 21.0,
-      "carbohydrates": 77.0
+      "calories": 470.0,
+      "protein": 23.0,
+      "fat": 16.0,
+      "carbohydrates": 58.0
     },
     "errors": {
-      "calories": 0.27708333333333335,
-      "protein": 0.17647058823529413,
-      "fat": 0.24999999999999994,
-      "carbohydrates": 0.3391304347826087
+      "calories": 0.020833333333333332,
+      "protein": 0.09803921568627451,
+      "fat": 0.04761904761904766,
+      "carbohydrates": 0.008695652173913044
     },
     "category": "composite_meal",
     "tags": [
       "multi_item"
     ],
     "case_id": "multi_001",
-    "thinking": "Let's break down the meal:\n\n1. Rotis: 2 rotis = 2 x 70 kcal = 140 kcal, 2 x 2g protein = 4g protein, 2 x 0.4g fat = 0.8g fat, 2 x 15g carbs = 30g carbs.\n\n2. Dal: 1 bowl of dal (300ml) = roughly 2.3 katoris = 2.3 x 110 kcal = 253 kcal, 2.3 x 5.5g protein = 12.65g protein, 2.3 x 3g fat = 6.9g fat, 2.3 x 15g carbs = 34.5g carbs.\n\n3. Boiled egg: 1 egg = 70 kcal, 6g protein, 5g fat, 0.5g carbs.\n\n4. Hot milk: 1 glass of milk (250ml) = 150 kcal, 8g protein, 8g fat, 12g carbs.\n\nNow, summing up:\n\n- Total calories = 140 + 253 + 70 + 150 = 613 kcal\n- Total protein = 4 + 12.65 + 6 + 8 = 30.65g\n- Total fat = 0.8 + 6.9 + 5 + 8 = 20.7g\n- Total carbohydrates = 30 + 34.5 + 0.5 + 12 = 77g\n\nFinal values need to be adjusted for presentation:\n- Rounding protein to 31g and fat to 21g. Summary will present whole numbers.\n\nSo, the meal includes:\n- 2 Rotis\n- 1 Bowl of Dal\n- 1 Boiled Egg\n- 1 Glass of Milk",
+    "thinking": "Calculating the nutrition values for the given items:\n1. Rotis: 2 rotis * 70 kcal = 140 kcal, 2 rotis * 2.0g protein = 4g protein, 2 rotis * 0.4g fat = 0.8g fat, 2 rotis * 15g carbs = 30g carbs. \n2. Bowl of Dal: 1 bowl = 110 kcal, 5.5g protein, 3g fat, 15g carbs.\n3. Boiled Egg: 1 egg = 70 kcal, 6g protein, 5g fat, 0.5g carbs.\n4. Glass of Hot Milk: 1 glass = 150 kcal, 8g protein, 8g fat, 12g carbs.\n\nCalculating the totals:\n- Total Calories = 140 (rotis) + 110 (dal) + 70 (egg) + 150 (milk) = 470 kcal\n- Total Protein = 4g (rotis) + 5.5g (dal) + 6g (egg) + 8g (milk) = 23.5g protein\n- Total Fat = 0.8g (rotis) + 3g (dal) + 5g (egg) + 8g (milk) = 16.8g fat\n- Total Carbs = 30g (rotis) + 15g (dal) + 0.5g (egg) + 12g (milk) = 57.5g carbs\n\nFinal sum matches output fields.",
     "item_count": 4,
     "items": [
       {
@@ -3009,17 +2961,17 @@
         "calories": 140,
         "protein": 4,
         "carbohydrates": 30,
-        "fat": 1,
-        "meal_type": "Dinner"
+        "fat": 0,
+        "meal_type": "Main"
       },
       {
         "is_food": true,
         "name": "Dal",
-        "calories": 253,
-        "protein": 12,
-        "carbohydrates": 34,
-        "fat": 7,
-        "meal_type": "Dinner"
+        "calories": 110,
+        "protein": 5,
+        "carbohydrates": 15,
+        "fat": 3,
+        "meal_type": "Main"
       },
       {
         "is_food": true,
@@ -3028,24 +2980,20 @@
         "protein": 6,
         "carbohydrates": 1,
         "fat": 5,
-        "meal_type": "Dinner"
+        "meal_type": "Protein"
       },
       {
         "is_food": true,
-        "name": "Milk",
+        "name": "Hot Milk",
         "calories": 150,
         "protein": 8,
         "carbohydrates": 12,
         "fat": 8,
-        "meal_type": "Dinner"
+        "meal_type": "Beverage"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "composite_meal",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": false
@@ -3059,42 +3007,42 @@
       "carbohydrates": 18.0
     },
     "predicted": {
-      "calories": 488.0,
-      "protein": 48.0,
-      "fat": 19.0,
-      "carbohydrates": 51.0
+      "calories": 566.0,
+      "protein": 51.0,
+      "fat": 17.0,
+      "carbohydrates": 41.0
     },
     "errors": {
-      "calories": 0.3942857142857143,
-      "protein": 0.3333333333333333,
-      "fat": 0.11764705882352941,
-      "carbohydrates": 1.8333333333333333
+      "calories": 0.6171428571428571,
+      "protein": 0.4166666666666667,
+      "fat": 0.0,
+      "carbohydrates": 1.2777777777777777
     },
     "category": "composite_meal",
     "tags": [
       "multi_item"
     ],
     "case_id": "multi_002",
-    "thinking": "Calculating the nutritional values for each food item based on the given portions:\n\n1. **Chicken Breast (Cooked)**: 150g \n   - Reference value: 165 kcal, 31g protein, 3.6g fat per 100g\n   - For 150g = 165 kcal * (150g/100g) = 247.5 kcal, \n   - Protein = 31g * (150g/100g) = 46.5g, \n   - Fat = 3.6g * (150g/100g) = 5.4g.\n   - Total for Chicken Breast (rounding off): 248 kcal, 46g protein, 5g fat.\n\n2. **Rice (Cooked)**: Half a cup \n   - Reference value: 250g cooked rice = 240 kcal, 5g protein, 0.5g fat, 51g carbs\n   - Half a cup of rice is approximately 125g.\n   - For 125g = 240 kcal * (125g/250g) = 120 kcal, \n   - Protein = 5g * (125g/250g) = 2.5g.\n   - Total for Rice: 120 kcal, 2g protein, 0g fat.\n\n3. **Olive Oil**: 1 tbsp \n   - Reference value: 120 kcal, 0g protein, 14g fat per 1 tbsp.\n   - Total for Olive Oil: 120 kcal, 0g protein, 14g fat.\n\n4. **Side Salad**: \n   - The salad itself is considered negligible in calories and macronutrients.\n   \nTotaling the counts:\n- Calories: 248 + 120 + 120 = 488 kcal\n- Protein: 46 + 2 + 0 = 48g protein\n- Fat: 5 + 0 + 14 = 19g fat\n- Carbohydrates: 0 + 51g (from rice) + 0 = 51g\nthey'll align with the individual totals for the chicken, rice, and olive oil. \n\nThus, the final breakdown for items is complete.",
-    "item_count": 3,
+    "thinking": "Calculating the nutrition for each item based on common portion sizes.\n\n1. **Chicken Breast (Cooked):** 150g. The reference value for cooked chicken breast is 165 kcal and 31g protein per 100g.\n   - Portion size: 150g / 100g = 1.5\n   - Calories: 165 kcal * 1.5 = 247.5 kcal (rounded to 248 kcal)\n   - Protein: 31g * 1.5 = 46.5g (rounded to 47g)\n\n2. **Rice (Cooked):** Half a cup of rice is approximately 120g (as 1 cup is about 240ml; considering cooked rice roughly 200g equals 1 cup).\n   - Portion size: 120g is roughly 0.6 of a full plate (250g).\n   - Calories: For 250g of cooked rice, estimated calories is around 350 kcal (based on typical values).\n   - Thus, calories for 120g: 350 kcal * (120/250) = 168 kcal (rounded).\n\n3. **Olive Oil:** 1 tbsp of olive oil equals 15ml. For olive oil, 120 kcal per 1 tbsp.\n   - Calories: 120 kcal for 15ml or 1 tbsp.\n\n4. **Salad:** A small side salad generally provides minimal calories and can be estimated around 30 kcal for the portion size considered.\n\nNow summing these items:\n- Chicken Breast: 248 kcal, 47g protein\n- Rice: 168 kcal, 3g protein (assuming minimal protein from rice)\n- Olive Oil: 120 kcal, 0g protein\n- Salad: 30 kcal, 1g protein  \n\n**Total:** 248 + 168 + 120 + 30 = 566 kcal.\n**Total Protein:** 47 + 3 + 0 + 1 = 51g protein.\n**Total Fat:** From chicken (mostly) ~5g, olive oil 14g = approximately 19g fat. \n**Total Carbs:** Rice ~36g, negligible from salad and chicken.\n\nFinal sums:\n- Calories: 566 kcal \n- Protein: 51g \n- Carbohydrates: 36g \n- Fat: 19g\n\nAll sums and values are based on established portion calculations. Items will be listed accordingly.",
+    "item_count": 4,
     "items": [
       {
         "is_food": true,
         "name": "Chicken Breast",
         "calories": 248,
-        "protein": 46,
+        "protein": 47,
         "carbohydrates": 0,
-        "fat": 5,
-        "meal_type": "Dinner"
+        "fat": 3,
+        "meal_type": "Lunch"
       },
       {
         "is_food": true,
         "name": "Rice",
-        "calories": 120,
-        "protein": 2,
-        "carbohydrates": 51,
+        "calories": 168,
+        "protein": 3,
+        "carbohydrates": 36,
         "fat": 0,
-        "meal_type": "Dinner"
+        "meal_type": "Lunch"
       },
       {
         "is_food": true,
@@ -3103,7 +3051,16 @@
         "protein": 0,
         "carbohydrates": 0,
         "fat": 14,
-        "meal_type": "Dinner"
+        "meal_type": "Lunch"
+      },
+      {
+        "is_food": true,
+        "name": "Salad",
+        "calories": 30,
+        "protein": 1,
+        "carbohydrates": 5,
+        "fat": 0,
+        "meal_type": "Lunch"
       }
     ],
     "is_miss": true,
@@ -3112,8 +3069,8 @@
       "failure_stage": "unknown",
       "suggested_fix": "Review thinking trace and manually determine fix"
     },
-    "entity_recall": 0.6666666666666666,
-    "item_count_match": true,
+    "entity_recall": 1.0,
+    "item_count_match": false,
     "followup_violated": false
   },
   {
@@ -3126,13 +3083,13 @@
     },
     "predicted": {
       "calories": 251.0,
-      "protein": 6.0,
+      "protein": 7.0,
       "fat": 6.0,
       "carbohydrates": 42.0
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.2,
+      "protein": 0.06666666666666667,
       "fat": 0.01639344262295076,
       "carbohydrates": 0.045454545454545456
     },
@@ -3142,7 +3099,7 @@
       "indian"
     ],
     "case_id": "multi_003",
-    "thinking": "For the items consumed:\n\n1. **Plain Dosa**: 1 dosa is consumed. \n   - Calories = 133 kcal \n   - Protein = 3.5g \n   - Fat = 3.7g \n   - Carbs = 20g \n\n2. **Idli**: 1 idli is consumed. \n   - Calories = 58 kcal \n   - Protein = 2.0g \n   - Fat = 0.4g \n   - Carbs = 12g \n\n3. **Filter Coffee**: 1 small cup (100ml) is consumed. \n   - Calories = 60 kcal \n   - Protein = 1.5g \n   - Fat = 1.5g \n   - Carbs = 10g \n\nNow, summing these up for the total:\n- Total Calories = 133 + 58 + 60 = 251 kcal \n- Total Protein = 3.5 + 2.0 + 1.5 = 7.0g \n- Total Fat = 3.7 + 0.4 + 1.5 = 5.6g \n- Total Carbs = 20 + 12 + 10 = 42g",
+    "thinking": "1 plain dosa: 133 kcal, 3.5g protein, 3.7g fat, 20g carbs (per dosa).\n1 idli: 58 kcal, 2.0g protein, 0.4g fat, 12g carbs (per idli).\n1 cup filter coffee: 60 kcal, 1.5g protein, 1.5g fat, 10g carbs (per cup).\n\nNow summing them up:\n- Total calories = 133 + 58 + 60 = 251 kcal\n- Total protein = 3.5 + 2.0 + 1.5 = 7.0g\n- Total fat = 3.7 + 0.4 + 1.5 = 5.6g\n- Total carbs = 20 + 12 + 10 = 42g",
     "item_count": 3,
     "items": [
       {
@@ -3167,7 +3124,7 @@
         "is_food": true,
         "name": "Filter Coffee",
         "calories": 60,
-        "protein": 1,
+        "protein": 2,
         "carbohydrates": 10,
         "fat": 2,
         "meal_type": "breakfast"
@@ -3205,26 +3162,26 @@
       "indian"
     ],
     "case_id": "multi_004",
-    "thinking": "Calculating values for dishes:\n\n1. Chicken Biryani:\n   - Portion: 1 plate\n   - Reference: 1 plate of Biryani is 650 kcal, 30g protein, 20g fat, 85g carbs.\n\n2. Sweet Lassi:\n   - Portion: 1 glass\n   - Reference: 1 glass of Sweet Lassi is 180 kcal, 6g protein, 5g fat, 28g carbs.\n\nNow, adding the values together:\n- Chicken Biryani: 650 kcal, 30g protein, 20g fat, 85g carbs\n- Sweet Lassi: 180 kcal, 6g protein, 5g fat, 28g carbs\n\nTotal:\nCalories: 650 + 180 = 830 kcal\nProtein: 30 + 6 = 36g\nFat: 20 + 5 = 25g\nCarbs: 85 + 28 = 113g\n\nFinal sums match the output fields exactly.",
+    "thinking": "Calculating the nutritional values for the dishes. 1 plate of Chicken Biryani: \n- Reference: 650 kcal, 30g protein, 20g fat, 85g carbs\nTotal for 1 plate = 650 kcal, 30g protein, 20g fat, 85g carbs.\n\n1 glass of Sweet Lassi: \n- Reference: 180 kcal, 6g protein, 5g fat, 28g carbs\nTotal for 1 glass = 180 kcal, 6g protein, 5g fat, 28g carbs.\n\nSumming up the values:\nBiryani: 650 kcal, 30g protein, 20g fat, 85g carbs\nLassi: 180 kcal, 6g protein, 5g fat, 28g carbs\n\nTotal = 650 + 180 = 830 kcal, 30 + 6 = 36g protein, 20 + 5 = 25g fat, 85 + 28 = 113g carbs",
     "item_count": 2,
     "items": [
       {
         "is_food": true,
-        "name": "Chicken Biryani",
+        "name": "Biryani",
         "calories": 650,
         "protein": 30,
         "carbohydrates": 85,
         "fat": 20,
-        "meal_type": "null"
+        "meal_type": "main"
       },
       {
         "is_food": true,
-        "name": "Sweet Lassi",
+        "name": "Lassi",
         "calories": 180,
         "protein": 6,
         "carbohydrates": 28,
         "fat": 5,
-        "meal_type": "null"
+        "meal_type": "beverage"
       }
     ],
     "is_miss": false,
@@ -3243,7 +3200,7 @@
     },
     "predicted": {
       "calories": 389.0,
-      "protein": 32.0,
+      "protein": 31.0,
       "fat": 17.0,
       "carbohydrates": 34.0
     },
@@ -3258,7 +3215,7 @@
       "multi_item"
     ],
     "case_id": "multi_005",
-    "thinking": "1 scoop of whey protein in water: 120 kcal, 25g protein, 2g fat, 3g carbs.\n1 apple (medium size): Approx. 95 kcal, 0.5g protein, 0.3g fat, 25g carbs.\n1 handful of almonds (30g): Approx. 174 kcal, 6g protein, 15g fat, 6g carbs.\n\nNow, adding everything together:\n- Whey Protein: 120 kcal, 25g protein, 2g fat, 3g carbs\n- Apple: 95 kcal, 0.5g protein, 0.3g fat, 25g carbs\n- Almonds: 174 kcal, 6g protein, 15g fat, 6g carbs\n\nTotal:\nCalories: 120 + 95 + 174 = 389 kcal\nProtein: 25 + 0.5 + 6 = 31.5g protein\nFat: 2 + 0.3 + 15 = 17.3g fat\nCarbs: 3 + 25 + 6 = 34g carbs",
+    "thinking": "1 scoop of whey protein shake: 120 kcal, 25g protein, 2g fat, 3g carbs.\n1 apple (average medium apple): ~95 kcal, 0g protein, 0g fat, 25g carbs.\n1 handful of almonds (30g): ~174 kcal, 6g protein, 15g fat, 6g carbs.\n\nCalculating total:\n- Whey Protein Shake: 120 kcal, 25g protein, 2g fat, 3g carbs.\n- Apple: 95 kcal, 0g protein, 0g fat, 25g carbs.\n- Almonds: 174 kcal, 6g protein, 15g fat, 6g carbs.\n\nTotal:\nCalories: 120 + 95 + 174 = 389 kcal\nProtein: 25 + 0 + 6 = 31g\nFat: 2 + 0 + 15 = 17g\nCarbohydrates: 3 + 25 + 6 = 34g",
     "item_count": 3,
     "items": [
       {
@@ -3268,16 +3225,16 @@
         "protein": 25,
         "carbohydrates": 3,
         "fat": 2,
-        "meal_type": "Snacks"
+        "meal_type": "Snack"
       },
       {
         "is_food": true,
         "name": "Apple",
         "calories": 95,
-        "protein": 1,
+        "protein": 0,
         "carbohydrates": 25,
         "fat": 0,
-        "meal_type": "Snacks"
+        "meal_type": "Snack"
       },
       {
         "is_food": true,
@@ -3286,7 +3243,7 @@
         "protein": 6,
         "carbohydrates": 6,
         "fat": 15,
-        "meal_type": "Snacks"
+        "meal_type": "Snack"
       }
     ],
     "is_miss": false,
@@ -3304,16 +3261,16 @@
       "carbohydrates": 85.7
     },
     "predicted": {
-      "calories": 599.0,
-      "protein": 16.0,
-      "fat": 17.0,
-      "carbohydrates": 90.0
+      "calories": 532.0,
+      "protein": 14.0,
+      "fat": 15.0,
+      "carbohydrates": 80.0
     },
     "errors": {
-      "calories": 0.05087719298245614,
+      "calories": 0.06666666666666667,
       "protein": 0.06666666666666667,
-      "fat": 0.07594936708860754,
-      "carbohydrates": 0.05017502917152855
+      "fat": 0.050632911392405104,
+      "carbohydrates": 0.0665110851808635
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -3321,17 +3278,17 @@
       "indian"
     ],
     "case_id": "over_001",
-    "thinking": "User consumed a huge plain dosa weighing 300g. The baseline for 1 plain dosa is 133 kcal, 3.5g protein, 3.7g fat, and 20g carbs per 70g dosa. To calculate for 300g: \n- Number of regular dosas = 300g / 70g = 4.29 dosas. \n- For the sake of calculation, consider this as roughly 4.5 dosas.\n- Energy content:\n  - Calories: 4.5 dosas * 133 kcal = 598.5 kcal \n  - Protein: 4.5 dosas * 3.5g = 15.75g \n  - Fat: 4.5 dosas * 3.7g = 16.65g \n  - Carbs: 4.5 dosas * 20g = 90g.\n After rounding these numbers: \n- Calories: 599 kcal\n- Protein: 16g\n- Fat: 17g\n- Carbohydrates: 90g.",
+    "thinking": "The user consumed a huge plain dosa weighing 300g. The default value for a standard plain dosa (133 kcal, 3.5g protein, 3.7g fat, 20g carbs) is for 1 dosa (approximately 75g). Therefore, to calculate the nutritional values for 300g, I will determine how many standard dosas fit into 300g. \n\\n1 dosa = 75g\\n300g / 75g = 4 dosas\\n\\nNow I will multiply the nutritional values by 4:\\nCalories: 133 kcal * 4 = 532 kcal\\nProtein: 3.5g * 4 = 14g\\nFat: 3.7g * 4 = 14.8g\\nCarbs: 20g * 4 = 80g\\n\\nThe user consumed 1 dish of a huge plain dosa.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Plain Dosa",
-        "calories": 599,
-        "protein": 16,
-        "carbohydrates": 90,
-        "fat": 17,
-        "meal_type": "breakfast"
+        "calories": 532,
+        "protein": 14,
+        "carbohydrates": 80,
+        "fat": 15,
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -3350,7 +3307,7 @@
     },
     "predicted": {
       "calories": 225.0,
-      "protein": 7.0,
+      "protein": 8.0,
       "fat": 8.0,
       "carbohydrates": 35.0
     },
@@ -3366,14 +3323,14 @@
       "beverage"
     ],
     "case_id": "over_002",
-    "thinking": "User had 500ml of chai.\n\nStandard serving size for Chai is 100ml which provides:\n- 45 kcal\n- 1.5g protein\n- 1.5g fat\n- 7g carbs\n\nFor 500ml, I'll calculate:\n- Calories: 45 kcal * 5 = 225 kcal\n- Protein: 1.5g * 5 = 7.5g\n- Fat: 1.5g * 5 = 7.5g\n- Carbs: 7g * 5 = 35g\n\nFinal values: 500ml Chai = 225 kcal, 7.5g protein, 7.5g fat, 35g carbs.",
+    "thinking": "The user has consumed 500ml of chai. Given that 1 small tea cup is approximately 100ml, this means the user had 5 cups of chai. Each small cup has 45 kcal, 1.5g protein, 1.5g fat, and 7g carbs. Calculating the total values:\n- Total calories: 5 cups * 45 kcal = 225 kcal\n- Total protein: 5 cups * 1.5g = 7.5g\n- Total fat: 5 cups * 1.5g = 7.5g\n- Total carbohydrates: 5 cups * 7g = 35g\nThus, the total for the 500ml of chai is:\n- 225 kcal\n- 7.5g protein\n- 7.5g fat\n- 35g carbs\nI will round protein and fat to the nearest whole number for the final output.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Chai",
         "calories": 225,
-        "protein": 7,
+        "protein": 8,
         "carbohydrates": 35,
         "fat": 8,
         "meal_type": "Beverage"
@@ -3411,7 +3368,7 @@
       "fat"
     ],
     "case_id": "over_003",
-    "thinking": "User consumed 20g of ghee. Using the portion size standard for ghee, 1 tsp (5g) is about 45 kcal. For 20g: 20g \u00f7 5g = 4 tsp. \\n\\nCalculating the calories: 4 tsp \u00d7 45 kcal/tsp = 180 kcal.\\nAlso, fat content based on 5g: 5g of ghee = 5g fat. Thus, for 20g: 4 tsp \u00d7 5g fat/tsp = 20g fat.",
+    "thinking": "The user consumed 20g of ghee. Since the standard portion size for ghee is 1 tsp (5g), 20g would be equivalent to 4 tsps of ghee. Each tsp of ghee has 45 kcal, 0g protein, 5g fat, and 0g carbs. Therefore, for 4 tsps:\n- Calories: 4 * 45 = 180 kcal\n- Protein: 4 * 0 = 0g\n- Fat: 4 * 5 = 20g\n- Carbs: 4 * 0 = 0g\n\nSo the total for this serving of ghee is:\n- Calories: 180\n- Protein: 0g\n- Fat: 20g\n- Carbs: 0g",
     "item_count": 1,
     "items": [
       {
@@ -3439,33 +3396,33 @@
       "carbohydrates": 140.0
     },
     "predicted": {
-      "calories": 400.0,
-      "protein": 8.0,
-      "fat": 1.0,
-      "carbohydrates": 88.0
+      "calories": 500.0,
+      "protein": 12.0,
+      "fat": 0.0,
+      "carbohydrates": 90.0
     },
     "errors": {
-      "calories": 0.38461538461538464,
-      "protein": 0.4074074074074074,
-      "fat": 0.3333333333333333,
-      "carbohydrates": 0.37142857142857144
+      "calories": 0.23076923076923078,
+      "protein": 0.1111111111111111,
+      "fat": 1.0,
+      "carbohydrates": 0.35714285714285715
     },
     "category": "atomic_ingredient",
     "tags": [
       "override"
     ],
     "case_id": "over_004",
-    "thinking": "The user has eaten 500g of cooked white rice. According to portion standards, 1 plate of cooked rice is 250g. Therefore, 500g accounts for 2 plates of rice. Each plate of rice has approximately 200 calories, 4g protein, 0.6g fat, and 44g carbs. Hence, the calculations for 2 plates are as follows:\n\nCalories: 200 kcal/plate * 2 plates = 400 kcal  \nProtein: 4g/plate * 2 plates = 8g  \nFat: 0.6g/plate * 2 plates = 1.2g  \nCarbs: 44g/plate * 2 plates = 88g  \n\nFinal sums:\n- Calories: 400 \n- Protein: 8g \n- Fat: 1g (rounded from 1.2g) \n- Carbs: 88g",
+    "thinking": "The user mentioned 500g of cooked white rice. Based on the standard portion size, 1 plate of cooked rice is 250g. Therefore, 500g is equivalent to 2 plates of cooked rice. Each plate has approximately 250 kcal, so 2 plates would total 500 kcal. The macro breakdown for 250g of cooked rice is approximately 200g total, therefore for 500g it's double that: 60g protein, 0g fat, and 90g carbs.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Cooked Rice",
-        "calories": 400,
-        "protein": 8,
-        "carbohydrates": 88,
-        "fat": 1,
-        "meal_type": "main"
+        "calories": 500,
+        "protein": 12,
+        "carbohydrates": 90,
+        "fat": 0,
+        "meal_type": "null"
       }
     ],
     "is_miss": true,
@@ -3504,7 +3461,7 @@
       "beverage"
     ],
     "case_id": "over_005",
-    "thinking": "User had 200ml of sweet lassi. \n- 1 glass of sweet lassi = 250ml = 180 kcal, 6g protein, 5g fat, 28g carbs. \n- For 200ml, we calculate:\n  - Calories: (180 kcal / 250 ml) * 200 ml = 144 kcal\n  - Protein: (6 g / 250 ml) * 200 ml = 4.8 g (rounded to 5g)\n  - Fat: (5 g / 250 ml) * 200 ml = 4 g\n  - Carbs: (28 g / 250 ml) * 200 ml = 22.4 g (rounded to 22g)\n\nFinal values for 200ml sweet lassi are:\n- Calories: 144 kcal\n- Protein: 5 g\n- Fat: 4 g\n- Carbs: 22 g",
+    "thinking": "The user consumed 200ml of sweet lassi. Since 1 glass (250ml) of sweet lassi contains 180 kcal, 6.0g protein, 5.0g fat, and 28g carbs, I will calculate the nutritional values for 200ml proportionally.\\n\\nCalculating per 200ml:  \n- Calories = (180 kcal / 250 ml) * 200 ml = 144 kcal  \n- Protein = (6.0 g / 250 ml) * 200 ml = 4.8 g  \n- Fat = (5.0 g / 250 ml) * 200 ml = 4.0 g  \n- Carbs = (28 g / 250 ml) * 200 ml = 22.4 g  \n\\nFinal values rounded to nearest integer:  \nCalories = 144  \nProtein = 5  \nFat = 4  \nCarbs = 22.",
     "item_count": 1,
     "items": [
       {
@@ -3514,7 +3471,7 @@
         "protein": 5,
         "carbohydrates": 22,
         "fat": 4,
-        "meal_type": null
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
@@ -3549,7 +3506,7 @@
       "indian"
     ],
     "case_id": "frac_001",
-    "thinking": "User consumed 1.5 chapatis. Each chapati is 70 kcal, 2.0g protein, 0.4g fat, and 15g carbs. Therefore, for 1.5 chapatis, I will multiply each nutritional value by 1.5.\n\nCalories: 70 kcal * 1.5 = 105 kcal\nProtein: 2.0g * 1.5 = 3.0g\nFat: 0.4g * 1.5 = 0.6g\nCarbs: 15g * 1.5 = 22.5g.\n\nThus, the total for 1.5 chapatis is: \n- Calories: 105 \n- Protein: 3.0g \n- Fat: 0.6g \n- Carbs: 22.5g.",
+    "thinking": "User consumed 1.5 chapatis. Each chapati weighs 40g. For 1.5 chapatis, the total weight is 40g * 1.5 = 60g.\n\nUsing the nutritional values for 1 chapati:\n- Calories = 70 kcal\n- Protein = 2.0g\n- Fat = 0.4g\n- Carbohydrates = 15g\n\nFor 1.5 chapatis, the nutritional values will be:\n- Calories = 70 kcal * 1.5 = 105 kcal\n- Protein = 2.0g * 1.5 = 3.0g\n- Fat = 0.4g * 1.5 = 0.6g\n- Carbohydrates = 15g * 1.5 = 22.5g\n\nFinal values rounded based on typical serving sizes:\nCalories = 105\nProtein = 3.0g\nFat = 1g\nCarbohydrates = 22g",
     "item_count": 1,
     "items": [
       {
@@ -3559,7 +3516,7 @@
         "protein": 3,
         "carbohydrates": 22,
         "fat": 1,
-        "meal_type": null
+        "meal_type": "main"
       }
     ],
     "is_miss": false,
@@ -3577,41 +3534,37 @@
       "carbohydrates": 28.0
     },
     "predicted": {
-      "calories": 100.0,
+      "calories": 130.0,
       "protein": 2.0,
-      "fat": 0.0,
-      "carbohydrates": 8.0
+      "fat": 1.0,
+      "carbohydrates": 29.0
     },
     "errors": {
-      "calories": 0.23076923076923078,
+      "calories": 0.0,
       "protein": 0.2592592592592593,
-      "fat": 0.3,
-      "carbohydrates": 0.7142857142857143
+      "fat": 0.7,
+      "carbohydrates": 0.03571428571428571
     },
     "category": "indian_home_cooked",
     "tags": [
       "fraction"
     ],
     "case_id": "frac_002",
-    "thinking": "A bowl of rice is assumed to be 300ml or approximately 260g. A half bowl would be half of that amount:\n\n- Portion size (half bowl of rice): 260g / 2 = 130g\n- Nutritional estimation for cooked rice:\n  - Calories for 1 bowl (260g cooked rice) = ~200 kcal\n  - Therefore, for half bowl (130g):\n    - kcal = 200 kcal / 2 = 100 kcal (approximately)\n    - Protein = 4g / 2 = 2g (approximately)\n    - Fat = negligible\n    - Carbs = 15g / 2 = 7.5g ~ 8g (approximately)\n\nFinal calculated values for half bowl of rice:\nCalories: 100\nProtein: 2g\nCarbohydrates: 8g\nFat: 0g",
+    "thinking": "User consumed half a bowl of rice. A standard full bowl is approximately 300ml or ~260g for solid foods. Therefore, half of this would be 130g. \n\nUsing the reference for cooked rice (which is around 200g per cup), we can assume that it is about 130g for this portion. \n\nCalculations for calories, protein, fat, and carbs:\n- Cooked Rice (200g equivalent = 260 kcal, 5g protein, 2g fat, 58g carbs)\n- Half a bowl (130g) is approximately:\n  - Calories: 260 kcal / 2 = 130 kcal\n  - Protein: 5g / 2 = 2.5g\n  - Fat: 2g / 2 = 1g\n  - Carbs: 58g / 2 = 29g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Rice",
-        "calories": 100,
+        "calories": 130,
         "protein": 2,
-        "carbohydrates": 8,
-        "fat": 0,
-        "meal_type": "main"
+        "carbohydrates": 29,
+        "fat": 1,
+        "meal_type": "Main"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "indian_home_cooked",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": false
@@ -3628,7 +3581,7 @@
       "calories": 45.0,
       "protein": 1.0,
       "fat": 2.0,
-      "carbohydrates": 6.0
+      "carbohydrates": 7.0
     },
     "errors": {
       "calories": 0.0,
@@ -3642,7 +3595,7 @@
       "indian"
     ],
     "case_id": "frac_003",
-    "thinking": "The user had a quarter piece of a paratha. A full paratha is 180 kcal, 3.5g protein, 7g fat, and 26g carbs. For a quarter piece, we divide the values by 4:\n\n- Calories: 180 kcal / 4 = 45 kcal\n- Protein: 3.5g / 4 = 0.875g\n- Fat: 7g / 4 = 1.75g\n- Carbs: 26g / 4 = 6.5g\n\nThus, for a quarter piece of paratha, the nutrition values are:\n- 45 kcal, 0.875g protein, 1.75g fat, and 6.5g carbs.",
+    "thinking": "A quarter piece of a paratha can be considered as a 'small' portion. A full paratha weighs 60g and has 180 kcal, 3.5g protein, 7g fat, and 26g carbs. Since it's a small portion (25% of a paratha), I will calculate the values accordingly:\n\n- Weight of a quarter paratha = 60g * 0.25 = 15g\n- Calories = 180 kcal * 0.25 = 45 kcal\n- Protein = 3.5g * 0.25 = 0.875g\n- Fat = 7g * 0.25 = 1.75g\n- Carbs = 26g * 0.25 = 6.5g\n\nUsing the values calculated for the quarter paratha, I will round the protein, fat, and carbs to appropriate levels:\n- 46 kcal, 1g protein, 2g fat, 7g carbs.",
     "item_count": 1,
     "items": [
       {
@@ -3650,9 +3603,9 @@
         "name": "Paratha",
         "calories": 45,
         "protein": 1,
-        "carbohydrates": 6,
+        "carbohydrates": 7,
         "fat": 2,
-        "meal_type": "null"
+        "meal_type": null
       }
     ],
     "is_miss": false,
@@ -3686,7 +3639,7 @@
       "fraction"
     ],
     "case_id": "frac_004",
-    "thinking": "1.5 cups of whole milk is equivalent to 360 ml (1 cup = 240 ml). The baseline nutrition values for whole milk are based on 1 glass (250 ml = 150 kcal, 8g protein, 8g fat, 12g carbs). Scaling up to 360 ml we can determine: 150 kcal/250 ml = 0.6 kcal/ml; therefore 360 ml = 360 ml * 0.6 kcal/ml = 216 kcal. For protein: 8g protein/250 ml = 0.032g/ml; therefore 360 ml = 360 ml * 0.032g/ml = 11.52g protein (rounded to 12g). For fat: 8g fat/250 ml = 0.032g/ml; therefore 360 ml = 360 ml * 0.032g/ml = 11.52g fat (rounded to 12g). For carbs: 12g carbs/250 ml = 0.048g/ml; therefore 360 ml = 360 ml * 0.048g/ml = 17.28g carbs (rounded to 17g). \n\nFinal values: 216 kcal, 12g protein, 12g fat, 17g carbs.",
+    "thinking": "1.5 cups of whole milk is equivalent to 1.5 x 240ml = 360ml. The caloric and nutrient values for whole milk per 1 glass (250ml) are: 150 kcal, 8g protein, 8g fat, 12g carbs. For 360ml or 1.44 glasses, we will calculate using the values of 150 kcal per 250ml. The calculation is as follows:\n\nCalories: (150 kcal / 250ml) * 360ml = 216 kcal\nProtein: (8g protein / 250ml) * 360ml = 11.52g protein\nFat: (8g fat / 250ml) * 360ml = 11.52g fat\nCarbs: (12g carbs / 250ml) * 360ml = 17.28g carbs\n\nAfter rounding:\nCalories: 216\nProtein: 12g\nFat: 12g\nCarbs: 17g\n\nTherefore, it counts as 1 dish of whole milk.",
     "item_count": 1,
     "items": [
       {
@@ -3696,7 +3649,7 @@
         "protein": 12,
         "carbohydrates": 17,
         "fat": 12,
-        "meal_type": "Beverage"
+        "meal_type": "drink"
       }
     ],
     "is_miss": false,
@@ -3731,7 +3684,7 @@
       "indian"
     ],
     "case_id": "frac_005",
-    "thinking": "The user mentioned having 'half a plain dosa'. A full plain dosa is 1 dosa (approximately 133 kcal, 3.5g protein, 3.7g fat, 20g carbs). Since the user consumed half, I will halve these values.\n\n- Calories: 133 kcal / 2 = 66.5 kcal\n- Protein: 3.5g / 2 = 1.75g\n- Fat: 3.7g / 2 = 1.85g\n- Carbs: 20g / 2 = 10g\n\nRounding off the final values:\n- Calories: 67 kcal\n- Protein: 2g\n- Fat: 2g\n- Carbs: 10g",
+    "thinking": "User ate half a plain dosa. A full plain dosa has 133 kcal, 3.5g protein, 3.7g fat, and 20g carbs. To calculate for half: \n- Calories: 133 kcal / 2 = 66.5 kcal \n- Protein: 3.5g / 2 = 1.75g \n- Fat: 3.7g / 2 = 1.85g \n- Carbohydrates: 20g / 2 = 10g \n\nRounding results as follows: 67 kcal, 2g protein, 2g fat, and 10g carbs.",
     "item_count": 1,
     "items": [
       {
@@ -3775,7 +3728,7 @@
       "noisy"
     ],
     "case_id": "noise_001",
-    "thinking": "The user reported eating 2 boiled eggs. Each boiled egg weighs 55g and has 70 kcal, 6g protein, 5g fat, and 0.5g carbs. Therefore, for 2 eggs: \nCalories = 2 * 70 = 140 kcal\nProtein = 2 * 6 = 12g\nFat = 2 * 5 = 10g\nCarbs = 2 * 0.5 = 1g.\nThe eggs are considered one dish.",
+    "thinking": "User has eaten 2 boiled eggs. Each boiled egg is assumed to weigh 55g and provides 70 kcal, 6.0g protein, 5.0g fat, and 0.5g carbs per egg. For 2 boiled eggs: 70 kcal x 2 = 140 kcal, 6.0g protein x 2 = 12g protein, 5.0g fat x 2 = 10g fat, 0.5g carbs x 2 = 1g carbs. Total for 2 boiled eggs is 140 kcal, 12g protein, 10g fat, 1g carbs.",
     "item_count": 1,
     "items": [
       {
@@ -3819,12 +3772,12 @@
       "noisy"
     ],
     "case_id": "noise_002",
-    "thinking": "The user had a handful of peanuts. One handful is typically 30g. The default nutritional values for dry nuts (peanuts) are as follows:\n\n- Peanuts (30g): 170 kcal, 7.0g protein, 14g fat, 6g carbs.\n\nCalculating for the handful of peanuts:\n- Calories: 170 kcal\n- Protein: 7.0g\n- Fat: 14g\n- Carbs: 6g\n\nThus, the total for the handful of peanuts is:\n- Calories: 170\n- Protein: 7\n- Fat: 14\n- Carbs: 6\n\nThis is considered one dish, which is categorized as a snack.",
+    "thinking": "User mentioned eating a handful of peanuts, which is a standard serving of 30g. \n- Peanuts have a typical calorie count of about 567 kcal per 100g.\n- Calculating for 30g: (567 kcal / 100g) * 30g = 170.1 kcal, which we can round to 170 kcal for convenience. Since this is a handful, it is regarded as food, and I'll group it as one item.\nFinal Calculation: 170 kcal, based on 30g of peanuts.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Peanuts",
+        "name": "Handful of Peanuts",
         "calories": 170,
         "protein": 7,
         "carbohydrates": 6,
@@ -3863,7 +3816,7 @@
       "noisy"
     ],
     "case_id": "noise_003",
-    "thinking": "User stated they drank a glass of water. Water is not a food item and does not provide calories, macronutrients, or any identifiable nutritional values. Therefore, it is classified as not food.",
+    "thinking": "User drank 1 glass of water, which is considered non-caloric and does not have nutritional values.",
     "item_count": 1,
     "items": [
       {
@@ -3908,12 +3861,12 @@
       "question"
     ],
     "case_id": "noise_004",
-    "thinking": "The user has asked about eating a burger, but has not specified a portion size or details about the burger itself. Generally, a burger typically includes a patty, bun, and possibly toppings. Without specific details, I'll treat this as a suggestion rather than a recorded item, hence no nutrition data is recorded.",
+    "thinking": "The user didn't state a specific quantity or type of burger. Since burgers generally consist of a meat patty, bread, and various toppings, I will assume a standard beef burger with a bun. A typical burger (with all components) contains around 250-500 calories, depending on size and toppings. I'll deduce whether it's a good option based on average nutritional needs. But in this case, no specific burger was mentioned, thus no dietary information can be processed. Therefore, I will treat this input as non-food. \n\nSince the user did not consume a burger, the output reflects that they're considering it and whether it's ideal for them.",
     "item_count": 1,
     "items": [
       {
         "is_food": false,
-        "name": "Burger",
+        "name": "Burger inquiry",
         "calories": 0,
         "protein": 0,
         "carbohydrates": 0,
@@ -3952,7 +3905,7 @@
       "noisy"
     ],
     "case_id": "noise_005",
-    "thinking": "The user consumed a whey protein shake and a banana. I will calculate the nutritional values for each item based on standard serving sizes. \n\n1. **Whey Protein Shake**: \n   - Standard serving is 1 scoop with water. \n   - 120 kcal, 25g protein, 2g fat, 3g carbs (per 1 scoop). \n   - Total: 120 kcal, 25g protein, 2g fat, 3g carbs.\n\n2. **Banana**: \n   - A medium banana is approximately 118g which is roughly equivalent to 105 kcal, 1g protein, 0.3g fat, 27g carbs. \n\nI will sum these values for a total.\n\n- **Whey Protein Shake**: 120 kcal, 25g protein, 2g fat, 3g carbs\n- **Banana**: 105 kcal, 1g protein, 0.3g fat, 27g carbs\n\n**Totals**: \n- Calories: 120 + 105 = 225 kcal \n- Protein: 25 + 1 = 26g protein \n- Fat: 2 + 0.3 = 2.3g fat \n- Carbs: 3 + 27 = 30g carbs",
+    "thinking": "The user had a whey protein shake (1 serving) and a banana.\n\n1. **Whey Protein Shake**:\n   - Portion assumed: 1 scoop\n   - Calories: 120 kcal\n   - Protein: 25g\n   - Fat: 2g\n   - Carbohydrates: 3g\n\n2. **Banana**:\n   - Standard portion assumed: 1 medium banana (approximately 120g)\n   - Approximate values: 105 kcal, 1.3g protein, 0.3g fat, 27g carbs\n\nCalculating total for each item:\n- Whey Protein Shake: 120 kcal, 25g protein, 2g fat, 3g carbs\n- Banana: 105 kcal, 1.3g protein, 0.3g fat, 27g carbs\n\nFinal Totals:\n- Total Calories: 120 + 105 = 225 kcal\n- Total Protein: 25 + 1.3 = 26.3g\n- Total Fat: 2 + 0.3 = 2.3g\n- Total Carbs: 3 + 27 = 30g\n\nThe nutritional values for each item are accurately represented in the output fields.",
     "item_count": 2,
     "items": [
       {
@@ -3971,7 +3924,7 @@
         "protein": 1,
         "carbohydrates": 27,
         "fat": 0,
-        "meal_type": "Post-Workout"
+        "meal_type": "Snack"
       }
     ],
     "is_miss": false,
@@ -3989,33 +3942,33 @@
       "carbohydrates": 42.0
     },
     "predicted": {
-      "calories": 350.0,
+      "calories": 310.0,
       "protein": 8.0,
       "fat": 14.0,
-      "carbohydrates": 60.0
+      "carbohydrates": 44.0
     },
     "errors": {
-      "calories": 0.16666666666666666,
+      "calories": 0.03333333333333333,
       "protein": 0.14285714285714285,
       "fat": 0.16666666666666666,
-      "carbohydrates": 0.42857142857142855
+      "carbohydrates": 0.047619047619047616
     },
     "category": "restaurant_or_packaged",
     "tags": [
       "branded"
     ],
     "case_id": "brand_001",
-    "thinking": "User requested 1 packet of Maggi noodles. A standard packet of Maggi noodles typically weighs around 70g and provides approximately 350 kcal. I'll consider it as 1 dish.",
+    "thinking": "1 packet of Maggi noodles = 70g roughly (based on standard serving size). \n\nNutritional values for a typical serving of instant noodles (Maggi) are around:\n- Calories: 310 kcal \n- Protein: 8g \n- Fat: 14g \n- Carbohydrates: 44g\n\nHere, we consider it as 1 dish. \nTotal:\nCalories: 310\nProtein: 8g\nFat: 14g\nCarbohydrates: 44g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Maggi Noodles",
-        "calories": 350,
+        "calories": 310,
         "protein": 8,
-        "carbohydrates": 60,
+        "carbohydrates": 44,
         "fat": 14,
-        "meal_type": "Snack"
+        "meal_type": "Lunch"
       }
     ],
     "is_miss": false,
@@ -4035,21 +3988,21 @@
     "predicted": {
       "calories": 106.0,
       "protein": 1.0,
-      "fat": 4.0,
-      "carbohydrates": 18.0
+      "fat": 5.0,
+      "carbohydrates": 12.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.0,
-      "fat": 0.1304347826086956,
-      "carbohydrates": 0.08433734939759027
+      "fat": 0.08695652173913052,
+      "carbohydrates": 0.2771084337349398
     },
     "category": "restaurant_or_packaged",
     "tags": [
       "branded"
     ],
     "case_id": "brand_002",
-    "thinking": "Oreo cookies are typically considered food, but a Diet Coke is a non-caloric beverage.\\n1. Each Oreo cookie has approximately 53 calories and the total for 2 cookies is 53 kcal x 2 = 106 kcal.\\n2. Diet Coke is considered a non-food item for nutritional tracking; therefore, it does not contribute to the calorie count.\\nTotal calories from 2 Oreo cookies: 106kcal.\\nTotal calories from Diet Coke: 0 kcal.",
+    "thinking": "Oreo cookies are food items, and a can of Diet Coke is also a food item. I will treat each as a separate dish. Oreo cookies are typically about 53 calories each, therefore for 2 Oreo cookies: 2 * 53 kcal = 106 kcal. For Diet Coke, since it contains no calories, I will sum that up to 0 kcal.",
     "item_count": 2,
     "items": [
       {
@@ -4057,23 +4010,23 @@
         "name": "Oreo Cookies",
         "calories": 106,
         "protein": 1,
-        "carbohydrates": 18,
-        "fat": 4,
-        "meal_type": "snack"
+        "carbohydrates": 12,
+        "fat": 5,
+        "meal_type": "Snack"
       },
       {
-        "is_food": false,
+        "is_food": true,
         "name": "Diet Coke",
         "calories": 0,
         "protein": 0,
         "carbohydrates": 0,
         "fat": 0,
-        "meal_type": "snack"
+        "meal_type": "Snack"
       }
     ],
     "is_miss": false,
     "miss_diagnosis": null,
-    "entity_recall": 0.5,
+    "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": false
   },
@@ -4086,42 +4039,38 @@
       "carbohydrates": 33.0
     },
     "predicted": {
+      "calories": 250.0,
+      "protein": 4.0,
+      "fat": 12.0,
+      "carbohydrates": 36.0
+    },
+    "errors": {
       "calories": 0.0,
       "protein": 0.0,
       "fat": 0.0,
-      "carbohydrates": 0.0
-    },
-    "errors": {
-      "calories": 1.0,
-      "protein": 1.0,
-      "fat": 1.0,
-      "carbohydrates": 1.0
+      "carbohydrates": 0.09090909090909091
     },
     "category": "restaurant_or_packaged",
     "tags": [
       "branded"
     ],
     "case_id": "brand_003",
-    "thinking": "A standard Snickers bar is a chocolate candy bar, not included in the standard nutritional database provided, therefore, I will classify it as non-food.",
+    "thinking": "A standard Snickers bar typically weighs around 52.7g and contains approximately 250 calories, 4g protein, 12g fat, and 36g carbohydrates. Therefore, I will treat this single item as 1 dish.",
     "item_count": 1,
     "items": [
       {
-        "is_food": false,
+        "is_food": true,
         "name": "Snickers Bar",
-        "calories": 0,
-        "protein": 0,
-        "carbohydrates": 0,
-        "fat": 0,
-        "meal_type": null
+        "calories": 250,
+        "protein": 4,
+        "carbohydrates": 36,
+        "fat": 12,
+        "meal_type": "snack"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "restaurant_or_packaged",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
-    },
-    "entity_recall": 0.0,
+    "is_miss": false,
+    "miss_diagnosis": null,
+    "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": false
   },
@@ -4134,32 +4083,32 @@
       "carbohydrates": 60.0
     },
     "predicted": {
-      "calories": 100.0,
+      "calories": 150.0,
       "protein": 3.0,
-      "fat": 5.0,
-      "carbohydrates": 10.0
+      "fat": 8.0,
+      "carbohydrates": 15.0
     },
     "errors": {
-      "calories": 0.875,
+      "calories": 0.8125,
       "protein": 0.85,
-      "fat": 0.9166666666666666,
-      "carbohydrates": 0.8333333333333334
+      "fat": 0.8666666666666667,
+      "carbohydrates": 0.75
     },
     "category": "restaurant_or_packaged",
     "tags": [
       "branded"
     ],
     "case_id": "brand_004",
-    "thinking": "1 cup of Haldirams bhujia is approximately 240ml. A typical serving of bhujia is about 100g, which is approximately 5 cups of bhujia. Therefore, 1 cup of bhujia would be around 20g. Using the standard values associated with bhujia, the caloric content is roughly 500 kcal per 100g (as per general values for fried snacks), so for 20g, we can calculate: (500 kcal / 100g) * 20g = 100 kcal. Protein, fat, and carbs can also be estimated from common nutritional profiles for similar snacks, estimating around 3g protein, 5g fat, and 10g carbs per 20g. Thus, I have assumed the following values based on these calculations: 100 calories, 3g protein, 5g fat, and 10g carbs for the bhujia.",
+    "thinking": "The user mentioned '1 cup of Haldirams bhujia'. A cup is 240ml, but Haldirams bhujia is typically a dry snack and does not fit into standard portion sizes. Therefore, I'll estimate a common serving size for snacks like bhujia which is often around 30g (1 handful). I'll consider the nutritional values per this portion size instead.\n\nAssuming 30g of Haldirams bhujia: \n- Haldirams bhujia roughly has around 150 kcal, 3g protein, 8g fat, and 15g carbs (please note exact values may vary by brand and specific product).\n\nSo, the total for 1 cup (approx. 30g):\nCalories = 150 kcal, Protein = 3g, Fat = 8g, Carbs = 15g.\n\nCombining all into one dish: Haldirams Bhujia.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Haldirams Bhujia",
-        "calories": 100,
+        "calories": 150,
         "protein": 3,
-        "carbohydrates": 10,
-        "fat": 5,
+        "carbohydrates": 15,
+        "fat": 8,
         "meal_type": "snack"
       }
     ],
@@ -4182,41 +4131,37 @@
       "carbohydrates": 92.0
     },
     "predicted": {
-      "calories": 281.0,
-      "protein": 53.0,
-      "fat": 6.0,
-      "carbohydrates": 0.0
+      "calories": 590.0,
+      "protein": 72.0,
+      "fat": 11.0,
+      "carbohydrates": 50.0
     },
     "errors": {
-      "calories": 0.5609375,
-      "protein": 0.15217391304347827,
-      "fat": 0.4,
-      "carbohydrates": 1.0
+      "calories": 0.078125,
+      "protein": 0.5652173913043478,
+      "fat": 0.1,
+      "carbohydrates": 0.45652173913043476
     },
     "category": "restaurant_or_packaged",
     "tags": [
       "branded"
     ],
     "case_id": "brand_005",
-    "thinking": "A Subway footlong sandwich is typically made with 6 oz (approximately 170g) of chicken breast. From general nutrition information about chicken sandwiches: \n\n- Chicken Breast (Cooked) = 165 kcal, 31g protein, 3.6g fat, 0g carbs per 100g.\n\nCalculating for 170g:\n\n1. Calories: 165 kcal/100g * 170g = 280.5 kcal \n2. Protein: 31g/100g * 170g = 52.7g \n3. Fat: 3.6g/100g * 170g = 6.1g \n4. Carbohydrates: 0g/100g * 170g = 0g\n\nRounding off the values:\n- Calories: approximately 281 kcal \n- Protein: approximately 53g \n- Fat: approximately 6g \n- Carbohydrates: 0g\n\nThis will be summarized as one dish: \"Chicken Sandwich\".",
+    "thinking": "A footlong roasted chicken breast sandwich typically consists of bread and roasted chicken breast. Assuming a standard Subway footlong (approximately 12 inches), the bread is around 240g. The cooked chicken breast portion is often about 200g for a footlong sandwich. I'll estimate the nutritional values based on a typical sandwich. The bread contains calories, protein, fats, and carbs based on common measurements for bread and chicken.\n\n- Bread (240g) estimated at about 260 kcal, 10g protein, 4g fat, 50g carbs.\n- Roasted chicken breast (200g) estimated at about 330 kcal, 62g protein, 7g fat, 0g carbs.\n\nAdding these two components:\n\nCalories: 260 + 330 = 590 kcal  \nProtein: 10 + 62 = 72g  \nFat: 4 + 7 = 11g  \nCarbohydrates: 50 + 0 = 50g  \n\nFinal estimates for the footlong roasted chicken breast sandwich: 590 kcal, 72g protein, 11g fat, 50g carbs.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Chicken Sandwich",
-        "calories": 281,
-        "protein": 53,
-        "carbohydrates": 0,
-        "fat": 6,
-        "meal_type": "Meal"
+        "name": "Roasted Chicken Sandwich",
+        "calories": 590,
+        "protein": 72,
+        "carbohydrates": 50,
+        "fat": 11,
+        "meal_type": "Lunch"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "restaurant_or_packaged",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 0.0,
     "item_count_match": true,
     "followup_violated": false
@@ -4233,20 +4178,20 @@
       "calories": 350.0,
       "protein": 25.0,
       "fat": 10.0,
-      "carbohydrates": 40.0
+      "carbohydrates": 50.0
     },
     "errors": {
       "calories": 0.125,
       "protein": 0.16666666666666666,
       "fat": 0.25,
-      "carbohydrates": 0.2
+      "carbohydrates": 0.0
     },
     "category": "restaurant_or_packaged",
     "tags": [
       "global"
     ],
     "case_id": "global_001",
-    "thinking": "Assuming a standard bowl of chicken pho is about 300ml and includes chicken, rice noodles, herbs, and broth.\nAlthough the specific nutritional values for chicken pho are not provided in the reference items, a typical bowl has an estimated calorie value of approximately 350 kcal, protein value around 25g, fat about 10g, and carbohydrates roughly 40g. This is based on general serving sizes for similar dishes.\n\nThus, for 1 bowl of chicken pho:\n- Calories: 350 kcal\n- Protein: 25g\n- Fat: 10g\n- Carbohydrates: 40g\n\nNo items were specified separately, therefore grouped as a single dish: 'Chicken Pho'.",
+    "thinking": "The user mentioned '1 bowl of chicken pho'. I will treat this as a single dish. A standard bowl for pho typically refers to a serving of the dish with chicken, and usually includes noodles and broth. Since specific nutritional data isn't provided for chicken pho, I will assume a baseline for similar dishes. Generally, a bowl of chicken pho can be estimated around 350 kcal, with protein around 25g, fat around 10g, and carbohydrates around 50g. \n\nThus, I will classify it as one 'Chicken Pho'.\n\nHere\u2019s the calculation for reference:\n- Chicken Pho: approx. 350 kcal, 25g protein, 10g fat, 50g carbs.",
     "item_count": 1,
     "items": [
       {
@@ -4254,9 +4199,9 @@
         "name": "Chicken Pho",
         "calories": 350,
         "protein": 25,
-        "carbohydrates": 40,
+        "carbohydrates": 50,
         "fat": 10,
-        "meal_type": null
+        "meal_type": "Unknown"
       }
     ],
     "is_miss": false,
@@ -4275,13 +4220,13 @@
     },
     "predicted": {
       "calories": 450.0,
-      "protein": 27.0,
+      "protein": 18.0,
       "fat": 21.0,
       "carbohydrates": 45.0
     },
     "errors": {
       "calories": 0.0,
-      "protein": 0.125,
+      "protein": 0.25,
       "fat": 0.0,
       "carbohydrates": 0.07142857142857142
     },
@@ -4290,14 +4235,14 @@
       "global"
     ],
     "case_id": "global_002",
-    "thinking": "Assuming each taco al pastor is a medium-sized portion, I will calculate the typical values for one taco al pastor based on general nutritional estimates. We'll assume each taco is approximately 150 kcal, with 9g of protein, 7g of fat, and 15g of carbohydrates.\n\nFor 3 tacos al pastor:\nCalories: 150 kcal * 3 = 450 kcal\nProtein: 9g * 3 = 27g\nFat: 7g * 3 = 21g\nCarbohydrates: 15g * 3 = 45g\n\nTotal:\nCalories: 450 kcal\nProtein: 27g\nFat: 21g\nCarbohydrates: 45g\n\nTherefore, I will represent this as a single dish of tacos with the calculated total values.",
+    "thinking": "Each taco al pastor is typically around 150 kcal, 6g protein, 7g fat, and 15g carbs. \nAssuming the user ate 3 tacos, I'll multiply these values by 3:\n\nCalories: 150 kcal/taco * 3 tacos = 450 kcal  \nProtein: 6g protein/taco * 3 tacos = 18g protein  \nFat: 7g fat/taco * 3 tacos = 21g fat  \nCarbs: 15g carbs/taco * 3 tacos = 45g carbs  \n\nTotal for 3 tacos al pastor:\n- Calories: 450 kcal \n- Protein: 18g \n- Fat: 21g \n- Carbs: 45g",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Tacos al Pastor",
         "calories": 450,
-        "protein": 27,
+        "protein": 18,
         "carbohydrates": 45,
         "fat": 21,
         "meal_type": null
@@ -4318,38 +4263,38 @@
       "carbohydrates": 14.0
     },
     "predicted": {
-      "calories": 100.0,
-      "protein": 4.0,
+      "calories": 120.0,
+      "protein": 12.0,
       "fat": 4.0,
-      "carbohydrates": 12.0
+      "carbohydrates": 20.0
     },
     "errors": {
-      "calories": 0.0,
-      "protein": 0.3333333333333333,
+      "calories": 0.2,
+      "protein": 1.0,
       "fat": 1.0,
-      "carbohydrates": 0.14285714285714285
+      "carbohydrates": 0.42857142857142855
     },
     "category": "restaurant_or_packaged",
     "tags": [
       "global"
     ],
     "case_id": "global_003",
-    "thinking": "1 piece of salmon nigiri sushi is typically considered to be about 40g in weight and contains approximately 50 kcal, 2g protein, 2g fat, and 6g carbs (this is a generalized estimate due to variations in preparation and size). Therefore, for 2 pieces:\n- Calories: 50 kcal x 2 = 100 kcal\n- Protein: 2g x 2 = 4g\n- Fat: 2g x 2 = 4g\n- Carbs: 6g x 2 = 12g\n\nTotaling:\nCalories = 100 kcal\nProtein = 4g\nFat = 4g\nCarbs = 12g.",
+    "thinking": "Each piece of salmon nigiri sushi typically contains about 40g of sushi rice and a slice of salmon (roughly 20g). Therefore, for 2 pieces: 2 x 40g sushi rice = 80g rice, 2 x 20g salmon = 40g salmon. Based on estimations for sushi: 1 piece is approximately 60 calories including rice and fish (40 calories for rice and 20 calories for salmon). Thus, for 2 pieces: 60 kcal x 2 = 120 kcal, 12g protein, 4g fat, and 20g carbs.\n\nFinal computed values: 120 kcal, 12g protein, 20g carbs, and 4g fat for 2 pieces of salmon nigiri sushi.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Salmon Nigiri",
-        "calories": 100,
-        "protein": 4,
-        "carbohydrates": 12,
+        "name": "Salmon Nigiri Sushi",
+        "calories": 120,
+        "protein": 12,
+        "carbohydrates": 20,
         "fat": 4,
-        "meal_type": "Lunch"
+        "meal_type": "null"
       }
     ],
     "is_miss": false,
     "miss_diagnosis": null,
-    "entity_recall": 0.0,
+    "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": false
   },
@@ -4378,7 +4323,7 @@
       "global"
     ],
     "case_id": "global_004",
-    "thinking": "The item described is a New York cheesecake, which is sweet and rich. However, it's not included in the provided ingredient defaults. Therefore, I will categorize it as non-food.",
+    "thinking": "The input is for a single slice of New York cheesecake. There is no standard nutritional value provided for this specific item, thus it will be treated as non-food.",
     "item_count": 1,
     "items": [
       {
@@ -4388,7 +4333,7 @@
         "protein": 0,
         "carbohydrates": 0,
         "fat": 0,
-        "meal_type": "null"
+        "meal_type": null
       }
     ],
     "is_miss": true,
@@ -4410,16 +4355,16 @@
       "carbohydrates": 90.0
     },
     "predicted": {
-      "calories": 285.0,
+      "calories": 570.0,
       "protein": 12.0,
-      "fat": 10.0,
-      "carbohydrates": 35.0
+      "fat": 24.0,
+      "carbohydrates": 56.0
     },
     "errors": {
-      "calories": 0.5928571428571429,
+      "calories": 0.18571428571428572,
       "protein": 0.52,
-      "fat": 0.6,
-      "carbohydrates": 0.6111111111111112
+      "fat": 0.04,
+      "carbohydrates": 0.37777777777777777
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -4427,25 +4372,21 @@
       "branded"
     ],
     "case_id": "global_005",
-    "thinking": "A margherita pizza (regular size) typically weighs about 250g and has an average caloric value of approximately 285 kcal, 12g protein, 10g fat, and 35g carbs based on standard nutrition information for similar pizzas. This estimate is derived from common values associated with typical restaurant pizzas of this size and type.",
+    "thinking": "A regular Margherita pizza from Domino's typically has around 285 calories per slice and consists of multiple slices. Assuming a standard medium pizza has about 8 slices, the total calories can be calculated as follows: 285 kcal/slice * 8 slices = 2280 kcal. However, a meal usually consists of 2-3 slices. Therefore, for 2 slices: 285 kcal/slice * 2 slices = 570 kcal. I'll use this assumption for the nutrition analysis. Let's say 12g protein, 24g fat (higher due to cheese), and 56g carbs for 2 slices.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Margherita Pizza",
-        "calories": 285,
+        "calories": 570,
         "protein": 12,
-        "carbohydrates": 35,
-        "fat": 10,
-        "meal_type": "Meal"
+        "carbohydrates": 56,
+        "fat": 24,
+        "meal_type": "main"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "restaurant_or_packaged",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": false
@@ -4476,12 +4417,12 @@
       "followup_needed"
     ],
     "case_id": "vague_006",
-    "thinking": "User had 'oats' for breakfast. Since they didn't specify a quantity, I will assume a standard portion size of 1 cup of cooked oats. A standard serving of cooked oats is approximately 154 kcal, 6g protein, 3g fat, and 27g carbs based on typical values for cooked oats. Thus, I will create 1 dish for oats with these values.",
+    "thinking": "The user mentioned having 'oats', which typically refers to oatmeal. However, the details such as portion size or preparation style (like sweetened or with fruits) weren't provided. Typically, a common serving size for oats would be around 1 cup (cooked). This serving size generally yields approximately 154 kcal, 6g protein, 3g fat, and 27g carbs. Since no specific details were given relating to portion size or added ingredients, I will proceed with this baseline assumption of 1 cup for breakfast.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
-        "name": "Oats",
+        "name": "Oatmeal",
         "calories": 154,
         "protein": 6,
         "carbohydrates": 27,
@@ -4491,7 +4432,7 @@
     ],
     "is_miss": false,
     "miss_diagnosis": null,
-    "entity_recall": 1.0,
+    "entity_recall": 0.0,
     "item_count_match": true,
     "followup_violated": true
   },
@@ -4521,7 +4462,7 @@
       "followup_needed"
     ],
     "case_id": "vague_007",
-    "thinking": "The user mentioned they drank some juice, but did not specify the type of juice or portion size. As there are no specific details to categorize it as a standard food or beverage item, I will classify it as non-food (ambiguous).",
+    "thinking": "The user mentioned 'some juice' without specifying the type or quantity. Based on standard servings, I will assume this refers to 'fresh fruit juice' which is typically represented as 1 glass (250ml). It is important to consider nutrient values of common juice types, but since the specific juice type is not provided, I will not include specific nutrition values. Therefore, this will be marked as non-food for the purpose of providing nutritional values.",
     "item_count": 1,
     "items": [
       {
@@ -4553,16 +4494,16 @@
       "carbohydrates": 18.0
     },
     "predicted": {
-      "calories": 100.0,
+      "calories": 150.0,
       "protein": 2.0,
-      "fat": 5.0,
-      "carbohydrates": 14.0
+      "fat": 7.0,
+      "carbohydrates": 21.0
     },
     "errors": {
-      "calories": 0.16666666666666666,
+      "calories": 0.25,
       "protein": 1.0,
-      "fat": 0.0,
-      "carbohydrates": 0.2222222222222222
+      "fat": 0.4,
+      "carbohydrates": 0.16666666666666666
     },
     "category": "vague_user_input",
     "tags": [
@@ -4570,21 +4511,25 @@
       "followup_needed"
     ],
     "case_id": "vague_008",
-    "thinking": "The term 'a couple of cookies' typically implies two cookies. Assuming standard cookies are around 50 calories each, we will calculate based on this average value to estimate nutritional information. Total of two cookies: 2 cookies x 50 kcal = 100 kcal, 2g protein, 5g fat, 14g carbs (approximation).",
+    "thinking": "'A couple of cookies' implies 2 cookies. Standard cookie portion is typically ~15g each. Assuming average cookie composition:\n- 1 cookie: ~75 kcal, 1g protein, 3.5g fat, 10.5g carbs. \nCalculation: 2 cookies = 2 x (75 kcal) = 150 kcal, 2 x (1g protein) = 2g protein, 2 x (3.5g fat) = 7g fat, 2 x (10.5g carbs) = 21g carbs.\n\nFinal output:\n- Dishes: 1 cookie dish with 2 cookies.",
     "item_count": 1,
     "items": [
       {
         "is_food": true,
         "name": "Cookies",
-        "calories": 100,
+        "calories": 150,
         "protein": 2,
-        "carbohydrates": 14,
-        "fat": 5,
-        "meal_type": null
+        "carbohydrates": 21,
+        "fat": 7,
+        "meal_type": "Snack"
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "vague_user_input",
+      "failure_stage": "vague_input_guessed",
+      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+    },
     "entity_recall": 1.0,
     "item_count_match": true,
     "followup_violated": true
@@ -4615,7 +4560,7 @@
       "followup_needed"
     ],
     "case_id": "vague_009",
-    "thinking": "A salad can vary widely in content, but without any specific ingredients mentioned, I cannot accurately categorize it as a food. Therefore, I will assume it's not food and set is_food to false.",
+    "thinking": "The user mentioned they had a salad, but did not specify which type or its contents. Without more information, I will assume it involves mixed vegetables and not any particular well-defined dish that contains calories. Therefore, I will categorize this under general salad which is not tracked due to the lack of detailed content provided.",
     "item_count": 1,
     "items": [
       {
@@ -4664,17 +4609,17 @@
       "followup_needed"
     ],
     "case_id": "vague_010",
-    "thinking": "The user mentioned 'a piece of cake', which is a general term and does not specify the type of cake or portion size. Without further details, it's not possible to assign specific nutritional values for calories, protein, fat, and carbohydrates. Therefore, I will classify this as non-specific food and set is_food to False.",
+    "thinking": "The user specified 'a piece of cake'. Cake is a composite food item and is generally consumed in standard portions. As there are many types and recipes for cake, without additional context about the type (e.g. chocolate, vanilla, etc.), I will refer to cake generally. Assuming a standard piece of cake is approximately 100g, I can consider general caloric values. A typical slice of cake can average around 340 kcal. However, since specific nutritional information cannot be provided without knowing the type of cake, I will mark it as non-food and not provide specific nutritional values. Therefore, I will categorize it as is_food: False.",
     "item_count": 1,
     "items": [
       {
         "is_food": false,
-        "name": "Piece of Cake",
+        "name": "Cake",
         "calories": 0,
         "protein": 0,
         "carbohydrates": 0,
         "fat": 0,
-        "meal_type": null
+        "meal_type": "null"
       }
     ],
     "is_miss": true,

@@ -50,9 +50,15 @@ def test_food_logs_crud(client: TestClient):
     response = client.get("/get-logs")
     assert len(response.json()) == 0
 
+@patch("routers.food.llm_client.chat.completions.create")
 @patch("routers.food.llm_client.beta.chat.completions.parse")
-def test_parse_macros(mock_parse, client: TestClient):
-    # Mock the LLM response
+def test_parse_macros(mock_parse, mock_create, client: TestClient):
+    # Mock the first LLM call (no tool calls)
+    mock_create_response = MagicMock()
+    mock_create_response.choices[0].message.tool_calls = None
+    mock_create.return_value = mock_create_response
+
+    # Mock the final LLM response
     mock_msg = MagicMock()
     mock_msg.message.parsed.thinking = "Thinking process"
     mock_msg.message.parsed.items = [{
