@@ -1,0 +1,1772 @@
+{
+  "case_count": 61,
+  "overall": {
+    "calories": {
+      "mape": 0.17933195590650694,
+      "median_error": 0.08333333333333333,
+      "rmse": 0.3050538293118182,
+      "within_10pct": 0.5737704918032787,
+      "within_20pct": 0.6885245901639344,
+      "within_30pct": 0.7868852459016393
+    },
+    "protein": {
+      "mape": 0.22572844770997055,
+      "median_error": 0.14285714285714285,
+      "rmse": 0.3522131055578991,
+      "within_10pct": 0.4098360655737705,
+      "within_20pct": 0.5901639344262295,
+      "within_30pct": 0.7704918032786885
+    },
+    "fat": {
+      "mape": 0.2738599915973872,
+      "median_error": 0.13333333333333333,
+      "rmse": 0.45941322743931823,
+      "within_10pct": 0.4426229508196721,
+      "within_20pct": 0.5737704918032787,
+      "within_30pct": 0.6721311475409836
+    },
+    "carbohydrates": {
+      "mape": 0.22200830153445036,
+      "median_error": 0.11428571428571428,
+      "rmse": 0.358754719867581,
+      "within_10pct": 0.4918032786885246,
+      "within_20pct": 0.639344262295082,
+      "within_30pct": 0.7213114754098361
+    }
+  },
+  "by_category": {
+    "atomic_ingredient": {
+      "count": 9,
+      "macros": {
+        "calories": {
+          "mape": 0.07092034459058699,
+          "median_error": 0.008403361344537815,
+          "rmse": 0.13827980448706437,
+          "within_10pct": 0.7777777777777778,
+          "within_20pct": 0.7777777777777778,
+          "within_30pct": 0.8888888888888888
+        },
+        "protein": {
+          "mape": 0.1485415818749152,
+          "median_error": 0.031746031746031744,
+          "rmse": 0.22853346842799668,
+          "within_10pct": 0.5555555555555556,
+          "within_20pct": 0.5555555555555556,
+          "within_30pct": 0.7777777777777778
+        },
+        "fat": {
+          "mape": 0.238554860777083,
+          "median_error": 0.07142857142857142,
+          "rmse": 0.40672458621051794,
+          "within_10pct": 0.5555555555555556,
+          "within_20pct": 0.6666666666666666,
+          "within_30pct": 0.7777777777777778
+        },
+        "carbohydrates": {
+          "mape": 0.13094535094535095,
+          "median_error": 0.0,
+          "rmse": 0.22528013858036072,
+          "within_10pct": 0.6666666666666666,
+          "within_20pct": 0.6666666666666666,
+          "within_30pct": 0.6666666666666666
+        }
+      }
+    },
+    "composite_meal": {
+      "count": 6,
+      "macros": {
+        "calories": {
+          "mape": 0.07048271507034394,
+          "median_error": 0.06572164948453608,
+          "rmse": 0.09603074024101556,
+          "within_10pct": 0.6666666666666666,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        },
+        "protein": {
+          "mape": 0.16260938525486765,
+          "median_error": 0.1875,
+          "rmse": 0.1972780625466038,
+          "within_10pct": 0.3333333333333333,
+          "within_20pct": 0.5,
+          "within_30pct": 1.0
+        },
+        "fat": {
+          "mape": 0.13507498790517658,
+          "median_error": 0.049669408159974185,
+          "rmse": 0.2507907328411355,
+          "within_10pct": 0.6666666666666666,
+          "within_20pct": 0.8333333333333334,
+          "within_30pct": 0.8333333333333334
+        },
+        "carbohydrates": {
+          "mape": 0.35255754475703327,
+          "median_error": 0.30000000000000004,
+          "rmse": 0.4850897349822906,
+          "within_10pct": 0.3333333333333333,
+          "within_20pct": 0.5,
+          "within_30pct": 0.5
+        }
+      }
+    },
+    "hidden_fat_or_cooking_medium": {
+      "count": 7,
+      "macros": {
+        "calories": {
+          "mape": 0.2122360267871104,
+          "median_error": 0.13312693498452013,
+          "rmse": 0.30630151094115476,
+          "within_10pct": 0.42857142857142855,
+          "within_20pct": 0.5714285714285714,
+          "within_30pct": 0.5714285714285714
+        },
+        "protein": {
+          "mape": 0.1579591836734694,
+          "median_error": 0.0,
+          "rmse": 0.2490073587728525,
+          "within_10pct": 0.5714285714285714,
+          "within_20pct": 0.5714285714285714,
+          "within_30pct": 0.7142857142857143
+        },
+        "fat": {
+          "mape": 0.16865079365079366,
+          "median_error": 0.05555555555555555,
+          "rmse": 0.27221614829634566,
+          "within_10pct": 0.5714285714285714,
+          "within_20pct": 0.7142857142857143,
+          "within_30pct": 0.7142857142857143
+        },
+        "carbohydrates": {
+          "mape": 0.24192624418188327,
+          "median_error": 0.1,
+          "rmse": 0.4087596803965604,
+          "within_10pct": 0.5714285714285714,
+          "within_20pct": 0.5714285714285714,
+          "within_30pct": 0.8571428571428571
+        }
+      }
+    },
+    "indian_home_cooked": {
+      "count": 15,
+      "macros": {
+        "calories": {
+          "mape": 0.09021708501708502,
+          "median_error": 0.05454545454545454,
+          "rmse": 0.1387305001288989,
+          "within_10pct": 0.7333333333333333,
+          "within_20pct": 0.8666666666666667,
+          "within_30pct": 0.9333333333333333
+        },
+        "protein": {
+          "mape": 0.18341269841269842,
+          "median_error": 0.125,
+          "rmse": 0.2715769922806525,
+          "within_10pct": 0.4666666666666667,
+          "within_20pct": 0.6666666666666666,
+          "within_30pct": 0.8
+        },
+        "fat": {
+          "mape": 0.13884984984984985,
+          "median_error": 0.125,
+          "rmse": 0.21278910225826347,
+          "within_10pct": 0.4666666666666667,
+          "within_20pct": 0.8,
+          "within_30pct": 0.8666666666666667
+        },
+        "carbohydrates": {
+          "mape": 0.14952158952158953,
+          "median_error": 0.06153846153846154,
+          "rmse": 0.24044467526977992,
+          "within_10pct": 0.6,
+          "within_20pct": 0.6666666666666666,
+          "within_30pct": 0.7333333333333333
+        }
+      }
+    },
+    "raw_vs_cooked": {
+      "count": 5,
+      "macros": {
+        "calories": {
+          "mape": 0.2813306694573938,
+          "median_error": 0.13129102844638948,
+          "rmse": 0.4675599941799494,
+          "within_10pct": 0.4,
+          "within_20pct": 0.6,
+          "within_30pct": 0.8
+        },
+        "protein": {
+          "mape": 0.2766666666666666,
+          "median_error": 0.11111111111111104,
+          "rmse": 0.4637541387789093,
+          "within_10pct": 0.4,
+          "within_20pct": 0.6,
+          "within_30pct": 0.8
+        },
+        "fat": {
+          "mape": 0.30615384615384617,
+          "median_error": 0.3,
+          "rmse": 0.31249142000055696,
+          "within_10pct": 0.0,
+          "within_20pct": 0.0,
+          "within_30pct": 0.6
+        },
+        "carbohydrates": {
+          "mape": 0.23389830508474577,
+          "median_error": 0.0,
+          "rmse": 0.4535917497465011,
+          "within_10pct": 0.6,
+          "within_20pct": 0.8,
+          "within_30pct": 0.8
+        }
+      }
+    },
+    "restaurant_or_packaged": {
+      "count": 6,
+      "macros": {
+        "calories": {
+          "mape": 0.09444444444444444,
+          "median_error": 0.0625,
+          "rmse": 0.13785727992975066,
+          "within_10pct": 0.6666666666666666,
+          "within_20pct": 0.8333333333333334,
+          "within_30pct": 1.0
+        },
+        "protein": {
+          "mape": 0.16111111111111112,
+          "median_error": 0.16666666666666669,
+          "rmse": 0.18509256943286315,
+          "within_10pct": 0.16666666666666666,
+          "within_20pct": 0.8333333333333334,
+          "within_30pct": 1.0
+        },
+        "fat": {
+          "mape": 0.24245014245014246,
+          "median_error": 0.24166666666666667,
+          "rmse": 0.30900174444094675,
+          "within_10pct": 0.5,
+          "within_20pct": 0.5,
+          "within_30pct": 0.5
+        },
+        "carbohydrates": {
+          "mape": 0.08826712503183091,
+          "median_error": 0.0865546218487395,
+          "rmse": 0.09842564604045273,
+          "within_10pct": 0.5,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        }
+      }
+    },
+    "serving_based_beverages": {
+      "count": 6,
+      "macros": {
+        "calories": {
+          "mape": 0.278921568627451,
+          "median_error": 0.2867647058823529,
+          "rmse": 0.34945835131728553,
+          "within_10pct": 0.3333333333333333,
+          "within_20pct": 0.3333333333333333,
+          "within_30pct": 0.5
+        },
+        "protein": {
+          "mape": 0.35833333333333334,
+          "median_error": 0.225,
+          "rmse": 0.5465802777268862,
+          "within_10pct": 0.3333333333333333,
+          "within_20pct": 0.5,
+          "within_30pct": 0.6666666666666666
+        },
+        "fat": {
+          "mape": 0.1609848484848485,
+          "median_error": 0.04545454545454549,
+          "rmse": 0.25784021628711495,
+          "within_10pct": 0.6666666666666666,
+          "within_20pct": 0.6666666666666666,
+          "within_30pct": 0.6666666666666666
+        },
+        "carbohydrates": {
+          "mape": 0.2471604938271605,
+          "median_error": 0.21666666666666667,
+          "rmse": 0.3168047493327982,
+          "within_10pct": 0.16666666666666666,
+          "within_20pct": 0.5,
+          "within_30pct": 0.8333333333333334
+        }
+      }
+    },
+    "vague_user_input": {
+      "count": 7,
+      "macros": {
+        "calories": {
+          "mape": 0.4846160042964554,
+          "median_error": 0.4375,
+          "rmse": 0.6051979687242618,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.2857142857142857,
+          "within_30pct": 0.42857142857142855
+        },
+        "protein": {
+          "mape": 0.44285714285714284,
+          "median_error": 0.4666666666666667,
+          "rmse": 0.5669467095138409,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.42857142857142855,
+          "within_30pct": 0.42857142857142855
+        },
+        "fat": {
+          "mape": 0.9333333333333333,
+          "median_error": 0.9166666666666666,
+          "rmse": 1.0922163283601414,
+          "within_10pct": 0.0,
+          "within_20pct": 0.0,
+          "within_30pct": 0.14285714285714285
+        },
+        "carbohydrates": {
+          "mape": 0.4471840251252016,
+          "median_error": 0.4727272727272727,
+          "rmse": 0.5677686696702227,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.42857142857142855,
+          "within_30pct": 0.42857142857142855
+        }
+      }
+    }
+  },
+  "tag_breakdown": {
+    "beverage": {
+      "count": 6,
+      "macros": {
+        "calories": {
+          "mape": 0.278921568627451,
+          "median_error": 0.2867647058823529,
+          "rmse": 0.34945835131728553,
+          "within_10pct": 0.3333333333333333,
+          "within_20pct": 0.3333333333333333,
+          "within_30pct": 0.5
+        },
+        "protein": {
+          "mape": 0.35833333333333334,
+          "median_error": 0.225,
+          "rmse": 0.5465802777268862,
+          "within_10pct": 0.3333333333333333,
+          "within_20pct": 0.5,
+          "within_30pct": 0.6666666666666666
+        },
+        "fat": {
+          "mape": 0.1609848484848485,
+          "median_error": 0.04545454545454549,
+          "rmse": 0.25784021628711495,
+          "within_10pct": 0.6666666666666666,
+          "within_20pct": 0.6666666666666666,
+          "within_30pct": 0.6666666666666666
+        },
+        "carbohydrates": {
+          "mape": 0.2471604938271605,
+          "median_error": 0.21666666666666667,
+          "rmse": 0.3168047493327982,
+          "within_10pct": 0.16666666666666666,
+          "within_20pct": 0.5,
+          "within_30pct": 0.8333333333333334
+        }
+      }
+    },
+    "composite": {
+      "count": 26,
+      "macros": {
+        "calories": {
+          "mape": 0.09155073970557713,
+          "median_error": 0.052272727272727276,
+          "rmse": 0.1479939865196476,
+          "within_10pct": 0.7307692307692307,
+          "within_20pct": 0.8461538461538461,
+          "within_30pct": 0.9230769230769231
+        },
+        "protein": {
+          "mape": 0.1446223123481929,
+          "median_error": 0.12916666666666665,
+          "rmse": 0.20094227498845516,
+          "within_10pct": 0.4230769230769231,
+          "within_20pct": 0.7307692307692307,
+          "within_30pct": 0.9615384615384616
+        },
+        "fat": {
+          "mape": 0.2239576357646024,
+          "median_error": 0.08220720720720717,
+          "rmse": 0.48412615365917155,
+          "within_10pct": 0.5384615384615384,
+          "within_20pct": 0.7307692307692307,
+          "within_30pct": 0.7692307692307693
+        },
+        "carbohydrates": {
+          "mape": 0.1918198529573391,
+          "median_error": 0.0879120879120879,
+          "rmse": 0.30668561533919453,
+          "within_10pct": 0.5,
+          "within_20pct": 0.6923076923076923,
+          "within_30pct": 0.7307692307692307
+        }
+      }
+    },
+    "cooked_weight": {
+      "count": 2,
+      "macros": {
+        "calories": {
+          "mape": 0.06564551422319474,
+          "median_error": 0.06564551422319474,
+          "rmse": 0.09283677652339792,
+          "within_10pct": 0.5,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        },
+        "protein": {
+          "mape": 0.05555555555555552,
+          "median_error": 0.05555555555555552,
+          "rmse": 0.07856742013183857,
+          "within_10pct": 0.5,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        },
+        "fat": {
+          "mape": 0.275,
+          "median_error": 0.275,
+          "rmse": 0.2761340254296815,
+          "within_10pct": 0.0,
+          "within_20pct": 0.0,
+          "within_30pct": 1.0
+        },
+        "carbohydrates": {
+          "mape": 0.0847457627118644,
+          "median_error": 0.0847457627118644,
+          "rmse": 0.11984860698077077,
+          "within_10pct": 0.5,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        }
+      }
+    },
+    "followup_needed": {
+      "count": 7,
+      "macros": {
+        "calories": {
+          "mape": 0.4846160042964554,
+          "median_error": 0.4375,
+          "rmse": 0.6051979687242618,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.2857142857142857,
+          "within_30pct": 0.42857142857142855
+        },
+        "protein": {
+          "mape": 0.44285714285714284,
+          "median_error": 0.4666666666666667,
+          "rmse": 0.5669467095138409,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.42857142857142855,
+          "within_30pct": 0.42857142857142855
+        },
+        "fat": {
+          "mape": 0.9333333333333333,
+          "median_error": 0.9166666666666666,
+          "rmse": 1.0922163283601414,
+          "within_10pct": 0.0,
+          "within_20pct": 0.0,
+          "within_30pct": 0.14285714285714285
+        },
+        "carbohydrates": {
+          "mape": 0.4471840251252016,
+          "median_error": 0.4727272727272727,
+          "rmse": 0.5677686696702227,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.42857142857142855,
+          "within_30pct": 0.42857142857142855
+        }
+      }
+    },
+    "hidden_fat": {
+      "count": 7,
+      "macros": {
+        "calories": {
+          "mape": 0.2122360267871104,
+          "median_error": 0.13312693498452013,
+          "rmse": 0.30630151094115476,
+          "within_10pct": 0.42857142857142855,
+          "within_20pct": 0.5714285714285714,
+          "within_30pct": 0.5714285714285714
+        },
+        "protein": {
+          "mape": 0.1579591836734694,
+          "median_error": 0.0,
+          "rmse": 0.2490073587728525,
+          "within_10pct": 0.5714285714285714,
+          "within_20pct": 0.5714285714285714,
+          "within_30pct": 0.7142857142857143
+        },
+        "fat": {
+          "mape": 0.16865079365079366,
+          "median_error": 0.05555555555555555,
+          "rmse": 0.27221614829634566,
+          "within_10pct": 0.5714285714285714,
+          "within_20pct": 0.7142857142857143,
+          "within_30pct": 0.7142857142857143
+        },
+        "carbohydrates": {
+          "mape": 0.24192624418188327,
+          "median_error": 0.1,
+          "rmse": 0.4087596803965604,
+          "within_10pct": 0.5714285714285714,
+          "within_20pct": 0.5714285714285714,
+          "within_30pct": 0.8571428571428571
+        }
+      }
+    },
+    "indian": {
+      "count": 24,
+      "macros": {
+        "calories": {
+          "mape": 0.16210091877738936,
+          "median_error": 0.09285714285714286,
+          "rmse": 0.23484485266707342,
+          "within_10pct": 0.5833333333333334,
+          "within_20pct": 0.6666666666666666,
+          "within_30pct": 0.75
+        },
+        "protein": {
+          "mape": 0.2333829365079365,
+          "median_error": 0.17142857142857143,
+          "rmse": 0.36450942723537594,
+          "within_10pct": 0.4166666666666667,
+          "within_20pct": 0.625,
+          "within_30pct": 0.75
+        },
+        "fat": {
+          "mape": 0.16869403494403495,
+          "median_error": 0.1079545454545455,
+          "rmse": 0.25642392418025944,
+          "within_10pct": 0.5,
+          "within_20pct": 0.7083333333333334,
+          "within_30pct": 0.75
+        },
+        "carbohydrates": {
+          "mape": 0.1791759540005154,
+          "median_error": 0.13142857142857142,
+          "rmse": 0.25745562047701825,
+          "within_10pct": 0.4583333333333333,
+          "within_20pct": 0.625,
+          "within_30pct": 0.7916666666666666
+        }
+      }
+    },
+    "raw_weight": {
+      "count": 3,
+      "macros": {
+        "calories": {
+          "mape": 0.4251207729468599,
+          "median_error": 0.2753623188405797,
+          "rmse": 0.5988389896673009,
+          "within_10pct": 0.3333333333333333,
+          "within_20pct": 0.3333333333333333,
+          "within_30pct": 0.6666666666666666
+        },
+        "protein": {
+          "mape": 0.42407407407407405,
+          "median_error": 0.24999999999999994,
+          "rmse": 0.5952573189135641,
+          "within_10pct": 0.3333333333333333,
+          "within_20pct": 0.3333333333333333,
+          "within_30pct": 0.6666666666666666
+        },
+        "fat": {
+          "mape": 0.3269230769230769,
+          "median_error": 0.35,
+          "rmse": 0.33454169539327605,
+          "within_10pct": 0.0,
+          "within_20pct": 0.0,
+          "within_30pct": 0.3333333333333333
+        },
+        "carbohydrates": {
+          "mape": 0.3333333333333333,
+          "median_error": 0.0,
+          "rmse": 0.5773502691896257,
+          "within_10pct": 0.6666666666666666,
+          "within_20pct": 0.6666666666666666,
+          "within_30pct": 0.6666666666666666
+        }
+      }
+    },
+    "restaurant": {
+      "count": 6,
+      "macros": {
+        "calories": {
+          "mape": 0.09444444444444444,
+          "median_error": 0.0625,
+          "rmse": 0.13785727992975066,
+          "within_10pct": 0.6666666666666666,
+          "within_20pct": 0.8333333333333334,
+          "within_30pct": 1.0
+        },
+        "protein": {
+          "mape": 0.16111111111111112,
+          "median_error": 0.16666666666666669,
+          "rmse": 0.18509256943286315,
+          "within_10pct": 0.16666666666666666,
+          "within_20pct": 0.8333333333333334,
+          "within_30pct": 1.0
+        },
+        "fat": {
+          "mape": 0.24245014245014246,
+          "median_error": 0.24166666666666667,
+          "rmse": 0.30900174444094675,
+          "within_10pct": 0.5,
+          "within_20pct": 0.5,
+          "within_30pct": 0.5
+        },
+        "carbohydrates": {
+          "mape": 0.08826712503183091,
+          "median_error": 0.0865546218487395,
+          "rmse": 0.09842564604045273,
+          "within_10pct": 0.5,
+          "within_20pct": 1.0,
+          "within_30pct": 1.0
+        }
+      }
+    },
+    "serving_based": {
+      "count": 25,
+      "macros": {
+        "calories": {
+          "mape": 0.15561688202629378,
+          "median_error": 0.08571428571428572,
+          "rmse": 0.2301000231013692,
+          "within_10pct": 0.6,
+          "within_20pct": 0.68,
+          "within_30pct": 0.76
+        },
+        "protein": {
+          "mape": 0.22404761904761905,
+          "median_error": 0.14285714285714285,
+          "rmse": 0.3571448412643298,
+          "within_10pct": 0.44,
+          "within_20pct": 0.64,
+          "within_30pct": 0.76
+        },
+        "fat": {
+          "mape": 0.16194627354627356,
+          "median_error": 0.09090909090909098,
+          "rmse": 0.25124310883350276,
+          "within_10pct": 0.52,
+          "within_20pct": 0.72,
+          "within_30pct": 0.76
+        },
+        "carbohydrates": {
+          "mape": 0.17200891584049477,
+          "median_error": 0.12,
+          "rmse": 0.25225396063213396,
+          "within_10pct": 0.48,
+          "within_20pct": 0.64,
+          "within_30pct": 0.8
+        }
+      }
+    },
+    "synonym_risk": {
+      "count": 10,
+      "macros": {
+        "calories": {
+          "mape": 0.09618125130799887,
+          "median_error": 0.009846841962591488,
+          "rmse": 0.1663619605672052,
+          "within_10pct": 0.7,
+          "within_20pct": 0.7,
+          "within_30pct": 0.8
+        },
+        "protein": {
+          "mape": 0.2536874236874237,
+          "median_error": 0.13125763125763126,
+          "rmse": 0.43704094953740563,
+          "within_10pct": 0.5,
+          "within_20pct": 0.5,
+          "within_30pct": 0.7
+        },
+        "fat": {
+          "mape": 0.2237902837902838,
+          "median_error": 0.0811688311688312,
+          "rmse": 0.3869222743734161,
+          "within_10pct": 0.6,
+          "within_20pct": 0.7,
+          "within_30pct": 0.8
+        },
+        "carbohydrates": {
+          "mape": 0.14748044548044548,
+          "median_error": 0.01,
+          "rmse": 0.23335632897952036,
+          "within_10pct": 0.6,
+          "within_20pct": 0.6,
+          "within_30pct": 0.7
+        }
+      }
+    },
+    "vague": {
+      "count": 7,
+      "macros": {
+        "calories": {
+          "mape": 0.4846160042964554,
+          "median_error": 0.4375,
+          "rmse": 0.6051979687242618,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.2857142857142857,
+          "within_30pct": 0.42857142857142855
+        },
+        "protein": {
+          "mape": 0.44285714285714284,
+          "median_error": 0.4666666666666667,
+          "rmse": 0.5669467095138409,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.42857142857142855,
+          "within_30pct": 0.42857142857142855
+        },
+        "fat": {
+          "mape": 0.9333333333333333,
+          "median_error": 0.9166666666666666,
+          "rmse": 1.0922163283601414,
+          "within_10pct": 0.0,
+          "within_20pct": 0.0,
+          "within_30pct": 0.14285714285714285
+        },
+        "carbohydrates": {
+          "mape": 0.4471840251252016,
+          "median_error": 0.4727272727272727,
+          "rmse": 0.5677686696702227,
+          "within_10pct": 0.2857142857142857,
+          "within_20pct": 0.42857142857142855,
+          "within_30pct": 0.42857142857142855
+        }
+      }
+    }
+  },
+  "zero_macro_cases": [
+    {
+      "description": "100g raw spinach",
+      "expected": {
+        "calories": 23.0,
+        "protein": 2.9,
+        "fat": 0.4,
+        "carbohydrates": 3.6
+      },
+      "predicted": {
+        "calories": 0.0,
+        "protein": 0.0,
+        "fat": 0.0,
+        "carbohydrates": 0.0
+      },
+      "errors": {
+        "calories": 1.0,
+        "protein": 1.0,
+        "fat": 0.4,
+        "carbohydrates": 1.0
+      },
+      "category": "raw_vs_cooked",
+      "tags": [
+        "raw_weight"
+      ],
+      "case_id": "legacy_008",
+      "thinking": "User consumed 100g of raw spinach. According to nutritional data, raw spinach is not listed as food in the default ingredient values. Therefore, I will mark this as not food.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": false,
+          "name": "Raw Spinach",
+          "calories": 0,
+          "protein": 0,
+          "carbohydrates": 0,
+          "fat": 0,
+          "meal_type": null
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "raw_vs_cooked",
+        "failure_stage": "raw_vs_cooked",
+        "suggested_fix": "Clarify raw vs cooked weight mapping for this item type in system prompt"
+      },
+      "entity_recall": null,
+      "item_count_match": null,
+      "followup_violated": false
+    },
+    {
+      "description": "a big dinner",
+      "expected": {
+        "calories": 800.0,
+        "protein": 30.0,
+        "fat": 30.0,
+        "carbohydrates": 100.0
+      },
+      "predicted": {
+        "calories": 0.0,
+        "protein": 0.0,
+        "fat": 0.0,
+        "carbohydrates": 0.0
+      },
+      "errors": {
+        "calories": 1.0,
+        "protein": 1.0,
+        "fat": 1.0,
+        "carbohydrates": 1.0
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "vague_005",
+      "thinking": "The user mentioned 'big dinner' which suggests they might have eaten multiple dishes typically served at a dinner. However, no specific dishes have been listed, so I can't provide exact nutrition values without knowing what was specifically included in the meal. Common items in a big dinner might include a mix of proteins (like chicken or fish), carbohydrates (like rice or bread), and vegetables (like salads or curries). To create nutrition profiles, more details are needed about the specific dishes consumed in the dinner.",
+      "item_count": 0,
+      "items": [],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": null,
+      "item_count_match": false,
+      "followup_violated": true
+    }
+  ],
+  "overcount_cases": [
+    {
+      "description": "150g fish fried in 1 tbsp oil",
+      "expected": {
+        "calories": 270.0,
+        "protein": 25.0,
+        "fat": 18.0,
+        "carbohydrates": 0.0
+      },
+      "predicted": {
+        "calories": 429.0,
+        "protein": 33.0,
+        "fat": 19.0,
+        "carbohydrates": 0.0
+      },
+      "errors": {
+        "calories": 0.5888888888888889,
+        "protein": 0.32,
+        "fat": 0.05555555555555555,
+        "carbohydrates": 0.0
+      },
+      "category": "hidden_fat_or_cooking_medium",
+      "tags": [
+        "hidden_fat"
+      ],
+      "case_id": "fat_002",
+      "thinking": "1. Fish portion assumed: 150g. Typical cooked fish provides approximately 206 kcal per 100g. For 150g: 206 kcal/100g * 150g = 309 kcal. Protein: approximately 22g per 100g fish. For 150g: 22g/100g * 150g = 33g protein. Fat varies; assume 5g for 150g of fried fish.\n\n2. Oil (1 tbsp = 15ml) contributes additional calories. From oil: 120 kcal per tbsp. Fat from oil: 14g.\n\n3. Total for the dish (Fish + Oil):\n   - Calories: 309 (fish) + 120 (oil) = 429 kcal \n   - Protein: 33g (from fish)\n   - Carbohydrates: 0g (negligible)\n   - Fat: 5g (from fish) + 14g (from oil) = 19g.\n\nFinal totals for the fish fried in oil dish: 429 kcal, 33g protein, 0g carbs, 19g fat.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Fried Fish",
+          "calories": 429,
+          "protein": 33,
+          "carbohydrates": 0,
+          "fat": 19,
+          "meal_type": null
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "hidden_fat_or_cooking_medium",
+        "failure_stage": "unknown",
+        "suggested_fix": "Review thinking trace and manually determine fix"
+      },
+      "entity_recall": 0.5,
+      "item_count_match": true,
+      "followup_violated": false
+    },
+    {
+      "description": "1 plain paratha with 1 tsp ghee",
+      "expected": {
+        "calories": 165.0,
+        "protein": 3.0,
+        "fat": 8.0,
+        "carbohydrates": 20.0
+      },
+      "predicted": {
+        "calories": 225.0,
+        "protein": 3.0,
+        "fat": 12.0,
+        "carbohydrates": 26.0
+      },
+      "errors": {
+        "calories": 0.36363636363636365,
+        "protein": 0.0,
+        "fat": 0.5,
+        "carbohydrates": 0.3
+      },
+      "category": "hidden_fat_or_cooking_medium",
+      "tags": [
+        "indian",
+        "hidden_fat",
+        "serving_based"
+      ],
+      "case_id": "fat_003",
+      "thinking": "Calculating the nutritional values for the items:\n\n1. Plain Paratha:\n   - Portion: 1 paratha (60g)\n   - Calories: 180 kcal\n   - Protein: 3.5g\n   - Fat: 7.0g\n   - Carbs: 26g\n\n2. Ghee:\n   - Portion: 1 tsp (5g)\n   - Calories: 45 kcal\n   - Protein: 0g\n   - Fat: 5.0g\n   - Carbs: 0g\n\nNow, summing up the nutritional values:\n- Total Calories: 180 + 45 = 225 kcal\n- Total Protein: 3.5 + 0 = 3.5g\n- Total Fat: 7.0 + 5.0 = 12.0g\n- Total Carbs: 26 + 0 = 26g\n\nFinal output grouped as one dish with the calculated values.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Plain Paratha with Ghee",
+          "calories": 225,
+          "protein": 3,
+          "carbohydrates": 26,
+          "fat": 12,
+          "meal_type": "null"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "hidden_fat_or_cooking_medium",
+        "failure_stage": "hidden_fat_missed",
+        "suggested_fix": "Add specific prompt constraints for implicit cooking fats (butter, oil)"
+      },
+      "entity_recall": 1.0,
+      "item_count_match": true,
+      "followup_violated": false
+    },
+    {
+      "description": "had some chicken and rice",
+      "expected": {
+        "calories": 400.0,
+        "protein": 30.0,
+        "fat": 5.0,
+        "carbohydrates": 55.0
+      },
+      "predicted": {
+        "calories": 575.0,
+        "protein": 28.0,
+        "fat": 16.0,
+        "carbohydrates": 81.0
+      },
+      "errors": {
+        "calories": 0.4375,
+        "protein": 0.06666666666666667,
+        "fat": 2.2,
+        "carbohydrates": 0.4727272727272727
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "composite",
+        "followup_needed"
+      ],
+      "case_id": "vague_001",
+      "thinking": "The user had chicken and rice. Assuming a typical serving of chicken is about 200 grams cooked, which is often served in a katori, and a standard plate of rice is about 250 grams cooked, I will categorize this as one portion of chicken curry and one plate of rice. Chicken curry (200g) provides approximately 250 kcal, 22g protein, 15g fat, and 6g carbs. A plate of cooked rice (250g) provides approximately 325 kcal, 6g protein, 1g fat, and 75g carbs. Combining these gives the totals for each item.",
+      "item_count": 2,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Chicken Curry",
+          "calories": 250,
+          "protein": 22,
+          "carbohydrates": 6,
+          "fat": 15,
+          "meal_type": "lunch"
+        },
+        {
+          "is_food": true,
+          "name": "Rice",
+          "calories": 325,
+          "protein": 6,
+          "carbohydrates": 75,
+          "fat": 1,
+          "meal_type": "lunch"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": 1.0,
+      "item_count_match": false,
+      "followup_violated": true
+    }
+  ],
+  "undercount_cases": [
+    {
+      "description": "I had a sandwich for lunch",
+      "expected": {
+        "calories": 350.0,
+        "protein": 15.0,
+        "fat": 12.0,
+        "carbohydrates": 45.0
+      },
+      "predicted": {
+        "calories": 80.0,
+        "protein": 8.0,
+        "fat": 1.0,
+        "carbohydrates": 20.0
+      },
+      "errors": {
+        "calories": 0.7714285714285715,
+        "protein": 0.4666666666666667,
+        "fat": 0.9166666666666666,
+        "carbohydrates": 0.5555555555555556
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "legacy_019",
+      "thinking": "User had one sandwich for lunch. A standard sandwich typically contains 2 slices of bread and a filling. Assuming a basic sandwich with 2 slices of bread, I will calculate the calories based on the standard value for bread. Each slice of bread is approximately 30g with 80 kcal per 2 slices. The filling (chicken, for example) can vary widely but I'll use a common filling assumption. For this calculation, we'll consider just bread as the user didn't specify any specific filling. \n\n1. Bread: 2 slices \n- 2 slices = 60g \n- Calories: 80 kcal  \n\nTotal for the sandwich = 80 kcal\n\n\nFinal output for the sandwich: \n- Name: Sandwich\n- Calories: 80 kcal\n- Protein: 8g (2g protein for each slice of bread, per 2 slices total of 4g protein)\n- Carbohydrates: 20g \n- Fat: 1g \n\nCalculating totals: \n- Total Calories = 80 \n- Total Protein = 8 (from bread only)\n- Total Carbohydrates = 20 (from bread only)\n- Total Fat = 1 (from bread only)",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Sandwich",
+          "calories": 80,
+          "protein": 8,
+          "carbohydrates": 20,
+          "fat": 1,
+          "meal_type": "lunch"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": null,
+      "item_count_match": null,
+      "followup_violated": true
+    },
+    {
+      "description": "1 tall glass aam panna",
+      "expected": {
+        "calories": 120.0,
+        "protein": 0.5,
+        "fat": 0.0,
+        "carbohydrates": 30.0
+      },
+      "predicted": {
+        "calories": 40.0,
+        "protein": 0.0,
+        "fat": 0.0,
+        "carbohydrates": 11.0
+      },
+      "errors": {
+        "calories": 0.6666666666666666,
+        "protein": 0.5,
+        "fat": 0.0,
+        "carbohydrates": 0.6333333333333333
+      },
+      "category": "serving_based_beverages",
+      "tags": [
+        "indian",
+        "beverage",
+        "serving_based"
+      ],
+      "case_id": "bev_002",
+      "thinking": "1 tall glass of aam panna is approximately 250ml. Aam panna is generally sweetened and can contain around 40 kcal per glass based on common recipes.\\n\\nCalories: 40 kcal per glass.\\n\\nFinal Totals: Calories = 40, Protein = 0g, Fat = 0g, Carbs = 11g.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Aam Panna",
+          "calories": 40,
+          "protein": 0,
+          "carbohydrates": 11,
+          "fat": 0,
+          "meal_type": "Beverage"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "serving_based_beverages",
+        "failure_stage": "serving_assumption",
+        "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults"
+      },
+      "entity_recall": 1.0,
+      "item_count_match": true,
+      "followup_violated": false
+    },
+    {
+      "description": "2 pooris deep fried",
+      "expected": {
+        "calories": 200.0,
+        "protein": 4.0,
+        "fat": 12.0,
+        "carbohydrates": 20.0
+      },
+      "predicted": {
+        "calories": 120.0,
+        "protein": 2.0,
+        "fat": 6.0,
+        "carbohydrates": 18.0
+      },
+      "errors": {
+        "calories": 0.4,
+        "protein": 0.5,
+        "fat": 0.5,
+        "carbohydrates": 0.1
+      },
+      "category": "hidden_fat_or_cooking_medium",
+      "tags": [
+        "indian",
+        "hidden_fat",
+        "serving_based"
+      ],
+      "case_id": "fat_005",
+      "thinking": "1 poori is typically around 50g. For 2 pooris, the total weight would be 100g. The calorie content for one poori, being deep fried, is approximately 60 kcal. Therefore, for 2 pooris: 60 kcal/poori * 2 pooris = 120 kcal in total.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Puri",
+          "calories": 120,
+          "protein": 2,
+          "carbohydrates": 18,
+          "fat": 6,
+          "meal_type": "snack"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "hidden_fat_or_cooking_medium",
+        "failure_stage": "hidden_fat_missed",
+        "suggested_fix": "Add specific prompt constraints for implicit cooking fats (butter, oil)"
+      },
+      "entity_recall": 0.0,
+      "item_count_match": true,
+      "followup_violated": false
+    },
+    {
+      "description": "tea and snacks",
+      "expected": {
+        "calories": 300.0,
+        "protein": 5.0,
+        "fat": 12.0,
+        "carbohydrates": 40.0
+      },
+      "predicted": {
+        "calories": 45.0,
+        "protein": 2.0,
+        "fat": 1.0,
+        "carbohydrates": 7.0
+      },
+      "errors": {
+        "calories": 0.85,
+        "protein": 0.6,
+        "fat": 0.9166666666666666,
+        "carbohydrates": 0.825
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "vague_003",
+      "thinking": "The user mentioned 'tea and snacks'. Assuming 'tea' refers to a standard serving of chai, and 'snacks' could refer to a small portion of typical snack items. For the tea, I will use the standard serving size of 100ml which typically contains about 45 kcal. For 'snacks', since no specific item was mentioned, I will not list anything as this is too vague to quantify accurately. Therefore, we will include only the chai in this response.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Chai",
+          "calories": 45,
+          "protein": 2,
+          "carbohydrates": 7,
+          "fat": 1,
+          "meal_type": "snack"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": 0.0,
+      "item_count_match": false,
+      "followup_violated": true
+    }
+  ],
+  "followup_miss_cases": [
+    {
+      "description": "I had a sandwich for lunch",
+      "expected": {
+        "calories": 350.0,
+        "protein": 15.0,
+        "fat": 12.0,
+        "carbohydrates": 45.0
+      },
+      "predicted": {
+        "calories": 80.0,
+        "protein": 8.0,
+        "fat": 1.0,
+        "carbohydrates": 20.0
+      },
+      "errors": {
+        "calories": 0.7714285714285715,
+        "protein": 0.4666666666666667,
+        "fat": 0.9166666666666666,
+        "carbohydrates": 0.5555555555555556
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "legacy_019",
+      "thinking": "User had one sandwich for lunch. A standard sandwich typically contains 2 slices of bread and a filling. Assuming a basic sandwich with 2 slices of bread, I will calculate the calories based on the standard value for bread. Each slice of bread is approximately 30g with 80 kcal per 2 slices. The filling (chicken, for example) can vary widely but I'll use a common filling assumption. For this calculation, we'll consider just bread as the user didn't specify any specific filling. \n\n1. Bread: 2 slices \n- 2 slices = 60g \n- Calories: 80 kcal  \n\nTotal for the sandwich = 80 kcal\n\n\nFinal output for the sandwich: \n- Name: Sandwich\n- Calories: 80 kcal\n- Protein: 8g (2g protein for each slice of bread, per 2 slices total of 4g protein)\n- Carbohydrates: 20g \n- Fat: 1g \n\nCalculating totals: \n- Total Calories = 80 \n- Total Protein = 8 (from bread only)\n- Total Carbohydrates = 20 (from bread only)\n- Total Fat = 1 (from bread only)",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Sandwich",
+          "calories": 80,
+          "protein": 8,
+          "carbohydrates": 20,
+          "fat": 1,
+          "meal_type": "lunch"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": null,
+      "item_count_match": null,
+      "followup_violated": true
+    },
+    {
+      "description": "Ate a big bowl of pasta",
+      "expected": {
+        "calories": 500.0,
+        "protein": 15.0,
+        "fat": 10.0,
+        "carbohydrates": 85.0
+      },
+      "predicted": {
+        "calories": 450.0,
+        "protein": 15.0,
+        "fat": 3.0,
+        "carbohydrates": 90.0
+      },
+      "errors": {
+        "calories": 0.1,
+        "protein": 0.0,
+        "fat": 0.7,
+        "carbohydrates": 0.058823529411764705
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "legacy_020",
+      "thinking": "A \"big bowl\" of pasta typically refers to a serving size around 300g as per standard portion size standards. For cooked pasta, the average caloric content is about 150 kcal per 100g. Therefore, a 300g serving would be calculated as follows:\n\n300g of cooked pasta:\n- Calories: (300g / 100g) * 150 kcal = 450 kcal\n- Protein: (300g / 100g) * 5g (average protein for cooked pasta) = 15g protein\n- Fat: (300g / 100g) * 1g = 3g fat\n- Carbohydrates: (300g / 100g) * 30g = 90g carbs\n\nThus, for this big bowl of pasta:\n- Total Calories: 450 kcal\n- Total Protein: 15g\n- Total Fat: 3g\n- Total Carbohydrates: 90g",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Pasta",
+          "calories": 450,
+          "protein": 15,
+          "carbohydrates": 90,
+          "fat": 3,
+          "meal_type": "dinner"
+        }
+      ],
+      "is_miss": false,
+      "miss_diagnosis": null,
+      "entity_recall": null,
+      "item_count_match": null,
+      "followup_violated": true
+    },
+    {
+      "description": "had some chicken and rice",
+      "expected": {
+        "calories": 400.0,
+        "protein": 30.0,
+        "fat": 5.0,
+        "carbohydrates": 55.0
+      },
+      "predicted": {
+        "calories": 575.0,
+        "protein": 28.0,
+        "fat": 16.0,
+        "carbohydrates": 81.0
+      },
+      "errors": {
+        "calories": 0.4375,
+        "protein": 0.06666666666666667,
+        "fat": 2.2,
+        "carbohydrates": 0.4727272727272727
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "composite",
+        "followup_needed"
+      ],
+      "case_id": "vague_001",
+      "thinking": "The user had chicken and rice. Assuming a typical serving of chicken is about 200 grams cooked, which is often served in a katori, and a standard plate of rice is about 250 grams cooked, I will categorize this as one portion of chicken curry and one plate of rice. Chicken curry (200g) provides approximately 250 kcal, 22g protein, 15g fat, and 6g carbs. A plate of cooked rice (250g) provides approximately 325 kcal, 6g protein, 1g fat, and 75g carbs. Combining these gives the totals for each item.",
+      "item_count": 2,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Chicken Curry",
+          "calories": 250,
+          "protein": 22,
+          "carbohydrates": 6,
+          "fat": 15,
+          "meal_type": "lunch"
+        },
+        {
+          "is_food": true,
+          "name": "Rice",
+          "calories": 325,
+          "protein": 6,
+          "carbohydrates": 75,
+          "fat": 1,
+          "meal_type": "lunch"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": 1.0,
+      "item_count_match": false,
+      "followup_violated": true
+    },
+    {
+      "description": "ate pasta",
+      "expected": {
+        "calories": 380.0,
+        "protein": 12.0,
+        "fat": 2.0,
+        "carbohydrates": 75.0
+      },
+      "predicted": {
+        "calories": 300.0,
+        "protein": 10.0,
+        "fat": 1.0,
+        "carbohydrates": 60.0
+      },
+      "errors": {
+        "calories": 0.21052631578947367,
+        "protein": 0.16666666666666666,
+        "fat": 0.5,
+        "carbohydrates": 0.2
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "vague_002",
+      "thinking": "The term 'pasta' typically refers to a carbohydrate-rich dish, usually cooked and served in various ways. However, the specific type of pasta, portion size, or method of preparation was not provided. To calculate a default value, I will use the standard reference of 1 plate of pasta, which is generally around 250g. I will assume typical nutritional values for cooked pasta, estimating it at approximately 300 kcal, 10g protein, 1g fat, and 60g carbs per plate.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Pasta",
+          "calories": 300,
+          "protein": 10,
+          "carbohydrates": 60,
+          "fat": 1,
+          "meal_type": "main meal"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": 1.0,
+      "item_count_match": true,
+      "followup_violated": true
+    },
+    {
+      "description": "tea and snacks",
+      "expected": {
+        "calories": 300.0,
+        "protein": 5.0,
+        "fat": 12.0,
+        "carbohydrates": 40.0
+      },
+      "predicted": {
+        "calories": 45.0,
+        "protein": 2.0,
+        "fat": 1.0,
+        "carbohydrates": 7.0
+      },
+      "errors": {
+        "calories": 0.85,
+        "protein": 0.6,
+        "fat": 0.9166666666666666,
+        "carbohydrates": 0.825
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "vague_003",
+      "thinking": "The user mentioned 'tea and snacks'. Assuming 'tea' refers to a standard serving of chai, and 'snacks' could refer to a small portion of typical snack items. For the tea, I will use the standard serving size of 100ml which typically contains about 45 kcal. For 'snacks', since no specific item was mentioned, I will not list anything as this is too vague to quantify accurately. Therefore, we will include only the chai in this response.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Chai",
+          "calories": 45,
+          "protein": 2,
+          "carbohydrates": 7,
+          "fat": 1,
+          "meal_type": "snack"
+        }
+      ],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": 0.0,
+      "item_count_match": false,
+      "followup_violated": true
+    },
+    {
+      "description": "just a small lunch",
+      "expected": {
+        "calories": 350.0,
+        "protein": 10.0,
+        "fat": 10.0,
+        "carbohydrates": 55.0
+      },
+      "predicted": {
+        "calories": 342.0,
+        "protein": 18.0,
+        "fat": 7.0,
+        "carbohydrates": 56.0
+      },
+      "errors": {
+        "calories": 0.022857142857142857,
+        "protein": 0.8,
+        "fat": 0.3,
+        "carbohydrates": 0.01818181818181818
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "vague_004",
+      "thinking": "No specific food items provided for the small lunch. Assumed a small serving of a common lunch dish:\n- Assume 1 small plate of rice (75% portion of a full meal): 250g full meal = 187.5g of rice; \n- Portion of dal (1 katori): 130g; \n- Portion of sabzi (1 katori): 130g.\nSince the lunch is described as small, I will reduce the amounts to approximately 25% less.\n\nTotal calculation:\n1. **Rice**: 187.5g * (0.75) = 140.625g -> 140g\n   - Calories per 100g of cooked rice = 130 kcal\n   - Total from rice = 140g/100g * 130 kcal = 182 kcal\n\n2. **Dal**: 130g * (0.75) = 97.5g -> 97g\n   - Calories per katori of dal = 110 kcal\n   - Total from dal = 97g/130g * 110 kcal = ~82.06 kcal (rounded down to 82 kcal)\n\n3. **Sabzi**: 130g * (0.75) = 97.5g -> 97g\n   - Calories per katori of sabzi = 120 kcal\n   - Total from sabzi = 97g/150g * 120 kcal = ~77.6 kcal (rounded down to 78 kcal)\n\nNow, summing the total:\n182 + 82 + 78 = 342 kcal\n\nAssuming 6g of protein in rice, 6g in dal, and 6g in sabzi, the total protein is estimated at 18g.",
+      "item_count": 1,
+      "items": [
+        {
+          "is_food": true,
+          "name": "Small Lunch",
+          "calories": 342,
+          "protein": 18,
+          "carbohydrates": 56,
+          "fat": 7,
+          "meal_type": "Lunch"
+        }
+      ],
+      "is_miss": false,
+      "miss_diagnosis": null,
+      "entity_recall": null,
+      "item_count_match": true,
+      "followup_violated": true
+    },
+    {
+      "description": "a big dinner",
+      "expected": {
+        "calories": 800.0,
+        "protein": 30.0,
+        "fat": 30.0,
+        "carbohydrates": 100.0
+      },
+      "predicted": {
+        "calories": 0.0,
+        "protein": 0.0,
+        "fat": 0.0,
+        "carbohydrates": 0.0
+      },
+      "errors": {
+        "calories": 1.0,
+        "protein": 1.0,
+        "fat": 1.0,
+        "carbohydrates": 1.0
+      },
+      "category": "vague_user_input",
+      "tags": [
+        "vague",
+        "followup_needed"
+      ],
+      "case_id": "vague_005",
+      "thinking": "The user mentioned 'big dinner' which suggests they might have eaten multiple dishes typically served at a dinner. However, no specific dishes have been listed, so I can't provide exact nutrition values without knowing what was specifically included in the meal. Common items in a big dinner might include a mix of proteins (like chicken or fish), carbohydrates (like rice or bread), and vegetables (like salads or curries). To create nutrition profiles, more details are needed about the specific dishes consumed in the dinner.",
+      "item_count": 0,
+      "items": [],
+      "is_miss": true,
+      "miss_diagnosis": {
+        "food_type": "vague_user_input",
+        "failure_stage": "vague_input_guessed",
+        "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+      },
+      "entity_recall": null,
+      "item_count_match": false,
+      "followup_violated": true
+    }
+  ],
+  "entity_recall": 0.8035714285714286,
+  "miss_diagnoses": [
+    {
+      "food_type": "raw_vs_cooked",
+      "failure_stage": "raw_vs_cooked",
+      "suggested_fix": "Clarify raw vs cooked weight mapping for this item type in system prompt",
+      "case_id": "legacy_008",
+      "description": "100g raw spinach"
+    },
+    {
+      "food_type": "atomic_ingredient",
+      "failure_stage": "entity_confusion",
+      "suggested_fix": "Add synonym aliasing for this term",
+      "case_id": "legacy_017",
+      "description": "a bowl of oatmeal with milk"
+    },
+    {
+      "food_type": "vague_user_input",
+      "failure_stage": "vague_input_guessed",
+      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern",
+      "case_id": "legacy_019",
+      "description": "I had a sandwich for lunch"
+    },
+    {
+      "food_type": "atomic_ingredient",
+      "failure_stage": "entity_confusion",
+      "suggested_fix": "Add synonym aliasing for this term",
+      "case_id": "legacy_021",
+      "description": "Some chicken and rice"
+    },
+    {
+      "food_type": "restaurant_or_packaged",
+      "failure_stage": "unknown",
+      "suggested_fix": "Review thinking trace and manually determine fix",
+      "case_id": "legacy_023",
+      "description": "Chicken Caesar salad with extra dressing and croutons"
+    },
+    {
+      "food_type": "raw_vs_cooked",
+      "failure_stage": "raw_vs_cooked",
+      "suggested_fix": "Clarify raw vs cooked weight mapping for this item type in system prompt",
+      "case_id": "legacy_029",
+      "description": "I pan fried 200g of raw salmon in 1 tablespoon of olive oil, served with 100g of roasted sweet potatoes"
+    },
+    {
+      "food_type": "indian_home_cooked",
+      "failure_stage": "serving_assumption",
+      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults",
+      "case_id": "indian_005",
+      "description": "2 pav and 1 plate bhaji"
+    },
+    {
+      "food_type": "serving_based_beverages",
+      "failure_stage": "serving_assumption",
+      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults",
+      "case_id": "bev_001",
+      "description": "1 tea cup garam chai"
+    },
+    {
+      "food_type": "serving_based_beverages",
+      "failure_stage": "serving_assumption",
+      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults",
+      "case_id": "bev_002",
+      "description": "1 tall glass aam panna"
+    },
+    {
+      "food_type": "serving_based_beverages",
+      "failure_stage": "serving_assumption",
+      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults",
+      "case_id": "bev_004",
+      "description": "1 glass nimbu pani"
+    },
+    {
+      "food_type": "serving_based_beverages",
+      "failure_stage": "serving_assumption",
+      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults",
+      "case_id": "bev_005",
+      "description": "1 cup filter coffee"
+    },
+    {
+      "food_type": "indian_home_cooked",
+      "failure_stage": "serving_assumption",
+      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults",
+      "case_id": "comp_005",
+      "description": "chicken tikka masala 1 katori"
+    },
+    {
+      "food_type": "hidden_fat_or_cooking_medium",
+      "failure_stage": "unknown",
+      "suggested_fix": "Review thinking trace and manually determine fix",
+      "case_id": "fat_002",
+      "description": "150g fish fried in 1 tbsp oil"
+    },
+    {
+      "food_type": "hidden_fat_or_cooking_medium",
+      "failure_stage": "hidden_fat_missed",
+      "suggested_fix": "Add specific prompt constraints for implicit cooking fats (butter, oil)",
+      "case_id": "fat_003",
+      "description": "1 plain paratha with 1 tsp ghee"
+    },
+    {
+      "food_type": "hidden_fat_or_cooking_medium",
+      "failure_stage": "hidden_fat_missed",
+      "suggested_fix": "Add specific prompt constraints for implicit cooking fats (butter, oil)",
+      "case_id": "fat_005",
+      "description": "2 pooris deep fried"
+    },
+    {
+      "food_type": "vague_user_input",
+      "failure_stage": "vague_input_guessed",
+      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern",
+      "case_id": "vague_001",
+      "description": "had some chicken and rice"
+    },
+    {
+      "food_type": "vague_user_input",
+      "failure_stage": "vague_input_guessed",
+      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern",
+      "case_id": "vague_002",
+      "description": "ate pasta"
+    },
+    {
+      "food_type": "vague_user_input",
+      "failure_stage": "vague_input_guessed",
+      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern",
+      "case_id": "vague_003",
+      "description": "tea and snacks"
+    },
+    {
+      "food_type": "vague_user_input",
+      "failure_stage": "vague_input_guessed",
+      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern",
+      "case_id": "vague_005",
+      "description": "a big dinner"
+    }
+  ],
+  "worst_cases": [
+    {
+      "case_id": "legacy_008",
+      "description": "100g raw spinach",
+      "category": "raw_vs_cooked",
+      "calorie_error": 1.0,
+      "protein_error": 1.0,
+      "fat_error": 0.4,
+      "carbohydrate_error": 1.0,
+      "expected": {
+        "calories": 23.0,
+        "protein": 2.9,
+        "fat": 0.4,
+        "carbohydrates": 3.6
+      },
+      "predicted": {
+        "calories": 0.0,
+        "protein": 0.0,
+        "fat": 0.0,
+        "carbohydrates": 0.0
+      }
+    },
+    {
+      "case_id": "vague_005",
+      "description": "a big dinner",
+      "category": "vague_user_input",
+      "calorie_error": 1.0,
+      "protein_error": 1.0,
+      "fat_error": 1.0,
+      "carbohydrate_error": 1.0,
+      "expected": {
+        "calories": 800.0,
+        "protein": 30.0,
+        "fat": 30.0,
+        "carbohydrates": 100.0
+      },
+      "predicted": {
+        "calories": 0.0,
+        "protein": 0.0,
+        "fat": 0.0,
+        "carbohydrates": 0.0
+      }
+    },
+    {
+      "case_id": "vague_003",
+      "description": "tea and snacks",
+      "category": "vague_user_input",
+      "calorie_error": 0.85,
+      "protein_error": 0.6,
+      "fat_error": 0.9166666666666666,
+      "carbohydrate_error": 0.825,
+      "expected": {
+        "calories": 300.0,
+        "protein": 5.0,
+        "fat": 12.0,
+        "carbohydrates": 40.0
+      },
+      "predicted": {
+        "calories": 45.0,
+        "protein": 2.0,
+        "fat": 1.0,
+        "carbohydrates": 7.0
+      }
+    },
+    {
+      "case_id": "legacy_019",
+      "description": "I had a sandwich for lunch",
+      "category": "vague_user_input",
+      "calorie_error": 0.7714285714285715,
+      "protein_error": 0.4666666666666667,
+      "fat_error": 0.9166666666666666,
+      "carbohydrate_error": 0.5555555555555556,
+      "expected": {
+        "calories": 350.0,
+        "protein": 15.0,
+        "fat": 12.0,
+        "carbohydrates": 45.0
+      },
+      "predicted": {
+        "calories": 80.0,
+        "protein": 8.0,
+        "fat": 1.0,
+        "carbohydrates": 20.0
+      }
+    },
+    {
+      "case_id": "bev_002",
+      "description": "1 tall glass aam panna",
+      "category": "serving_based_beverages",
+      "calorie_error": 0.6666666666666666,
+      "protein_error": 0.5,
+      "fat_error": 0.0,
+      "carbohydrate_error": 0.6333333333333333,
+      "expected": {
+        "calories": 120.0,
+        "protein": 0.5,
+        "fat": 0.0,
+        "carbohydrates": 30.0
+      },
+      "predicted": {
+        "calories": 40.0,
+        "protein": 0.0,
+        "fat": 0.0,
+        "carbohydrates": 11.0
+      }
+    }
+  ]
+}

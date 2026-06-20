@@ -15,37 +15,37 @@ llm_client = OpenAI()
 
 @router.post("/parse-macros")
 def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> MultiItemResponse:
-    system_msg = {
-        "role": "system",
-        "content": (
-            "You are a strict nutrition tracker. Use short, clean dish names (e.g. 'Protein Shake', 'Chicken Sandwich') — never list ingredients in the name. "
-            "In the 'thinking' field, perform a step-by-step calculation showing your portion assumptions, reference values, and raw arithmetic for each ingredient/item (e.g. '300g beef chuck = 3 * 250 = 750 kcal, 20g * 3 = 60g protein. 2 carrots = 60 kcal. Total = 810 kcal'). Ensure the final sums match the output fields exactly. "
-            "Group items into composite DISHES (e.g. 'chicken sandwich' is 1 dish). Do NOT split composite dishes into raw ingredients. "
-            "If the user ate multiple completely separate dishes, separate them into multiple NutritionItems in the 'items' array. "
-            "If an item is gibberish or non-food, set is_food to False. Infer the meal_type from context.\n\n"
-            "PORTION SIZE STANDARDS — always use these as your baseline, never deviate unless the user explicitly states grams or ml:\n"
-            "- 1 tsp = 5ml (oil/ghee ~4g, dry spice ~3g)\n"
-            "- 1 tbsp = 15ml (oil/ghee ~13g, peanut butter ~16g, sugar ~12g)\n"
-            "- 1 cup = 240ml (cooked rice ~200g, cooked dal ~220g, milk ~240g, flour ~120g)\n"
-            "- 1 bowl = 300ml / ~260g for solid foods (rice, dal, sabzi, pasta)\n"
-            "- 1 katori = 150ml / ~130g (standard small Indian bowl)\n"
-            "- 1 plate of rice = 250g cooked rice\n"
-            "- 1 plate (full meal) = treat as a standard thali: ~250g rice or 3 rotis + 1 katori dal + 1 katori sabzi\n"
-            "- 1 roti / chapati = 40g (medium, no oil); paratha = 60g\n"
-            "- 1 idli = 40g; 1 dosa (plain) = 70g\n"
-            "- 1 egg = 55g\n"
-            "- 1 slice bread = 30g\n"
-            "- 1 handful (dry nuts/seeds) = 30g; (chips/puffs) = 20g\n"
-            "- 1 glass = 250ml\n"
-            "- 'small' portion = reduce by 25%; 'large' or 'heaped' = increase by 30%; 'half' = reduce by 50%.\n"
-            "CRITICAL: You MUST follow these PORTION SIZE STANDARDS and INGREDIENT DEFAULTS exactly. Do NOT use your own internal database weights or default portions if they are defined here. For example, 1 slice of bread must be treated as ~80 kcal based on the 30g slice default, not 265 kcal (which is the 100g value). When a food's volume-to-weight conversion isn't listed above, use your best estimate of the food's density.\n\n"
-        ) + get_ingredient_defaults()
-    }
-    messages = [system_msg] + [msg.model_dump() for msg in request.messages]
+    system_prompt = (
+        "You are a strict nutrition tracker. Use short, clean dish names (e.g. 'Protein Shake', 'Chicken Sandwich') — never list ingredients in the name. "
+        "In the 'thinking' field, perform a step-by-step calculation showing your portion assumptions, reference values, and raw arithmetic for each ingredient/item. Ensure the final sums match the output fields exactly. "
+        "Group items into composite DISHES (e.g. 'chicken sandwich' is 1 dish). Do NOT split composite dishes into raw ingredients. "
+        "If the user ate multiple completely separate dishes, separate them into multiple NutritionItems in the 'items' array. "
+        "If an item is gibberish or non-food, set is_food to False. Infer the meal_type from context.\n\n"
+        "PORTION SIZE STANDARDS — always use these as your baseline, never deviate unless the user explicitly states grams or ml:\n"
+        "- 1 tsp = 5ml (oil/ghee ~4g, dry spice ~3g)\n"
+        "- 1 tbsp = 15ml (oil/ghee ~13g, peanut butter ~16g, sugar ~12g)\n"
+        "- 1 cup = 240ml (cooked rice ~200g, cooked dal ~220g, milk ~240g, flour ~120g)\n"
+        "- 1 bowl = 300ml / ~260g for solid foods (rice, dal, sabzi, pasta)\n"
+        "- 1 katori = 150ml / ~130g (standard small Indian bowl)\n"
+        "- 1 plate of rice = 250g cooked rice\n"
+        "- 1 plate (full meal) = treat as a standard thali: ~250g rice or 3 rotis + 1 katori dal + 1 katori sabzi\n"
+        "- 1 roti / chapati = 40g (medium, no oil); paratha = 60g\n"
+        "- 1 idli = 40g; 1 dosa (plain) = 70g\n"
+        "- 1 egg = 55g\n"
+        "- 1 slice bread = 30g\n"
+        "- 1 handful (dry nuts/seeds) = 30g; (chips/puffs) = 20g\n"
+        "- 1 glass = 250ml\n"
+        "- 'small' portion = reduce by 25%; 'large' or 'heaped' = increase by 30%; 'half' = reduce by 50%.\n"
+    )
+
+    # Append our static ingredient defaults
+    system_prompt += "\n" + get_ingredient_defaults()
+
+    messages = [{"role": "system", "content": system_prompt}] + [msg.model_dump() for msg in request.messages]
 
     response = llm_client.beta.chat.completions.parse(
-        model= "gpt-4o-mini",
-        response_format= MultiItemResponse,
+        model="gpt-4o-mini",
+        response_format=MultiItemResponse,
         messages=messages
     )
     return response.choices[0].message.parsed

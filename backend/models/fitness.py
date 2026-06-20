@@ -33,7 +33,6 @@ class WorkoutSet(SQLModel, table=True):
     reps: int | None = None
     weight_kg: float | None = None
     duration_seconds: int | None = None
-    calories_burned: int | None = None
 
 class Routine(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)

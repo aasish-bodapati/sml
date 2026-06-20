@@ -1,0 +1,62 @@
+case_id,description,calories,protein,fat,carbohydrates,category,tags,difficulty,should_require_followup,expected_items,expected_dishes,expected_key_entities,notes
+legacy_001,100g raw chicken breast,120,22.5,2.6,0,raw_vs_cooked,raw_weight,easy,false,,,,Migrated from v1
+legacy_002,1 large boiled egg,78,6.3,5.3,0.6,composite_meal,composite,easy,false,,,,Migrated from v1
+legacy_003,100g cooked white rice,130,2.7,0.3,28,raw_vs_cooked,cooked_weight,easy,false,,,,Migrated from v1
+legacy_004,1 tablespoon olive oil,119,0,13.5,0,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_005,1 medium banana,105,1.3,0.4,27,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_006,2 slices of whole wheat bread,160,8,2,28,composite_meal,composite,easy,false,,,,Migrated from v1
+legacy_007,1 cup whole milk,149,8,8,12,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_008,100g raw spinach,23,2.9,0.4,3.6,raw_vs_cooked,raw_weight,easy,false,,,,Migrated from v1
+legacy_009,a handful of almonds,164,6,14,6,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_010,1 medium apple,95,0.5,0.3,25,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_011,2 plain chapatis,140,4,0.8,30,indian_home_cooked,indian|composite|serving_based,easy,false,,,,Migrated from v1
+legacy_012,1 bowl of dal tadka,220,11,6,30,indian_home_cooked,indian|composite|serving_based,easy,false,,,,Migrated from v1
+legacy_013,1 plate chicken biryani,600,25,20,70,indian_home_cooked,indian|composite|serving_based,easy,false,,,,Migrated from v1
+legacy_014,1 plain dosa,133,3.5,3.7,20,indian_home_cooked,indian|composite|serving_based,easy,false,,,,Migrated from v1
+legacy_015,100g paneer tikka,260,18,20,4,indian_home_cooked,indian|composite|serving_based,easy,false,,,,Migrated from v1
+legacy_016,peanut butter toast,174,8,9,17,composite_meal,composite,easy,false,,,,Migrated from v1
+legacy_017,a bowl of oatmeal with milk,299,13,11,39,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_018,coffee with milk,18,1,1,1.5,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_019,I had a sandwich for lunch,350,15,12,45,vague_user_input,vague|followup_needed,hard,true,,,,Migrated from v1
+legacy_020,Ate a big bowl of pasta,500,15,10,85,vague_user_input,vague|followup_needed,hard,true,,,,Migrated from v1
+legacy_021,Some chicken and rice,400,30,5,55,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_022,Just a regular cheeseburger from McDonalds,300,15,12,33,restaurant_or_packaged,restaurant|composite,easy,false,,,,Migrated from v1
+legacy_023,Chicken Caesar salad with extra dressing and croutons,600,30,45,20,restaurant_or_packaged,restaurant|composite,easy,false,,,,Migrated from v1
+legacy_024,Two slices of large pepperoni pizza,600,24,26,68,restaurant_or_packaged,restaurant|composite,easy,false,,,,Migrated from v1
+legacy_025,"A burrito bowl with brown rice, black beans, double chicken, and guac",800,60,30,70,restaurant_or_packaged,restaurant|composite,easy,false,,,,Migrated from v1
+legacy_026,"150g raw chicken breast, 200g cooked white rice, 50g steamed broccoli",457,39,4,59,raw_vs_cooked,cooked_weight,easy,false,,,,Migrated from v1
+legacy_027,3 large eggs scrambled with 1 tbsp butter and 30g cheddar cheese,430,25,36,2,hidden_fat_or_cooking_medium,hidden_fat,easy,false,,,,Migrated from v1
+legacy_028,"2 scoop whey protein, 300ml whole milk, 1 medium banana, 1 tbsp peanut butter",620,63,21,50,atomic_ingredient,synonym_risk,easy,false,,,,Migrated from v1
+legacy_029,"I pan fried 200g of raw salmon in 1 tablespoon of olive oil, served with 100g of roasted sweet potatoes",621,41.6,40,20,raw_vs_cooked,raw_weight,easy,false,,,,Migrated from v1
+legacy_030,"Made a stew with 300g beef chuck, 2 large carrots, 1 medium potato, slow cooked in 2 cups of beef broth",970,65.3,58.5,46,composite_meal,composite,easy,false,,,,Migrated from v1
+legacy_031,Deep fried 200g of french fries in vegetable oil,646,7,32,84,hidden_fat_or_cooking_medium,hidden_fat,easy,false,,,,Migrated from v1
+indian_001,1 bowl dal tadka and 2 chapatis,360,15,7,60,indian_home_cooked,indian|serving_based|composite,medium,false,2,dal tadka|chapati,dal|chapati,
+indian_002,1 katori aloo sabzi,150,2,8,18,indian_home_cooked,indian|serving_based,medium,false,1,aloo sabzi,aloo sabzi,
+indian_003,1 plate poha,250,5,8,40,indian_home_cooked,indian|serving_based,easy,false,1,poha,poha,
+indian_004,2 idlis and 1 katori sambar,185,8,4,30,indian_home_cooked,indian|serving_based|composite,medium,false,2,idli|sambar,idli|sambar,
+indian_005,2 pav and 1 plate bhaji,400,10,15,55,indian_home_cooked,indian|serving_based|composite,medium,false,2,pav|bhaji,pav|bhaji,
+indian_006,2 bhature and 1 katori chole,550,12,25,65,indian_home_cooked,indian|serving_based|composite,medium,false,2,bhature|chole,bhature|chole,
+indian_007,1 plate rajma chawal,350,10,5,65,indian_home_cooked,indian|serving_based|composite,medium,false,2,rajma|rice,rajma|rice,
+indian_008,1 bowl khichdi,250,8,5,42,indian_home_cooked,indian|serving_based,easy,false,1,khichdi,khichdi,
+bev_001,1 tea cup garam chai,34,0.8,1.1,5.4,serving_based_beverages,indian|beverage|serving_based|synonym_risk,easy,false,1,hot tea (garam chai),tea,
+bev_002,1 tall glass aam panna,120,0.5,0,30,serving_based_beverages,indian|beverage|serving_based,easy,false,1,aam panna,aam panna,
+bev_003,1 glass sweet lassi,200,8,8,25,serving_based_beverages,indian|beverage|serving_based,easy,false,1,sweet lassi,lassi,
+bev_004,1 glass nimbu pani,60,0.2,0,15,serving_based_beverages,indian|beverage|serving_based,easy,false,1,nimbu pani,nimbu pani,
+bev_005,1 cup filter coffee,80,2,2,12,serving_based_beverages,indian|beverage|serving_based,easy,false,1,filter coffee,filter coffee,
+bev_006,1 glass hot milk,150,8,8,12,serving_based_beverages,beverage|serving_based,easy,false,1,hot milk,milk,
+comp_001,chicken rice bowl,450,35,10,55,composite_meal,composite,medium,false,1,chicken rice bowl,chicken|rice,
+comp_002,burrito bowl with guac,600,30,20,75,restaurant_or_packaged,restaurant|composite,medium,false,1,burrito bowl,burrito bowl|guacamole,
+comp_003,caesar salad with croutons,400,15,30,15,composite_meal,composite,medium,false,1,caesar salad,caesar salad|croutons,
+comp_004,1 masala dosa,250,5,10,35,indian_home_cooked,indian|composite|serving_based,medium,false,1,masala dosa,dosa,
+comp_005,chicken tikka masala 1 katori,250,20,15,10,indian_home_cooked,indian|composite|serving_based,medium,false,1,chicken tikka masala,chicken tikka masala,
+comp_006,1 plate gobi manchurian,300,5,15,35,restaurant_or_packaged,indian|restaurant|composite|serving_based,medium,false,1,gobi manchurian,gobi manchurian,
+fat_001,2 eggs scrambled in 1 tbsp butter,240,12,21,1,hidden_fat_or_cooking_medium,hidden_fat,medium,false,1,scrambled eggs,egg|butter,
+fat_002,150g fish fried in 1 tbsp oil,270,25,18,0,hidden_fat_or_cooking_medium,hidden_fat,medium,false,1,fried fish,fish|oil,
+fat_003,1 plain paratha with 1 tsp ghee,165,3,8,20,hidden_fat_or_cooking_medium,indian|hidden_fat|serving_based,medium,false,1,paratha,paratha|ghee,
+fat_004,1 plate chicken biryani with 1 katori raita,750,35,25,95,hidden_fat_or_cooking_medium,indian|composite|hidden_fat|serving_based,medium,false,2,chicken biryani|raita,biryani|raita,
+fat_005,2 pooris deep fried,200,4,12,20,hidden_fat_or_cooking_medium,indian|hidden_fat|serving_based,hard,false,1,poori,poori,Frying oil must be estimated
+vague_001,had some chicken and rice,400,30,5,55,vague_user_input,vague|composite|followup_needed,hard,true,1,chicken and rice,chicken|rice,Should ideally ask portion follow-up
+vague_002,ate pasta,380,12,2,75,vague_user_input,vague|followup_needed,hard,true,1,pasta,pasta,
+vague_003,tea and snacks,300,5,12,40,vague_user_input,vague|followup_needed,hard,true,2,tea|snacks,tea,
+vague_004,just a small lunch,350,10,10,55,vague_user_input,vague|followup_needed,hard,true,1,,,
+vague_005,a big dinner,800,30,30,100,vague_user_input,vague|followup_needed,hard,true,1,,,
