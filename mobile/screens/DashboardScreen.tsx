@@ -152,14 +152,15 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
       ) : showLogMealModal ? (
         <ChatTab 
           fetchData={fetchData} 
-          onClose={() => setShowLogMealModal(false)} 
+          onClose={() => setShowLogMealModal(false)}
+          recipes={recipes}
         />
       ) : (
         <>
           {activeTab === 'home' && (
             <View style={s.header}>
               <View style={{ flex: 1 }}>
-                <Text style={s.headerTitle}>✨ LyfSync</Text>
+                <Text style={s.headerTitle}>LyfSync</Text>
                 <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>{session.user?.email}</Text>
               </View>
             </View>
@@ -176,7 +177,7 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
                   onPress={() => setShowRecipesScreen(true)} 
                   style={{ backgroundColor: 'rgba(56,189,248,0.1)', paddingHorizontal: rs(12), paddingVertical: rs(6), borderRadius: rs(8), borderWidth: rs(1), borderColor: C.border }}
                 >
-                  <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>⭐ Recipes</Text>
+                  <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>Recipes</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                   onPress={() => setShowLogMealModal(true)} 

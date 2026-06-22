@@ -142,7 +142,7 @@ export default function ConfirmationCard({ parsedData, onConfirm, onCancel, isLo
           {isSaving ? (
             <ActivityIndicator color="#fbbf24" size="small" />
           ) : (
-            <Text numberOfLines={1} style={{ color: '#fbbf24', fontWeight: 'bold', fontSize: fs(13) }}>⭐ Save</Text>
+            <Text numberOfLines={1} style={{ color: '#fbbf24', fontWeight: 'bold', fontSize: fs(13) }}>Save</Text>
           )}
         </TouchableOpacity>
         <TouchableOpacity

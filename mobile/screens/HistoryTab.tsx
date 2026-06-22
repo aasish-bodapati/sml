@@ -107,7 +107,7 @@ export default function HistoryTab({ logs, viewDate, setViewDate, handleDeleteLo
                 style={{ padding: rs(12), paddingRight: rs(0) }}
                 hitSlop={{ top: rs(10), bottom: rs(10), left: rs(10), right: rs(10) }}
               >
-                <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>⭐ Save</Text>
+                <Text style={{ color: C.accent, fontSize: fs(13), fontWeight: 'bold' }}>Save</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {

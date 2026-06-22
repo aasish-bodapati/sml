@@ -19,7 +19,7 @@ export default function RecipesScreen({ recipes, handleLogRecipe, handleDeleteRe
         data={recipes}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ padding: rs(16) }}
-        ListEmptyComponent={<Text style={{ color: C.textMuted, textAlign: 'center', marginTop: rs(32), fontStyle: 'italic' }}>No saved recipes yet. Log a meal and tap '⭐ Save' in the Logs tab to add one!</Text>}
+        ListEmptyComponent={<Text style={{ color: C.textMuted, textAlign: 'center', marginTop: rs(32), fontStyle: 'italic' }}>No saved recipes yet. Log a meal and tap 'Save' in the Logs tab to add one!</Text>}
         renderItem={({ item }) => (
           <View style={{ backgroundColor: C.surface, padding: rs(16), borderRadius: rs(12), marginBottom: rs(12) }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: rs(12) }}>
