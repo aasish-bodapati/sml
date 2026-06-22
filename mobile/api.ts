@@ -297,3 +297,83 @@ export async function deleteRoutine(routineId: number) {
   });
   if (!response.ok) throw new Error(`Failed to delete routine: ${await response.text()}`);
 }
+
+export async function getWardrobe(category?: string) {
+  const token = await getToken();
+  const url = category && category !== 'all' ? `${API_BASE_URL}/wardrobe?category=${encodeURIComponent(category)}` : `${API_BASE_URL}/wardrobe`;
+  const response = await fetch(url, {
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to fetch wardrobe: ${await response.text()}`);
+  return response.json();
+}
+
+export async function addWardrobeItem(data: { name: string; category: string; color: string; brand?: string | null; notes?: string | null; photo_url?: string | null }) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/wardrobe`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error(`Failed to add wardrobe item: ${await response.text()}`);
+  return response.json();
+}
+
+export async function updateWardrobeItem(id: number, data: { name: string; category: string; color: string; brand?: string | null; notes?: string | null; photo_url?: string | null }) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/wardrobe/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error(`Failed to update wardrobe item: ${await response.text()}`);
+  return response.json();
+}
+
+export async function deleteWardrobeItem(id: number) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/wardrobe/${id}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to delete wardrobe item: ${await response.text()}`);
+  return response.json();
+}
+
+export async function wearWardrobeItem(id: number) {
+  const token = await getToken();
+  const response = await fetch(`${API_BASE_URL}/wardrobe/${id}/wear`, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+  });
+  if (!response.ok) throw new Error(`Failed to record wear for wardrobe item: ${await response.text()}`);
+  return response.json();
+}
+
+export async function scanWardrobe(imageUri: string) {
+  const token = await getToken();
+  
+  const formData = new FormData();
+  formData.append('file', {
+    uri: imageUri,
+    name: 'photo.jpg',
+    type: 'image/jpeg',
+  } as any);
+
+  const response = await fetch(`${API_BASE_URL}/wardrobe/scan`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    let errMsg = `Server error ${response.status}`;
+    try { const j = await response.json(); if (j?.detail) errMsg = j.detail; } catch (_) {}
+    throw new Error(errMsg);
+  }
+  
+  return response.json();
+}
+

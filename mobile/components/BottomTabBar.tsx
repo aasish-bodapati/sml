@@ -8,6 +8,7 @@ export default function BottomTabBar({ active, onSelect }: { active: string, onS
   const tabs = [
     { key: 'home', label: 'Dashboard', icon: 'grid-outline', iconActive: 'grid' },
     { key: 'history', label: 'Nutrition', icon: 'bar-chart-outline', iconActive: 'bar-chart' },
+    { key: 'wardrobe', label: 'Wardrobe', icon: 'shirt-outline', iconActive: 'shirt' },
     { key: 'fitness', label: 'Fitness', icon: 'fitness-outline', iconActive: 'fitness' },
     { key: 'profile', label: 'Profile', icon: 'person-outline', iconActive: 'person' },
   ];

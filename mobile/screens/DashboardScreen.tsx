@@ -8,6 +8,7 @@ import ChatTab from './ChatTab';
 import HistoryTab from './HistoryTab';
 import ProfileTab from './ProfileTab';
 import FitnessTab from './FitnessTab';
+import WardrobeTab from './WardrobeTab';
 import RecipesScreen from './RecipesScreen';
 import LogWorkoutScreen from './LogWorkoutScreen';
 import { getLogs, getSummary, getWeeklyAnalytics, getWeightHistory, getRecipes, deleteLog, deleteRecipe, logRecipe, saveRecipe, getWorkouts } from '../api';
@@ -206,6 +207,15 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
             </View>
           )}
 
+          {activeTab === 'wardrobe' && (
+            <View style={[s.header, { justifyContent: 'space-between' }]}>
+              <View style={{ flex: 1 }}>
+                <Text style={s.headerTitle}>Wardrobe</Text>
+                <Text style={{ color: C.textSecondary, fontSize: fs(13) }}>Outfit Scan & Catalog</Text>
+              </View>
+            </View>
+          )}
+
           {error ? (
             <View style={s.errorBanner}><Text style={{ color: '#fca5a5' }}>⚠️ {error}</Text></View>
           ) : null}
@@ -222,6 +232,9 @@ export default function DashboardScreen({ session, targetMacros, rawProfile, onU
             )}
             {activeTab === 'fitness' && (
               <FitnessTab />
+            )}
+            {activeTab === 'wardrobe' && (
+              <WardrobeTab />
             )}
             {activeTab === 'history' && (
               <HistoryTab
