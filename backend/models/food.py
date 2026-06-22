@@ -82,5 +82,29 @@ class BaseIngredient(SQLModel, table=True):
     fat: float
     embedding: list[float] | None = Field(default=None, sa_column=Column(Vector(1536)))
 
+class UsdaFood(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    fdc_id: int = Field(unique=True, index=True)
+    description: str
+    calories: float
+    protein: float
+    fat: float
+    carbs: float
+    embedding: list[float] | None = Field(default=None, sa_column=Column(Vector(1536)))
+
+class ComplexDish(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    name: str
+    source: str
+    calories: float
+    protein: float
+    carbohydrates: float
+    fat: float
+    serving_unit: str | None = Field(default=None)
+    serving_qty: float | None = Field(default=None)
+    embedding: list[float] | None = Field(default=None, sa_column=Column(Vector(1536)))
+
+
 class TranscribeResponse(BaseModel):
     text: str
+

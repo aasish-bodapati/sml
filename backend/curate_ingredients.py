@@ -1,6 +1,7 @@
 import pandas as pd
 from sqlmodel import Session, select, text
-from main import engine, UsdaFood, BaseIngredient
+from db import engine
+from models.food import UsdaFood, BaseIngredient, ComplexDish
 from openai import OpenAI
 import os
 from pydantic import BaseModel
@@ -92,10 +93,12 @@ REJECT raw, single ingredients (e.g., plain salt, raw rice, raw vegetables, sing
                 cd = ComplexDish(
                     name=row['food_name'],
                     source="INDB",
-                    calories=float(row['energy_kcal']) if pd.notna(row['energy_kcal']) else 0.0,
-                    protein=float(row['protein_g']) if pd.notna(row['protein_g']) else 0.0,
-                    carbohydrates=float(row['carb_g']) if pd.notna(row['carb_g']) else 0.0,
-                    fat=float(row['fat_g']) if pd.notna(row['fat_g']) else 0.0,
+                    calories=float(row['unit_serving_energy_kcal']) if pd.notna(row['unit_serving_energy_kcal']) else 0.0,
+                    protein=float(row['unit_serving_protein_g']) if pd.notna(row['unit_serving_protein_g']) else 0.0,
+                    carbohydrates=float(row['unit_serving_carb_g']) if pd.notna(row['unit_serving_carb_g']) else 0.0,
+                    fat=float(row['unit_serving_fat_g']) if pd.notna(row['unit_serving_fat_g']) else 0.0,
+                    serving_unit=row['servings_unit'] if pd.notna(row['servings_unit']) else None,
+                    serving_qty=1.0,
                     embedding=embeddings[j]
                 )
                 session.add(cd)
@@ -104,7 +107,6 @@ REJECT raw, single ingredients (e.g., plain salt, raw rice, raw vegetables, sing
 if __name__ == "__main__":
     from dotenv import load_dotenv
     load_dotenv()
-    from main import ComplexDish
     with Session(engine) as session:
         session.exec(text("TRUNCATE TABLE baseingredient RESTART IDENTITY"))
         session.exec(text("TRUNCATE TABLE complexdish RESTART IDENTITY"))
