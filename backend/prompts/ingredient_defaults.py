@@ -43,4 +43,16 @@ INGREDIENT DEFAULTS (Use these exact values as your baseline if the user describ
 • Whey Protein Shake: 120 kcal, 25g protein, 2.0g fat, 3g carbs (per 1 scoop with water)
 • Chicken Breast (Raw): 120 kcal, 22g protein, 2.5g fat, 0g carbs (per 100g)
 • Chicken Breast (Cooked): 165 kcal, 31g protein, 3.6g fat, 0g carbs (per 100g)
+
+--- Seafood ---
+• Salmon (raw): 208 kcal, 20g protein, 13g fat, 0g carbs (per 100g)
+• Salmon (cooked/baked): 231 kcal, 25g protein, 14g fat, 0g carbs (per 100g)
+
+--- Grains & Vegetables ---
+• White Rice (cooked): 130 kcal, 2.7g protein, 0.3g fat, 28g carbs (per 100g)
+• White Rice (raw/dry): 365 kcal, 7.1g protein, 0.7g fat, 80g carbs (per 100g)
+• Pasta (cooked): 160 kcal, 5.5g protein, 1.1g fat, 31g carbs (per 100g)
+• Spinach (raw): 23 kcal, 2.9g protein, 0.4g fat, 3.6g carbs (per 100g)
+• Broccoli (raw/steamed): 34 kcal, 2.8g protein, 0.4g fat, 7g carbs (per 100g)
+• Sweet Potato (roasted): 90 kcal, 2g protein, 0g fat, 21g carbs (per 100g)
 """
