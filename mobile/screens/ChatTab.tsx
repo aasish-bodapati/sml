@@ -21,6 +21,7 @@ export default function ChatTab({ fetchData, onClose }: any) {
     return 'snack';
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [isParsing, setIsParsing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
   const [isRecording, setIsRecording] = useState(false);
@@ -71,6 +72,7 @@ export default function ChatTab({ fetchData, onClose }: any) {
     setMessages(newMessages);
     setInput('');
     setIsLoading(true);
+    setIsParsing(true);
     setError(null);
     
     try {
@@ -90,7 +92,10 @@ export default function ChatTab({ fetchData, onClose }: any) {
       setError(e.message || 'Failed to parse meal.'); 
       setMessages([...newMessages, { role: 'assistant', content: 'Sorry, I encountered an error. Could you try again?' }]);
     }
-    finally { setIsLoading(false); }
+    finally { 
+      setIsLoading(false); 
+      setIsParsing(false);
+    }
   };
 
   const handleConfirm = async (editedMeals: any[], thinking: string) => {
@@ -139,6 +144,14 @@ export default function ChatTab({ fetchData, onClose }: any) {
             )}
           </View>
         )}
+        ListFooterComponent={isParsing ? (
+          <View style={{ alignItems: 'flex-start', marginBottom: rs(16), marginLeft: rs(4) }}>
+            <View style={{ backgroundColor: C.surface, padding: rs(12), borderRadius: rs(16), borderBottomLeftRadius: 4, flexDirection: 'row', alignItems: 'center', gap: rs(8) }}>
+              <ActivityIndicator size="small" color={C.textSecondary} />
+              <Text style={{ color: C.textSecondary, fontSize: fs(14) }}>Analyzing meal...</Text>
+            </View>
+          </View>
+        ) : null}
       />
       {error && <Text style={{ color: C.error, textAlign: 'center', marginBottom: rs(8) }}>{error}</Text>}
       <View style={{ backgroundColor: C.bg, borderTopWidth: rs(1), borderTopColor: C.border }}>
