@@ -29,7 +29,7 @@ export default function RecipeMentionDropdown({ recipes, query, onSelect }: Prop
       bottom: '100%',
       left: rs(16),
       right: rs(16),
-      backgroundColor: C.surface,
+      backgroundColor: '#1e293b',
       borderRadius: rs(12),
       borderWidth: rs(1),
       borderColor: 'rgba(255,255,255,0.12)',
