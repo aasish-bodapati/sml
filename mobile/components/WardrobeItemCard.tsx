@@ -11,6 +11,7 @@ interface WardrobeItem {
   brand: string | null;
   notes: string | null;
   photo_url: string | null;
+  tags: string[] | null;
   times_worn: number;
   last_worn: string | null;
 }
@@ -87,6 +88,17 @@ export default function WardrobeItemCard({ item, onWear, onDelete, isActionLoadi
             Worn {item.times_worn} {item.times_worn === 1 ? 'time' : 'times'}
           </Text>
         </View>
+
+        {/* Tags */}
+        {item.tags && item.tags.length > 0 && (
+          <View style={[styles.row, { marginTop: rs(4), flexWrap: 'wrap' }]}>
+            {item.tags.slice(0, 3).map((tag, i) => (
+              <View key={i} style={styles.tagPill}>
+                <Text style={styles.tagPillText}>{tag}</Text>
+              </View>
+            ))}
+          </View>
+        )}
       </View>
 
       {/* Action Buttons */}
@@ -215,5 +227,15 @@ const styles = StyleSheet.create({
     borderRadius: rs(16),
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  tagPill: {
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    paddingHorizontal: rs(6),
+    paddingVertical: rs(2),
+    borderRadius: rs(10),
+  },
+  tagPillText: {
+    color: C.textMuted,
+    fontSize: fs(10),
   },
 });

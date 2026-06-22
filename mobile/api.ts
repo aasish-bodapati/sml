@@ -308,7 +308,7 @@ export async function getWardrobe(category?: string) {
   return response.json();
 }
 
-export async function addWardrobeItem(data: { name: string; category: string; color: string; brand?: string | null; notes?: string | null; photo_url?: string | null }) {
+export async function addWardrobeItem(data: { name: string; category: string; color: string; brand?: string | null; notes?: string | null; photo_url?: string | null; tags?: string[] | null }) {
   const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/wardrobe`, {
     method: 'POST',
@@ -319,7 +319,7 @@ export async function addWardrobeItem(data: { name: string; category: string; co
   return response.json();
 }
 
-export async function updateWardrobeItem(id: number, data: { name: string; category: string; color: string; brand?: string | null; notes?: string | null; photo_url?: string | null }) {
+export async function updateWardrobeItem(id: number, data: { name: string; category: string; color: string; brand?: string | null; notes?: string | null; photo_url?: string | null; tags?: string[] | null }) {
   const token = await getToken();
   const response = await fetch(`${API_BASE_URL}/wardrobe/${id}`, {
     method: 'PUT',

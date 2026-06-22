@@ -22,6 +22,7 @@ interface ScannedItem {
   category: string;
   color: string;
   brand: string | null;
+  tags: string[];
 }
 
 interface ScanSheetProps {
@@ -119,6 +120,7 @@ export default function WardrobeScanSheet({ visible, onClose, onSuccess }: ScanS
           color: item.color,
           brand: item.brand,
           photo_url: photoUrl,
+          tags: item.tags,
           notes: 'Scanned via selfie scan'
         });
       }
