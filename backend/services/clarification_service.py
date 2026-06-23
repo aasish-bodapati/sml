@@ -1,22 +1,34 @@
 from models.nutrition_pipeline import RetrievalResult, ClarificationQuestion
+from services.trusted_defaults import resolve_trusted_default
 
 def check(retrievals: list[RetrievalResult], raw_query: str = "") -> ClarificationQuestion | None:
-    # Rule -1: Brand detection on the full raw query (gated by retrieval confidence)
-    # Only includes restaurants/customizable chains, not packaged goods with standard serving sizes
     brands = ['mcdonald', 'kfc', 'domino', 'subway', 'burger king', 'zomato', 'swiggy', 'starbucks', 'taco bell']
-    matched_brand = next((b for b in brands if b in raw_query), None)
-    
-    top_confidence_across_items = max((r.top_hit_confidence for r in retrievals), default=0.0)
+    matched_brand = next((b for b in brands if b in raw_query.lower()), None)
     
     if matched_brand:
-        return ClarificationQuestion(
-            item_ref=matched_brand.title(),
-            question=f"I don't have exact nutritional data for {matched_brand.title()} items. Could you tell me the size/weight or check the nutrition label?",
-            options=None
-        )
+        all_safe = True
+        for r in retrievals:
+            is_trusted = resolve_trusted_default(r.parsed_item) is not None
+            has_explicit_portion = r.parsed_item.quantity is not None and r.parsed_item.unit is not None
+            if not (is_trusted or has_explicit_portion):
+                all_safe = False
+                break
+                
+        if not all_safe:
+            return ClarificationQuestion(
+                item_ref=matched_brand.title(),
+                question=f"I don't have exact nutritional data for {matched_brand.title()} items. Could you tell me the size/weight or check the nutrition label?",
+                options=None
+            )
 
     # Phase 1: heuristic rules
     for r in retrievals:
+        is_trusted = resolve_trusted_default(r.parsed_item) is not None
+        has_explicit_portion = r.parsed_item.quantity is not None and r.parsed_item.unit is not None
+        
+        if is_trusted:
+            continue
+            
         item_name = r.parsed_item.canonical_name.lower()
         surface_text = r.parsed_item.surface_text.lower()
         
@@ -49,7 +61,7 @@ def check(retrievals: list[RetrievalResult], raw_query: str = "") -> Clarificati
             
         # Rule 1: Highly ambiguous common items where unit/preparation matters massively
         ambiguous_keywords = ["oats", "protein shake", "biryani", "sandwich", "smoothie", "salad"]
-        if any(k in item_name for k in ambiguous_keywords) and not r.parsed_item.unit:
+        if any(k in item_name for k in ambiguous_keywords) and not r.parsed_item.unit and not has_explicit_portion:
             return ClarificationQuestion(
                 item_ref=r.parsed_item.surface_text,
                 question=f"Could you clarify the portion size or preparation for the {item_name}?",
