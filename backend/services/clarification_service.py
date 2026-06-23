@@ -8,7 +8,7 @@ def check(retrievals: list[RetrievalResult], raw_query: str = "") -> Clarificati
     
     top_confidence_across_items = max((r.top_hit_confidence for r in retrievals), default=0.0)
     
-    if matched_brand and top_confidence_across_items < 0.55:
+    if matched_brand:
         return ClarificationQuestion(
             item_ref=matched_brand.title(),
             question=f"I don't have exact nutritional data for {matched_brand.title()} items. Could you tell me the size/weight or check the nutrition label?",

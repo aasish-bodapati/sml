@@ -122,6 +122,15 @@ def retrieve_single(item: ParsedItem, user_id: str, session: Session) -> Retriev
                 jaccard = overlap / union
                 c.similarity += (0.10 * jaccard)
                 
+        if item.avoid_pre_fatted_candidates:
+            AVOID_TERMS = ["fried", "orly", "pakora", "breaded", "battered", "crispy", "tikka masala", "butter masala"]
+            PREFER_TERMS = ["raw", "plain", "grilled", "boiled", "steamed", "baked"]
+            c_name_lower = c.name.lower()
+            if any(t in c_name_lower for t in AVOID_TERMS):
+                c.similarity -= 0.30
+            if any(t in c_name_lower for t in PREFER_TERMS):
+                c.similarity += 0.15
+                
     candidates.sort(key=lambda c: c.similarity, reverse=True)
     top_candidates = candidates[:3]
     top_confidence = top_candidates[0].similarity if top_candidates else 0.0

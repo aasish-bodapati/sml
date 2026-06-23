@@ -21,6 +21,11 @@ TEST_INPUTS = [
     "2 plain chapatis",
     "a handful of almonds",
     "1 glass lassi",
+    "a Subway footlong roasted chicken breast sandwich",
+    "1 margherita pizza from Domino's (regular size)",
+    "Deep fried 200g of french fries in vegetable oil",
+    "150g fish fried in 1 tbsp oil",
+    "1 plain paratha with 1 tsp ghee",
 ]
 
 
@@ -132,6 +137,17 @@ def run_quick_tests() -> None:
 
         messages = [ChatMessage(role="user", content=text)]
         parsed_meal = parse_service.parse(messages)
+        
+        FAT_KEYWORDS = {"oil", "butter", "ghee", "mayo", "dressing", "margarine"}
+        has_explicit_added_fat = any(
+            item.quantity is not None and any(f in item.canonical_name.lower() for f in FAT_KEYWORDS)
+            for item in parsed_meal.items
+        )
+        if has_explicit_added_fat:
+            for item in parsed_meal.items:
+                if not any(f in item.canonical_name.lower() for f in FAT_KEYWORDS):
+                    item.avoid_pre_fatted_candidates = True
+                    
         retrievals = retrieval_service.retrieve_all(parsed_meal.items, user_id="test_user")
         clarification = clarification_service.check(retrievals)
         estimates = estimation_service.estimate_all(retrievals)

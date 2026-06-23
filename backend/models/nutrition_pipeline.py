@@ -8,6 +8,7 @@ class ParsedItem(BaseModel):
     unit: str | None
     modifiers: list[str]
     preparation: str | None
+    avoid_pre_fatted_candidates: bool = False
 
 class ParsedMeal(BaseModel):
     items: list[ParsedItem]

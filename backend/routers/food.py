@@ -20,6 +20,17 @@ def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)
     from models.food import NutritionItem
     
     parsed_meal = parse_service.parse(request.messages)
+    
+    FAT_KEYWORDS = {"oil", "butter", "ghee", "mayo", "dressing", "margarine"}
+    has_explicit_added_fat = any(
+        item.quantity is not None and any(f in item.canonical_name.lower() for f in FAT_KEYWORDS)
+        for item in parsed_meal.items
+    )
+    if has_explicit_added_fat:
+        for item in parsed_meal.items:
+            if not any(f in item.canonical_name.lower() for f in FAT_KEYWORDS):
+                item.avoid_pre_fatted_candidates = True
+                
     retrievals = retrieval_service.retrieve_all(parsed_meal.items, user_id)
     
     raw_query = " ".join([m.get("content", "") if isinstance(m, dict) else getattr(m, "content", "") for m in request.messages]).lower()
