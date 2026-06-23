@@ -51,6 +51,8 @@ def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)
             
         if linked_item:
             linked_item.avoid_pre_fatted_candidates = True
+            for kw in ["deep fried", "fried", "scrambled", "roasted", "sautéed", "sauteed"]:
+                linked_item.canonical_name = linked_item.canonical_name.lower().replace(kw, "").strip()
                 
     retrievals = retrieval_service.retrieve_all(parsed_meal.items, user_id)
     
@@ -69,7 +71,7 @@ def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)
             )]
         )
         
-    estimated_items = estimation_service.estimate_all(retrievals)
+    estimated_items = estimation_service.estimate_all(retrievals, raw_query)
     items = []
     for est in estimated_items:
         items.append(NutritionItem(

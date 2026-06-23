@@ -1,13 +1,18 @@
 from openai import OpenAI
 from models.nutrition_pipeline import RetrievalResult, EstimatedItem
 from prompts.ingredient_defaults import get_ingredient_defaults
+from services.trusted_defaults import resolve_trusted_default
 
 llm_client = OpenAI()
 
-def estimate_all(retrievals: list[RetrievalResult]) -> list[EstimatedItem]:
-    return [estimate_single(r) for r in retrievals]
+def estimate_all(retrievals: list[RetrievalResult], raw_query: str = "") -> list[EstimatedItem]:
+    return [estimate_single(r, raw_query) for r in retrievals]
 
-def estimate_single(retrieval: RetrievalResult) -> EstimatedItem:
+def estimate_single(retrieval: RetrievalResult, raw_query: str = "") -> EstimatedItem:
+    trusted = resolve_trusted_default(retrieval.parsed_item, raw_query)
+    if trusted:
+        return trusted
+        
     system_prompt = (
         "You are an expert nutrition estimator. "
         "Your task is to take a parsed food item and a list of retrieved database candidates, and estimate the final macros. "
@@ -31,6 +36,7 @@ def estimate_single(retrieval: RetrievalResult) -> EstimatedItem:
         "- 1 handful (dry nuts/seeds) = 30g; (chips/puffs) = 20g\n"
         "- 1 glass = 250ml\n"
         "- 'small' portion = reduce by 25%; 'large' or 'heaped' = increase by 30%; 'half' = reduce by 50%.\n\n"
+        "SANITY CAP: Do not estimate any standard 'katori' or 'bowl' of Indian dal, sabzi, or curry to be more than 400-450 calories unless it is explicitly deep-fried or heavily buttered restaurant style. If retrieved candidates suggest > 450 kcal per katori, IGNORE them and fall back to the static Ingredient Defaults below, scaled appropriately.\n\n"
     )
     
     system_prompt += get_ingredient_defaults()

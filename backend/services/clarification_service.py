@@ -8,9 +8,8 @@ def check(retrievals: list[RetrievalResult], raw_query: str = "") -> Clarificati
     if matched_brand:
         all_safe = True
         for r in retrievals:
-            is_trusted = resolve_trusted_default(r.parsed_item) is not None
-            has_explicit_portion = r.parsed_item.quantity is not None and r.parsed_item.unit is not None
-            if not (is_trusted or has_explicit_portion):
+            is_trusted = resolve_trusted_default(r.parsed_item, raw_query) is not None
+            if not is_trusted:
                 all_safe = False
                 break
                 
@@ -60,8 +59,17 @@ def check(retrievals: list[RetrievalResult], raw_query: str = "") -> Clarificati
 
             
         # Rule 1: Highly ambiguous common items where unit/preparation matters massively
-        ambiguous_keywords = ["oats", "protein shake", "biryani", "sandwich", "smoothie", "salad"]
+        ambiguous_keywords = ["oats", "protein shake", "biryani", "smoothie", "salad"]
+        strict_ambiguous_keywords = ["sandwich", "cake", "pizza"]
+        
         if any(k in item_name for k in ambiguous_keywords) and not r.parsed_item.unit and not has_explicit_portion:
+            return ClarificationQuestion(
+                item_ref=r.parsed_item.surface_text,
+                question=f"Could you clarify the portion size or preparation for the {item_name}?",
+                options=None
+            )
+            
+        if any(k in item_name for k in strict_ambiguous_keywords):
             return ClarificationQuestion(
                 item_ref=r.parsed_item.surface_text,
                 question=f"Could you clarify the portion size or preparation for the {item_name}?",

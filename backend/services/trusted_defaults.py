@@ -16,8 +16,8 @@ _TRUSTED_DB = {
     "dal": {"calories": 110, "protein": 5.5, "carbohydrates": 15, "fat": 3, "base_unit": "katori", "weight_g": 130},
     "chapati": {"calories": 70, "protein": 2, "carbohydrates": 15, "fat": 0.4, "base_unit": "piece", "weight_g": 40},
     "roti": {"calories": 70, "protein": 2, "carbohydrates": 15, "fat": 0.4, "base_unit": "piece", "weight_g": 40},
-    "poori": {"calories": 150, "protein": 2, "carbohydrates": 18, "fat": 8, "base_unit": "piece", "weight_g": 50},
-    "puri": {"calories": 150, "protein": 2, "carbohydrates": 18, "fat": 8, "base_unit": "piece", "weight_g": 50},
+    "poori": {"calories": 100, "protein": 2, "carbohydrates": 10, "fat": 6, "base_unit": "piece", "weight_g": 30},
+    "puri": {"calories": 100, "protein": 2, "carbohydrates": 10, "fat": 6, "base_unit": "piece", "weight_g": 30},
     "banana": {"calories": 89, "protein": 1.1, "carbohydrates": 23, "fat": 0.3, "base_unit": "piece", "weight_g": 120},
     "apple": {"calories": 95, "protein": 0.5, "carbohydrates": 25, "fat": 0.3, "base_unit": "piece", "weight_g": 180},
     "almonds": {"calories": 164, "protein": 6, "carbohydrates": 6, "fat": 14, "base_unit": "handful", "weight_g": 28},
@@ -37,10 +37,6 @@ _TRUSTED_DB = {
     "bhaji": {"calories": 160, "protein": 4, "carbohydrates": 10, "fat": 11, "base_unit": "plate", "weight_g": 200},
     "pav bhaji": {"calories": 400, "protein": 10, "carbohydrates": 55, "fat": 15, "base_unit": "plate", "weight_g": 280},
     "gobi manchurian": {"calories": 300, "protein": 5, "carbohydrates": 35, "fat": 15, "base_unit": "plate", "weight_g": 250},
-    "subway footlong roasted chicken breast sandwich": {"calories": 640, "protein": 46, "carbohydrates": 92, "fat": 10, "base_unit": "piece", "weight_g": 400},
-    "margherita pizza": {"calories": 700, "protein": 25, "carbohydrates": 90, "fat": 25, "base_unit": "regular size", "weight_g": 300},
-    "piece of cake": {"calories": 300, "protein": 3, "carbohydrates": 40, "fat": 15, "base_unit": "piece", "weight_g": 100},
-    "cake": {"calories": 300, "protein": 3, "carbohydrates": 40, "fat": 15, "base_unit": "piece", "weight_g": 100},
 }
 
 _UNIT_TO_MULTIPLIER = {
@@ -67,7 +63,7 @@ _UNIT_TO_MULTIPLIER = {
     "regular size": 1.0,
 }
 
-def resolve_trusted_default(parsed_item: ParsedItem) -> EstimatedItem | None:
+def resolve_trusted_default(parsed_item: ParsedItem, raw_query: str = "") -> EstimatedItem | None:
     # Clean the name to check against our DB
     name_lower = parsed_item.canonical_name.lower().strip()
     
@@ -88,6 +84,9 @@ def resolve_trusted_default(parsed_item: ParsedItem) -> EstimatedItem | None:
         
     if "chai" in name_lower or "tea" in name_lower:
         name_lower = "chai"
+        
+    if "cheeseburger" in name_lower and ("mcdonald" in name_lower or "mcdonald" in surface or "mcdonald" in raw_query.lower()):
+        name_lower = "mcdonalds cheeseburger"
 
     # Exact or strongly contained match check
     matched_key = None
