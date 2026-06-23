@@ -10,103 +10,47 @@ import json
 from auth import get_current_user
 from models.food import FoodLog, MacroRequest, MultiItemResponse, LogMealRequest, TranscribeResponse
 from prompts.ingredient_defaults import get_ingredient_defaults
-from utils.search import search_nutrition
 
 router = APIRouter(tags=["food"])
 llm_client = OpenAI()
 
 @router.post("/parse-macros")
 def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)) -> MultiItemResponse:
-    system_prompt = (
-        "You are a strict nutrition tracker. Use short, clean dish names (e.g. 'Protein Shake', 'Chicken Sandwich') — never list ingredients in the name. "
-        "In the 'thinking' field, perform a step-by-step calculation showing your portion assumptions, reference values, and raw arithmetic for each ingredient/item. Ensure the final sums match the output fields exactly. "
-        "Group items into composite DISHES (e.g. 'chicken sandwich' is 1 dish). Do NOT split composite dishes into raw ingredients. "
-        "If the user ate multiple completely separate dishes, separate them into multiple NutritionItems in the 'items' array. "
-        "If an item is gibberish or non-food, set is_food to False. Infer the meal_type from context.\n"
-        "is_food should be False ONLY for genuine non-foods: gibberish, exercise descriptions, questions, or named objects (e.g. 'I went jogging', 'my keys').\n"
-        "If a food is real but unlisted in the defaults (e.g. spinach, salmon, cheesecake, salad), ALWAYS set is_food=True and estimate macros from your general knowledge.\n"
-        "Never set is_food=False just because the food is not in the defaults list.\n\n"
-        "RAW vs COOKED: Read the user's exact wording and never swap raw for cooked or vice versa.\n"
-        "- Raw vegetables: use raw calorie density (e.g. raw spinach ~23 kcal/100g, raw broccoli ~34 kcal/100g).\n"
-        "- Raw lean protein (chicken breast): ~120 kcal/100g. Raw fatty protein (salmon, beef): ~200 kcal/100g. Never apply the lean chicken baseline to all proteins.\n"
-        "- Cooked white rice: ~130 kcal/100g. Cooked pasta: ~160 kcal/100g. Raw grains have ~3x the calorie density of cooked.\n\n"
-        "PORTION SIZE STANDARDS — always use these as your baseline, never deviate unless the user explicitly states grams or ml:\n"
-        "- 1 tsp = 5ml (oil/ghee ~4g, dry spice ~3g)\n"
-        "- 1 tbsp = 15ml (oil/ghee ~13g, peanut butter ~16g, sugar ~12g)\n"
-        "- 1 cup = 240ml (cooked rice ~200g, cooked dal ~220g, milk ~240g, flour ~120g)\n"
-        "- 1 bowl = 300ml / ~260g for solid foods (rice, dal, sabzi, pasta)\n"
-        "- 1 katori = 150ml / ~130g (standard small Indian bowl)\n"
-        "- 1 plate of rice = 250g cooked rice\n"
-        "- 1 plate (full meal) = treat as a standard thali: ~250g rice or 3 rotis + 1 katori dal + 1 katori sabzi\n"
-        "- 1 roti / chapati = 40g (medium, no oil); paratha = 60g\n"
-        "- 1 idli = 40g; 1 dosa (plain) = 70g\n"
-        "- 1 egg = 55g\n"
-        "- 1 slice bread = 30g\n"
-        "- 1 handful (dry nuts/seeds) = 30g; (chips/puffs) = 20g\n"
-        "- 1 glass = 250ml\n"
-        "- 'small' portion = reduce by 25%; 'large' or 'heaped' = increase by 30%; 'half' = reduce by 50%.\n"
-    )
-
-    # Append our static ingredient defaults
-    system_prompt += "\n" + get_ingredient_defaults()
-
-    messages = [{"role": "system", "content": system_prompt}] + [msg.model_dump() for msg in request.messages]
-
-    SEARCH_TOOL = {
-        "type": "function",
-        "function": {
-            "name": "search_nutrition",
-            "description": (
-                "Search the internet for nutrition facts of a specific food, "
-                "brand, or restaurant item. Only call this if you are not confident "
-                "in the exact macro values from your own knowledge or the provided defaults."
-            ),
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "The food or brand name to search for, e.g. 'Snickers bar' or 'Subway footlong chicken'",
-                    }
-                },
-                "required": ["query"],
-            },
-        },
-    }
-
-    # Step 1: Initial call (may trigger tool)
-    first_response = llm_client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=messages,
-        tools=[SEARCH_TOOL],
-        tool_choice="auto"
-    )
-    msg = first_response.choices[0].message
-
-    # Step 2: If a tool was called, execute it and append the result
-    if msg.tool_calls:
-        tool_call = msg.tool_calls[0]
-        try:
-            query = json.loads(tool_call.function.arguments)["query"]
-            search_result = search_nutrition(query)
-        except Exception:
-            search_result = "Search failed."
+    from services import parse_service, retrieval_service, estimation_service, clarification_service
+    from models.food import NutritionItem
+    
+    parsed_meal = parse_service.parse(request.messages)
+    retrievals = retrieval_service.retrieve_all(parsed_meal.items, user_id)
+    
+    raw_query = " ".join([m.get("content", "") if isinstance(m, dict) else getattr(m, "content", "") for m in request.messages]).lower()
+    clarification = clarification_service.check(retrievals, raw_query)
+    
+    thinking = "Parsed successfully via 4-stage pipeline."
+    if clarification:
+        return MultiItemResponse(
+            thinking=f"Clarification needed: {clarification.question}",
+            items=[NutritionItem(
+                is_food=False,
+                name=f"__clarification__: {clarification.question}",
+                calories=0, protein=0, carbohydrates=0, fat=0,
+                meal_type=None
+            )]
+        )
         
-        # We must append the assistant's tool call message, then the tool result
-        messages.append(msg.model_dump())
-        messages.append({
-            "role": "tool",
-            "tool_call_id": tool_call.id,
-            "content": search_result,
-        })
-
-    # Step 3: Final parse into the Pydantic schema
-    final_response = llm_client.beta.chat.completions.parse(
-        model="gpt-4o-mini",
-        response_format=MultiItemResponse,
-        messages=messages
-    )
-    return final_response.choices[0].message.parsed
+    estimated_items = estimation_service.estimate_all(retrievals)
+    items = []
+    for est in estimated_items:
+        items.append(NutritionItem(
+            is_food=est.is_food,
+            name=est.name,
+            calories=est.macros.calories,
+            protein=est.macros.protein,
+            carbohydrates=est.macros.carbohydrates,
+            fat=est.macros.fat,
+            meal_type=est.meal_type
+        ))
+        
+    return MultiItemResponse(thinking=thinking, items=items)
 
 @router.post("/transcribe", response_model=TranscribeResponse)
 def transcribe_audio(file: UploadFile = File(...), user_id: str = Depends(get_current_user)):

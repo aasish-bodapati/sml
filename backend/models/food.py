@@ -11,6 +11,12 @@ class ChatMessage(BaseModel):
 class MacroRequest(BaseModel):
     messages: list[ChatMessage]
 
+class MacroSet(BaseModel):
+    calories: int
+    protein: int
+    carbohydrates: int
+    fat: int
+
 class NutritionItem(BaseModel):
     is_food: bool
     name: str = Field(description="Cleaned up name of the food")

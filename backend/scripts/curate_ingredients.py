@@ -91,14 +91,42 @@ REJECT raw, single ingredients (e.g., plain salt, raw rice, raw vegetables, sing
             embeddings = embed_texts(batch_names)
             
             for j, (_, row) in enumerate(batch.iterrows()):
+                fat = float(row['unit_serving_fat_g']) if pd.notna(row['unit_serving_fat_g']) else 0.0
+                cals = float(row['unit_serving_energy_kcal']) if pd.notna(row['unit_serving_energy_kcal']) else 0.0
+                protein = float(row['unit_serving_protein_g']) if pd.notna(row['unit_serving_protein_g']) else 0.0
+                carbs = float(row['unit_serving_carb_g']) if pd.notna(row['unit_serving_carb_g']) else 0.0
+                unit = row['servings_unit'] if pd.notna(row['servings_unit']) else None
+                
+                # Sanity filters
+                if fat > 80 or cals > 1500:
+                    # Fallback to per-100g if available
+                    cals_100 = float(row['energy_kcal']) if pd.notna(row['energy_kcal']) else 0.0
+                    fat_100 = float(row['fat_g']) if pd.notna(row['fat_g']) else 0.0
+                    if cals_100 > 0 and cals_100 < 800 and fat_100 < 80:
+                        cals, fat = cals_100, fat_100
+                        protein = float(row['protein_g']) if pd.notna(row['protein_g']) else 0.0
+                        carbs = float(row['carb_g']) if pd.notna(row['carb_g']) else 0.0
+                        unit = "100g"
+                    else:
+                        print(f"Skipping {row['food_name']} due to implausible macros (cals={cals}, fat={fat})")
+                        continue
+                        
+                if unit in ("plate", "bowl") and cals > 900:
+                    print(f"Capping {row['food_name']} (cals={cals} -> 900)")
+                    ratio = 900.0 / cals
+                    cals = 900.0
+                    fat *= ratio
+                    protein *= ratio
+                    carbs *= ratio
+
                 cd = ComplexDish(
                     name=row['food_name'],
                     source="INDB",
-                    calories=float(row['unit_serving_energy_kcal']) if pd.notna(row['unit_serving_energy_kcal']) else 0.0,
-                    protein=float(row['unit_serving_protein_g']) if pd.notna(row['unit_serving_protein_g']) else 0.0,
-                    carbohydrates=float(row['unit_serving_carb_g']) if pd.notna(row['unit_serving_carb_g']) else 0.0,
-                    fat=float(row['unit_serving_fat_g']) if pd.notna(row['unit_serving_fat_g']) else 0.0,
-                    serving_unit=row['servings_unit'] if pd.notna(row['servings_unit']) else None,
+                    calories=cals,
+                    protein=protein,
+                    carbohydrates=carbs,
+                    fat=fat,
+                    serving_unit=unit,
                     serving_qty=1.0,
                     embedding=embeddings[j]
                 )

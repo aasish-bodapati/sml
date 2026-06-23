@@ -56,6 +56,8 @@ class EvalResult:
     entity_recall: float | None = None
     item_count_match: bool | None = None
     followup_violated: bool = False
+    should_require_followup: bool = False
+    response_type: str = "macros"
 
 def _safe_float(raw: str | float | int | None) -> float:
     if raw in (None, ""):
@@ -176,8 +178,33 @@ def evaluate_cases(
         errors = relative_errors(case.expected, predicted)
         
         is_miss = errors["calories"] > 0.20
-        followup_violated = case.should_require_followup
         
+        returned_macros = any(
+            getattr(item, 'is_food', True) and float(item.calories) > 0
+            for item in (response.items or [])
+        )
+        returned_clarification = any(
+            getattr(item, 'name', '').startswith('__clarification__')
+            for item in (response.items or [])
+        )
+        followup_violated = case.should_require_followup and returned_macros
+        
+        if case.should_require_followup:
+            if returned_clarification:
+                response_type = "clarification"
+            else:
+                response_type = "unsafe_guess"
+        else:
+            if returned_clarification:
+                response_type = "unnecessary_clarification"
+            else:
+                response_type = "macros"
+        
+        # Ignore errors for clarification cases
+        if response_type == "clarification":
+            is_miss = False
+            errors = {k: 0.0 for k in MACRO_KEYS}
+
         # Entity recall
         entity_recall = None
         if case.expected_key_entities:
@@ -207,7 +234,9 @@ def evaluate_cases(
             is_miss=is_miss,
             entity_recall=entity_recall,
             item_count_match=item_count_match,
-            followup_violated=followup_violated
+            followup_violated=followup_violated,
+            should_require_followup=case.should_require_followup,
+            response_type=response_type
         )
         
         if is_miss:
@@ -236,15 +265,17 @@ def _macro_summary(values: list[float]) -> dict[str, float]:
     }
 
 def summarize_results(results: list[EvalResult], top_n_failures: int = 5) -> dict[str, Any]:
+    answerable_results = [r for r in results if r.response_type in ("macros", "unnecessary_clarification")]
+    
     overall = {
-        macro: _macro_summary([result.errors[macro] for result in results])
+        macro: _macro_summary([result.errors[macro] for result in answerable_results])
         for macro in MACRO_KEYS
     }
 
     by_category: dict[str, dict[str, Any]] = {}
-    categories = sorted({result.category for result in results})
+    categories = sorted({result.category for result in answerable_results})
     for category in categories:
-        category_results = [result for result in results if result.category == category]
+        category_results = [result for result in answerable_results if result.category == category]
         by_category[category] = {
             "count": len(category_results),
             "macros": {
@@ -255,10 +286,10 @@ def summarize_results(results: list[EvalResult], top_n_failures: int = 5) -> dic
 
     tag_breakdown: dict[str, dict[str, Any]] = {}
     all_tags = set()
-    for result in results:
+    for result in answerable_results:
         all_tags.update(result.tags)
     for tag in sorted(all_tags):
-        tag_results = [r for r in results if tag in r.tags]
+        tag_results = [r for r in answerable_results if tag in r.tags]
         tag_breakdown[tag] = {
             "count": len(tag_results),
             "macros": {
@@ -267,28 +298,44 @@ def summarize_results(results: list[EvalResult], top_n_failures: int = 5) -> dic
             }
         }
 
-    zero_macro_cases = [asdict(r) for r in results if all(r.predicted[k] == 0 for k in MACRO_KEYS)]
-    overcount_cases = [asdict(r) for r in results if r.predicted["calories"] > 1.35 * max(r.expected["calories"], 1.0)]
-    undercount_cases = [asdict(r) for r in results if r.predicted["calories"] < 0.65 * r.expected["calories"] and not all(r.predicted[k] == 0 for k in MACRO_KEYS)]
+    zero_macro_cases = [asdict(r) for r in answerable_results if all(r.predicted[k] == 0 for k in MACRO_KEYS)]
+    overcount_cases = [asdict(r) for r in answerable_results if r.predicted["calories"] > 1.35 * max(r.expected["calories"], 1.0)]
+    undercount_cases = [asdict(r) for r in answerable_results if r.predicted["calories"] < 0.65 * r.expected["calories"] and not all(r.predicted[k] == 0 for k in MACRO_KEYS)]
     followup_miss_cases = [asdict(r) for r in results if r.followup_violated]
     
-    entity_recall_list = [r.entity_recall for r in results if r.entity_recall is not None]
+    entity_recall_list = [r.entity_recall for r in answerable_results if r.entity_recall is not None]
     avg_entity_recall = mean(entity_recall_list) if entity_recall_list else None
     
-    miss_diagnoses = [asdict(r.miss_diagnosis) for r in results if r.is_miss and r.miss_diagnosis]
+    miss_diagnoses = [asdict(r.miss_diagnosis) for r in answerable_results if r.is_miss and r.miss_diagnosis]
     for i, md in enumerate(miss_diagnoses):
-        miss_res = [r for r in results if r.is_miss][i]
+        miss_res = [r for r in answerable_results if r.is_miss][i]
         md["case_id"] = miss_res.case_id
         md["description"] = miss_res.description
 
     worst_cases = sorted(
-        results,
+        answerable_results,
         key=lambda result: result.errors["calories"],
         reverse=True,
     )[:top_n_failures]
+    
+    # Clarification metrics
+    true_clarifications = [r for r in results if r.response_type == "clarification"]
+    unsafe_guesses = [r for r in results if r.response_type == "unsafe_guess"]
+    unnecessary_clarifications = [r for r in results if r.response_type == "unnecessary_clarification"]
+    should_clarify_total = len([r for r in results if r.should_require_followup])
+    did_clarify_total = len([r for r in results if r.response_type in ("clarification", "unnecessary_clarification")])
+
+    clarification_metrics = {
+        "precision": len(true_clarifications) / max(did_clarify_total, 1),
+        "recall": len(true_clarifications) / max(should_clarify_total, 1),
+        "unsafe_guess_rate": len(unsafe_guesses) / max(should_clarify_total, 1),
+        "unnecessary_rate": len(unnecessary_clarifications) / max(len(answerable_results), 1)
+    }
 
     return {
         "case_count": len(results),
+        "answerable_count": len(answerable_results),
+        "clarification_metrics": clarification_metrics,
         "overall": overall,
         "by_category": by_category,
         "tag_breakdown": tag_breakdown,
@@ -319,7 +366,15 @@ def serialize_results(results: list[EvalResult]) -> list[dict[str, Any]]:
 
 def print_summary(summary: dict[str, Any]) -> None:
     print("\n--- Meal Eval Summary ---")
-    print(f"Cases: {summary['case_count']}")
+    print(f"Cases: {summary['case_count']} (Answerable: {summary['answerable_count']})")
+    
+    cm = summary.get("clarification_metrics", {})
+    if cm:
+        print("\n--- Clarification Safety ---")
+        print(f"Recall: {cm['recall']:.2%}  |  Precision: {cm['precision']:.2%}")
+        print(f"Unsafe Guesses: {cm['unsafe_guess_rate']:.2%}  |  Unnecessary: {cm['unnecessary_rate']:.2%}")
+        
+    print("\n--- Macro Accuracy (Answerable Cases Only) ---")
     for macro in MACRO_KEYS:
         stats = summary["overall"][macro]
         print(
