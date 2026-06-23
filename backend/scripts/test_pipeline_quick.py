@@ -139,14 +139,35 @@ def run_quick_tests() -> None:
         parsed_meal = parse_service.parse(messages)
         
         FAT_KEYWORDS = {"oil", "butter", "ghee", "mayo", "dressing", "margarine"}
-        has_explicit_added_fat = any(
-            item.quantity is not None and any(f in item.canonical_name.lower() for f in FAT_KEYWORDS)
-            for item in parsed_meal.items
-        )
-        if has_explicit_added_fat:
-            for item in parsed_meal.items:
-                if not any(f in item.canonical_name.lower() for f in FAT_KEYWORDS):
-                    item.avoid_pre_fatted_candidates = True
+        fat_items = [
+            item for item in parsed_meal.items
+            if item.quantity is not None and any(f in item.canonical_name.lower() for f in FAT_KEYWORDS)
+        ]
+        non_fat_items = [
+            item for item in parsed_meal.items
+            if not any(f in item.canonical_name.lower() for f in FAT_KEYWORDS)
+        ]
+        
+        for fat_item in fat_items:
+            linked_item = None
+            fat_name = fat_item.canonical_name.lower()
+            
+            for item in non_fat_items:
+                prep_lower = (item.preparation or "").lower()
+                if fat_name in prep_lower or any(f in prep_lower for f in FAT_KEYWORDS):
+                    linked_item = item
+                    break
+                
+                if item.modifiers:
+                    if any(fat_name in mod.lower() or any(f in mod.lower() for f in FAT_KEYWORDS) for mod in item.modifiers):
+                        linked_item = item
+                        break
+                        
+            if not linked_item and len(non_fat_items) == 1:
+                linked_item = non_fat_items[0]
+                
+            if linked_item:
+                linked_item.avoid_pre_fatted_candidates = True
                     
         retrievals = retrieval_service.retrieve_all(parsed_meal.items, user_id="test_user")
         clarification = clarification_service.check(retrievals)

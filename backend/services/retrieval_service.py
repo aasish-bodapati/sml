@@ -141,6 +141,8 @@ def retrieve_single(item: ParsedItem, user_id: str, session: Session) -> Retriev
             mod_lower = mod.lower()
             for kw in ADDITIVE_KEYWORDS:
                 if kw in mod_lower:
+                    if item.avoid_pre_fatted_candidates and kw in ["butter", "ghee", "oil", "margarine", "mayo", "dressing"]:
+                        continue
                     add_emb = _embed_text(kw)
                     add_query = text("""
                         SELECT id, name, calories, protein, carbohydrates, fat,

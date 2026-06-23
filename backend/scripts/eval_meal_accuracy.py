@@ -3,6 +3,8 @@ import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..")
 
 import argparse
 import traceback
+import hashlib
+import json
 from collections import defaultdict
 from pathlib import Path
 
@@ -14,8 +16,48 @@ from evals.meal_eval import (
     summarize_results,
     write_json,
 )
-from models.food import MacroRequest
+from models.food import MacroRequest, MultiItemResponse
 from routers.food import parse_macros
+
+CACHE_FILE = "data/.eval_cache.json"
+
+def _compute_code_hash():
+    files_to_hash = [
+        "routers/food.py",
+        "services/parse_service.py",
+        "services/retrieval_service.py",
+        "services/clarification_service.py",
+        "services/estimation_service.py",
+        "prompts/ingredient_defaults.py"
+    ]
+    h = hashlib.md5()
+    for fpath in files_to_hash:
+        full_path = os.path.join(os.path.dirname(__file__), "..", fpath)
+        if os.path.exists(full_path):
+            with open(full_path, "rb") as f:
+                h.update(f.read())
+    return h.hexdigest()
+
+CODE_HASH = _compute_code_hash()
+
+def _get_cache_key(case) -> str:
+    data = f"{case.case_id}:{CODE_HASH}:{case.description}"
+    return hashlib.md5(data.encode()).hexdigest()
+
+_cache = {}
+_cache_path = os.path.join(os.path.dirname(__file__), "..", CACHE_FILE)
+if os.path.exists(_cache_path):
+    try:
+        with open(_cache_path) as f:
+            _cache = json.load(f)
+    except json.JSONDecodeError:
+        pass
+
+def _save_cache():
+    with open(_cache_path, "w") as f:
+        json.dump(_cache, f)
+
+USE_CACHE = True
 
 SUITE_CASE_IDS = {
     "smoke": [
@@ -66,8 +108,18 @@ SUITE_CASE_IDS = {
 
 
 def _evaluator(case):
+    cache_key = _get_cache_key(case)
+    if USE_CACHE and cache_key in _cache:
+        return MultiItemResponse.model_validate(_cache[cache_key])
+
     request = MacroRequest(messages=[{"role": "user", "content": case.description}])
-    return parse_macros(request, user_id="test_user")
+    result = parse_macros(request, user_id="test_user")
+
+    if USE_CACHE:
+        _cache[cache_key] = result.model_dump()
+        _save_cache()
+        
+    return result
 
 
 def print_report(summary: dict):
@@ -122,7 +174,12 @@ def run_eval(
     report=False,
     suite: str = "full",
     case_ids: list[str] | None = None,
+    no_cache: bool = False,
 ):
+    global USE_CACHE
+    if no_cache:
+        USE_CACHE = False
+        
     csv_path, results_path, summary_path = _dataset_paths(dataset_version)
 
     cases = load_eval_cases(csv_path)
@@ -190,6 +247,7 @@ if __name__ == "__main__":
         help="Optional specific case_id to run. Can be passed multiple times.",
     )
     parser.add_argument("--report", action="store_true", help="Print structured miss diagnoses report")
+    parser.add_argument("--no-cache", action="store_true", help="Bypass the evaluation cache")
     args = parser.parse_args()
     
     run_eval(
@@ -197,4 +255,5 @@ if __name__ == "__main__":
         report=args.report,
         suite=args.suite,
         case_ids=args.case_ids,
+        no_cache=args.no_cache,
     )
