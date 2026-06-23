@@ -57,13 +57,13 @@
       "calories": 70.0,
       "protein": 6.0,
       "fat": 5.0,
-      "carbohydrates": 0.0
+      "carbohydrates": 1.0
     },
     "errors": {
       "calories": 0.10256410256410256,
       "protein": 0.047619047619047596,
       "fat": 0.05660377358490563,
-      "carbohydrates": 0.6
+      "carbohydrates": 0.4
     },
     "category": "composite_meal",
     "tags": [
@@ -78,7 +78,7 @@
         "name": "Boiled Egg",
         "calories": 70,
         "protein": 6,
-        "carbohydrates": 0,
+        "carbohydrates": 1,
         "fat": 5,
         "meal_type": null
       }
@@ -167,7 +167,7 @@
     "items": [
       {
         "is_food": true,
-        "name": "Olive Oil",
+        "name": "olive oil",
         "calories": 120,
         "protein": 0,
         "carbohydrates": 0,
@@ -192,13 +192,13 @@
       "carbohydrates": 27.0
     },
     "predicted": {
-      "calories": 107.0,
+      "calories": 106.0,
       "protein": 1.0,
       "fat": 0.0,
       "carbohydrates": 27.0
     },
     "errors": {
-      "calories": 0.01904761904761905,
+      "calories": 0.009523809523809525,
       "protein": 0.23076923076923078,
       "fat": 0.4,
       "carbohydrates": 0.0
@@ -213,8 +213,8 @@
     "items": [
       {
         "is_food": true,
-        "name": "medium banana",
-        "calories": 107,
+        "name": "Banana",
+        "calories": 106,
         "protein": 1,
         "carbohydrates": 27,
         "fat": 0,
@@ -239,13 +239,13 @@
     },
     "predicted": {
       "calories": 158.0,
-      "protein": 5.0,
+      "protein": 6.0,
       "fat": 2.0,
       "carbohydrates": 30.0
     },
     "errors": {
       "calories": 0.0125,
-      "protein": 0.375,
+      "protein": 0.25,
       "fat": 0.0,
       "carbohydrates": 0.07142857142857142
     },
@@ -261,10 +261,10 @@
         "is_food": true,
         "name": "Whole Wheat Bread",
         "calories": 158,
-        "protein": 5,
+        "protein": 6,
         "carbohydrates": 30,
         "fat": 2,
-        "meal_type": null
+        "meal_type": "snack"
       }
     ],
     "is_miss": false,
@@ -333,13 +333,13 @@
       "calories": 23.0,
       "protein": 2.0,
       "fat": 0.0,
-      "carbohydrates": 3.0
+      "carbohydrates": 4.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.31034482758620685,
       "fat": 0.4,
-      "carbohydrates": 0.16666666666666669
+      "carbohydrates": 0.11111111111111108
     },
     "category": "raw_vs_cooked",
     "tags": [
@@ -351,10 +351,10 @@
     "items": [
       {
         "is_food": true,
-        "name": "Spinach (raw)",
+        "name": "Raw Spinach",
         "calories": 23,
         "protein": 2,
-        "carbohydrates": 3,
+        "carbohydrates": 4,
         "fat": 0,
         "meal_type": null
       }
@@ -378,13 +378,13 @@
     "predicted": {
       "calories": 164.0,
       "protein": 6.0,
-      "fat": 14.0,
+      "fat": 15.0,
       "carbohydrates": 6.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.0,
-      "fat": 0.0,
+      "fat": 0.07142857142857142,
       "carbohydrates": 0.0
     },
     "category": "atomic_ingredient",
@@ -397,11 +397,11 @@
     "items": [
       {
         "is_food": true,
-        "name": "Almonds",
+        "name": "almonds",
         "calories": 164,
         "protein": 6,
         "carbohydrates": 6,
-        "fat": 14,
+        "fat": 15,
         "meal_type": null
       }
     ],
@@ -422,13 +422,13 @@
       "carbohydrates": 25.0
     },
     "predicted": {
-      "calories": 111.0,
-      "protein": 1.0,
+      "calories": 95.0,
+      "protein": 0.0,
       "fat": 0.0,
       "carbohydrates": 25.0
     },
     "errors": {
-      "calories": 0.16842105263157894,
+      "calories": 0.0,
       "protein": 0.5,
       "fat": 0.3,
       "carbohydrates": 0.0
@@ -443,9 +443,9 @@
     "items": [
       {
         "is_food": true,
-        "name": "Apple",
-        "calories": 111,
-        "protein": 1,
+        "name": "Apple (medium)",
+        "calories": 95,
+        "protein": 0,
         "carbohydrates": 25,
         "fat": 0,
         "meal_type": null
@@ -516,16 +516,16 @@
       "carbohydrates": 30.0
     },
     "predicted": {
-      "calories": 145.0,
-      "protein": 9.0,
-      "fat": 3.0,
-      "carbohydrates": 23.0
+      "calories": 280.0,
+      "protein": 15.0,
+      "fat": 10.0,
+      "carbohydrates": 30.0
     },
     "errors": {
-      "calories": 0.3409090909090909,
-      "protein": 0.18181818181818182,
-      "fat": 0.5,
-      "carbohydrates": 0.23333333333333334
+      "calories": 0.2727272727272727,
+      "protein": 0.36363636363636365,
+      "fat": 0.6666666666666666,
+      "carbohydrates": 0.0
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -540,11 +540,11 @@
       {
         "is_food": true,
         "name": "Dal Tadka",
-        "calories": 145,
-        "protein": 9,
-        "carbohydrates": 23,
-        "fat": 3,
-        "meal_type": "main course"
+        "calories": 280,
+        "protein": 15,
+        "carbohydrates": 30,
+        "fat": 10,
+        "meal_type": "Main Course"
       }
     ],
     "is_miss": true,
@@ -639,7 +639,7 @@
     "items": [
       {
         "is_food": true,
-        "name": "plain dosa",
+        "name": "Plain Dosa",
         "calories": 133,
         "protein": 3,
         "carbohydrates": 20,
@@ -788,7 +788,7 @@
         "protein": 10,
         "carbohydrates": 34,
         "fat": 12,
-        "meal_type": null
+        "meal_type": "breakfast"
       },
       {
         "is_food": true,
@@ -837,12 +837,12 @@
       "synonym_risk"
     ],
     "case_id": "legacy_018",
-    "thinking": "Clarification needed: Could you clarify the portion size for the coffee with milk?",
+    "thinking": "Clarification needed: Could you clarify the portion size for the coffee?",
     "item_count": 1,
     "items": [
       {
         "is_food": false,
-        "name": "__clarification__: Could you clarify the portion size for the coffee with milk?",
+        "name": "__clarification__: Could you clarify the portion size for the coffee?",
         "calories": 0,
         "protein": 0,
         "carbohydrates": 0,
@@ -918,16 +918,16 @@
       "carbohydrates": 85.0
     },
     "predicted": {
-      "calories": 416.0,
-      "protein": 14.0,
-      "fat": 2.0,
-      "carbohydrates": 81.0
+      "calories": 160.0,
+      "protein": 5.0,
+      "fat": 1.0,
+      "carbohydrates": 31.0
     },
     "errors": {
-      "calories": 0.168,
-      "protein": 0.06666666666666667,
-      "fat": 0.8,
-      "carbohydrates": 0.047058823529411764
+      "calories": 0.68,
+      "protein": 0.6666666666666666,
+      "fat": 0.9,
+      "carbohydrates": 0.6352941176470588
     },
     "category": "vague_user_input",
     "tags": [
@@ -941,15 +941,19 @@
       {
         "is_food": true,
         "name": "Pasta",
-        "calories": 416,
-        "protein": 14,
-        "carbohydrates": 81,
-        "fat": 2,
-        "meal_type": null
+        "calories": 160,
+        "protein": 5,
+        "carbohydrates": 31,
+        "fat": 1,
+        "meal_type": "Main Course"
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "vague_user_input",
+      "failure_stage": "vague_input_guessed",
+      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
+    },
     "entity_recall": null,
     "item_count_match": null,
     "followup_violated": true,
@@ -1015,16 +1019,16 @@
       "carbohydrates": 33.0
     },
     "predicted": {
-      "calories": 480.0,
-      "protein": 20.0,
-      "fat": 30.0,
-      "carbohydrates": 40.0
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
     },
     "errors": {
-      "calories": 0.6,
-      "protein": 0.3333333333333333,
-      "fat": 1.5,
-      "carbohydrates": 0.21212121212121213
+      "calories": 1.0,
+      "protein": 1.0,
+      "fat": 1.0,
+      "carbohydrates": 1.0
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -1032,17 +1036,17 @@
       "composite"
     ],
     "case_id": "legacy_022",
-    "thinking": "Parsed successfully via 4-stage pipeline.",
+    "thinking": "Clarification needed: I don't have exact nutritional data for Mcdonald items. Could you tell me the size/weight or check the nutrition label?",
     "item_count": 1,
     "items": [
       {
-        "is_food": true,
-        "name": "Cheeseburger",
-        "calories": 480,
-        "protein": 20,
-        "carbohydrates": 40,
-        "fat": 30,
-        "meal_type": "lunch"
+        "is_food": false,
+        "name": "__clarification__: I don't have exact nutritional data for Mcdonald items. Could you tell me the size/weight or check the nutrition label?",
+        "calories": 0,
+        "protein": 0,
+        "carbohydrates": 0,
+        "fat": 0,
+        "meal_type": null
       }
     ],
     "is_miss": true,
@@ -1055,7 +1059,7 @@
     "item_count_match": null,
     "followup_violated": false,
     "should_require_followup": false,
-    "response_type": "macros"
+    "response_type": "unnecessary_clarification"
   },
   {
     "description": "Chicken Caesar salad with extra dressing and croutons",
@@ -1139,12 +1143,12 @@
     "items": [
       {
         "is_food": true,
-        "name": "Pepperoni Pizza",
+        "name": "Large Pepperoni Pizza",
         "calories": 872,
         "protein": 40,
         "carbohydrates": 58,
         "fat": 50,
-        "meal_type": "snack"
+        "meal_type": "main course"
       }
     ],
     "is_miss": true,
@@ -1219,16 +1223,16 @@
       "carbohydrates": 59.0
     },
     "predicted": {
-      "calories": 476.0,
-      "protein": 36.0,
-      "fat": 1.0,
-      "carbohydrates": 31.0
+      "calories": 606.0,
+      "protein": 39.0,
+      "fat": 2.0,
+      "carbohydrates": 61.0
     },
     "errors": {
-      "calories": 0.04157549234135667,
-      "protein": 0.07692307692307693,
-      "fat": 0.75,
-      "carbohydrates": 0.4745762711864407
+      "calories": 0.32603938730853393,
+      "protein": 0.0,
+      "fat": 0.5,
+      "carbohydrates": 0.03389830508474576
     },
     "category": "raw_vs_cooked",
     "tags": [
@@ -1240,7 +1244,7 @@
     "items": [
       {
         "is_food": true,
-        "name": "Chicken, breast, boneless, skinless, raw",
+        "name": "raw chicken breast",
         "calories": 330,
         "protein": 33,
         "carbohydrates": 0,
@@ -1249,11 +1253,11 @@
       },
       {
         "is_food": true,
-        "name": "Cooked White Rice",
-        "calories": 130,
-        "protein": 2,
-        "carbohydrates": 28,
-        "fat": 0,
+        "name": "cooked white rice",
+        "calories": 260,
+        "protein": 5,
+        "carbohydrates": 58,
+        "fat": 1,
         "meal_type": null
       },
       {
@@ -1266,8 +1270,12 @@
         "meal_type": null
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "raw_vs_cooked",
+      "failure_stage": "raw_vs_cooked",
+      "suggested_fix": "Clarify raw vs cooked weight mapping for this item type in system prompt"
+    },
     "entity_recall": null,
     "item_count_match": null,
     "followup_violated": false,
@@ -1283,16 +1291,16 @@
       "carbohydrates": 2.0
     },
     "predicted": {
-      "calories": 434.0,
-      "protein": 25.0,
-      "fat": 36.0,
-      "carbohydrates": 4.0
+      "calories": 666.0,
+      "protein": 42.0,
+      "fat": 48.0,
+      "carbohydrates": 1.0
     },
     "errors": {
-      "calories": 0.009302325581395349,
-      "protein": 0.0,
-      "fat": 0.0,
-      "carbohydrates": 1.0
+      "calories": 0.5488372093023256,
+      "protein": 0.68,
+      "fat": 0.3333333333333333,
+      "carbohydrates": 0.5
     },
     "category": "hidden_fat_or_cooking_medium",
     "tags": [
@@ -1305,16 +1313,16 @@
       {
         "is_food": true,
         "name": "Scrambled Eggs",
-        "calories": 210,
-        "protein": 18,
-        "carbohydrates": 3,
-        "fat": 15,
+        "calories": 444,
+        "protein": 36,
+        "carbohydrates": 0,
+        "fat": 27,
         "meal_type": "breakfast"
       },
       {
         "is_food": true,
         "name": "Butter",
-        "calories": 102,
+        "calories": 100,
         "protein": 0,
         "carbohydrates": 0,
         "fat": 11,
@@ -1324,14 +1332,18 @@
         "is_food": true,
         "name": "Cheddar Cheese",
         "calories": 122,
-        "protein": 7,
+        "protein": 6,
         "carbohydrates": 1,
         "fat": 10,
         "meal_type": null
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "hidden_fat_or_cooking_medium",
+      "failure_stage": "hidden_fat_missed",
+      "suggested_fix": "Add specific prompt constraints for implicit cooking fats (butter, oil)"
+    },
     "entity_recall": null,
     "item_count_match": null,
     "followup_violated": false,
@@ -1347,16 +1359,16 @@
       "carbohydrates": 50.0
     },
     "predicted": {
-      "calories": 591.0,
-      "protein": 63.0,
-      "fat": 20.0,
-      "carbohydrates": 48.0
+      "calories": 621.0,
+      "protein": 64.0,
+      "fat": 24.0,
+      "carbohydrates": 51.0
     },
     "errors": {
-      "calories": 0.0467741935483871,
-      "protein": 0.0,
-      "fat": 0.047619047619047616,
-      "carbohydrates": 0.04
+      "calories": 0.0016129032258064516,
+      "protein": 0.015873015873015872,
+      "fat": 0.14285714285714285,
+      "carbohydrates": 0.02
     },
     "category": "atomic_ingredient",
     "tags": [
@@ -1373,15 +1385,15 @@
         "protein": 50,
         "carbohydrates": 6,
         "fat": 4,
-        "meal_type": null
+        "meal_type": "Post-workout"
       },
       {
         "is_food": true,
         "name": "Whole Milk",
-        "calories": 150,
-        "protein": 8,
-        "carbohydrates": 12,
-        "fat": 8,
+        "calories": 180,
+        "protein": 9,
+        "carbohydrates": 15,
+        "fat": 12,
         "meal_type": null
       },
       {
@@ -1420,15 +1432,15 @@
       "carbohydrates": 20.0
     },
     "predicted": {
-      "calories": 441.0,
-      "protein": 22.0,
-      "fat": 27.0,
+      "calories": 485.0,
+      "protein": 46.0,
+      "fat": 25.0,
       "carbohydrates": 21.0
     },
     "errors": {
-      "calories": 0.2898550724637681,
-      "protein": 0.47115384615384615,
-      "fat": 0.325,
+      "calories": 0.21900161030595813,
+      "protein": 0.10576923076923073,
+      "fat": 0.375,
       "carbohydrates": 0.05
     },
     "category": "raw_vs_cooked",
@@ -1441,12 +1453,12 @@
     "items": [
       {
         "is_food": true,
-        "name": "raw salmon",
-        "calories": 231,
-        "protein": 20,
+        "name": "raw salmon (pan fried)",
+        "calories": 275,
+        "protein": 44,
         "carbohydrates": 0,
-        "fat": 13,
-        "meal_type": null
+        "fat": 11,
+        "meal_type": "main course"
       },
       {
         "is_food": true,
@@ -1488,15 +1500,15 @@
       "carbohydrates": 46.0
     },
     "predicted": {
-      "calories": 715.0,
-      "protein": 60.0,
-      "fat": 52.0,
+      "calories": 645.0,
+      "protein": 59.0,
+      "fat": 51.0,
       "carbohydrates": 39.0
     },
     "errors": {
-      "calories": 0.26288659793814434,
-      "protein": 0.08116385911179169,
-      "fat": 0.1111111111111111,
+      "calories": 0.33505154639175255,
+      "protein": 0.09647779479326182,
+      "fat": 0.1282051282051282,
       "carbohydrates": 0.15217391304347827
     },
     "category": "composite_meal",
@@ -1518,16 +1530,16 @@
       },
       {
         "is_food": true,
-        "name": "Carrots, mature, raw",
-        "calories": 70,
-        "protein": 1,
+        "name": "Carrots",
+        "calories": 0,
+        "protein": 0,
         "carbohydrates": 14,
         "fat": 0,
         "meal_type": null
       },
       {
         "is_food": true,
-        "name": "Medium Potato",
+        "name": "Potato (Raw, Medium)",
         "calories": 105,
         "protein": 3,
         "carbohydrates": 25,
@@ -1536,11 +1548,11 @@
       },
       {
         "is_food": true,
-        "name": "Beef Broth",
+        "name": "beef broth",
         "calories": 30,
         "protein": 2,
         "carbohydrates": 0,
-        "fat": 1,
+        "fat": 0,
         "meal_type": null
       }
     ],
@@ -1615,16 +1627,16 @@
       "carbohydrates": 60.0
     },
     "predicted": {
-      "calories": 340.0,
-      "protein": 14.0,
+      "calories": 290.0,
+      "protein": 11.0,
       "fat": 5.0,
-      "carbohydrates": 60.0
+      "carbohydrates": 55.0
     },
     "errors": {
-      "calories": 0.05555555555555555,
-      "protein": 0.06666666666666667,
+      "calories": 0.19444444444444445,
+      "protein": 0.26666666666666666,
       "fat": 0.2857142857142857,
-      "carbohydrates": 0.0
+      "carbohydrates": 0.08333333333333333
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1639,11 +1651,11 @@
       {
         "is_food": true,
         "name": "Dal Tadka",
-        "calories": 200,
-        "protein": 10,
-        "carbohydrates": 30,
+        "calories": 150,
+        "protein": 7,
+        "carbohydrates": 25,
         "fat": 5,
-        "meal_type": "main course"
+        "meal_type": "side dish"
       },
       {
         "is_food": true,
@@ -1672,16 +1684,16 @@
       "carbohydrates": 18.0
     },
     "predicted": {
-      "calories": 144.0,
-      "protein": 2.0,
-      "fat": 10.0,
-      "carbohydrates": 7.0
+      "calories": 682.0,
+      "protein": 0.0,
+      "fat": 74.0,
+      "carbohydrates": 3.0
     },
     "errors": {
-      "calories": 0.04,
-      "protein": 0.0,
-      "fat": 0.25,
-      "carbohydrates": 0.6111111111111112
+      "calories": 3.546666666666667,
+      "protein": 1.0,
+      "fat": 8.25,
+      "carbohydrates": 0.8333333333333334
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1695,15 +1707,19 @@
       {
         "is_food": true,
         "name": "Aloo Sabzi",
-        "calories": 144,
-        "protein": 2,
-        "carbohydrates": 7,
-        "fat": 10,
-        "meal_type": "side dish"
+        "calories": 682,
+        "protein": 0,
+        "carbohydrates": 3,
+        "fat": 74,
+        "meal_type": null
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "indian_home_cooked",
+      "failure_stage": "serving_assumption",
+      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults"
+    },
     "entity_recall": 1.0,
     "item_count_match": null,
     "followup_violated": false,
@@ -1721,13 +1737,13 @@
     "predicted": {
       "calories": 250.0,
       "protein": 5.0,
-      "fat": 10.0,
+      "fat": 11.0,
       "carbohydrates": 40.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.0,
-      "fat": 0.25,
+      "fat": 0.375,
       "carbohydrates": 0.0
     },
     "category": "indian_home_cooked",
@@ -1745,8 +1761,8 @@
         "calories": 250,
         "protein": 5,
         "carbohydrates": 40,
-        "fat": 10,
-        "meal_type": null
+        "fat": 11,
+        "meal_type": "breakfast"
       }
     ],
     "is_miss": false,
@@ -1766,16 +1782,16 @@
       "carbohydrates": 30.0
     },
     "predicted": {
-      "calories": 191.0,
-      "protein": 7.0,
-      "fat": 2.0,
-      "carbohydrates": 26.0
+      "calories": 365.0,
+      "protein": 12.0,
+      "fat": 11.0,
+      "carbohydrates": 41.0
     },
     "errors": {
-      "calories": 0.032432432432432434,
-      "protein": 0.125,
-      "fat": 0.5,
-      "carbohydrates": 0.13333333333333333
+      "calories": 0.972972972972973,
+      "protein": 0.5,
+      "fat": 1.75,
+      "carbohydrates": 0.36666666666666664
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1799,15 +1815,19 @@
       {
         "is_food": true,
         "name": "Sambar",
-        "calories": 75,
-        "protein": 3,
-        "carbohydrates": 12,
-        "fat": 2,
+        "calories": 249,
+        "protein": 8,
+        "carbohydrates": 27,
+        "fat": 11,
         "meal_type": null
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "indian_home_cooked",
+      "failure_stage": "serving_assumption",
+      "suggested_fix": "Add explicit serving size unit mapping for this dish to INGREDIENT_DB/INDB defaults"
+    },
     "entity_recall": 1.0,
     "item_count_match": null,
     "followup_violated": false,
@@ -1823,16 +1843,16 @@
       "carbohydrates": 55.0
     },
     "predicted": {
-      "calories": 1120.0,
-      "protein": 30.0,
-      "fat": 50.0,
-      "carbohydrates": 138.0
+      "calories": 1680.0,
+      "protein": 45.0,
+      "fat": 75.0,
+      "carbohydrates": 207.0
     },
     "errors": {
-      "calories": 1.8,
-      "protein": 2.0,
-      "fat": 2.3333333333333335,
-      "carbohydrates": 1.509090909090909
+      "calories": 3.2,
+      "protein": 3.5,
+      "fat": 4.0,
+      "carbohydrates": 2.7636363636363637
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1847,10 +1867,10 @@
       {
         "is_food": true,
         "name": "Pav",
-        "calories": 560,
-        "protein": 15,
-        "carbohydrates": 69,
-        "fat": 25,
+        "calories": 1120,
+        "protein": 30,
+        "carbohydrates": 138,
+        "fat": 50,
         "meal_type": null
       },
       {
@@ -1860,7 +1880,7 @@
         "protein": 15,
         "carbohydrates": 69,
         "fat": 25,
-        "meal_type": "main course"
+        "meal_type": "snack"
       }
     ],
     "is_miss": true,
@@ -1936,16 +1956,16 @@
       "carbohydrates": 65.0
     },
     "predicted": {
-      "calories": 600.0,
-      "protein": 20.0,
-      "fat": 15.0,
-      "carbohydrates": 88.0
+      "calories": 665.0,
+      "protein": 24.0,
+      "fat": 17.0,
+      "carbohydrates": 112.0
     },
     "errors": {
-      "calories": 0.7142857142857143,
-      "protein": 1.0,
-      "fat": 2.0,
-      "carbohydrates": 0.35384615384615387
+      "calories": 0.9,
+      "protein": 1.4,
+      "fat": 2.4,
+      "carbohydrates": 0.7230769230769231
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -1960,11 +1980,11 @@
       {
         "is_food": true,
         "name": "Rajma Chawal",
-        "calories": 600,
-        "protein": 20,
-        "carbohydrates": 88,
-        "fat": 15,
-        "meal_type": "main course"
+        "calories": 665,
+        "protein": 24,
+        "carbohydrates": 112,
+        "fat": 17,
+        "meal_type": "Main Course"
       }
     ],
     "is_miss": true,
@@ -2015,7 +2035,7 @@
         "protein": 10,
         "carbohydrates": 28,
         "fat": 5,
-        "meal_type": null
+        "meal_type": "main course"
       }
     ],
     "is_miss": false,
@@ -2059,12 +2079,12 @@
     "items": [
       {
         "is_food": true,
-        "name": "Garam Chai",
+        "name": "garam chai",
         "calories": 63,
         "protein": 0,
         "carbohydrates": 13,
         "fat": 1,
-        "meal_type": "beverage"
+        "meal_type": null
       }
     ],
     "is_miss": true,
@@ -2163,12 +2183,12 @@
     "items": [
       {
         "is_food": true,
-        "name": "Sweet Lassi (Meethi lassi)",
+        "name": "Sweet Lassi",
         "calories": 157,
         "protein": 5,
         "carbohydrates": 28,
         "fat": 3,
-        "meal_type": null
+        "meal_type": "beverage"
       }
     ],
     "is_miss": true,
@@ -2215,12 +2235,12 @@
     "items": [
       {
         "is_food": true,
-        "name": "Nimbu Pani",
+        "name": "Nimbu Pani (Lemonade)",
         "calories": 40,
         "protein": 0,
         "carbohydrates": 11,
         "fat": 0,
-        "meal_type": "beverage"
+        "meal_type": null
       }
     ],
     "is_miss": true,
@@ -2246,13 +2266,13 @@
     "predicted": {
       "calories": 60.0,
       "protein": 1.0,
-      "fat": 2.0,
+      "fat": 1.0,
       "carbohydrates": 10.0
     },
     "errors": {
       "calories": 0.25,
       "protein": 0.5,
-      "fat": 0.0,
+      "fat": 0.5,
       "carbohydrates": 0.16666666666666666
     },
     "category": "serving_based_beverages",
@@ -2271,8 +2291,8 @@
         "calories": 60,
         "protein": 1,
         "carbohydrates": 10,
-        "fat": 2,
-        "meal_type": "Beverage"
+        "fat": 1,
+        "meal_type": "beverage"
       }
     ],
     "is_miss": true,
@@ -2318,7 +2338,7 @@
     "items": [
       {
         "is_food": true,
-        "name": "Milk",
+        "name": "Hot Milk",
         "calories": 150,
         "protein": 8,
         "carbohydrates": 12,
@@ -2369,7 +2389,7 @@
         "protein": 14,
         "carbohydrates": 47,
         "fat": 19,
-        "meal_type": "Main Course"
+        "meal_type": "main course"
       }
     ],
     "is_miss": false,
@@ -2518,7 +2538,7 @@
         "protein": 5,
         "carbohydrates": 35,
         "fat": 8,
-        "meal_type": null
+        "meal_type": "breakfast"
       }
     ],
     "is_miss": false,
@@ -2566,7 +2586,7 @@
         "protein": 34,
         "carbohydrates": 14,
         "fat": 41,
-        "meal_type": "Main Course"
+        "meal_type": "main course"
       }
     ],
     "is_miss": true,
@@ -2590,16 +2610,16 @@
       "carbohydrates": 35.0
     },
     "predicted": {
-      "calories": 877.0,
-      "protein": 0.0,
-      "fat": 91.0,
-      "carbohydrates": 9.0
+      "calories": 585.0,
+      "protein": 8.0,
+      "fat": 61.0,
+      "carbohydrates": 65.0
     },
     "errors": {
-      "calories": 1.9233333333333333,
-      "protein": 1.0,
-      "fat": 5.066666666666666,
-      "carbohydrates": 0.7428571428571429
+      "calories": 0.95,
+      "protein": 0.6,
+      "fat": 3.066666666666667,
+      "carbohydrates": 0.8571428571428571
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -2615,11 +2635,11 @@
       {
         "is_food": true,
         "name": "Gobi Manchurian",
-        "calories": 877,
-        "protein": 0,
-        "carbohydrates": 9,
-        "fat": 91,
-        "meal_type": null
+        "calories": 585,
+        "protein": 8,
+        "carbohydrates": 65,
+        "fat": 61,
+        "meal_type": "Main Dish"
       }
     ],
     "is_miss": true,
@@ -2702,16 +2722,16 @@
       "carbohydrates": 0.0
     },
     "predicted": {
-      "calories": 724.0,
-      "protein": 8.0,
-      "fat": 75.0,
-      "carbohydrates": 6.0
+      "calories": 817.0,
+      "protein": 3.0,
+      "fat": 87.0,
+      "carbohydrates": 5.0
     },
     "errors": {
-      "calories": 1.6814814814814816,
-      "protein": 0.68,
-      "fat": 3.1666666666666665,
-      "carbohydrates": 6.0
+      "calories": 2.025925925925926,
+      "protein": 0.88,
+      "fat": 3.8333333333333335,
+      "carbohydrates": 5.0
     },
     "category": "hidden_fat_or_cooking_medium",
     "tags": [
@@ -2723,20 +2743,20 @@
     "items": [
       {
         "is_food": true,
-        "name": "Fish Fried",
-        "calories": 599,
-        "protein": 8,
-        "carbohydrates": 6,
-        "fat": 62,
-        "meal_type": "Protein"
+        "name": "Fish (fried)",
+        "calories": 734,
+        "protein": 3,
+        "carbohydrates": 5,
+        "fat": 76,
+        "meal_type": "Main"
       },
       {
         "is_food": true,
         "name": "Oil",
-        "calories": 125,
+        "calories": 83,
         "protein": 0,
         "carbohydrates": 0,
-        "fat": 13,
+        "fat": 11,
         "meal_type": null
       }
     ],
@@ -2898,7 +2918,7 @@
     "items": [
       {
         "is_food": true,
-        "name": "Poori",
+        "name": "poori",
         "calories": 300,
         "protein": 4,
         "carbohydrates": 36,
@@ -3127,12 +3147,12 @@
       "followup_needed"
     ],
     "case_id": "vague_005",
-    "thinking": "Clarification needed: I found a few different matches for dinner with very different calories. Can you be more specific?",
+    "thinking": "Clarification needed: Could you clarify the portion size for the dinner?",
     "item_count": 1,
     "items": [
       {
         "is_food": false,
-        "name": "__clarification__: I found a few different matches for dinner with very different calories. Can you be more specific?",
+        "name": "__clarification__: Could you clarify the portion size for the dinner?",
         "calories": 0,
         "protein": 0,
         "carbohydrates": 0,
@@ -3157,16 +3177,16 @@
       "carbohydrates": 57.5
     },
     "predicted": {
-      "calories": 888.0,
-      "protein": 29.0,
-      "fat": 47.0,
-      "carbohydrates": 83.0
+      "calories": 673.0,
+      "protein": 30.0,
+      "fat": 25.0,
+      "carbohydrates": 81.0
     },
     "errors": {
-      "calories": 0.85,
-      "protein": 0.13725490196078433,
-      "fat": 1.7976190476190474,
-      "carbohydrates": 0.4434782608695652
+      "calories": 0.40208333333333335,
+      "protein": 0.17647058823529413,
+      "fat": 0.488095238095238,
+      "carbohydrates": 0.40869565217391307
     },
     "category": "composite_meal",
     "tags": [
@@ -3179,27 +3199,27 @@
       {
         "is_food": true,
         "name": "Roti",
-        "calories": 448,
+        "calories": 140,
         "protein": 4,
-        "carbohydrates": 40,
-        "fat": 28,
+        "carbohydrates": 30,
+        "fat": 0,
         "meal_type": null
       },
       {
         "is_food": true,
         "name": "Dal",
-        "calories": 220,
-        "protein": 11,
-        "carbohydrates": 30,
-        "fat": 6,
+        "calories": 313,
+        "protein": 12,
+        "carbohydrates": 39,
+        "fat": 12,
         "meal_type": null
       },
       {
         "is_food": true,
-        "name": "boiled egg",
+        "name": "Boiled Egg",
         "calories": 70,
         "protein": 6,
-        "carbohydrates": 1,
+        "carbohydrates": 0,
         "fat": 5,
         "meal_type": null
       },
@@ -3234,16 +3254,16 @@
       "carbohydrates": 18.0
     },
     "predicted": {
-      "calories": 453.0,
+      "calories": 606.0,
       "protein": 36.0,
       "fat": 15.0,
-      "carbohydrates": 37.0
+      "carbohydrates": 39.0
     },
     "errors": {
-      "calories": 0.29428571428571426,
+      "calories": 0.7314285714285714,
       "protein": 0.0,
       "fat": 0.11764705882352941,
-      "carbohydrates": 1.0555555555555556
+      "carbohydrates": 1.1666666666666667
     },
     "category": "composite_meal",
     "tags": [
@@ -3256,7 +3276,7 @@
       {
         "is_food": true,
         "name": "Chicken, breast, boneless, skinless, raw",
-        "calories": 165,
+        "calories": 330,
         "protein": 33,
         "carbohydrates": 0,
         "fat": 1,
@@ -3264,21 +3284,21 @@
       },
       {
         "is_food": true,
-        "name": "White Rice (cooked)",
+        "name": "Rice (cooked)",
         "calories": 156,
         "protein": 3,
-        "carbohydrates": 34,
+        "carbohydrates": 36,
         "fat": 0,
         "meal_type": null
       },
       {
         "is_food": true,
-        "name": "Small Side Salad",
-        "calories": 12,
+        "name": "small side salad",
+        "calories": 0,
         "protein": 0,
         "carbohydrates": 3,
         "fat": 0,
-        "meal_type": "side"
+        "meal_type": null
       },
       {
         "is_food": true,
@@ -3313,13 +3333,13 @@
     "predicted": {
       "calories": 251.0,
       "protein": 6.0,
-      "fat": 4.0,
+      "fat": 5.0,
       "carbohydrates": 42.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.2,
-      "fat": 0.34426229508196715,
+      "fat": 0.18032786885245897,
       "carbohydrates": 0.045454545454545456
     },
     "category": "indian_home_cooked",
@@ -3337,7 +3357,7 @@
         "calories": 133,
         "protein": 3,
         "carbohydrates": 20,
-        "fat": 3,
+        "fat": 4,
         "meal_type": null
       },
       {
@@ -3356,7 +3376,7 @@
         "protein": 1,
         "carbohydrates": 10,
         "fat": 1,
-        "meal_type": "beverage"
+        "meal_type": "Beverage"
       }
     ],
     "is_miss": false,
@@ -3377,15 +3397,15 @@
     },
     "predicted": {
       "calories": 807.0,
-      "protein": 35.0,
-      "fat": 23.0,
-      "carbohydrates": 113.0
+      "protein": 25.0,
+      "fat": 24.0,
+      "carbohydrates": 111.0
     },
     "errors": {
       "calories": 0.027710843373493974,
-      "protein": 0.027777777777777776,
-      "fat": 0.08,
-      "carbohydrates": 0.0
+      "protein": 0.3055555555555556,
+      "fat": 0.04,
+      "carbohydrates": 0.017699115044247787
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -3400,19 +3420,19 @@
         "is_food": true,
         "name": "Chicken Biryani",
         "calories": 650,
-        "protein": 30,
-        "carbohydrates": 85,
-        "fat": 20,
-        "meal_type": "Main Course"
+        "protein": 20,
+        "carbohydrates": 83,
+        "fat": 21,
+        "meal_type": "main course"
       },
       {
         "is_food": true,
-        "name": "Sweet Lassi",
+        "name": "Sweet Lassi (Meethi lassi)",
         "calories": 157,
         "protein": 5,
         "carbohydrates": 28,
         "fat": 3,
-        "meal_type": "beverage"
+        "meal_type": null
       }
     ],
     "is_miss": false,
@@ -3433,15 +3453,15 @@
     },
     "predicted": {
       "calories": 394.0,
-      "protein": 31.0,
-      "fat": 16.0,
-      "carbohydrates": 34.0
+      "protein": 32.0,
+      "fat": 17.0,
+      "carbohydrates": 38.0
     },
     "errors": {
       "calories": 0.0395778364116095,
       "protein": 0.015873015873015872,
-      "fat": 0.018404907975460166,
-      "carbohydrates": 0.0
+      "fat": 0.04294478527607357,
+      "carbohydrates": 0.11764705882352941
     },
     "category": "composite_meal",
     "tags": [
@@ -3458,14 +3478,14 @@
         "protein": 25,
         "carbohydrates": 3,
         "fat": 2,
-        "meal_type": "post-workout"
+        "meal_type": "snack"
       },
       {
         "is_food": true,
         "name": "Apple",
         "calories": 110,
-        "protein": 0,
-        "carbohydrates": 25,
+        "protein": 1,
+        "carbohydrates": 29,
         "fat": 0,
         "meal_type": null
       },
@@ -3475,7 +3495,7 @@
         "calories": 164,
         "protein": 6,
         "carbohydrates": 6,
-        "fat": 14,
+        "fat": 15,
         "meal_type": null
       }
     ],
@@ -3523,7 +3543,7 @@
         "protein": 10,
         "carbohydrates": 60,
         "fat": 11,
-        "meal_type": null
+        "meal_type": "breakfast"
       }
     ],
     "is_miss": true,
@@ -3687,16 +3707,16 @@
       "carbohydrates": 22.4
     },
     "predicted": {
-      "calories": 157.0,
-      "protein": 5.0,
-      "fat": 3.0,
-      "carbohydrates": 28.0
+      "calories": 126.0,
+      "protein": 4.0,
+      "fat": 2.0,
+      "carbohydrates": 22.0
     },
     "errors": {
-      "calories": 0.09027777777777778,
-      "protein": 0.041666666666666706,
-      "fat": 0.25,
-      "carbohydrates": 0.25000000000000006
+      "calories": 0.125,
+      "protein": 0.16666666666666663,
+      "fat": 0.5,
+      "carbohydrates": 0.017857142857142794
     },
     "category": "serving_based_beverages",
     "tags": [
@@ -3710,10 +3730,10 @@
       {
         "is_food": true,
         "name": "Sweet Lassi (Meethi lassi)",
-        "calories": 157,
-        "protein": 5,
-        "carbohydrates": 28,
-        "fat": 3,
+        "calories": 126,
+        "protein": 4,
+        "carbohydrates": 22,
+        "fat": 2,
         "meal_type": null
       }
     ],
@@ -3781,16 +3801,16 @@
       "carbohydrates": 28.0
     },
     "predicted": {
-      "calories": 85.0,
-      "protein": 2.0,
+      "calories": 65.0,
+      "protein": 1.0,
       "fat": 0.0,
-      "carbohydrates": 19.0
+      "carbohydrates": 14.0
     },
     "errors": {
-      "calories": 0.34615384615384615,
-      "protein": 0.2592592592592593,
+      "calories": 0.5,
+      "protein": 0.6296296296296297,
       "fat": 0.3,
-      "carbohydrates": 0.32142857142857145
+      "carbohydrates": 0.5
     },
     "category": "indian_home_cooked",
     "tags": [
@@ -3802,10 +3822,10 @@
     "items": [
       {
         "is_food": true,
-        "name": "White Rice (cooked)",
-        "calories": 85,
-        "protein": 2,
-        "carbohydrates": 19,
+        "name": "Rice (cooked)",
+        "calories": 65,
+        "protein": 1,
+        "carbohydrates": 14,
         "fat": 0,
         "meal_type": null
       }
@@ -3924,13 +3944,13 @@
       "carbohydrates": 10.0
     },
     "predicted": {
-      "calories": 66.0,
+      "calories": 67.0,
       "protein": 1.0,
       "fat": 2.0,
       "carbohydrates": 10.0
     },
     "errors": {
-      "calories": 0.0,
+      "calories": 0.015151515151515152,
       "protein": 0.4117647058823529,
       "fat": 0.11111111111111108,
       "carbohydrates": 0.0
@@ -3946,8 +3966,8 @@
     "items": [
       {
         "is_food": true,
-        "name": "plain dosa",
-        "calories": 66,
+        "name": "Half Plain Dosa",
+        "calories": 67,
         "protein": 1,
         "carbohydrates": 10,
         "fat": 2,
@@ -3974,13 +3994,13 @@
       "calories": 140.0,
       "protein": 12.0,
       "fat": 10.0,
-      "carbohydrates": 1.0
+      "carbohydrates": 2.0
     },
     "errors": {
       "calories": 0.0,
       "protein": 0.0,
       "fat": 0.0,
-      "carbohydrates": 0.0
+      "carbohydrates": 1.0
     },
     "category": "atomic_ingredient",
     "tags": [
@@ -3995,9 +4015,9 @@
         "name": "Boiled Egg",
         "calories": 140,
         "protein": 12,
-        "carbohydrates": 1,
+        "carbohydrates": 2,
         "fat": 10,
-        "meal_type": "Snack"
+        "meal_type": "snack"
       }
     ],
     "is_miss": false,
@@ -4017,15 +4037,15 @@
       "carbohydrates": 6.0
     },
     "predicted": {
-      "calories": 164.0,
+      "calories": 491.0,
       "protein": 7.0,
-      "fat": 12.0,
+      "fat": 13.0,
       "carbohydrates": 8.0
     },
     "errors": {
-      "calories": 0.03529411764705882,
+      "calories": 1.888235294117647,
       "protein": 0.06666666666666667,
-      "fat": 0.2,
+      "fat": 0.13333333333333333,
       "carbohydrates": 0.3333333333333333
     },
     "category": "atomic_ingredient",
@@ -4039,15 +4059,19 @@
       {
         "is_food": true,
         "name": "Peanuts, raw",
-        "calories": 164,
+        "calories": 491,
         "protein": 7,
         "carbohydrates": 8,
-        "fat": 12,
+        "fat": 13,
         "meal_type": null
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "atomic_ingredient",
+      "failure_stage": "unknown",
+      "suggested_fix": "Review thinking trace and manually determine fix"
+    },
     "entity_recall": 1.0,
     "item_count_match": null,
     "followup_violated": false,
@@ -4084,7 +4108,7 @@
     "items": [
       {
         "is_food": true,
-        "name": "water",
+        "name": "Water",
         "calories": 0,
         "protein": 0,
         "carbohydrates": 0,
@@ -4217,12 +4241,12 @@
     "items": [
       {
         "is_food": true,
-        "name": "Maggi noodles",
+        "name": "Maggi Noodles",
         "calories": 300,
         "protein": 7,
         "carbohydrates": 40,
         "fat": 12,
-        "meal_type": null
+        "meal_type": "snack"
       }
     ],
     "is_miss": false,
@@ -4318,12 +4342,12 @@
     "items": [
       {
         "is_food": true,
-        "name": "Snickers Bar",
+        "name": "Snickers bar",
         "calories": 250,
         "protein": 4,
         "carbohydrates": 33,
         "fat": 12,
-        "meal_type": "snack"
+        "meal_type": null
       }
     ],
     "is_miss": false,
@@ -4343,16 +4367,16 @@
       "carbohydrates": 60.0
     },
     "predicted": {
-      "calories": 600.0,
+      "calories": 780.0,
       "protein": 14.0,
-      "fat": 36.0,
-      "carbohydrates": 63.0
+      "fat": 50.0,
+      "carbohydrates": 70.0
     },
     "errors": {
-      "calories": 0.25,
+      "calories": 0.025,
       "protein": 0.3,
-      "fat": 0.4,
-      "carbohydrates": 0.05
+      "fat": 0.16666666666666666,
+      "carbohydrates": 0.16666666666666666
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -4365,19 +4389,15 @@
       {
         "is_food": true,
         "name": "Haldirams bhujia",
-        "calories": 600,
+        "calories": 780,
         "protein": 14,
-        "carbohydrates": 63,
-        "fat": 36,
+        "carbohydrates": 70,
+        "fat": 50,
         "meal_type": null
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "restaurant_or_packaged",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 1.0,
     "item_count_match": null,
     "followup_violated": false,
@@ -4393,46 +4413,42 @@
       "carbohydrates": 92.0
     },
     "predicted": {
-      "calories": 380.0,
-      "protein": 16.0,
-      "fat": 22.0,
-      "carbohydrates": 30.0
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
     },
     "errors": {
-      "calories": 0.40625,
-      "protein": 0.6521739130434783,
-      "fat": 1.2,
-      "carbohydrates": 0.6739130434782609
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
     },
     "category": "restaurant_or_packaged",
     "tags": [
       "branded"
     ],
     "case_id": "brand_005",
-    "thinking": "Parsed successfully via 4-stage pipeline.",
+    "thinking": "Clarification needed: I don't have exact nutritional data for Subway items. Could you tell me the size/weight or check the nutrition label?",
     "item_count": 1,
     "items": [
       {
-        "is_food": true,
-        "name": "Subway footlong roasted chicken breast sandwich",
-        "calories": 380,
-        "protein": 16,
-        "carbohydrates": 30,
-        "fat": 22,
+        "is_food": false,
+        "name": "__clarification__: I don't have exact nutritional data for Subway items. Could you tell me the size/weight or check the nutrition label?",
+        "calories": 0,
+        "protein": 0,
+        "carbohydrates": 0,
+        "fat": 0,
         "meal_type": null
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "restaurant_or_packaged",
-      "failure_stage": "vague_input_guessed",
-      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
-    },
-    "entity_recall": 1.0,
+    "is_miss": false,
+    "miss_diagnosis": null,
+    "entity_recall": 0.0,
     "item_count_match": null,
-    "followup_violated": true,
+    "followup_violated": false,
     "should_require_followup": true,
-    "response_type": "unsafe_guess"
+    "response_type": "clarification"
   },
   {
     "description": "1 bowl of chicken pho",
@@ -4443,16 +4459,16 @@
       "carbohydrates": 50.0
     },
     "predicted": {
-      "calories": 769.0,
-      "protein": 37.0,
-      "fat": 64.0,
-      "carbohydrates": 11.0
+      "calories": 350.0,
+      "protein": 25.0,
+      "fat": 10.0,
+      "carbohydrates": 50.0
     },
     "errors": {
-      "calories": 0.9225,
-      "protein": 0.23333333333333334,
-      "fat": 7.0,
-      "carbohydrates": 0.78
+      "calories": 0.125,
+      "protein": 0.16666666666666666,
+      "fat": 0.25,
+      "carbohydrates": 0.0
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -4465,19 +4481,15 @@
       {
         "is_food": true,
         "name": "Chicken Pho",
-        "calories": 769,
-        "protein": 37,
-        "carbohydrates": 11,
-        "fat": 64,
-        "meal_type": "main course"
+        "calories": 350,
+        "protein": 25,
+        "carbohydrates": 50,
+        "fat": 10,
+        "meal_type": "Main Dish"
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "restaurant_or_packaged",
-      "failure_stage": "unknown",
-      "suggested_fix": "Review thinking trace and manually determine fix"
-    },
+    "is_miss": false,
+    "miss_diagnosis": null,
     "entity_recall": 1.0,
     "item_count_match": null,
     "followup_violated": false,
@@ -4514,7 +4526,7 @@
     "items": [
       {
         "is_food": true,
-        "name": "Tacos al Pastor",
+        "name": "Tacos al pastor",
         "calories": 450,
         "protein": 21,
         "carbohydrates": 45,
@@ -4539,16 +4551,16 @@
       "carbohydrates": 14.0
     },
     "predicted": {
-      "calories": 100.0,
-      "protein": 13.0,
-      "fat": 2.0,
-      "carbohydrates": 2.0
+      "calories": 50.0,
+      "protein": 6.0,
+      "fat": 1.0,
+      "carbohydrates": 6.0
     },
     "errors": {
-      "calories": 0.0,
-      "protein": 1.1666666666666667,
-      "fat": 0.0,
-      "carbohydrates": 0.8571428571428571
+      "calories": 0.5,
+      "protein": 0.0,
+      "fat": 0.5,
+      "carbohydrates": 0.5714285714285714
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -4561,15 +4573,19 @@
       {
         "is_food": true,
         "name": "Salmon Nigiri Sushi",
-        "calories": 100,
-        "protein": 13,
-        "carbohydrates": 2,
-        "fat": 2,
+        "calories": 50,
+        "protein": 6,
+        "carbohydrates": 6,
+        "fat": 1,
         "meal_type": "Snack"
       }
     ],
-    "is_miss": false,
-    "miss_diagnosis": null,
+    "is_miss": true,
+    "miss_diagnosis": {
+      "food_type": "restaurant_or_packaged",
+      "failure_stage": "unknown",
+      "suggested_fix": "Review thinking trace and manually determine fix"
+    },
     "entity_recall": 1.0,
     "item_count_match": null,
     "followup_violated": false,
@@ -4635,16 +4651,16 @@
       "carbohydrates": 90.0
     },
     "predicted": {
-      "calories": 3488.0,
-      "protein": 160.0,
-      "fat": 200.0,
-      "carbohydrates": 232.0
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
     },
     "errors": {
-      "calories": 3.9828571428571427,
-      "protein": 5.4,
-      "fat": 7.0,
-      "carbohydrates": 1.5777777777777777
+      "calories": 0.0,
+      "protein": 0.0,
+      "fat": 0.0,
+      "carbohydrates": 0.0
     },
     "category": "restaurant_or_packaged",
     "tags": [
@@ -4652,30 +4668,26 @@
       "branded"
     ],
     "case_id": "global_005",
-    "thinking": "Parsed successfully via 4-stage pipeline.",
+    "thinking": "Clarification needed: I don't have exact nutritional data for Domino items. Could you tell me the size/weight or check the nutrition label?",
     "item_count": 1,
     "items": [
       {
-        "is_food": true,
-        "name": "Margherita Pizza",
-        "calories": 3488,
-        "protein": 160,
-        "carbohydrates": 232,
-        "fat": 200,
-        "meal_type": "Main Course"
+        "is_food": false,
+        "name": "__clarification__: I don't have exact nutritional data for Domino items. Could you tell me the size/weight or check the nutrition label?",
+        "calories": 0,
+        "protein": 0,
+        "carbohydrates": 0,
+        "fat": 0,
+        "meal_type": null
       }
     ],
-    "is_miss": true,
-    "miss_diagnosis": {
-      "food_type": "restaurant_or_packaged",
-      "failure_stage": "vague_input_guessed",
-      "suggested_fix": "Add followup trigger when input matches vague_user_input pattern"
-    },
-    "entity_recall": 1.0,
+    "is_miss": false,
+    "miss_diagnosis": null,
+    "entity_recall": 0.0,
     "item_count_match": null,
-    "followup_violated": true,
+    "followup_violated": false,
     "should_require_followup": true,
-    "response_type": "unsafe_guess"
+    "response_type": "clarification"
   },
   {
     "description": "For breakfast I had oats",

@@ -53,6 +53,10 @@ def parse_macros(request: MacroRequest, user_id: str = Depends(get_current_user)
             linked_item.avoid_pre_fatted_candidates = True
             for kw in ["deep fried", "fried", "scrambled", "roasted", "sautéed", "sauteed"]:
                 linked_item.canonical_name = linked_item.canonical_name.lower().replace(kw, "").strip()
+                if linked_item.surface_text:
+                    linked_item.surface_text = linked_item.surface_text.lower().replace(kw, "").strip()
+                if linked_item.preparation:
+                    linked_item.preparation = linked_item.preparation.lower().replace(kw, "").strip()
                 
     retrievals = retrieval_service.retrieve_all(parsed_meal.items, user_id)
     

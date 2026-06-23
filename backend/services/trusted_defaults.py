@@ -128,6 +128,13 @@ def resolve_trusted_default(parsed_item: ParsedItem, raw_query: str = "") -> Est
                 
         if not found_unit:
             # If we don't know the unit, don't trust the default
+            # Check for piece unit compatibility
+            if default_data["base_unit"] == "piece":
+                if any(u in unit for u in ["piece", "slice", "whole", "item", "count", "serving", "regular"]):
+                    found_unit = True
+                    requested_mult = 1.0
+                    
+        if not found_unit:
             return None
             
         # Convert base unit to its multiplier

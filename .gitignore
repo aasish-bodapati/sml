@@ -26,3 +26,5 @@ backend/data/exercisedb_v1_sample/
 # Testing
 .pytest_cache/
 .coverage
+backend/data/eval_*.json
+backend/data/.eval_cache.json

@@ -22,12 +22,14 @@ def _embed_text(text_str: str) -> list[float]:
 
 def retrieve_all(items: list[ParsedItem], user_id: str) -> list[RetrievalResult]:
     results = []
+    all_item_names = [item.canonical_name.lower() for item in items]
     with Session(engine) as session:
         for item in items:
-            results.append(retrieve_single(item, user_id, session))
+            other_names = [n for n in all_item_names if n != item.canonical_name.lower()]
+            results.append(retrieve_single(item, user_id, session, other_names))
     return results
 
-def retrieve_single(item: ParsedItem, user_id: str, session: Session) -> RetrievalResult:
+def retrieve_single(item: ParsedItem, user_id: str, session: Session, other_names: list[str] = None) -> RetrievalResult:
     candidates = []
     
     # 1. Check SavedRecipe
@@ -130,6 +132,12 @@ def retrieve_single(item: ParsedItem, user_id: str, session: Session) -> Retriev
                 c.similarity -= 0.30
             if any(t in c_name_lower for t in PREFER_TERMS):
                 c.similarity += 0.15
+                
+        if other_names:
+            c_name_lower = c.name.lower()
+            for other in other_names:
+                if len(other) > 3 and other in c_name_lower:
+                    c.similarity -= 0.50
                 
     candidates.sort(key=lambda c: c.similarity, reverse=True)
     top_candidates = candidates[:3]
